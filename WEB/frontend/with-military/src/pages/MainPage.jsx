@@ -1,6 +1,10 @@
 import React from "react";
 import NavigationBarComponent from "../components/NavigationBarComponent";
 import MainBodyComponent from "../components/MainBodyComponent";
+import TierBarComponent from "../components//TierBarComponent";
+import StudyGroupComponent from "../components//StudyGroupComponent";
+import UserComponent from "../components//UserComponent";
+import RankComponent from "../components/RankComponent";
 
 //npm install @material-ui/styles
 {/* Material UI는 text, contained, outlined 이렇게 3가지 형태의 버튼을 제공하고 있습니다.
@@ -13,7 +17,12 @@ const MainPage = () => {
   return (
     <>
       <NavigationBarComponent />
-      <MainBodyComponent />
+      <MainBodyComponent>
+        <UserComponent />
+        <TierBarComponent />
+        <StudyGroupComponent />
+        <RankComponent />
+      </MainBodyComponent>
     </>
   );
 }

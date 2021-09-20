@@ -16,7 +16,7 @@ const StudyGroupComponent = () => {
       <Box sx={{display: 'flex'}}>
         <Avatar src=""/>
         <Box>
-          <Typography>Study with me:)</Typography>
+          <Typography>Study with me :)</Typography>
           <Typography>이 그룹에서 획득한 포인트 : 890P</Typography>
         </Box>
         <Box sx={{ flexGrow: 1 }} />

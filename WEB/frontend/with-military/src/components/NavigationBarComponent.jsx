@@ -6,12 +6,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
-
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from "@material-ui/icons/Search";
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-
 import { styled } from '@material-ui/core/styles';
+import { ReactComponent as WhiteLogo } from '../static/svgs/logo-white.svg';
 
 const NavigationBarComponent = () => {
   const StyledAppBar = styled(AppBar)({
@@ -24,13 +23,17 @@ const NavigationBarComponent = () => {
   return (
     <StyledAppBar>
       <Toolbar>
-        <Typography
-          /*align="center"*/
-          variant="h4"
-          // color="primary"
-        >
-          위드밀리터리
-        </Typography>
+        <WhiteLogo width='40px' height='40px'></WhiteLogo>
+        <Box
+          sx={{
+            ml: "5px"
+          }}>
+          <Typography
+            variant="h4"
+          >
+            위드밀리터리
+          </Typography>
+        </Box>
 
         <Box sx={{ flexGrow: 1 }} />
 
