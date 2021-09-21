@@ -1,15 +1,15 @@
 import React from "react";
 import NavigationBarComponent from "../components/NavigationBarComponent";
-import MainBodyComponent from "../components/MainBodyComponent";
+import BodyTemplete from "../components/BodyTemplete";
 import ClockComponent from "../components/ClockComponent";
 
 const MainPage = () => {
   return (
     <>
       <NavigationBarComponent />
-      <MainBodyComponent>
+      <BodyTemplete>
         <ClockComponent />
-      </MainBodyComponent>
+      </BodyTemplete>
     </>
   );
 }

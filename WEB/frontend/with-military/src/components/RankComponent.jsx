@@ -7,70 +7,96 @@ import {Table,TableBody,TableCell,
 import { Typography } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
 
-
 const RankComponent = () => {
   let rank = 0;
   const users = Array(8)
     .fill()
     .map(() => ({
       rank: rank++,
-      name: '@xunno',
+      name: '@goodgun',
     }));
 
   return (
     <Box sx={{
-      p: 1,
-      }}>
+      color: '#e6e1e0',
+    }}>
       <Box sx={{
         display: 'flex',
-        color: '#e6e1e0'
+        p: '0.75rem 0'
       }}>
-        <Avatar src=""/>
-        <Box>
-          <Typography variant="h3" align="right">
-            사단랭킹</Typography>
-          <Typography variant="h2" align="right">#19</Typography>
-          <Box>
-            <Typography variant="h3" align="right"
+        <Avatar 
+          sx={{
+            width: '2.5rem',
+            height: '2.5rem',
+            borderRadius: '13px'
+          }}
+          src=""
+        />
+        <Box sx={{
+          ml:'0.5rem'
+        }}>
+          <Typography
+            align="right"
             style={{
-              background: "-webkit-linear-gradient(180deg, rgba(0, 255, 240, 0.64) 0%, rgba(250, 0, 255, 0.64) 100%)",
-              webkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              whiteSpace: "nowrap",
+              fontSize: '1.5rem',
               fontWeight: 'bold'
-            }}>Master</Typography>
+            }}
+          >
+            사단랭킹</Typography>
+          <Typography
+            align="right"
+            style={{
+              fontSize: '2rem',
+              fontWeight: 'bold'
+            }}
+          >#19</Typography>
+          <Box>
+            <Typography
+              align="right"
+              style={{
+                background: "-webkit-linear-gradient(180deg, rgba(0, 255, 240, 0.64) 0%, rgba(250, 0, 255, 0.64) 100%)",
+                webkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                fontWeight: 'bold',
+                fontSize: '1.5rem'
+              }}
+            >
+              Master
+            </Typography>
           </Box>
         </Box>
-
         <Box sx={{ flexGrow: 1 }} />
-
-        <Box sx={{
-            width: "50vw"
-          }}>
-          <TableContainer 
-            component={Paper}
-          >
+        <Box sx={{ width: '50vw' }}> 
+          <TableContainer component={Paper}>
             <Table size="small">
               {/*  <TableHead></TableHead>*/}
               <TableBody>
                 {users.map(({ rank, name },  i ) => (
-                  <TableRow style={{
-                    backgroundColor: '#000F04',
-                  }}
-                  key={rank}>
+                  <TableRow
+                    style={{
+                      backgroundColor: '#000F04',
+                    }}  
+                    key={rank}
+                  >
                     <TableCell
                       style={{
                         color: '#e6e1e0',
-                        border: 'none'
+                        border: 'none',
+                        padding: '0'
                       }} 
-                      align="left">
+                      align="right"
+                    >
                       #{rank+17}
                     </TableCell>
                     <TableCell
                       style={{
                         color: '#e6e1e0',
-                        border: 'none'
+                        border: 'none',
+                        padding: '0'
                       }}
-                      align="right">
+                      align="right"
+                    >
                       {name}
                     </TableCell>
                   </TableRow>
@@ -83,57 +109,78 @@ const RankComponent = () => {
 
       <Box sx={{
         display: 'flex',
-        color: '#e6e1e0'
+        p: '0.75rem 0'
       }}>
-        <Avatar src=""/>
+        <Avatar 
+          sx={{
+            width: '2.5rem',
+            height: '2.5rem',
+            borderRadius: '13px'
+          }}
+          src=""
+        />
         <Box>
-          <Typography variant="h3" align="right">
-            군단랭킹</Typography>
-          <Typography variant="h2" align="right">#223</Typography>
-          <Box>
-            <Typography variant="h3" align="right"
+          <Typography align="right"
             style={{
-              background: "-webkit-linear-gradient(180deg, #1FFFF2 0%, rgba(112, 255, 246, 0.8) 100%)",
-              webkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              whiteSpace: "nowrap",
+              fontSize: '1.5rem',
               fontWeight: 'bold'
-            }}>Diamond</Typography>
+            }}
+          >
+            군단랭킹</Typography>
+          <Typography
+            align="right"
+            style={{
+              fontSize: '2rem',
+              fontWeight: 'bold'
+            }}
+          >
+            #223</Typography>
+          <Box>
+            <Typography align="right"
+              style={{
+                background: "-webkit-linear-gradient(175.98deg, rgba(97, 255, 236, 0.8) 3.28%, rgba(255, 255, 255, 0.8) 96.76%)",
+                webkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                fontWeight: 'bold',
+                fontSize: '1.5rem'
+              }}
+            >
+              Diamond</Typography>
           </Box>
         </Box>
-
         <Box sx={{ flexGrow: 1 }} />
-
-        <Box
-          sx={{
-            width: "50vw"
-          }}>
-          <TableContainer 
-            component={Paper}
-          >
+        <Box sx={{ width:'50vw' }}>
+          <TableContainer component={Paper}>
             <Table size="small">
               {/*  <TableHead></TableHead>*/}
-              <TableBody style={{
-                
-              }}>
+              <TableBody>
                 {users.map(({ rank, name },  i ) => (
-                  <TableRow style={{
-                    backgroundColor: '#000F04',
-                  }}
-                  key={rank}>
+                  <TableRow
+                    style={{
+                      backgroundColor: '#000F04',
+                    }}
+                    key={rank}
+                  >
                     <TableCell
                       style={{
                         color: '#e6e1e0',
-                        border: 'none'
+                        border: 'none',
+                        padding: '0'
                       }} 
-                      align="left">
+                      align="right"
+                    >
                       #{rank+17}
                     </TableCell>
-                    <TableCell
+                    <TableCell 
                       style={{
                         color: '#e6e1e0',
-                        border: 'none'
+                        border: 'none',
+                        padding: '0'
+
                       }}
-                      align="right">
+                      align="right"
+                    >
                       {name}
                     </TableCell>
                   </TableRow>
@@ -145,7 +192,6 @@ const RankComponent = () => {
       </Box>
       
     </Box>
-    
   );
 };
 

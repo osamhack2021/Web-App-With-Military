@@ -17,41 +17,49 @@ const NavigationBarComponent = () => {
     backgroundColor: '#000F04',
     color: '#e6e1e0',
     position: 'static',
-    width: '100vw',
     borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+    width: '100vw',
+    height: '3rem',
+
   });
   return (
     <StyledAppBar>
-      <Toolbar>
-        <WhiteLogo width='40px' height='40px'></WhiteLogo>
-        <Box
-          sx={{
-            ml: "5px"
-          }}>
+      <Toolbar sx={{
+        margin: 'auto 0',
+      }}>
+        <WhiteLogo width='2rem' height='2rem' />
+        <Box sx={{
+          mt: "0.2rem",
+          ml:"0.7rem"
+        }}>
           <Typography
-            variant="h4"
+            component={Box}
+            style={{
+              fontSize: "1.2rem"
+            }}
           >
             위드밀리터리
           </Typography>
         </Box>
-
         <Box sx={{ flexGrow: 1 }} />
-
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          {/* <Badge badgeContent={4} color="error">
-            <ImportContactsIcon />
-          </Badge> */}
+        <IconButton
+          size="large"
+          color="inherit"
+          sx={{ p: '0.3rem' }}
+        >
           <ImportContactsIcon />
         </IconButton>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+        <IconButton
+          size="large"
+          color="inherit"
+          sx={{ p: '0.3rem' }}
+        >
           <SearchIcon />
         </IconButton>
         <IconButton
           size="large"
-          edge="start"
           color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
+          sx={{ p: '0.3rem' }}
         >
           <MenuIcon />  
         </IconButton>

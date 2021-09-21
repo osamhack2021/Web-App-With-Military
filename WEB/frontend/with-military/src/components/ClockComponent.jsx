@@ -2,23 +2,35 @@ import React from "react";
 import Avatar from '@mui/material/Avatar';
 import Box from '@material-ui/core/Box';
 import Button from '@mui/material/Button';
-import { Typography } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
 import { ReactComponent as Dial } from '../static/svgs/dial.svg';
+import GoodGun from "../static/images/goodgun.jpg"
 
 //auto, flex, justify, textalign으로 대충 가운데 놨지만 더 좋은 방법은 없을까..
 const ClockComponent = () => {
+
+  
   return (
     <Box sx={{
       color: '#e6e1e0',
-      margin: 'auto ',
+      margin: 'auto',
       width: '50vw',
     }}>
       <Box sx={{
         display: 'flex',
         justifyContent: 'center'
       }}> 
-        <Avatar src=""/>
+        <Avatar
+          sx={{
+            width: 56,
+            height: 56,
+            borderRadius: '13px'
+          }}
+          // src={require("../static/images/logo192.png")}
+          src={GoodGun}
+        />
+        
         <Typography 
           style={{
             fontWeight: 'bold' 
@@ -32,7 +44,7 @@ const ClockComponent = () => {
         sx={{textAlign: 'center'}}
       >
         <Dial
-          //아래 적용 어떻게 할까..
+          //아래 적용을 어떻게 할까..
           // style={{
           //   background: 'conic-gradient(from 180deg at 50% 50%, rgba(255, 255, 255, 0) 0deg, #FFFFFF 360deg)',
           //   transform: 'rotate(-150deg)',
@@ -69,13 +81,23 @@ const ClockComponent = () => {
             height: '42px'
           }}
           size="small"
-          sx={{ borderRadius: '10px' }}
+          sx={{ borderRadius: '8px' }}
         >
           <Typography>
             기록하기
           </Typography>
         </Button>
       </Box>
+      
+      <Box>
+        <Typography>
+          890P
+        </Typography>
+        <Typography>
+          02:48:16
+        </Typography>
+      </Box>
+      
     </Box>
     
   );

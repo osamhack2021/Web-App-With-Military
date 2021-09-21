@@ -4,11 +4,11 @@ import { styled } from '@material-ui/core/styles';
 
 
 
-const MainBodyComponent = ({children}) => {
+const BodyTemplete = ({children}) => {
   const StyledContainer = styled(Container)({
     backgroundColor: '#000F04',
-    height: '100vh',
     width: '100vw',
+    height: '100vh',
     maxWidth: 'none'
   });
   return (
@@ -18,4 +18,4 @@ const MainBodyComponent = ({children}) => {
   );
 };
 
-export default MainBodyComponent;
+export default BodyTemplete;

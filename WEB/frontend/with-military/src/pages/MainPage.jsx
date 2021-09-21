@@ -1,9 +1,9 @@
 import React from "react";
 import NavigationBarComponent from "../components/NavigationBarComponent";
-import MainBodyComponent from "../components/MainBodyComponent";
-import TierBarComponent from "../components//TierBarComponent";
-import StudyGroupComponent from "../components//StudyGroupComponent";
-import UserComponent from "../components//UserComponent";
+import BodyTemplete from "../components/BodyTemplete";
+import TierBarComponent from "../components/TierBarComponent";
+import StudyGroupComponent from "../components/StudyGroupComponent";
+import UserComponent from "../components/UserComponent";
 import RankComponent from "../components/RankComponent";
 
 //npm install @material-ui/styles
@@ -17,12 +17,12 @@ const MainPage = () => {
   return (
     <>
       <NavigationBarComponent />
-      <MainBodyComponent>
+      <BodyTemplete>
         <UserComponent />
         <TierBarComponent />
         <StudyGroupComponent />
         <RankComponent />
-      </MainBodyComponent>
+      </BodyTemplete>
     </>
   );
 }
