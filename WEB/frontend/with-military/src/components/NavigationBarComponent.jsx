@@ -1,15 +1,14 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
-import Box from '@material-ui/core/Box';
-import Badge from '@mui/material/Badge';
 import AppBar from '@material-ui/core/AppBar';
+import Box from '@material-ui/core/Box';
+// import Badge from '@mui/material/Badge';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
 import MenuIcon from '@mui/icons-material/Menu';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SearchIcon from "@material-ui/icons/Search";
-import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import { styled } from '@material-ui/core/styles';
+import { Typography } from "@material-ui/core";
 import { ReactComponent as WhiteLogo } from '../static/svgs/logo-white.svg';
 
 const NavigationBarComponent = () => {
@@ -19,18 +18,20 @@ const NavigationBarComponent = () => {
     position: 'static',
     borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
     width: '100vw',
-    height: '3rem',
-
+    //기본 appbar높이는 4rem인듯함...
+    
   });
   return (
     <StyledAppBar>
       <Toolbar sx={{
         margin: 'auto 0',
+        minHeight: '3rem'
+        //minHeight추가하니 모바일화면에서는 3rem이 적용됨
       }}>
         <WhiteLogo width='2rem' height='2rem' />
         <Box sx={{
-          mt: "0.2rem",
-          ml:"0.7rem"
+          mt: "4px",
+          ml:"12px"
         }}>
           <Typography
             component={Box}
@@ -47,7 +48,7 @@ const NavigationBarComponent = () => {
           color="inherit"
           sx={{ p: '0.3rem' }}
         >
-          <ImportContactsIcon />
+          <MenuBookIcon />
         </IconButton>
         <IconButton
           size="large"

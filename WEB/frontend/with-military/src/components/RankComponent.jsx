@@ -1,11 +1,12 @@
 import React from "react";
 import Avatar from '@mui/material/Avatar';
 import Box from '@material-ui/core/Box';
-import {Table,TableBody,TableCell,
-  TableContainer,TableHead,TableRow,Paper,
+import { Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow, Paper
 } from "@material-ui/core";
-import { Typography } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
+import { Typography } from "@material-ui/core";
+
 
 const RankComponent = () => {
   let rank = 0;
@@ -83,7 +84,7 @@ const RankComponent = () => {
                       style={{
                         color: '#e6e1e0',
                         border: 'none',
-                        padding: '0'
+                        padding: '1px'
                       }} 
                       align="right"
                     >
@@ -93,7 +94,7 @@ const RankComponent = () => {
                       style={{
                         color: '#e6e1e0',
                         border: 'none',
-                        padding: '0'
+                        padding: '1px'
                       }}
                       align="right"
                     >
@@ -166,7 +167,7 @@ const RankComponent = () => {
                       style={{
                         color: '#e6e1e0',
                         border: 'none',
-                        padding: '0'
+                        padding: '1px'
                       }} 
                       align="right"
                     >
@@ -176,7 +177,7 @@ const RankComponent = () => {
                       style={{
                         color: '#e6e1e0',
                         border: 'none',
-                        padding: '0'
+                        padding: '1px'
 
                       }}
                       align="right"
