@@ -2,17 +2,17 @@
   "name": "wimil",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "backend/app.js",
   "scripts": {
-    "backend": "nodemon backend/app.js",
+    "backend": "nodemon ./backend/bin/www.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-	"dev": "concurrently \"npm run backend\" \"npm run start --prefix frontend\""
+    "dev": "concurrently \"npm run backend\" \"npm run start --prefix frontend\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
-	"concurrently": "^6.2.1",
+    "concurrently": "^6.2.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
