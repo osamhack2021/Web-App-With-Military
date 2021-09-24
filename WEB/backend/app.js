@@ -19,6 +19,8 @@ mongoose
 .catch((e) => console.log('MongoDB error: ', e));
 
 const users = require("./src/routes/users");
+const groups = require("./src/routes/groups");
 app.use("/api/users", users);
+app.use("/api/groups", groups);
 
 module.exports = app;
