@@ -1,8 +1,7 @@
-"use strict";
+const app = require('../app');
 
-const app = require("../app");
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`${PORT} : Engine On 우주로 ~`)
+  console.log(`(${PORT}포트 연결 성공) Engine On 우주로 ~`);
 });
