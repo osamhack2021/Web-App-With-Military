@@ -2,11 +2,12 @@
   "name": "wimil",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "backend": "nodemon ./backend/bin/www.js",
+    "backend": "nodemon backend/bin/www.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npm run backend\" \"npm run start --prefix frontend\""
+    "dev": "concurrently \"npm run backend\" \"npm run start --prefix frontend\"",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,15 @@
     "mongoose": "^6.0.6"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13"
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "nodemon": "^2.0.12",
+    "prettier": "2.4.1"
   }
 }
