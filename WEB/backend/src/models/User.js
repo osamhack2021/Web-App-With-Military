@@ -31,8 +31,7 @@ const userSchema = mongoose.Schema({
 		default: null
 	},
 	activeStudyGroupList: {
-		type: String,
-		default: null
+		type: Array,
 	},
 	token: {
 		type: String

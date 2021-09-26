@@ -4,12 +4,9 @@ const { Group } = require('./../../models/Group');
 
 const output = {
 	info: (req, res) => {
-		res.status(200).json({
-            _id: req.group._id,
-            name: req.group.name,
-            member: req.group.member,
-            category: req.group.category,
-            score: req.group.score,
+        const name = req.user.activeStudyGroupList[0];
+        Group.findOne({name: name}, function(err,obj) {
+             res.status(200).json(obj); 
         });
 	}
 };
@@ -25,6 +22,18 @@ const process = {
             });
         });
 	},
+    register: (req, res) => {
+        Group.findOneAndUpdate(
+        { name: req.body.groupName }, 
+        { $push: { members: req.body.newMember  } },
+        function (error, success) {
+            if (error) {
+                res.status(200).json({success: false});
+            } else {
+                res.status(200).json({success: true});
+            }
+        });
+    },
 };
 
 module.exports = {
