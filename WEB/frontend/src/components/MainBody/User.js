@@ -3,8 +3,8 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@material-ui/core/Box';
 import { Typography } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
-import GoodGun from "../static/images/goodgun.jpg"
-import The8thDivision from "../static/images/the_8th_division.jpg"
+import GoodGun from "../../static/images/goodgun.jpg"
+import The8thDivision from "../../static/images/the_8th_division.jpg"
 
 const User = () => {
   return (

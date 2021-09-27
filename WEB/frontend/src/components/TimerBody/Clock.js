@@ -4,9 +4,8 @@ import Box from '@material-ui/core/Box';
 import Button from '@mui/material/Button';
 import { Paper, Typography } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
-import { ReactComponent as Dial } from '../static/svgs/dial.svg';
-import GoodGun from "../static/images/goodgun.jpg"
-
+import { ReactComponent as Dial } from '../../static/svgs/dial.svg';
+import GoodGun from "../../static/images/goodgun.jpg"
 //auto, flex, justifyContent, textalign으로 대충 가운데 놨지만 더 좋은 방법은 없을까..
 const Clock = () => {
 
@@ -42,16 +41,27 @@ const Clock = () => {
       </Box>
       <Box style={{
         textAlign:'center', 
-        padding: 'auto',
         positon: 'relative'
       }}>
         <Box style={{
           position: 'absolute',
           left: '50%',
-          top: '50%'
+          top: '40%',
+          transform: 'translate(-50%, -25%)',
+
         }}>
-          <Typography>890P</Typography>
-          <Typography>02:48:16</Typography>
+          <Box><Typography style={{fontSize: "1rem",fontWeight: "500"}}>890P</Typography></Box>
+        </Box>
+        <Box style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -25%)',
+
+        }}>
+          <Box>
+            <Typography style={{fontSize: "2rem", fontWeight: "700"}}>02:48:16</Typography>
+          </Box>
         </Box>
         <Box>
           <Dial

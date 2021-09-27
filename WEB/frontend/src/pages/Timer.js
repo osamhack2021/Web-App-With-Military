@@ -1,15 +1,13 @@
 import React from "react";
-import NavBar from "../components/NavBar";
-import BodyTemplete from "../components/BodyTemplete";
-import Clock from "../components/Clock";
+import NavBar from "../components/NavHeader/NavBar";
+import TimerTemplete from "../components/TimerBody/TimerTemplete";
+
 
 const Timer = () => {
   return (
     <>
       <NavBar />
-      <BodyTemplete>
-        <Clock />
-      </BodyTemplete>
+      <TimerTemplete />
     </>
   );
 }

@@ -1,17 +1,17 @@
 import { createTheme } from '@mui/material/styles';
-
 const theme = createTheme({
-    status: {
-    
-    },
     palette: {
         primary: {
-            main: '#14571B',
+            main: "#000F04"
         },
-        neutral: {
-            
+        secondary: {
+            main: "#000F04"
         },
     },
+    neutral: {
+        main: '#000F04',
+      },  
 });
+
 
 export default theme;
