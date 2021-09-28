@@ -14,10 +14,22 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^6.2.1",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^6.0.8"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13"
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.13",
+    "prettier": "2.4.1"
   }
 }
