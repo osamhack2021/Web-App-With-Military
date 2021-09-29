@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import MyGroup from './MyGroup';
 import StudyGroupOutline from './StudyGroupOutline';
@@ -7,7 +8,6 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 function App() {
-  const a=1;
   return (
     <div>
       <MyGroup />
