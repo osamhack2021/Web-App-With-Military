@@ -30,11 +30,11 @@ app.use((req,res,next)=>{
 */
 
 
-/*//개발환경일때 몽구스 쿼리 표시
+//개발환경일때 몽구스 쿼리 표시
 if(process.env.NODE_ENV !== 'production'){
   mongoose.set('debug', true); 
 }
-*/
+
 
 mongoose
   .connect(process.env.MONGO_URI)

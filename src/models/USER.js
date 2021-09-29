@@ -65,7 +65,7 @@ UserSchema.methods.generateToken = function(){
   //_id와 userName 값이 들어간 토큰 심기
   const token = jwt.sign(
     {
-      _id: this.id
+      _id: this._id
     },
     process.env.JWT_SECRET,
     {
@@ -86,6 +86,4 @@ UserSchema.statics.findById= function(_id){
 }
 
 
-const User = mongoose.model('User', UserSchema);
-
-module.exports = { User };
+module.exports = mongoose.model('User', UserSchema);
