@@ -30,6 +30,7 @@ app.use((req,res,next)=>{
 */
 
 
+
 //개발환경일때 몽구스 쿼리 표시
 if(process.env.NODE_ENV !== 'production'){
   mongoose.set('debug', true); 
@@ -55,8 +56,8 @@ app.use((req,res,next)=>{
 */
 
 app.use((err, req, res, next)=>{
-  res.status(err.status||500)
-    .json({"errorMessage": (err.message||"알 수 없는 오류입나다")});
+  res.status(err.status)
+    .json(err.body);
 });
 
 app.listen(app.get('port'), ()=>{

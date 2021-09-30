@@ -1,14 +1,13 @@
 import React, {useState, useCallback} from 'react';
-import AuthForm from '../components/auth/AuthForm';
-import AuthTemplate from '../components/auth/AuthTemplate';
+import LoginForm from '../components/login/LoginForm';
+import LoginTemplate from '../components/login/LoginTemplate';
+import {login} from '../modules/userAuth';
 
 import { useDispatch } from 'react-redux';
 import { withRouter  } from 'react-router-dom';
 
-import axios from 'axios';
 
-
-const LoginPage = () => {
+const LoginPage = ({history}) => {
 	const dispatch = useDispatch();
 
     const error={email: false, password: false}; //error 행
@@ -30,27 +29,24 @@ const LoginPage = () => {
     const onSubmit = e => {
         e.preventDefault();
 
-        let body = {
+        let formData = {
             email: form.email,
             password: form.password
         }
         
-        dispatch(loginUser(body))
+        dispatch(login(formData))
             .then(response => {
-                console.log(response);
+                if(response.success){
+                    history.push('/main');
+                }
             });
-        
-        axios.get('/test').then(response=>console.log(response));
-        axios.post('/api/users/login', {id: form.email, password: form.password})
-            .then(response=>console.log(response));
-
     }
 
     return(
-        <AuthTemplate>
-            <AuthForm form={form} onChange={onChange} onSubmit={onSubmit} error={error}/>
-        </AuthTemplate>
+        <LoginTemplate>
+            <LoginForm form={form} onChange={onChange} onSubmit={onSubmit} error={error}/>
+        </LoginTemplate>
     )
 };
 
-export default LoginPage;
+export default withRouter(LoginPage);

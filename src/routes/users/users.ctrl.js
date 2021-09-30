@@ -20,16 +20,19 @@ const User = require('../../models/USER');
   }
 */
 
-//토큰 검증
+//  토큰 검증
 const check = async (req, res, next)=>{
   const user_id = res.locals._id;
   if(!user_id){
-    //로그인 중 아님
+    //  로그인 중 아님
     const error = new Error(`로그인 중이 아닙니다`);
+    error.body={
+      'loginFailure': 'email'
+    }
     error.status=401;
     next(error);
   }
-  //id로 user문서 반환
+  //  id로 user문서 반환
   const user = await User.findById(user_id);
   res.json({'user': user.serialize()});
 };
@@ -43,6 +46,9 @@ const register = async (req, res, next)=>{
     console.log(exist);
     if(exist){
       const error = new Error(`${email}은 이미 사용중인 이메일입니다`);
+      error.body={
+        'loginFailure': 'passwoed'
+      }
       error.status=409;
       return next(error);
     }
@@ -100,7 +106,7 @@ const login = async (req, res, next)=>{
       maxAge: 1000*60*20,
       httpOnly: true,
     });
-    
+    //console.log(user.serialize());
     res.json({'user': user.serialize()});
 
   }catch(error){

@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import TimerPage from "./pages/TimerPage";
 import ReportPage from "./pages/ReportPage";
-import MainPage from "./pages/LoginPage";
+import MainPage from "./pages/MainPage";
 
 
 const App = () => {
