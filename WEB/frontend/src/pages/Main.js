@@ -1,8 +1,6 @@
 import React from "react";
-import NavBar from "../components/NavHeader/NavBar";
+import NavBarMain from "../components/NavHeader/NavBarMain";
 import MainTemplete from "../components/MainBody/MainTemplete";
-
-
 
 // sx 사용법: https://theme-ui.com/sx-prop/
 // System props: https://mui.com/system/properties/
@@ -10,7 +8,7 @@ import MainTemplete from "../components/MainBody/MainTemplete";
 const Main = () => {
   return (
     <>
-      <NavBar />
+      <NavBarMain />
       <MainTemplete />
     </>
   );

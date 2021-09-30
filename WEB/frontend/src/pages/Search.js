@@ -1,14 +1,14 @@
 import React from "react";
 import NavBarMain from "../components/NavHeader/NavBarMain";
-import TimerTemplete from "../components/TimerBody/TimerTemplete";
+import SearchTemplete from "../components/SearchBody/SearchTemplete";
 
 
-const Timer = () => {
+const Search = () => {
   return (
     <>
       <NavBarMain />
-      <TimerTemplete />
+      <SearchTemplete />
     </>
   );
 }
-export default Timer;
+export default Search;

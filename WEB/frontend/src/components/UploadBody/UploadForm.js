@@ -1,18 +1,20 @@
 import React, {useState} from "react";
-import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@material-ui/core/Box';
 import Input from '@mui/material/Input';
 import IconButton from '@mui/material/IconButton';
-import { Typography, TextField, } from "@material-ui/core";
+import { Typography, TextField } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-
+import { useDispatch } from 'react-redux';
+import { uploadDiary } from '../../_actions/user_action';
 
 //Input 안 글씨 색깔
 
-const UploadForm = () => {
+const UploadForm = (props) => {
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState({
     title: '',
     subTitle: '',
@@ -28,41 +30,65 @@ const UploadForm = () => {
     console.log(form);
   }
 
-  const onSubmit = e => {
-    e.preventDefault();
-    console.log("제출");
-    // dispatch들어가야함
-    // axios.post('/', {title: form.title, subTitle: form.subTitle, content: form.content})
-    //     .then(response=>console.log(response));
 
-  }
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+
+    dispatch(uploadDiary(form))
+        .then(response => {
+            if (response.payload.loginSuccess) {
+                alert('게시글이 등록되었습니다.')
+                props.history.push('/')
+            } else {
+                alert('Failed to Upload')
+            }
+        })
+}
+  const StyledToolbar = styled(Toolbar)({
+    backgroundColor: '#000F04',
+    color: 'white',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+    height: '3rem'
+  })
+
+  const StyledTypography = styled(Typography)({
+    fontSize: '1.3rem',
+    color: 'white'
+  })
+
   
+
+  const StyledInput = styled(Input)({
+
+  })
   return (
-    <>
       <Box
         sx={{
-          '& .MuiTextField-root':
-          { m: 1,
-            },
+          '& .MuiTextField-root': {
+            m: 1,
+          },
+          '& input, & textarea::placeholder':{
+            color: 'white',
+          },
+          '& input, & textarea':{
+            color: 'white',
+            padding: 'auto 0'
+          }
         }}
-        color='#e6e1e0'
       >
-
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmitHandler}>
           <Box>
-            <Toolbar>
+            <StyledToolbar>
               <IconButton size="large" color="inherit">
                 <ClearIcon />
               </IconButton>
               <Box sx={{ flexGrow: 1 }} />
-              <Typography variant="h4">
-                글쓰기
-              </Typography>
+              <StyledTypography>글쓰기</StyledTypography>
               <Box sx={{ flexGrow: 1 }} />
               <IconButton type="submit" size="large" color="inherit">
                 <CheckIcon/>
               </IconButton>
-            </Toolbar>
+            </StyledToolbar>
             
           </Box>
           <Input
@@ -92,11 +118,28 @@ const UploadForm = () => {
             rows={8}
           />
         </form>
+
+      <Box sx={{
+        display: 'flex',
+        '& .MuiBox-root':
+          { 
+            margin: '1rem'
+          },
+      }}>
+        <Box>
+          <StyledTypography>시작시간</StyledTypography>
+          <StyledTypography>18:03:08</StyledTypography>
+        </Box>
+        <Box>
+          <StyledTypography>종료시간</StyledTypography>
+          <StyledTypography>20:51:24</StyledTypography>
+        </Box>
+        <Box>
+          <StyledTypography>총 집중시간</StyledTypography>
+          <StyledTypography>02:48:16</StyledTypography>
+        </Box>
       </Box>
-      
-
-    </>
-
+    </Box>
   );
 };
 

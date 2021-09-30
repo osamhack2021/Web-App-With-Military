@@ -1,10 +1,10 @@
 import React from "react";
 import { Container } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
-import UploadForm from "./UploadForm";
+import Search from "./Search";
 
 
-const UploadTemplete = () => {
+const SearchTemplete = () => {
   const StyledContainer = styled(Container)({
     backgroundColor: '#000F04',
     width: '100vw',
@@ -12,11 +12,15 @@ const UploadTemplete = () => {
     maxWidth: 'none',
     padding: 0
   });
+
+  
+
+
   return (
     <StyledContainer>
-      <UploadForm />
+      <Search />
     </StyledContainer>
   );
 };
 
-export default UploadTemplete;
+export default SearchTemplete;

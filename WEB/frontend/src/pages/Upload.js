@@ -1,12 +1,12 @@
 import React from "react";
-import NavBar from "../components/NavHeader/NavBar";
+import NavBarMain from "../components/NavHeader/NavBarMain";
 import UploadTemplete from "../components/UploadBody/UploadTemplete";
 
 
 const Upload = () => {
   return (
     <>
-      <NavBar />
+      <NavBarMain />
       <UploadTemplete />
     </>
   );

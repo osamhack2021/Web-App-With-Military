@@ -3,6 +3,7 @@ import {Route} from 'react-router-dom';
 import Main from "./pages/Main";
 import Timer from "./pages/Timer";
 import Upload from "./pages/Upload";
+import Search from "./pages/Search";
 
 
 import theme from "./styles/palette";
@@ -18,6 +19,7 @@ const App = () => {
       <Route component={Main} path="/main" />
       <Route component={Timer} path="/timer" />
       <Route component={Upload} path="/upload" />
+      <Route component={Search} path="/search" />
     </>
   );
 }
