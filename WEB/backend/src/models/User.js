@@ -29,13 +29,29 @@ const userSchema = mongoose.Schema({
     type: String,
     default: null,
   },
-  activeStudyGroupList: {
+  activeGroups: {
     type: Array,
+    default: null,
   },
   token: {
     type: String,
   },
   tokenExp: {
+    type: Number,
+  },
+  userTotalTime: {
+    type: Number,
+  },
+  userHistory: {
+    type: Array,
+  },
+  userTotalCount: {
+    type: Number,
+  },
+  userMaxStreak: {
+    type: Number,
+  },
+  userCurrentStreak: {
     type: Number,
   },
 });

@@ -9,7 +9,7 @@ const output = {
       email: req.user.email,
       name: req.user.name,
       division: req.user.division,
-      activeStudyGroupList: req.user.activeStudyGroupList,
+      activeGroups: req.user.activeGroups,
     });
   },
 
