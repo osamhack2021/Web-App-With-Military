@@ -2,6 +2,5 @@ node_modules
 .vscode
 /WEB/todo-app
 /WEB/withmilitary
-/WEB/frontend/src/components/BodyTempletes
-yoon
-src
+/yoon
+/src
