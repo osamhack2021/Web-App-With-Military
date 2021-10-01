@@ -18,9 +18,9 @@ const groupSchema = mongoose.Schema({
   },
 });
 
-groupSchema.pre('save', function (next) {
-  next();
-});
+groupSchema.statics.findByGroupName = function (name) {
+  return this.findOne({ name });
+};
 
 const Group = mongoose.model('Group', groupSchema);
 

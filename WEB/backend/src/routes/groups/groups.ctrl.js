@@ -1,35 +1,52 @@
 const { Group } = require('../../models/Group');
 
 const output = {
+  // 로그인한 유저가 가입한 그룹들의 정보
   info: (req, res) => {
-    const name = req.user.activeStudyGroupList[0];
-    Group.findOne({ name }, function (err, obj) {
+    const name = req.user.activeGroups;
+    Group.find({ name }, function (err, obj) {
       res.status(200).json(obj);
     });
   },
 };
 
 const process = {
-  create: (req, res) => {
+  // 그룹 만들기
+  create: async (req, res) => {
+    // 그룹이름 중복 여부 확인
+    const NAME = await Group.findByGroupName(req.body.name);
+    if (NAME)
+      return res.status(409).json({ success: false, group_exists: true });
     const group = new Group(req.body);
-
-    group.save((err, groupInfo) => {
+    // 새로운 그룹 정보 DB에 저장
+    await group.save((err, groupInfo) => {
       if (err) return res.json({ success: false, err });
       return res.status(200).json({
         success: true,
       });
     });
   },
-  register: (req, res) => {
-    Group.findOneAndUpdate(
+
+  // 그룹에 참가
+  join: async (req, res) => {
+    // 존재하는 그룹인지 확인
+    const NAME = await Group.findByGroupName(req.body.groupName);
+    if (!NAME)
+      return res.status(409).json({ success: false, group_exists: false });
+    // 이미 해당 그룹에 가입 했는지 확인
+    for (let i = 0; i < NAME.members.length; i += 1) {
+      if (NAME.members[i] === req.body.newMember)
+        return res.json({ success: false, user_exists: true });
+    }
+    // 새로운 멤버 DB에 저장
+    await Group.findOneAndUpdate(
       { name: req.body.groupName },
-      { $push: { members: req.body.newMember } },
-      function (error, success) {
-        if (error) {
-          res.status(200).json({ success: false });
-        } else {
-          res.status(200).json({ success: true });
+      { $addToSet: { members: req.body.newMember } },
+      (err, success) => {
+        if (err) {
+          return res.status(500).json({ success: false });
         }
+        return res.status(200).json({ success: true });
       },
     );
   },

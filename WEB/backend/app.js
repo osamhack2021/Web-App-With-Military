@@ -11,7 +11,7 @@ app.use(cookieParser());
 
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log('(DB 연결 성공) 3 2 1 Lift Off .'))
+  .then(() => console.log('DB 연결 성공'))
   .catch(e => console.log('MongoDB error: ', e));
 
 const users = require('./src/routes/users');
