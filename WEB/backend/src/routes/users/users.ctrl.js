@@ -3,14 +3,26 @@ const { User } = require('../../models/User');
 const output = {
   // 로그인 확인 후 정보 표시
   auth: (req, res) => {
-    res.status(200).json(req.user);
+    res.status(200).json({
+      isAuth: true,
+      id: req.user.id,
+      email: req.user.email,
+      name: req.user.name,
+      division: req.user.division,
+      activeGroups: req.user.activeGroups,
+      userTotalTime: req.user.userTotalTime,
+      userHistory: req.user.userHistory,
+      userTotalCount: req.user.userTotalCount,
+      userMaxStreak: req.user.userMaxStreak,
+      userCurrentStreak: req.user.userCurrentStreak,
+    });
   },
 
   // 로그아웃 처리
   logout: (req, res) => {
     User.findOne({ _id: req.user._id }, (err, user) => {
-      if (err) return res.json({ success: false, err });
-      return res.cookie('x_auth', '').status(200).send({ success: true });
+      if (err) return res.json({ logoutSuccess: false, err });
+      return res.cookie('x_auth', '').status(200).send({ logoutSuccess: true });
     });
   },
 };
@@ -20,7 +32,7 @@ const process = {
   login: (req, res, next) => {
     if (!req.body.id || !req.body.password) {
       return res.status(400).json({
-        success: false,
+        loginSuccess: false,
         message: '로그인 폼 오류',
       });
     }
@@ -28,7 +40,7 @@ const process = {
     User.findOne({ id: req.body.id }, (err, user) => {
       if (!user) {
         return res.json({
-          success: false,
+          loginSuccess: false,
           message: '아이디 또는 비밀번호가 잘못 입력 되었습니다.',
         });
       }
@@ -36,7 +48,7 @@ const process = {
       user.comparePassword(req.body.password, (err, isMatch) => {
         if (!isMatch) {
           return res.json({
-            success: false,
+            loginSuccess: false,
             message: '아이디 또는 비밀번호가 잘못 입력 되었습니다.',
           });
         }
@@ -44,7 +56,7 @@ const process = {
         user.generateToken((err, user) => {
           if (err) return res.status(400).send(err);
           res.cookie('x_auth', user.token).status(200).json({
-            success: true,
+            loginSuccess: true,
           });
         });
       });
@@ -61,23 +73,27 @@ const process = {
         // id 중복 확인
         const ID = await User.findById(user.id);
         if (ID) {
-          return res
-            .status(409)
-            .json({ success: false, isIdInUse: true, isEmailInUse: true });
+          return res.status(409).json({
+            registerSuccess: false,
+            isIdInUse: true,
+            isEmailInUse: true,
+          });
         }
-        return res
-          .status(409)
-          .json({ success: false, isIdInUse: false, isEmailInUse: true });
+        return res.status(409).json({
+          registerSuccess: false,
+          isIdInUse: false,
+          isEmailInUse: true,
+        });
       }
     } catch (error) {
-      return res.status(500).json({ success: false });
+      return res.status(500).json({ registerSuccess: false });
     }
 
     // 데이터베이스 저장
     user.save((err, userInfo) => {
-      if (err) return res.json({ success: false, err });
+      if (err) return res.json({ registerSuccess: false, err });
       return res.status(200).json({
-        success: true,
+        registerSuccess: true,
       });
     });
   },

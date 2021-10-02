@@ -18,8 +18,8 @@ const users = require('./src/routes/users');
 const groups = require('./src/routes/groups');
 const ranks = require('./src/routes/ranks');
 
-app.use('/users', users);
-app.use('/groups', groups);
-app.use('/ranks', ranks);
+app.use('/api/users', users);
+app.use('/api/groups', groups);
+app.use('/api/ranks', ranks);
 
 module.exports = app;
