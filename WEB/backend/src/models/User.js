@@ -5,12 +5,6 @@ const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
-  id: {
-    type: String,
-    minlength: 4,
-    maxlength: 30,
-    unique: 1,
-  },
   email: {
     type: String,
     trim: true,
@@ -20,7 +14,7 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: 4,
   },
-  name: {
+  userName: {
     type: String,
     minlength: 2,
     maxlength: 30,
@@ -113,11 +107,6 @@ userSchema.statics.findByToken = function (token, cb) {
 // 이메일 찾기
 userSchema.statics.findByEmail = function (email) {
   return this.findOne({ email });
-};
-
-// 아이디 찾기
-userSchema.statics.findById = function (id) {
-  return this.findOne({ id });
 };
 
 const User = mongoose.model('User', userSchema);

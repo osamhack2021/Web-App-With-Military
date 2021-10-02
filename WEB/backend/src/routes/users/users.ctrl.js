@@ -5,9 +5,8 @@ const output = {
   auth: (req, res) => {
     return res.status(200).json({
       isAuth: true,
-      id: req.user.id,
       email: req.user.email,
-      name: req.user.name,
+      userName: req.user.userName,
       division: req.user.division,
       activeGroups: req.user.activeGroups,
       userTotalTime: req.user.userTotalTime,
@@ -30,18 +29,18 @@ const output = {
 const process = {
   // 로그인 처리
   login: (req, res) => {
-    if (!req.body.id || !req.body.password) {
+    if (!req.body.email || !req.body.password) {
       return res.status(400).json({
         loginSuccess: false,
         message: '로그인 폼 오류',
       });
     }
-    // 아이디 존재 여부 확인
-    User.findOne({ id: req.body.id }, (err, user) => {
+    // 이메일 존재 여부 확인
+    User.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {
         return res.json({
           loginSuccess: false,
-          message: '아이디 또는 비밀번호가 잘못 입력 되었습니다.',
+          message: '이메일 또는 비밀번호가 잘못 입력 되었습니다.',
         });
       }
       // DB에 저장된 user의 password와 비교
@@ -49,7 +48,7 @@ const process = {
         if (!isMatch) {
           return res.json({
             loginSuccess: false,
-            message: '아이디 또는 비밀번호가 잘못 입력 되었습니다.',
+            message: '이메일 또는 비밀번호가 잘못 입력 되었습니다.',
           });
         }
         // 토큰 생성 및 쿠키에 저장
@@ -70,19 +69,9 @@ const process = {
       // email 중복 확인
       const EMAIL = await User.findByEmail(user.email);
       if (EMAIL) {
-        // id 중복 확인
-        const ID = await User.findById(user.id);
-        if (ID) {
-          return res.status(409).json({
-            registerSuccess: false,
-            isIdInUse: true,
-            isEmailInUse: true,
-          });
-        }
         return res.status(409).json({
           registerSuccess: false,
-          isIdInUse: false,
-          isEmailInUse: true,
+          message: '이미 사용 중인 이메일 입니다.',
         });
       }
     } catch (error) {
@@ -103,9 +92,9 @@ const process = {
     const result = await User.find(
       {
         // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-        name: new RegExp(req.body.searchUser),
+        userName: new RegExp(req.body.searchUser),
       },
-      { name: 1 },
+      { userName: 1 },
     ).limit(20);
     if (!result.length) return res.status(200).json({ resultExists: false });
     return res.status(200).json(result);
