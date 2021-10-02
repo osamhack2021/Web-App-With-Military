@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container} from '@mui/material';
 
-import NavBar from '../../commons/navigation/NavBar';
+import NavBar from '../common/navigation/NavBar';
 
 const RegisterTemplate = ({children}) => {
     return(

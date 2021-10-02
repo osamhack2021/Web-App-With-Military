@@ -11,7 +11,7 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
 
   return(
     <>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} sx={{display:"block"}}>
         <Grid item xs={12} sm={3}>
           <Typography align="center">이메일</Typography>
         </Grid>
@@ -69,13 +69,12 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
             required
             name="userName"
             sx={{ my: 1 }}
-            //value={value}
+            value={userName}
             onChange={onChange}
             error={error}
             helperText={error.userName?"이미 사용중인 닉네임입니다":false}
           />
         </Grid>
-
       </Grid>
       <Button
           type="submit"

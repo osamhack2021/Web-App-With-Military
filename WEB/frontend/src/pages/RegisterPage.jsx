@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import RegisterForm from '../components/views/register/RegisterForm';
-import RegisterTemplate from '../components/views/register/RegisterTemplate';
+import RegisterForm from '../components/register/RegisterForm';
+import RegisterTemplate from '../components/register/RegisterTemplate';
 
 const RegisterPage = ({history}) => {
     const dispatch = useDispatch();

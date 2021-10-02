@@ -11,16 +11,6 @@ import { styled } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
 import { ReactComponent as LogoWhite } from '../../../public/icons/logo_white.svg';
 
-//import theme from "../../styles/palette";
-import { createTheme,ThemeProvider } from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#000F04"
-    }
-  }
-});
 const NavBarMain = () => {
   const StyledAppBar = styled(AppBar)({
     backgroundColor: '#000F04',
@@ -30,7 +20,7 @@ const NavBarMain = () => {
     
   });
   return (
-    <StyledAppBar position="static" color="primary">
+    <StyledAppBar position="static">
       <Toolbar sx={{
         margin: 'auto 0',
         minHeight: '3rem'

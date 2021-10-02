@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
-import LoginForm from '../components/views/login/LoginForm';
-import LoginTemplate from '../components/views/login/LoginTemplate';
+import LoginForm from '../components/login/LoginForm';
+import LoginTemplate from '../components/login/LoginTemplate';
 import {login} from '../modules/userAuth';
 
 import { useDispatch } from 'react-redux';

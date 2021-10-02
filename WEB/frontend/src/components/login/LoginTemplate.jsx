@@ -1,9 +1,7 @@
 import React from 'react';
-
 import {Container, Typography, Grid, Link} from '@mui/material';
 import styled from 'styled-components';
-
-import Title from '../../../public/imgs/title.svg';
+import Title from '../../public/imgs/title.svg';
 
 const LoginTemplateBlock = styled.div`
     position: absolute;
@@ -15,8 +13,6 @@ const LoginTemplateBlock = styled.div`
     flex-direction: column;
     justify-content: center;
 `;
-
-
 const LoginTemplate = ({children}) => {
     return(
         <LoginTemplateBlock>
