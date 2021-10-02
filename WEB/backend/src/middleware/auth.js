@@ -6,7 +6,7 @@ const auth = (req, res, next) => {
     if (err) throw err;
     if (!user) return res.status(401).json({ isAuth: false, error: true });
     req.user = user;
-    next();
+    return next();
   });
 };
 

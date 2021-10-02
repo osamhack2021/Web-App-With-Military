@@ -6,7 +6,7 @@ const output = {
     const name = req.user.activeGroups;
     Group.find({ name }, function (err, obj) {
       if (err) res.status(500).json({ infoSuccess: false });
-      res.status(200).json({ infoSuccess: true, obj });
+      return res.status(200).json({ infoSuccess: true, obj });
     });
   },
 };
@@ -33,11 +33,11 @@ const process = {
     // 존재하는 그룹인지 확인
     const NAME = await Group.findByGroupName(req.body.groupName);
     if (!NAME)
-      return res.status(409).json({ joinSuccess: false, group_exists: false });
+      return res.status(409).json({ joinSuccess: false, groupExists: false });
     // 이미 해당 그룹에 가입 했는지 확인
     for (let i = 0; i < NAME.members.length; i += 1) {
       if (NAME.members[i] === req.body.newMember)
-        return res.json({ joinSuccess: false, user_exists: true });
+        return res.status(409).json({ joinSuccess: false, userExists: true });
     }
     // 새로운 멤버 DB에 저장
     await Group.findOneAndUpdate(
@@ -50,6 +50,18 @@ const process = {
         return res.status(200).json({ joinSuccess: true });
       },
     );
+  },
+
+  // 그룹 검색
+  search: async (req, res) => {
+    const result = await Group.find(
+      {
+        // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
+        name: new RegExp(req.body.searchGroup),
+      },
+      { name: 1 },
+    ).limit(20);
+    return res.status(200).json(result);
   },
 };
 

@@ -3,7 +3,7 @@ const { User } = require('../../models/User');
 const output = {
   // 로그인 확인 후 정보 표시
   auth: (req, res) => {
-    res.status(200).json({
+    return res.status(200).json({
       isAuth: true,
       id: req.user.id,
       email: req.user.email,
@@ -29,7 +29,7 @@ const output = {
 
 const process = {
   // 로그인 처리
-  login: (req, res, next) => {
+  login: (req, res) => {
     if (!req.body.id || !req.body.password) {
       return res.status(400).json({
         loginSuccess: false,
@@ -55,7 +55,7 @@ const process = {
         // 토큰 생성 및 쿠키에 저장
         user.generateToken((err, user) => {
           if (err) return res.status(400).send(err);
-          res.cookie('x_auth', user.token).status(200).json({
+          return res.cookie('x_auth', user.token).status(200).json({
             loginSuccess: true,
           });
         });
@@ -96,6 +96,19 @@ const process = {
         registerSuccess: true,
       });
     });
+  },
+
+  // 유저 검색
+  search: async (req, res) => {
+    const result = await User.find(
+      {
+        // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
+        name: new RegExp(req.body.searchUser),
+      },
+      { name: 1 },
+    ).limit(20);
+    if (!result.length) return res.status(200).json({ resultExists: false });
+    return res.status(200).json(result);
   },
 };
 

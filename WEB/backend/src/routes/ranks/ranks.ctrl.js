@@ -8,7 +8,7 @@ const output = {
         userTotalTime: -1,
       })
       .limit(50);
-    res.status(200).json(result);
+    return res.status(200).json(result);
   },
 };
 

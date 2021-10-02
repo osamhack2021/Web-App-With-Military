@@ -56,15 +56,6 @@ const userSchema = mongoose.Schema({
   },
 });
 
-// 계정 생성 또는 비밀번호 변경시 비밀번호 암호화 및 설정 method
-userSchema.methods.setPassword = async function (password) {
-  bcrypt.genSalt(saltRounds, function (err, salt) {
-    bcrypt.hash(password, salt, function (err, hash) {
-      this.hashedPassword = hash;
-    });
-  });
-};
-
 // DB에 저장
 userSchema.pre('save', function (next) {
   const user = this;
@@ -77,11 +68,11 @@ userSchema.pre('save', function (next) {
       bcrypt.hash(user.password, salt, function (err, hash) {
         if (err) return next(err);
         user.password = hash;
-        next();
+        return next();
       });
     });
   } else {
-    next();
+    return next();
   }
 });
 
@@ -89,7 +80,7 @@ userSchema.pre('save', function (next) {
 userSchema.methods.comparePassword = function (plainPassword, cb) {
   bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
-    cb(null, isMatch);
+    return cb(null, isMatch);
   });
 };
 
@@ -102,7 +93,7 @@ userSchema.methods.generateToken = function (cb) {
   user.token = token;
   user.save(function (err, user) {
     if (err) return cb(err);
-    cb(null, user);
+    return cb(null, user);
   });
 };
 
@@ -114,7 +105,7 @@ userSchema.statics.findByToken = function (token, cb) {
   jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
     user.findOne({ _id: decoded, token }, function (err, user) {
       if (err) return cb(err);
-      cb(null, user);
+      return cb(null, user);
     });
   });
 };
