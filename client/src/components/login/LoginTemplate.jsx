@@ -3,7 +3,7 @@ import React from 'react';
 import {Container, Typography, Grid, Link} from '@mui/material';
 import styled from 'styled-components';
 
-import Title from '../../public/imgs/title.svg';
+import Title from '../../static/imgs/title.svg';
 
 const LoginTemplateBlock = styled.div`
     position: absolute;

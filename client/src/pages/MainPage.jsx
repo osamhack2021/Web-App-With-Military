@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-
+import TierBar from "../components/main/TierBar";
+import StudyGroup from "../components/common/StudyGroup";
+import User from "../components/main/User";
+import Rank from "../components/main/Rank";
+import MainTemplate from "../components/main/MainTemplate";
 
 const MainPage = () => {
 	const user = useSelector(state => state.userAuth);
@@ -12,7 +16,12 @@ const MainPage = () => {
 
   return(
     <>
-      어서오세요 {user.user.name}님
+      <MainTemplate>
+        <User userName={user.user.name}/>
+        {/* <TierBar /> */}
+        <StudyGroup />
+        <Rank />
+      </MainTemplate>
     </>
   );
 };
