@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  Switch,
-  Route
-} from "react-router-dom";
-import Auth from './hoc/auth';
+import { Switch, Route } from "react-router-dom";
+import Auth from "./hoc/auth";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -15,7 +12,7 @@ import ReportPage from "./pages/ReportPage";
 import StudyGroupPage from "./pages/StudyGroupPage";
 
 const App = () => {
-  return(
+  return (
     <>
       <Switch>
         {/* 각 페이지마다 유저 인증 -> hoc 사용
@@ -35,7 +32,7 @@ const App = () => {
         <Route exact path="/studygroup" component={StudyGroupPage} />
       </Switch>
     </>
-  )
-}
+  );
+};
 
 export default App;

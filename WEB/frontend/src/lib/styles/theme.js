@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
     status: {
@@ -11,7 +11,7 @@ const theme = createTheme({
         secondary: {
             main: '#073113',
         },
-    },
+    }
 });
 
 export default theme;
