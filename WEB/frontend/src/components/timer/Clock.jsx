@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@mui/material/Button';
 import { Paper, Typography } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
-import { ReactComponent as Dial } from '../../static/icons/dial.svg';
+import { ReactComponent as DialIcon } from '../../static/icons/dial.svg';
 //auto, flex, justifyContent, textalign으로 대충 가운데 놨지만 더 좋은 방법은 없을까..
 const Clock = () => {
 
@@ -19,21 +19,18 @@ const Clock = () => {
         justifyContent: 'center',
         padding: '2.5rem 0'
       }}> 
-        <Avatar
-          sx={{
-            width: '2.5rem',
-            height: '2.5rem',
-            borderRadius: '13px',
-            mr: '0.5rem'
-          }}
-          // src={require("../../public/imgs/something.png")}
+        <Avatar sx={{
+          width: '2.5rem',
+          height: '2.5rem',
+          borderRadius: '13px',
+          mr: '0.5rem'
+        }}
+        // src={}
         />
-        <Typography 
-          style={{
-            fontWeight: 'bold',
-            fontSize: '2rem'
-          }}
-        >
+        <Typography style={{
+          fontWeight: 'bold',
+          fontSize: '2rem'
+        }}>
           Study with me :)
         </Typography>
       </Box>
@@ -45,33 +42,37 @@ const Clock = () => {
           position: 'absolute',
           left: '50%',
           top: '40%',
-          transform: 'translate(-50%, -25%)',
-
+          transform: 'translate(-50%, -25%)'
         }}>
-          <Box><Typography style={{fontSize: "1rem",fontWeight: "500"}}>890P</Typography></Box>
+          <Box>
+            <Typography style={{
+              fontSize: "1rem",
+              fontWeight: "500"
+            }}>890P
+            </Typography>
+          </Box>
         </Box>
         <Box style={{
           position: 'absolute',
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -25%)',
-
+          transform: 'translate(-50%, -25%)'
         }}>
           <Box>
-            <Typography style={{fontSize: "2rem", fontWeight: "700"}}>02:48:16</Typography>
+            <Typography style={{
+              fontSize: "2rem",
+              fontWeight: "700"
+            }}>02:48:16
+            </Typography>
           </Box>
         </Box>
         <Box>
-          <Dial
-            style={{
-              //background: 'conic-gradient(from 180deg at 50% 50%, rgba(255, 255, 255, 0) 0deg, #FFFFFF 360deg)',
-              //transform: 'rotate(-150deg)',
-            }}
-          >
-          </Dial>
+          <DialIcon style={{
+            //background: 'conic-gradient(from 180deg at 50% 50%, rgba(255, 255, 255, 0) 0deg, #FFFFFF 360deg)',
+            //transform: 'rotate(-150deg)',
+          }} />
         </Box>
       </Box>
-
       <Box sx={{
         display: 'flex',
         justifyContent: 'center',

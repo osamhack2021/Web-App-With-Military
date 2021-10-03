@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SearchIcon from "@material-ui/icons/Search";
 import { styled } from '@material-ui/core/styles';
-import { ReactComponent as WhiteLogo } from '../../../static/icons/logo_white.svg';
+import { ReactComponent as WhiteLogo } from '../../static/icons/logo_white.svg';
 
 const NavBarMain = () => {
   const StyledAppBar = styled(AppBar)({
@@ -59,8 +59,6 @@ const NavBarMain = () => {
         </IconButton>
       </Toolbar>
     </StyledAppBar>
-    
-    
   );
 }
 export default NavBarMain;

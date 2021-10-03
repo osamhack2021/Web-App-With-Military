@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
-import NavBar from "../common/navigation/NavBar";
+import NavBar from "../common/NavBar";
 const UploadTemplate = ({children}) => {
   const StyledContainer = styled(Container)({
     backgroundColor: '#000F04',
