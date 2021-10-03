@@ -12,7 +12,7 @@ const UploadTemplate = ({children}) => {
   });
   return (
     <>
-      <NavBar />
+      <NavBar bgColor={"primary"}/>
       <StyledContainer>
         {children}
       </StyledContainer>

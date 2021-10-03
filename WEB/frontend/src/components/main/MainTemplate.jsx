@@ -1,24 +1,19 @@
 import React from "react";
-import { Container } from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
+import { styled } from '@mui/material/styles'
+import { Box, Container } from '@mui/material';
 import NavBar from '../common/NavBar';
 
 const MainTemplate = ({children}) => {
-  const StyledBox = styled(Box)({
-    backgroundColor: '#000F04',
-    //width: '100vw',
-    height: '100vh',
-    
-  });
+
   return (
     <>
-      <NavBar />
-      <StyledBox>
-        <Container component="main">
-          {children}
-        </Container>
-      </StyledBox>
+      <Container component="main" maxWidth="xs" sx={{
+        backgroundColor: '#000F04'
+      }}>
+        <NavBar bgColor={"primary"}/>
+        {children}
+      </Container>
+      
     </>
   );
 };

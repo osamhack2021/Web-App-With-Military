@@ -1,7 +1,6 @@
 import React from "react";
-import Box from '@material-ui/core/Box';
-import { Typography } from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
+import { Box, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 
 
 const TierBar = () => {

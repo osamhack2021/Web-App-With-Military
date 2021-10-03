@@ -1,9 +1,6 @@
 import React from "react";
-import Avatar from '@mui/material/Avatar';
-import Box from '@material-ui/core/Box';
-import Button from '@mui/material/Button';
-import { Typography } from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
+import { Avatar, Box, Button, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { ReactComponent as TimerIcon } from '../../static/icons/timer.svg';
 
 const StudyGroup = () => {

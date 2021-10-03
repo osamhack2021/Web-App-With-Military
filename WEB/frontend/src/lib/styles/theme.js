@@ -6,12 +6,10 @@ const theme = createTheme({
     },
     palette: {
         primary: {
-            main: '#073113',
-            light: '#335b39',
-            dark: '#000c00',
+            main: '#000F04',
         },
-        neutral: {
-            
+        secondary: {
+            main: '#073113',
         },
     },
 });

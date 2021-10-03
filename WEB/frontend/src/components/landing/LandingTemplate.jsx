@@ -1,8 +1,6 @@
 import React from 'react';
-import { styled } from '@material-ui/core/styles';
-import { Container, Box, Typography, Grid, Link } from '@material-ui/core';
-import { Button } from '@mui/material';
-
+import { styled } from '@mui/material/styles';
+import { Container, Box, Button, Typography, Grid, Link } from '@mui/material';
 import { ReactComponent as WhiteLogo } from '../../static/icons/logo_white.svg';
 import { ReactComponent as Tide } from '../../static/icons/tide.svg';
 

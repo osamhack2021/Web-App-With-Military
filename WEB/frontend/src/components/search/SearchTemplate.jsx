@@ -1,6 +1,6 @@
 import React from "react";
-import { Container } from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
+import { Container } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import NavBar from "../common/NavBar";
 
 const SearchTemplate = ({children}) => {
@@ -14,7 +14,7 @@ const SearchTemplate = ({children}) => {
 
   return (
     <>
-      <NavBar />
+      <NavBar bgColor={"primary"} />
       <StyledContainer>
         {children}
       </StyledContainer>

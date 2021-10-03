@@ -1,11 +1,9 @@
 import React from "react";
 import Avatar from '@mui/material/Avatar';
-import Box from '@material-ui/core/Box';
-import { Table, TableBody, TableCell,
-  TableContainer, TableHead, TableRow, Paper
-} from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
+import { Table, TableBody, TableCell, TableContainer,
+  TableHead, TableRow, Paper, Box, Typography
+} from "@mui/material";
+import { styled } from '@mui/material/styles';
 
 
 const Rank = () => {

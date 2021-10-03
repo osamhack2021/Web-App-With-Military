@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import {InputLabel, Button, TextField, Typography } from '@mui/material';
-import { Grid, Box } from "@material-ui/core";
+import {Grid, Box, InputLabel, Button, TextField, Typography } from '@mui/material';
 const RegisterForm = ({form, onChange, onSubmit, error}) => {
   const {email, password, confirmPassword, userName} = form;
 
@@ -12,10 +11,13 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
           textAlign: "center",
         }}>
           <Box sx={{
-              width: "20%",
-              mr: "1rem"
-            }}>
-            <Typography>이메일</Typography>
+            width: "30%",
+            mr: "1rem",
+            py: "1rem"
+          }}>
+            <Typography align="center">
+              이메일
+            </Typography>
           </Box>
           <TextField
             variant="outlined"
@@ -35,10 +37,13 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
           display:"flex",
         }}>
           <Box sx={{
-              width: "20%",
-              mr: "1rem"
-            }}>
-            <Typography align="center">비밀번호</Typography>
+            width: "30%",
+            mr: "1rem",
+            py: "1rem"
+          }}>
+            <Typography align="center">
+              비밀번호
+            </Typography>
           </Box>
           <TextField
             variant="outlined"
@@ -55,10 +60,13 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
           display:"flex",
           }}>
           <Box sx={{
-            width: "20%",
-            mr: "1rem"
+            width: "30%",
+            mr: "1rem",
+            //py: "1rem"
           }}>
-          <Typography align="center">비밀번호 확인</Typography>
+          <Typography align="center">
+            비밀번호 확인
+          </Typography>
           </Box>
           <TextField
             variant="outlined"
@@ -75,10 +83,13 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
           display:"flex",
         }}>
           <Box sx={{
-            width: "20%",
-            mr: "1rem"
+            width: "30%",
+            mr: "1rem",
+            py: "1rem"
           }}>
-            <Typography align="center">닉네임</Typography>
+            <Typography component={Box} align="center">
+              닉네임
+            </Typography>
           </Box>
           <TextField
             variant="outlined"
@@ -97,6 +108,7 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
           type="submit"
           fullWidth
           variant="contained"
+          color="secondary"
           sx={{ mt: 1, mb: 2 }}
         >
           회원가입

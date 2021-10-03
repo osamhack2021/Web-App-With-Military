@@ -1,14 +1,7 @@
 import React from "react";
-import Avatar from '@mui/material/Avatar';
-import Toolbar from '@mui/material/Toolbar';
-import Box from '@material-ui/core/Box';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from "@material-ui/icons/Search";
-import { Typography } from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
-
-
+import SearchIcon from '@mui/icons-material/Search';
+import { Avatar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 
 const Search = () => {
 

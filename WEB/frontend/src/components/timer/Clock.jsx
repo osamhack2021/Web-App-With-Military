@@ -1,9 +1,6 @@
 import React from "react";
-import Avatar from '@mui/material/Avatar';
-import Box from '@material-ui/core/Box';
-import Button from '@mui/material/Button';
-import { Paper, Typography } from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
+import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import { ReactComponent as DialIcon } from '../../static/icons/dial.svg';
 //auto, flex, justifyContent, textalign으로 대충 가운데 놨지만 더 좋은 방법은 없을까..
 const Clock = () => {

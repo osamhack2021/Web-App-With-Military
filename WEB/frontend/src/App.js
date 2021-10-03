@@ -12,6 +12,7 @@ import TimerPage from "./pages/TimerPage";
 import SearchPage from "./pages/SearchPage";
 import UploadPage from "./pages/UploadPage";
 import ReportPage from "./pages/ReportPage";
+import StudyGroupPage from "./pages/StudyGroupPage";
 
 const App = () => {
   return(
@@ -31,6 +32,7 @@ const App = () => {
         <Route exact path="/timer" component={TimerPage} />
         <Route exact path="/upload" component={UploadPage} />
         <Route exact path="/search" component={SearchPage} />
+        <Route exact path="/studygroup" component={StudyGroupPage} />
       </Switch>
     </>
   )

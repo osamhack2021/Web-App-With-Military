@@ -1,7 +1,6 @@
 import React from 'react';
-import {Container, Typography, Button} from '@mui/material';
-import { Box } from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
+import { Box, Container, Typography, Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import NavBar from '../common/NavBar';
 
 const StyledTypography = styled(Typography)({
@@ -17,17 +16,18 @@ const RegisterTemplate = ({children}) => {
                 //flexDirection: 'column',
                 p: 0
             }}>
-                <NavBar />
-                <Box sx={{ px: 2 }}>
-                    <Box style={{
+                <NavBar bgColor={"secondary"} />
+                <Box sx={{ px: 2,  }}>
+                    <Box sx={{
+                        py: 1,
                         borderBottom: "1px solid #073113"
                     }}>
                         <StyledTypography>
                             회원가입
                         </StyledTypography>
                     </Box>
-                    
-                    {children}{/* RegisterForm */}
+                    {/* ↓ RegisterForm */}
+                    {children}
                     
                 </Box>
                 

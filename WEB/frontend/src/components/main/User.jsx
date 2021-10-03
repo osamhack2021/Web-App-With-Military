@@ -1,8 +1,6 @@
 import React from "react";
-import Avatar from '@mui/material/Avatar';
-import Box from '@material-ui/core/Box';
-import { Typography } from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
+import { Avatar, Box, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 
 
 const User = ({userName}) => {
