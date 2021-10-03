@@ -34,7 +34,6 @@ const LoginPage = ({history}) => {
         })
     };
 
-
     const onChange = e => {
         const nextForm={
             ...form,
@@ -53,19 +52,17 @@ const LoginPage = ({history}) => {
         
         dispatch(login(formData))
             .then(res => {
-                if(!res.success){
-                    if(res.loginFailure.email){
-                        clearForm();
-                        setError({ email: true });
-                        return;
-                    }
-                    if(res.loginFailure.password){
-                        clearPassword();
-                        setError({ password: true });
-                        return;
-                    }
-                }
-                return history.push('/main');
+                if(!res.userData) return history.push('/main');
+                if(res.loginFailure.email){
+                    clearForm();
+                    setError({ email: true });
+                    return;
+                };
+                if(res.loginFailure.password){
+                    clearPassword();
+                    setError({ password: true });
+                    return;
+                };
             });
     }
     

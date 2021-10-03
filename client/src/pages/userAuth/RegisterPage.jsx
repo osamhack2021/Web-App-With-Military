@@ -42,14 +42,12 @@ const RegisterPage = ({history}) => {
         
         dispatch(register(formData))
             .then(res => {
-                if(!res.success){
-                    if(res.registerFailure.email){
-                        clearEmail();
-                        setError({ email: true });
-                        return;
-                    }
+                if(res.userData) return history.push('/main');
+                if(res.registerFailure.email){
+                    clearEmail();
+                    setError({ email: true });
+                    return;
                 }
-                return history.push('/main');
             });
     }
     

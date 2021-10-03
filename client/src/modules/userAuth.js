@@ -1,7 +1,8 @@
 import { createAction, handleActions } from "redux-actions";
 import {login as loginApi, register as registerApi} from '../lib/api/userAuth';
 
-const LOGIN = 'auth/LOGIN'
+const LOGIN = 'auth/LOGIN';
+const REGISTER = 'auth/register';
 
 /*
 export const login = createAction(LOGIN, async formData => {
@@ -26,40 +27,27 @@ export const register = formData => async dispatch => {
     const res = await registerApi(formData);
     if(res.status!==200){
         data = {
-            success: false,
             registerFailure: res.data.registerFailure
         }
         return data;
     }else{
-        data =  {
-            success: true,
-            loginFailure: null,
-            userData: res.data.user
-        };
+        data = { userData: res.data.user };
     }
     dispatch({
-        type: LOGIN,
+        type: REGISTER,
         payload: data
     })
     return data;
 }
-
 
 export const login = formData => async dispatch => {
     let data;
     const res = await loginApi(formData);
     if(res.status!==200){
-        data = {
-            success: false,
-            loginFailure: res.data.loginFailure
-        }
+        data = { loginFailure: res.data.loginFailure }
         return data;
     }else{
-        data =  {
-            success: true,
-            loginFailure: null,
-            userData: res.data.user
-        };
+        data =  { userData: res.data.user };
     }
     dispatch({
         type: LOGIN,
@@ -68,25 +56,31 @@ export const login = formData => async dispatch => {
     return data;
 }
 
-const initialState = {
-    userData: null,
-    status:{
-        success: false,
-        loginFailure: null
+/*
+    user: {
+        id: ,
+        userName,
+        ...
     }
+*/
+const initialState = {
+    user: null
 }
 
+
 const userAuth = handleActions({
-        [LOGIN]: (state, {payload:{userData,loginFailure, success}}) => {
+        [LOGIN]: (state, {payload:{userData}}) => {
             return {
                 ...state,
-                user: userData,
-                login:{
-                    success,
-                    loginFailure
-                }
+                user: userData
             }
-        }
+        },
+        [REGISTER]: (state, {payload:{userData}}) => {
+            return {
+                ...state,
+                user: userData
+            }
+        },
     },
     initialState,
 );

@@ -34,20 +34,20 @@ const LoginForm = ({form, onChange, onSubmit, error}) => {
                 sx={{ my: 1 }}
                 value={email}
                 onChange={onChange}
-                error={error.email?1:0}
+                error={error.email}
                 helperText={error.email?"존재하지 않는 이메일입니다":false}
             />
             <TextField 
                 label="PASSWORD" 
                 variant="outlined" 
                 fullWidth
-                autoFocus={error.password?true:false}
+                autoFocus={error.password}
                 required
                 name="password"
                 value={password}
                 onChange={onChange}
                 sx={{ my: 1 }}
-                error={error.password?true:false}
+                error={error.password}
                 helperText={error.password?"비밀번호가 일치하지 않습니다":false}
             />
             <FormControlLabel
