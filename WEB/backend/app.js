@@ -17,9 +17,11 @@ mongoose
 const users = require('./src/routes/users');
 const groups = require('./src/routes/groups');
 const ranks = require('./src/routes/ranks');
+const studys = require('./src/routes/studys');
 
 app.use('/api/users', users);
 app.use('/api/groups', groups);
 app.use('/api/ranks', ranks);
+app.use('/api/studys', studys);
 
 module.exports = app;

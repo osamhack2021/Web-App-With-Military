@@ -5,6 +5,7 @@ const output = {
   auth: (req, res) => {
     return res.status(200).json({
       isAuth: true,
+      _id: req.user._id,
       email: req.user.email,
       userName: req.user.userName,
       division: req.user.division,
@@ -54,9 +55,16 @@ const process = {
         // 토큰 생성 및 쿠키에 저장
         user.generateToken((err, user) => {
           if (err) return res.status(400).send(err);
-          return res.cookie('x_auth', user.token).status(200).json({
-            loginSuccess: true,
-          });
+          return res
+            .cookie('x_auth', user.token, {
+              // 유효기간 : 24시간
+              maxAge: 24 * 60 * 60 * 1000,
+              httpOnly: true,
+            })
+            .status(200)
+            .json({
+              loginSuccess: true,
+            });
         });
       });
     });
@@ -96,7 +104,8 @@ const process = {
       },
       { userName: 1 },
     ).limit(20);
-    if (!result.length) return res.status(200).json({ resultExists: false });
+    if (!result.length)
+      return res.status(200).json({ message: '검색 결과가 없습니다.' });
     return res.status(200).json(result);
   },
 };

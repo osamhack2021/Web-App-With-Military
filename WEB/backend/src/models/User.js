@@ -48,6 +48,9 @@ const userSchema = mongoose.Schema({
   userCurrentStreak: {
     type: Number,
   },
+  startTime: {
+    type: Date,
+  },
 });
 
 // DB에 저장
