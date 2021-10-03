@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { auth } = require('../../middleware/auth');
 
-const ctrl = require('./studys.ctrl');
+const ctrl = require('./studying.ctrl');
 
 router.get('/', auth, ctrl.output.status);
 router.get('/start', auth, ctrl.output.start);
