@@ -48,41 +48,11 @@ const NavBarMain = () => {
             color="inherit"
             sx={{ p: '0.3rem' }}
           >
-<<<<<<< HEAD:WEB/frontend/src/components/common/navigation/NavBar.jsx
             <MenuIcon />  
           </IconButton>
         </Toolbar>
       </AppBar>
       
-=======
-            위드밀리터리
-          </Typography>
-        </Box>
-        <Box sx={{ flexGrow: 1 }} />
-        <IconButton
-          size="large"
-          color="inherit"
-          sx={{ p: '0.3rem' }}
-        >
-          <MenuBookIcon />
-        </IconButton>
-        <IconButton
-          size="large"
-          color="inherit"
-          sx={{ p: '0.3rem' }}
-        >
-          <SearchIcon />
-        </IconButton>
-        <IconButton
-          size="large"
-          color="inherit"
-          sx={{ p: '0.3rem' }}
-        >
-          <MenuIcon />  
-        </IconButton>
-      </Toolbar>
-    </StyledAppBar>
->>>>>>> 71f189eee662076fa814f73276956a04ce2923d7:WEB/frontend/src/components/common/NavBar.jsx
   );
 }
 export default NavBarMain;
