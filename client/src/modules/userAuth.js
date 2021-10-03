@@ -1,5 +1,5 @@
 import { createAction, handleActions } from "redux-actions";
-import {login as loginApi} from '../lib/api/userAuth';
+import {login as loginApi, register as registerApi} from '../lib/api/userAuth';
 
 const LOGIN = 'auth/LOGIN'
 
@@ -21,18 +21,46 @@ export const login = createAction(LOGIN, async formData => {
 });
 */
 
+export const register = formData => async dispatch => {
+    let data;
+    const res = await registerApi(formData);
+    if(res.status!==200){
+        data = {
+            success: false,
+            registerFailure: res.data.registerFailure
+        }
+        return data;
+    }else{
+        data =  {
+            success: true,
+            loginFailure: null,
+            userData: res.data.user
+        };
+    }
+    dispatch({
+        type: LOGIN,
+        payload: data
+    })
+    return data;
+}
+
+
 export const login = formData => async dispatch => {
+    let data;
     const res = await loginApi(formData);
     if(res.status!==200){
-        const data = {
+        data = {
             success: false,
             loginFailure: res.data.loginFailure
         }
+        return data;
+    }else{
+        data =  {
+            success: true,
+            loginFailure: null,
+            userData: res.data.user
+        };
     }
-    const data =  {
-        success: true,
-        userData: res.data.user
-    };
     dispatch({
         type: LOGIN,
         payload: data
@@ -41,11 +69,7 @@ export const login = formData => async dispatch => {
 }
 
 const initialState = {
-    userData:{
-        id: null,
-        userName: null,
-        //소속 등 추가 예정
-    },
+    userData: null,
     status:{
         success: false,
         loginFailure: null
@@ -56,11 +80,7 @@ const userAuth = handleActions({
         [LOGIN]: (state, {payload:{userData,loginFailure, success}}) => {
             return {
                 ...state,
-                user: {
-                    id: userData._id,
-                    userName: userData.userName,
-                    //추가 데이터
-                },
+                user: userData,
                 login:{
                     success,
                     loginFailure

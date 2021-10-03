@@ -13,13 +13,12 @@ const app = express();
 app.set('port', process.env.PORT || 5000);
 
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(jwtMiddleware);
 
-
-/*//req.body 검증용
+/* //req.body 검증용
 app.use((req,res,next)=>{
   console.log("req.cookies: ");
 	console.log(req.cookies);
@@ -29,23 +28,19 @@ app.use((req,res,next)=>{
 });
 */
 
-
-
-//개발환경일때 몽구스 쿼리 표시
-if(process.env.NODE_ENV !== 'production'){
-  mongoose.set('debug', true); 
+// 개발환경일때 몽구스 쿼리 표시
+if (process.env.NODE_ENV !== 'production') {
+  mongoose.set('debug', true);
 }
-
 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log('DB 연결 성공'))
   .catch(e => console.log('MongoDB error: ', e));
 
-//const groups = require('./src/routes/groups');
-  
+// const groups = require('./src/routes/groups');
 app.use('/users', users);
-//app.use('/groups', groups);
+// app.use('/groups', groups);
 
 /*
 app.use((req,res,next)=>{
@@ -55,11 +50,11 @@ app.use((req,res,next)=>{
 });
 */
 
-app.use((err, req, res, next)=>{
-  res.status(err.status)
-    .json(err.body);
+app.use((err, req, res, next) => {
+  res.status(err.status).json(err.body);
+  next();
 });
 
-app.listen(app.get('port'), ()=>{
+app.listen(app.get('port'), () => {
   console.log(app.get('port'), '번 포트 서버 구동중');
-})
+});

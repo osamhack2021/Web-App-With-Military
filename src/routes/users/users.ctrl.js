@@ -20,107 +20,103 @@ const User = require('../../models/USER');
   }
 */
 
-//  토큰 검증
-const check = async (req, res, next)=>{
-  const user_id = res.locals._id;
-  if(!user_id){
-    //  로그인 중 아님
+// 토큰 검증
+const check = async (req, res, next) => {
+  const userId = res.locals.id;
+  if (!userId) {
+    // 로그인 중 아님
     const error = new Error(`로그인 중이 아닙니다`);
-    error.body={
-      'loginFailure': 'email'
-    }
-    error.status=401;
+    error.body = {
+      // ?추가 예정
+    };
+    error.status = 401;
     next(error);
   }
-  //  id로 user문서 반환
-  const user = await User.findById(user_id);
-  res.json({'user': user.serialize()});
+  // id로 user문서 반환
+  const user = await User.findById(userId);
+  res.json({ user: user.serialize() });
 };
 
-//회원가입 처리
-const register = async (req, res, next)=>{
-  const {email, password, userName} = req.body;
-  try{
-    //email 존재유무 확인
+// 회원가입 처리
+const register = async (req, res, next) => {
+  const { email, password, userName } = req.body;
+  try {
+    // email 존재유무 확인
     const exist = await User.findByEmail(email);
-    console.log(exist);
-    if(exist){
+    if (exist) {
       const error = new Error(`${email}은 이미 사용중인 이메일입니다`);
-      error.body={
-        'loginFailure': 'passwoed'
-      }
-      error.status=409;
+      error.body = {
+        registerFailure: { email: true },
+      };
+      error.status = 209;
       return next(error);
     }
-    const user = new User({email, userName});
-    await user.setPassword(password); //암호화된 비밀번호 설정
-    await user.save(function(err) {
-      if(err) {
-          console.log(err);
-      }});//데이터베이스 저장
-    
-    //토큰 발급
+    const user = new User({ email, userName });
+    await user.setPassword(password); //  암호화된 비밀번호 설정
+    await user.save(err => {
+      if (err) console.log(err);
+    }); // 데이터베이스 저장
+
+    // 토큰 발급
     const token = user.generateToken();
     res.cookie('access_token', token, {
-      maxAge: 1000*60*20,
+      maxAge: 1000 * 60 * 20,
       httpOnly: true,
     });
-    
-    res.json({'user': user.serialize()});
 
-  }catch(error){
-    error.status=500;
+    return res.json({ user: user.serialize() });
+  } catch (error) {
+    error.status = 500;
     return next(error);
   }
 };
 
-//로그인 처리
-const login = async (req, res, next)=>{
-  const {email, password} = req.body;
+// 로그인 처리
+const login = async (req, res, next) => {
+  const { email, password } = req.body;
 
-  if(!email || !password){
+  if (!email || !password) {
     const error = new Error(`로그인 폼 오류`);
-    error.status=401;
-    next(error);
+    error.status = 401;
+    return next(error);
   }
 
-  try{
+  try {
     const user = await User.findByEmail(email);
-    if(!user){
+    if (!user) {
       const error = new Error(`존재하지 않는 아이디입니다`);
-      error.status=401;
+      error.status = 201;
+      error.body = { loginFailure: { email: true } };
       return next(error);
     }
     const valid = await user.comparePassword(password);
-    //console.log(valid);
-    if(!valid){
-      console.log(`비밀번호가 일치하지 않습니다`)
+    // console.log(valid);
+    if (!valid) {
       const error = new Error(`비밀번호가 일치하지 않습니다`);
-      error.status=401;
-      return  next(error);
+      error.status = 201;
+      error.body = { loginFailure: { password: true } };
+      return next(error);
     }
-    
-    //토큰 발급
+
+    // 토큰 발급
     const token = user.generateToken();
     res.cookie('access_token', token, {
-      maxAge: 1000*60*20,
+      maxAge: 1000 * 60 * 20,
       httpOnly: true,
     });
-    //console.log(user.serialize());
-    res.json({'user': user.serialize()});
-
-  }catch(error){
-    error.status=500;
+    // console.log(user.serialize());
+    return res.json({ user: user.serialize() });
+  } catch (error) {
+    error.status = 500;
     return next(error);
   }
 };
 
-//로그아웃 처리
-const logout = async (req, res, next)=>{
+// 로그아웃 처리
+const logout = async (req, res, next) => {
   res.cookie('access_token');
   res.status(204);
   next();
-}
+};
 
-
-module.exports = {register, login, check, logout};
+module.exports = { register, login, check, logout };
