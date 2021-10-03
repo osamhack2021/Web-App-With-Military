@@ -1,15 +1,10 @@
 import React from "react";
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
-// import Badge from '@mui/material/Badge';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
+import {AppBar, Box, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SearchIcon from "@material-ui/icons/Search";
 import { styled } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
-import { ReactComponent as LogoWhite } from '../../../public/icons/logo_white.svg';
+import { ReactComponent as WhiteLogo } from '../../../static/icons/logo_white.svg';
 
 const NavBarMain = () => {
   const StyledAppBar = styled(AppBar)({
@@ -26,13 +21,12 @@ const NavBarMain = () => {
         minHeight: '3rem'
         //minHeight추가하니 모바일화면에서는 3rem이 적용됨
       }}>
-        <LogoWhite width='2rem' height='2rem' />
+        <WhiteLogo width='2rem' height='2rem' />
         <Box sx={{
           mt: '4px',
           ml: '12px'
         }}>
           <Typography
-            component={Box}
             style={{
               fontSize: '1.2rem',
               color: 'white'

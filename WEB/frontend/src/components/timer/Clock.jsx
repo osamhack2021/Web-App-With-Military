@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@mui/material/Button';
 import { Paper, Typography } from "@material-ui/core";
 import { styled } from '@material-ui/core/styles';
-import { ReactComponent as Dial } from '../../public/icons/dial.svg';
+import { ReactComponent as Dial } from '../../static/icons/dial.svg';
 //auto, flex, justifyContent, textalign으로 대충 가운데 놨지만 더 좋은 방법은 없을까..
 const Clock = () => {
 
