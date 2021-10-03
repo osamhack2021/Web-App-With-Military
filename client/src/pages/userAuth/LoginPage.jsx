@@ -52,7 +52,8 @@ const LoginPage = ({history}) => {
         
         dispatch(login(formData))
             .then(res => {
-                if(!res.userData) return history.push('/main');
+                console.log(res);
+                if(res.userData) return history.push('/main');
                 if(res.loginFailure.email){
                     clearForm();
                     setError({ email: true });

@@ -8,6 +8,9 @@ const jwtMiddleware = require('./src/middleware/jwtMiddleware');
 dotenv.config();
 
 const users = require('./src/routes/users');
+const groups = require('./src/routes/groups');
+const ranks = require('./src/routes/ranks');
+const studying = require('./src/routes/studying');
 
 const app = express();
 app.set('port', process.env.PORT || 5000);
@@ -38,18 +41,12 @@ mongoose
   .then(() => console.log('DB 연결 성공'))
   .catch(e => console.log('MongoDB error: ', e));
 
-// const groups = require('./src/routes/groups');
 app.use('/users', users);
-// app.use('/groups', groups);
+app.use('/groups', groups);
+app.use('/ranks', ranks);
+app.use('/studying', studying);
 
-/*
-app.use((req,res,next)=>{
-  const error = new Error('test');
-  error.status = 403;
-  next(error);
-});
-*/
-
+// 에러 처리 미들웨어
 app.use((err, req, res, next) => {
   res.status(err.status).json(err.body);
   next();

@@ -1,14 +1,24 @@
 const mongoose = require('mongoose');
 
-const GroupSchema = mongoose.Schema({
+const { Schema } = mongoose;
+// eslint-disable-next-line prettier/prettier
+const { Types: { ObjectId } } = Schema
+
+const GroupSchema = Schema({
   name: {
     type: String,
     minlength: 4,
     maxlength: 30,
-    unique: 1,
+    unique: true,
+    required: true,
+  },
+  admins: {
+    type: [ObjectId],
+    ref: 'Admin',
   },
   members: {
-    type: Array,
+    type: [ObjectId],
+    ref: 'Member',
   },
   category: {
     type: String,
@@ -16,12 +26,14 @@ const GroupSchema = mongoose.Schema({
   score: {
     type: Number,
   },
+  tags: {
+    type: [ObjectId],
+    ref: 'Tag',
+  },
 });
 
-groupSchema.pre('save', function (next) {
-  next();
-});
+GroupSchema.statics.findByName = function (name) {
+  return this.findOne({ name });
+};
 
-const Group = mongoose.model('Group', GroupSchema);
-
-module.exports = { Group, GroupSchema };
+module.exports = mongoose.model('Group', GroupSchema);

@@ -12,7 +12,7 @@ const MainPage = () => {
 
   return(
     <>
-      어서오세요 {user.user.userName}님
+      어서오세요 {user.user.name}님
     </>
   );
 };

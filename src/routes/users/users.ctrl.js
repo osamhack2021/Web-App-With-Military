@@ -9,7 +9,7 @@ const User = require('../../models/USER');
   {
     email: 'withmillitart@gmail.com'
     password: '1q2w3e4r!'
-    userName: '윤장한'
+    name: '윤장한'
   }
 
   로그인시
@@ -39,7 +39,7 @@ const check = async (req, res, next) => {
 
 // 회원가입 처리
 const register = async (req, res, next) => {
-  const { email, password, userName } = req.body;
+  const { email, password, name } = req.body;
   try {
     // email 존재유무 확인
     const exist = await User.findByEmail(email);
@@ -48,10 +48,10 @@ const register = async (req, res, next) => {
       error.body = {
         registerFailure: { email: true },
       };
-      error.status = 209;
+      error.status = 212;
       return next(error);
     }
-    const user = new User({ email, userName });
+    const user = new User({ email, name });
     await user.setPassword(password); //  암호화된 비밀번호 설정
     await user.save(err => {
       if (err) console.log(err);
@@ -85,7 +85,7 @@ const login = async (req, res, next) => {
     const user = await User.findByEmail(email);
     if (!user) {
       const error = new Error(`존재하지 않는 아이디입니다`);
-      error.status = 201;
+      error.status = 210;
       error.body = { loginFailure: { email: true } };
       return next(error);
     }
@@ -93,7 +93,7 @@ const login = async (req, res, next) => {
     // console.log(valid);
     if (!valid) {
       const error = new Error(`비밀번호가 일치하지 않습니다`);
-      error.status = 201;
+      error.status = 211;
       error.body = { loginFailure: { password: true } };
       return next(error);
     }
@@ -114,9 +114,26 @@ const login = async (req, res, next) => {
 
 // 로그아웃 처리
 const logout = async (req, res, next) => {
-  res.cookie('access_token');
+  res.clearCookie('access_token');
   res.status(204);
   next();
 };
 
-module.exports = { register, login, check, logout };
+// 사용자 검색
+const search = async (req, res, next) => {
+  const result = await User.find(
+    {
+      // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
+      name: req.body.searchUser,
+    },
+    { name: true }, // ???이후 필요시 이름 이외의 정보도 불러와야함
+  ).limit(20);
+  if (!result.length) {
+    res.status(213).json({ message: '검색 결과가 없습니다.' });
+    return next();
+  }
+  res.status(200).json(result);
+  return next();
+};
+
+module.exports = { register, login, check, logout, search };

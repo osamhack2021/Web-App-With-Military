@@ -20,7 +20,7 @@ const AuthInput = (props) => {
 */
 
 const RegisterForm = ({form, onChange, onSubmit, error}) => {
-    const {email, password, userName} = form;
+    const {email, password, name} = form;
 
     return(
         <form onSubmit={onSubmit}>
@@ -48,13 +48,13 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
                 sx={{ my: 1 }}
             />
             <TextField
-                label="USERNAME" 
+                label="NAME" 
                 variant="outlined"
                 fullWidth
                 required
-                name="userName"
+                name="name"
                 sx={{ my: 1 }}
-                value={userName}
+                value={name}
                 onChange={onChange}
             />
             <Button

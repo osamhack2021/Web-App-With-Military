@@ -13,7 +13,7 @@ const RegisterPage = ({history}) => {
     const [form, setForm] = useState({
         email: '',
         password: '',
-        userName: '',
+        name: '',
     });
 
     const clearEmail = () => {
@@ -37,7 +37,7 @@ const RegisterPage = ({history}) => {
         let formData = {
             email: form.email,
             password: form.password,
-            userName: form.userName,
+            name: form.name,
         }
         
         dispatch(register(formData))

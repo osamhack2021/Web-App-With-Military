@@ -59,7 +59,7 @@ export const login = formData => async dispatch => {
 /*
     user: {
         id: ,
-        userName,
+        name,
         ...
     }
 */
