@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  Switch,
-  Route
-} from "react-router-dom";
-import Auth from './hoc/auth';
+import { Switch, Route } from "react-router-dom";
+import Auth from "./hoc/auth";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -12,9 +9,10 @@ import TimerPage from "./pages/TimerPage";
 import SearchPage from "./pages/SearchPage";
 import UploadPage from "./pages/UploadPage";
 import ReportPage from "./pages/ReportPage";
+import theme from "./lib/styles/theme";
 
 const App = () => {
-  return(
+  return (
     <>
       <Switch>
         {/* 각 페이지마다 유저 인증 -> hoc 사용
@@ -33,7 +31,7 @@ const App = () => {
         <Route exact path="/search" component={SearchPage} />
       </Switch>
     </>
-  )
-}
+  );
+};
 
 export default App;
