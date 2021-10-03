@@ -1,15 +1,15 @@
-import React from "react";
-import "./index.css";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import ReduxThunk from "redux-thunk";
-import rootReducer from "./modules";
-import theme from "./lib/styles/theme";
-import { ThemeProvider } from "@material-ui/styles";
+import React from 'react';
+import './index.css';
+import ReactDOM from 'react-dom';
+import {BrowserRouter} from 'react-router-dom';
+import App from './App';
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware} from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import ReduxThunk from 'redux-thunk';
+import rootReducer from './modules';
+import { ThemeProvider } from "@mui/material/styles";
+import theme from './lib/styles/theme';
 
 //import promiseMiddleware from 'redux-promise';
 //const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(promiseMiddleware, ReduxThunk)));
@@ -25,6 +25,7 @@ ReactDOM.render(
         <App />
       </ThemeProvider>
     </BrowserRouter>
-  </Provider>,
+  </Provider>
+  ,
   document.getElementById("root")
 );
