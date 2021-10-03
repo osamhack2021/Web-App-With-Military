@@ -21,7 +21,6 @@ const AuthInput = (props) => {
 
 const LoginForm = ({form, onChange, onSubmit, error}) => {
     const {email, password} = form;
-
     return(
         <form onSubmit={onSubmit}>
             <TextField

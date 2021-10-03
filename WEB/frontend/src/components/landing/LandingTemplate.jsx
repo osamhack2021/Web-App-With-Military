@@ -12,12 +12,11 @@ const LandingTemplate = ({children}) => {
         width: '100vw',
         height: '100vh',
         color: "white",
-        padding: "1rem",
         position: "relative"
       });
     return(
         <StyledBox>
-            <Box sx={{display:'flex', mb:"25vh"}}>
+            <Box sx={{display:'flex', pt: "1rem", pl: "1rem", mb:"25vh"}}>
                 <WhiteLogo width='3rem' height='3rem' />
                 <Box sx={{pt: 1.3, ml: 2}}>
                     <Typography variant="h5"

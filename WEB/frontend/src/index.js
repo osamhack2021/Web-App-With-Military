@@ -8,12 +8,13 @@ import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import ReduxThunk from 'redux-thunk';
 import rootReducer from './modules';
-//import promiseMiddleware from 'redux-promise';
-
 import {ThemeProvider} from '@mui/material/styles';
 import theme from './lib/styles/theme';
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk)));
-//const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(promiseMiddleware, ReduxThunk)));
+
+import promiseMiddleware from 'redux-promise';
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(promiseMiddleware, ReduxThunk)));
+
+//const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk)));
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

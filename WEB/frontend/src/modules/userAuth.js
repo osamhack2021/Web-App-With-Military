@@ -1,8 +1,8 @@
 import { createAction, handleActions } from "redux-actions";
 import {login as loginApi} from '../lib/api/userAuth';
+import {register as registerApi} from '../lib/api/userAuth';
 
-
-// hoc 사용시 사용할 코드
+// hoc 사용시 사용할 코드?
 import axios from 'axios';
 import {
     LOGIN_USER,
@@ -21,6 +21,7 @@ export function auth() {
 //------------------------
 
 const LOGIN = 'auth/LOGIN'
+const REGISTER = 'auth/RESIGER'
 
 /*
 export const login = createAction(LOGIN, async formData => {
@@ -54,6 +55,25 @@ export const login = formData => async dispatch => {
     };
     dispatch({
         type: LOGIN,
+        payload: data
+    })
+    return data;
+}
+
+export const register = formData => async dispatch => {
+    const res = await registerApi(formData);
+    if(res.status!==200){
+        const data = {
+            success: false,
+            registerFailure: res.data.registerFailure
+        }
+    }
+    const data =  {
+        success: true,
+        userData: res.data.user
+    };
+    dispatch({
+        type: REGISTER,
         payload: data
     })
     return data;
