@@ -52,6 +52,7 @@ const register = async (req, res, next) => {
       return next(error);
     }
     const user = new User({ email, name });
+    console.log(user);
     await user.setPassword(password); //  암호화된 비밀번호 설정
     await user.save(err => {
       if (err) console.log(err);
