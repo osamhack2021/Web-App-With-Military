@@ -1,25 +1,39 @@
-import * as React from 'react';
-import {Route} from 'react-router-dom';
-import Main from "./pages/Main";
-import Timer from "./pages/Timer";
-import Upload from "./pages/Upload";
-
-
-import theme from "./styles/palette";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-{/* CssBaseline - 브라우저에 상관없이 일괄적인 스타일을 적용 */}
+import React from "react";
+import {
+  Switch,
+  Route
+} from "react-router-dom";
+import Auth from './hoc/auth';
+import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import MainPage from "./pages/MainPage";
+import TimerPage from "./pages/TimerPage";
+import SearchPage from "./pages/SearchPage";
+import UploadPage from "./pages/UploadPage";
+import ReportPage from "./pages/ReportPage";
 
 const App = () => {
-  return (
+  return(
     <>
-      {/* exact쓰면 경로와 정확히 일치하는 구성 요소를 렌더링한다 */}
-      <Route path="/" exact>루트페이지</Route>
-      <Route component={Main} path="/main" />
-      <Route component={Timer} path="/timer" />
-      <Route component={Upload} path="/upload" />
+      <Switch>
+        {/* 각 페이지마다 유저 인증 -> hoc 사용
+        <Route exact path="/" component={Auth(LandingPage, true)} />
+        <Route exact path="/login" component={Auth(LoginPage, false)} />
+        <Route exact path="/register" component={Auth(RegisterPage, false)} />
+        <Route exact path="/main" component={Auth(MainPage, false)} />
+        <Route exact path="/timer" component={Auth(TimerPage, false)} />
+        */}
+        <Route exact path="/" component={LandingPage} />
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/main" component={MainPage} />
+        <Route exact path="/timer" component={TimerPage} />
+        <Route exact path="/upload" component={UploadPage} />
+        <Route exact path="/search" component={SearchPage} />
+      </Switch>
     </>
-  );
+  )
 }
 
 export default App;

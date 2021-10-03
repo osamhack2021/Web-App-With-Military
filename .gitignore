@@ -1,5 +1,6 @@
 node_modules
 .vscode
-/WEB/todo-app
-/WEB/withmilitary
-/WEB/wimil
+/yoon
+/wimil
+/src
+WEB/backend
