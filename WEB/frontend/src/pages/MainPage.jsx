@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 import TierBar from "../components/main/TierBar";
-import StudyGroup from "../components/common/StudyGroup";
+import StudyGroupBox from "../components/common/StudyGroupBox";
 import User from "../components/main/User";
 import Rank from "../components/main/Rank";
 import MainTemplate from "../components/main/MainTemplate";
@@ -21,7 +21,7 @@ const MainPage = () => {
       <MainTemplate>
         <User userName={userName}/>
         {/* <TierBar /> */}
-        <StudyGroup />
+        <StudyGroupBox />
         <Rank />
       </MainTemplate>
     </>

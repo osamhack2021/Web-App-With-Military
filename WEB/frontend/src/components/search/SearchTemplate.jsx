@@ -1,23 +1,28 @@
 import React from "react";
-import { Container } from "@mui/material";
+import { Container, IconButton } from "@mui/material";
 import { styled } from '@mui/material/styles';
+import MenuIcon from '@mui/icons-material/Menu';
 import NavBar from "../common/NavBar";
 
 const SearchTemplate = ({children}) => {
-  const StyledContainer = styled(Container)({
-    backgroundColor: '#000F04',
-    width: '100vw',
-    height: '100vh',
-    maxWidth: 'none',
-    padding: 0
-  });
 
   return (
     <>
-      <NavBar bgColor={"primary"} />
-      <StyledContainer>
+      <Container component="main" maxWidth="xs"
+        style={{padding: 0}}
+        sx={{
+          backgroundColor: '#000F04',
+          height: '100vh'
+      }}>
+        <NavBar bgColor={"primary"}>
+          <IconButton size="large" color="inherit" sx={{ p: '0.3rem' }}>
+            <MenuIcon />
+          </IconButton>
+        </NavBar>
+        
+        {/* ↓ 검색어 입력 부분 */}
         {children}
-      </StyledContainer>
+      </Container>
     </>
   );
 };

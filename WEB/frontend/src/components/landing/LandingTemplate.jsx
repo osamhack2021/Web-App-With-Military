@@ -19,7 +19,6 @@ const LandingTemplate = ({children}) => {
                 <Box sx={{pt: 1.3, ml: 2}}>
                     <Typography variant="h5"
                         style={{
-                            whiteSpace: "nowrap",
                             fontWeight: 'bold'
                     }}>
                         위드 밀리터리
@@ -51,26 +50,26 @@ const LandingTemplate = ({children}) => {
                 </Box>
                 
                 <Box sx={{display: 'flex', py: 1}}>
-                    <Link href="/login">
-                        <Button
-                            variant="contained"
+                    <Link href="/login" underline="none">
+                        <Button variant="contained"
                             sx={{ mr: 1}}
                             style={{
                                 borderRadius: "2rem",
                                 backgroundColor:'white',
                                 width: '11.5rem',
                                 height: '4rem'
-                            }}
-                        >
-                            <Typography variant="h5"
+                        }}>
+                            <Typography
+                                variant="h5"
                                 style={{
                                     color: '#1c893b',
                             }}>
-                                회원가입</Typography>
+                                로그인
+                            </Typography>
                         </Button>
                     </Link>
                     
-                    <Link href="/register">
+                    <Link href="/register" underline="none">
                         <Button variant="contained"
                             style={{
                                 background:'none',
@@ -78,9 +77,10 @@ const LandingTemplate = ({children}) => {
                                 border: '2px solid #FFFFFF',
                                 width: '11.5rem',
                                 height: '4rem'
-                            }}
-                        >
-                            <Typography variant="h5">회원가입</Typography>
+                        }}>
+                            <Typography variant="h5">
+                                회원가입
+                            </Typography>
                         </Button>
                     </Link>
                 </Box>
@@ -92,7 +92,7 @@ const LandingTemplate = ({children}) => {
                 bottom: '0px',
                 left: '0px',
             }}>
-                <Tide width= '100%' />
+                <Tide />
             </Box>
             
         </StyledBox>

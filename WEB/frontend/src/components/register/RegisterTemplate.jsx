@@ -11,24 +11,20 @@ const StyledTypography = styled(Typography)({
 const RegisterTemplate = ({children}) => {
     return(
         <>
-            <Container component="main" maxWidth="xs" sx={{
-                //display: 'flex',
-                //flexDirection: 'column',
-                p: 0
+            <Container component="main" maxWidth="xs" style={{
+                padding: 0,
+                height: '100vh'
             }}>
                 <NavBar bgColor={"secondary"} />
                 <Box sx={{ px: 2,  }}>
                     <Box sx={{
+                        borderBottom: "1px solid #073113",
                         py: 1,
-                        borderBottom: "1px solid #073113"
                     }}>
-                        <StyledTypography>
-                            회원가입
-                        </StyledTypography>
+                        <StyledTypography>회원가입</StyledTypography>
                     </Box>
                     {/* ↓ RegisterForm */}
                     {children}
-                    
                 </Box>
                 
             </Container>

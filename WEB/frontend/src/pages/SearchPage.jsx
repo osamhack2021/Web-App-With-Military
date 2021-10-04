@@ -1,5 +1,5 @@
 import React from "react";
-import Search from "../components/search/Search";
+import SearchInput from "../components/search/SearchInput";
 import SearchTemplate from "../components/search/SearchTemplate";
 
 
@@ -7,7 +7,7 @@ const SearchPage = () => {
   return (
     <>
       <SearchTemplate>
-        <Search />
+        <SearchInput />
       </SearchTemplate>
     </>
   );

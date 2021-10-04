@@ -1,21 +1,20 @@
 import React from "react";
-import { Container } from "@material-ui/core";
-import { styled } from '@material-ui/core/styles';
+import { Box, Container } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import NavBar from "../common/NavBar";
 const UploadTemplate = ({children}) => {
-  const StyledContainer = styled(Container)({
-    backgroundColor: '#000F04',
-    width: '100vw',
-    height: '100vh',
-    maxWidth: 'none',
-    padding: 0
-  });
   return (
     <>
-      <NavBar bgColor={"primary"}/>
-      <StyledContainer>
+      <Container component="main" maxWidth="xs"
+        style={{
+          padding: 0,
+          backgroundColor: '#000F04',
+          height: '100vh'
+      }}>
+        <NavBar bgColor={"primary"} />
         {children}
-      </StyledContainer>
+
+      </Container>
     </>
   );
 };
