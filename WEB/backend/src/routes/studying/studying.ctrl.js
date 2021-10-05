@@ -26,7 +26,7 @@ const output = {
     });
   },
 
-  // 타이머 끝
+  // 타이머 종료
   end: (req, res) => {
     let now = new Date();
     User.findOne({ userName: req.user.userName }, (err, user) => {
@@ -60,7 +60,7 @@ const output = {
       if (!user.startTime)
         return res
           .status(200)
-          .json({ statusSuccess: false, message: '공부 중이 아닙니다!' });
+          .json({ statusSuccess: false, message: '공부를 시작하세요!' });
       return res
         .status(200)
         .json(Math.floor((new Date() - user.startTime) / 60000));

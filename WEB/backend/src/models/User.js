@@ -7,49 +7,54 @@ const jwt = require('jsonwebtoken');
 const userSchema = mongoose.Schema({
   email: {
     type: String,
-    trim: true,
-    unique: 1,
+    unique: true,
+    required: true,
   },
   password: {
     type: String,
     minlength: 4,
   },
-  userName: {
+  name: {
     type: String,
     minlength: 2,
     maxlength: 30,
+    unique: true,
+    index: true,
+    required: true,
   },
-  division: {
-    type: String,
-    default: null,
+  created: {
+    type: Date,
+    default: Date.now,
   },
-  activeGroups: {
+  division: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Division',
+    },
+  ],
+  groupList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Group',
+    },
+  ],
+  totalTime: {
+    type: Number,
+  },
+  history: {
     type: Array,
-    default: null,
   },
-  token: {
-    type: String,
-  },
-  tokenExp: {
+  maxStreak: {
     type: Number,
   },
-  userTotalTime: {
-    type: Number,
-  },
-  userHistory: {
-    type: Array,
-  },
-  userTotalCount: {
-    type: Number,
-  },
-  userMaxStreak: {
-    type: Number,
-  },
-  userCurrentStreak: {
+  currentStreak: {
     type: Number,
   },
   startTime: {
     type: Date,
+  },
+  token: {
+    type: String,
   },
 });
 
@@ -60,9 +65,9 @@ userSchema.pre('save', function (next) {
   // 비밀번호 변경 시
   if (user.isModified('password')) {
     // 비밀번호 암호화
-    bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.genSalt(saltRounds, (err, salt) => {
       if (err) return next(err);
-      bcrypt.hash(user.password, salt, function (err, hash) {
+      bcrypt.hash(user.password, salt, (err, hash) => {
         if (err) return next(err);
         user.password = hash;
         return next();

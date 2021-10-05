@@ -3,19 +3,7 @@ const { User } = require('../../models/User');
 const output = {
   // 로그인 확인 후 정보 표시
   auth: (req, res) => {
-    return res.status(200).json({
-      isAuth: true,
-      _id: req.user._id,
-      email: req.user.email,
-      userName: req.user.userName,
-      division: req.user.division,
-      activeGroups: req.user.activeGroups,
-      userTotalTime: req.user.userTotalTime,
-      userHistory: req.user.userHistory,
-      userTotalCount: req.user.userTotalCount,
-      userMaxStreak: req.user.userMaxStreak,
-      userCurrentStreak: req.user.userCurrentStreak,
-    });
+    return res.status(200).json(req.user);
   },
 
   // 로그아웃 처리
@@ -24,6 +12,15 @@ const output = {
       if (err) return res.json({ logoutSuccess: false, err });
       return res.cookie('x_auth', '').status(200).send({ logoutSuccess: true });
     });
+  },
+
+  info: (req, res) => {
+    User.findOne({ name: req.user.name })
+      .populate('groupList')
+      .exec((err, data) => {
+        if (err) return res.json({ infoSuccess: false, err });
+        return res.status(200).send(data);
+      }); // 또는 populate({ path: 'bestFriend' })도 가능
   },
 };
 
@@ -85,9 +82,8 @@ const process = {
     } catch (error) {
       return res.status(500).json({ registerSuccess: false });
     }
-
     // 데이터베이스 저장
-    user.save((err, userInfo) => {
+    await user.save((err, userInfo) => {
       if (err) return res.json({ registerSuccess: false, err });
       return res.status(200).json({
         registerSuccess: true,
