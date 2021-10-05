@@ -1,34 +1,43 @@
-import React from "react";
-import { AppBar, Box, Toolbar, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+/* eslint-disable react/prop-types */
+import React from 'react';
+import {
+  AppBar, Box, Toolbar, Typography,
+} from '@mui/material';
 import { ReactComponent as WhiteLogo } from '../../static/icons/logo_white.svg';
 
-const NavBar = ({bgColor, children}) => {
-  const StyledAppBar = styled(AppBar)({
-    color: '#e6e1e0',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
-    position: "static",
-  });
-  return (
-    <StyledAppBar color={bgColor}>
-      <Toolbar sx={{ my: 'auto' }}>
-        <WhiteLogo width='2rem' height='2rem' />
-        <Box sx={{
+const NavBar = ({
+  title, bgColor, sx, children,
+}) => (
+  <AppBar
+    color={bgColor}
+    style={{
+      ...sx,
+      color: '#e6e1e0',
+      position: 'static',
+    }}
+  >
+    <Toolbar sx={{ my: 'auto' }}>
+      <WhiteLogo width="2rem" height="2rem" style={{ color: '#e6e1e0' }} />
+      <Box
+        sx={{
           mt: '4px',
-          ml: '12px'
-        }}>
-          <Typography style={{
+          ml: '12px',
+        }}
+      >
+        <Typography
+          style={{
             fontSize: '1.2rem',
-            color: 'white'
-          }}>
-            위드밀리터리
-          </Typography>
-        </Box>
-        <Box sx={{ flexGrow: 1 }} />
-        {/* ↓ icon이 들어감 */}
-        {children}
-      </Toolbar>
-    </StyledAppBar>
-  );
-}
+            // color: 'white'
+          }}
+        >
+          {/* ↓ AppBar의 텍스트 */}
+          {title}
+        </Typography>
+      </Box>
+      <Box sx={{ flexGrow: 1 }} />
+      {/* ↓ icon이 들어감 */}
+      {children}
+    </Toolbar>
+  </AppBar>
+);
 export default NavBar;

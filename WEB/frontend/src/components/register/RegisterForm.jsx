@@ -1,55 +1,68 @@
-import React, { useState } from 'react';
-import {Grid, Box, InputLabel, Button, TextField, Typography } from '@mui/material';
-const RegisterForm = ({form, onChange, onSubmit, error}) => {
-  const {email, password, confirmPassword, userName} = form;
+import React from 'react';
+import {
+  Box, Button, TextField, Typography,
+} from '@mui/material';
 
-  return(
+const RegisterForm = ({
+  form, onChange, onSubmit, /* error */
+}) => {
+  const {
+    email, password, confirmPassword, userName,
+  } = form;
+
+  return (
     <>
       <form onSubmit={onSubmit}>
         <Box sx={{
-          display:"flex",
-          textAlign: "center",
-        }}>
+          display: 'flex',
+          textAlign: 'center',
+        }}
+        >
           <Box sx={{
-            width: "30%",
-            mr: "1rem",
-            py: "1rem"
-          }}>
+            width: '30%',
+            mr: '1rem',
+            py: '1rem',
+          }}
+          >
             <Typography align="center">
               이메일
             </Typography>
           </Box>
           <TextField
+            type="email"
             variant="outlined"
             size="small"
             name="email"
-            fullWidth 
+            fullWidth
             required
             sx={{ my: 1 }}
             value={email}
             onChange={onChange}
-            //error={error}
-            //helperText={error.email?"이미 사용중인 이메일입니다":false}
+            // error={error}
+            // helperText={error.email?"이미 사용중인 이메일입니다":false}
           />
         </Box>
 
         <Box sx={{
-          display:"flex",
-        }}>
+          display: 'flex',
+        }}
+        >
           <Box sx={{
-            width: "30%",
-            mr: "1rem",
-            py: "1rem"
-          }}>
+            width: '30%',
+            mr: '1rem',
+            py: '1rem',
+          }}
+          >
             <Typography align="center">
               비밀번호
             </Typography>
           </Box>
           <TextField
+            type="password"
             variant="outlined"
             size="small"
             name="password"
-            fullWidth 
+            fullWidth
             required
             sx={{ my: 1 }}
             value={password}
@@ -57,22 +70,25 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
           />
         </Box>
         <Box sx={{
-          display:"flex",
-          }}>
+          display: 'flex',
+        }}
+        >
           <Box sx={{
-            width: "30%",
-            mr: "1rem",
-            //py: "1rem"
-          }}>
-          <Typography align="center">
-            비밀번호 확인
-          </Typography>
+            width: '30%',
+            mr: '1rem',
+            // py: "1rem"
+          }}
+          >
+            <Typography align="center">
+              비밀번호 확인
+            </Typography>
           </Box>
           <TextField
+            type="password"
             variant="outlined"
             size="small"
             name="confirmPassword"
-            fullWidth 
+            fullWidth
             required
             sx={{ my: 1 }}
             value={confirmPassword}
@@ -80,13 +96,15 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
           />
         </Box>
         <Box sx={{
-          display:"flex",
-        }}>
+          display: 'flex',
+        }}
+        >
           <Box sx={{
-            width: "30%",
-            mr: "1rem",
-            py: "1rem"
-          }}>
+            width: '30%',
+            mr: '1rem',
+            py: '1rem',
+          }}
+          >
             <Typography component={Box} align="center">
               닉네임
             </Typography>
@@ -95,13 +113,13 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
             variant="outlined"
             size="small"
             name="userName"
-            fullWidth 
+            fullWidth
             required
             sx={{ my: 1 }}
             value={userName}
             onChange={onChange}
-            //error={error}
-            //helperText={error.userName?"이미 사용중인 닉네임입니다":false}
+            // error={error}
+            // helperText={error.userName?"이미 사용중인 닉네임입니다":false}
           />
         </Box>
         <Button
@@ -115,7 +133,7 @@ const RegisterForm = ({form, onChange, onSubmit, error}) => {
         </Button>
       </form>
     </>
-  )
-}
+  );
+};
 
 export default RegisterForm;

@@ -1,15 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import TimerTemplate from "../components/timer/TimerTemplate";
-import Clock from "../components/timer/Clock";
+import TimerTemplate from '../components/timer/TimerTemplate';
+import Clock from '../components/timer/Clock';
 
-const TimerPage = () => {
-  return (
-    <>
-      <TimerTemplate>
-        <Clock />
-      </TimerTemplate>
-    </>
-  );
-}
+const TimerPage = () => (
+  <>
+    <TimerTemplate>
+      <Clock />
+    </TimerTemplate>
+  </>
+);
 export default TimerPage;

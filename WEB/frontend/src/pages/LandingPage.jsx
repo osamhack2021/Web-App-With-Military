@@ -1,15 +1,9 @@
-import React, {useState, useCallback} from 'react';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import LandingTemplate from '../components/landing/LandingTemplate';
 
-import { useDispatch } from 'react-redux';
-import { withRouter  } from 'react-router-dom';
-
-
-const LandingPage = ({history}) => {
-  return(
-  <LandingTemplate>
-  </LandingTemplate>
-)
-};
+const LandingPage = () => (
+  <LandingTemplate />
+);
 
 export default withRouter(LandingPage);
