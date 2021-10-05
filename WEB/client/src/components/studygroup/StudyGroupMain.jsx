@@ -15,7 +15,7 @@ const StudyGroupMain = ({ totalMember, studyGroupName }) => (
       right: '1.7rem',
     }}
     >
-      <PersonIcon width="1rem" height="1rem" sx={{ mr: 1 }} />
+      <PersonIcon width="1rem" height="1rem" sx={{ mr: 0.5 }} />
       <Typography
         component={Box}
         sx={{
@@ -62,7 +62,7 @@ const StudyGroupMain = ({ totalMember, studyGroupName }) => (
           component={Box}
           variant="h5"
           sx={{
-            ml: 1,
+            ml: 0.5,
           }}
         >
           Start with
