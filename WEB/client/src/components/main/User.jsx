@@ -1,5 +1,6 @@
 import React from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
+import MyProfileAvatar from '../common/MyProfileAvatar';
 
 const User = ({ userName }) => (
   <Box sx={{
@@ -8,7 +9,7 @@ const User = ({ userName }) => (
     pt: '0.75rem',
   }}
   >
-    <Avatar sx={{
+    <MyProfileAvatar sx={{
       width: '3.5rem',
       height: '3.5rem',
     }}
@@ -19,9 +20,8 @@ const User = ({ userName }) => (
     >
       <Typography>
         @
+        {/* ↓ 유저 닉네임 */}
         {userName}
-        {' '}
-        {/* ←- 유저 닉네임 */}
       </Typography>
       <Box sx={{
         display: 'flex',

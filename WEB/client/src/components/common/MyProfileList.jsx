@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 import { ReactComponent as TimerIcon } from '../../static/icons/timer_main.svg';
 
-const StudyGroup = () => (
+const MyStudyGroupList = () => (
   <Box sx={{ color: '#e6e1e0' }}>
     <Box sx={{ display: 'flex', py: 1 }}>
       <Avatar sx={{
@@ -69,4 +69,4 @@ const StudyGroup = () => (
   </Box>
 );
 
-export default StudyGroup;
+export default MyStudyGroupList;

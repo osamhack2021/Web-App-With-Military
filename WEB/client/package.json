@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.4",
     "eslint-config-airbnb": "^18.2.1",
+    "http-proxy-middleware": "^2.0.1",
     "material-ui-image": "^3.3.2",
     "n": "^7.4.1",
     "react": "^17.0.2",
@@ -22,6 +23,7 @@
     "redux": "^4.1.1",
     "redux-actions": "^2.6.5",
     "redux-devtools-extension": "^2.13.9",
+    "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.3.1",
     "web-vitals": "^1.0.1"

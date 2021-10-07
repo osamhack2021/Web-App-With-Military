@@ -2,4 +2,6 @@ node_modules
 .vscode
 /wimil
 /byeolchan
-
+/WEB/server
+WEB/client/src/setupProxy.js
+WEB/client/src/index.js
