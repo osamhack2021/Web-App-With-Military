@@ -20,12 +20,9 @@ const groupSchema = mongoose.Schema({
       ref: 'User',
     },
   ],
-  tags: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Tag',
-    },
-  ],
+  tags: {
+    type: Array,
+  },
   category: {
     type: String,
   },
@@ -34,9 +31,9 @@ const groupSchema = mongoose.Schema({
   },
 });
 
-// groupSchema.statics.findByName = function (name) {
-//   return this.findOne({ name });
-// };
+groupSchema.statics.findByName = function (name) {
+  return this.findOne({ name });
+};
 
 const Group = mongoose.model('Group', groupSchema);
 

@@ -117,6 +117,14 @@ userSchema.statics.findByEmail = function (email) {
   return this.findOne({ email });
 };
 
+// 비밀번호와 토큰을 제외한 유저정보 전송
+userSchema.methods.serialize = function () {
+  const data = this.toJSON();
+  delete data.password;
+  delete data.token;
+  return data;
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = { User };

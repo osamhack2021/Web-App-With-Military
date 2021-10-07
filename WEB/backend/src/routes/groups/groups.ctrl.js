@@ -1,5 +1,6 @@
 const { Group } = require('../../models/Group');
 const { User } = require('../../models/User');
+const { Tag } = require('../../models/Tag');
 
 const process = {
   // 그룹 만들기
@@ -48,6 +49,11 @@ const process = {
         .status(409)
         .json({ joinSuccess: false, message: '존재하지 않는 그룹입니다.' });
 
+    if (String(group.admins[0] === String(req.user._id)))
+      return res.status(409).json({
+        joinSuccess: false,
+        message: '이미 해당 그룹에 가입하였습니다.',
+      });
     // 가입한 그룹인지 확인
     for (let i = 0; i < group.members.length; i++) {
       if (String(group.members[i]) === String(req.user._id))
@@ -80,19 +86,62 @@ const process = {
     );
   },
 
-  // 그룹 검색
-  search: async (req, res) => {
-    const result = await Group.find(
-      {
-        // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-        name: new RegExp(req.body.searchGroup),
-      },
-      { name: 1 },
-    ).limit(20);
-    if (!result.length)
-      return res.status(200).json({ message: '검색 결과가 없습니다.' });
-    return res.status(200).json(result);
+  tagging: (req, res) => {
+    Group.findOne({ name: req.body.group }, (err, group) => {
+      if (err) {
+        return res.status(500).json({ taggingSuccess: false, err });
+      }
+      Tag.findOneAndUpdate(
+        { name: req.body.name },
+        { $addToSet: { groups: group._id } },
+        (err, tag) => {
+          if (err) {
+            return res.status(500).json({ taggingSuccess: false, err });
+          }
+          Group.findOneAndUpdate(
+            { name: req.body.group },
+            { $addToSet: { tags: req.body.name } },
+            (err, user) => {
+              if (err) {
+                return res.status(500).json({ taggingSuccess: false });
+              }
+              return res.status(200).json({ taggingSuccess: true });
+            },
+          );
+        },
+      );
+    });
   },
+
+  // 그룹 검색
+  // search: async (req, res, next) => {
+  //   try {
+  //     const group = await Group.find({
+  //       // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
+  //       name: new RegExp(req.body.search),
+  //     });
+
+  //     await Tag.find({
+  //       name: new RegExp(req.body.search),
+  //     })
+  //       .populate('groups')
+  //       .exec((err, tag) => {
+  //         if (err) return res.status(400).json(err);
+  //         for (let i = 0; i < tag.length; i++) {
+  //           for (let j = 0; j < tag[i].groups.length; j++) {
+  //             Object.assign(group, tag[i].groups[j]);
+  //           }
+  //         }
+  //       });
+  //     console.log(group );
+  //     if (!group)
+  //       return res.status(200).json({ message: '검색 결과가 없습니다.' });
+  //     return res.status(200).json(group);
+  //   } catch (error) {
+  //     error.status = 500;
+  //     return next(error);
+  //   }
+  // },
 };
 
 module.exports = {
