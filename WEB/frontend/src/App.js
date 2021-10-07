@@ -1,5 +1,4 @@
 import React from 'react';
-<<<<<<< HEAD
 import { Switch, Route } from 'react-router-dom';
 // import Auth from './hoc/auth';
 import LandingPage from './pages/LandingPage';
@@ -34,22 +33,5 @@ const App = () => (
     </Switch>
   </>
 );
-=======
-import './App.css';
-import MyGroup from './MyGroup';
-import StudyGroupOutline from './StudyGroupOutline';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-
-function App() {
-  return (
-    <div>
-      <MyGroup />
-    </div>
-  );
-}
->>>>>>> origin/master
 
 export default App;
