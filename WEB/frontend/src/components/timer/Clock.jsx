@@ -1,9 +1,13 @@
 import React from 'react';
 import {
-  Avatar, Box, Button, Typography,
+  Box, Button, Typography, ListItemText,
 } from '@mui/material';
 import { ReactComponent as DialIcon } from '../../static/icons/dial.svg';
-// auto, flex, justifyContent, textalign으로 대충 가운데 놨지만 더 좋은 방법은 없을까..
+import MyProfileAvatar from '../common/MyProfileAvatar';
+import MyProfileList from '../common/MyProfileList';
+
+const title = 'Study with me :)';
+
 const Clock = () => (
   <Box sx={{
     color: '#e6e1e0',
@@ -11,27 +15,14 @@ const Clock = () => (
     position: 'relative',
   }}
   >
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      padding: '2.5rem 0',
-    }}
-    >
-      <Avatar sx={{
-        width: '2.5rem',
-        height: '2.5rem',
-        borderRadius: '13px',
-        mr: '0.5rem',
+    <MyProfileList
+      avatar={<MyProfileAvatar sx={{
+        width: '3.5rem',
+        height: '3.5rem',
       }}
-      />
-      <Typography style={{
-        fontWeight: 'bold',
-        fontSize: '2rem',
-      }}
-      >
-        Study with me :)
-      </Typography>
-    </Box>
+      />}
+      primaryListItemText={<ListItemText primary={title} sx={{ color: 'white' }} />}
+    />
     <Box style={{
       textAlign: 'center',
       positon: 'relative',

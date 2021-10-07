@@ -1,10 +1,15 @@
 import React from 'react';
 import {
-  Box, Typography, Button,
+  Box, Typography, Button, ListItemText,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
+import PublicIcon from '@mui/icons-material/Public';
 import { ReactComponent as WhiteTimerIcon } from '../../static/icons/timer_white.svg';
+import MyProfileAvatar from '../common/MyProfileAvatar';
+import MyProfileList from '../common/MyProfileList';
 
+const title = 'Study with me :)';
+const userName = 'goodgun';
 const StudyGroupMain = ({ totalMember, studyGroupName }) => (
   <>
     <Box sx={{
@@ -65,7 +70,7 @@ const StudyGroupMain = ({ totalMember, studyGroupName }) => (
             ml: 0.5,
           }}
         >
-          Start with
+          {title}
         </Typography>
       </Button>
 
@@ -74,6 +79,28 @@ const StudyGroupMain = ({ totalMember, studyGroupName }) => (
       }}
       >
         {/* 본인 프로필 ListItem과 작성한 글이 나오는 곳 */}
+        <MyProfileList
+          avatar={<MyProfileAvatar sx={{
+            width: '3.5rem',
+            height: '3.5rem',
+          }}
+          />}
+          primaryListItemText={<ListItemText primary={userName} />}
+          secondaryListItemText={<ListItemText secondary={
+            <Box sx={{
+              display: 'flex',
+
+            }}
+            >
+              <Typography>
+                5시간
+              </Typography>
+              <PublicIcon />
+            </Box>
+
+      }
+          />}
+        />
       </Box>
     </Box>
   </>

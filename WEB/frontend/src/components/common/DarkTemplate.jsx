@@ -7,7 +7,7 @@ const DarkTemplate = ({ sx, children }) => (
     maxWidth="xs"
     style={{
       ...sx,
-      backgroundColor: '#000F04',
+      backgroundColor: '#A3CDB7',
       height: '100vh',
     }}
   >

@@ -1,10 +1,12 @@
 import {
-  ListItem, ListItemAvatar, ListItemButton, ListItemText,
+  ListItem, ListItemAvatar, ListItemButton,
 } from '@mui/material';
-import MyStudyGroupAvatar from './MyStudyGroupAvatar';
+
 // import MoreIcon from './MoreIcon'
 
-const MyStudyGroupListItem = ({ secondaryElement, sloganText }) => (
+const MyStudyGroupListItem = ({
+  secondaryElement, avatar, primaryListItemText, secondaryListItemText,
+}) => (
   <ListItem
     secondaryAction={
       secondaryElement
@@ -13,14 +15,10 @@ const MyStudyGroupListItem = ({ secondaryElement, sloganText }) => (
   >
     <ListItemButton>
       <ListItemAvatar>
-        <MyStudyGroupAvatar sx={{
-          width: '3rem',
-          height: '3rem',
-        }}
-        />
+        {avatar}
       </ListItemAvatar>
-
-      <ListItemText primary={sloganText} sx={{ color: 'white' }} />
+      {primaryListItemText}
+      {secondaryListItemText}
 
     </ListItemButton>
   </ListItem>

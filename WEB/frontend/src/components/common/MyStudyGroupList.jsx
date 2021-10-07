@@ -2,11 +2,18 @@
 import List from '@mui/material/List';
 import MyStudyGroupListItem from './MyStudyGroupListItem';
 
-const tmp = ['Study with me :)', '회화 스터디‍✈️'];
-const MyStudyGroupList = ({ secondaryElement }) => {
+const MyStudyGroupList = ({
+  secondaryElement, avatar, primaryListItemText, secondaryListItemText,
+}) => {
   console.log({ secondaryElement });
   // 이거 어캐 temp에 인덱스 0,1줄까
-  const myStudyGroupListItems = Array(2).fill(0).map((i) => <MyStudyGroupListItem secondaryElement={secondaryElement} sloganText={tmp[i]} />);
+  const myStudyGroupListItems = Array(2).fill(0).map(() => <MyStudyGroupListItem
+    secondaryElement={secondaryElement}
+    avatar={avatar}
+    primaryListItemText={primaryListItemText}
+    secondaryListItemText={secondaryListItemText}
+
+  />);
   return (
     <>
       <List>
