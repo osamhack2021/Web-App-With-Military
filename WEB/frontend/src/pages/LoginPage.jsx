@@ -21,7 +21,6 @@ const LoginPage = ({ history }) => {
       [e.target.name]: e.target.value,
     };
     setForm(nextForm);
-    console.log(form);
   };
 
   const onSubmit = (e) => {

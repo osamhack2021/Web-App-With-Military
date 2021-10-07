@@ -2,12 +2,10 @@ import { handleActions } from 'redux-actions';
 import axios from 'axios';
 import { login as loginApi, register as registerApi } from '../lib/api/userAuth';
 
-// hoc 사용시 사용할 코드?
-import {
-  // LOGIN_USER,
-  // REGISTER_USER,
-  AUTH_USER,
-} from './types';
+// 액션 타입 정의
+
+const LOGIN = 'auth/LOGIN';
+const REGISTER = 'auth/RESIGER';
 
 export function auth() {
   const request = axios.get('/users/auth')
@@ -17,38 +15,12 @@ export function auth() {
     payload: request,
   };
 }
-//------------------------
 
-const LOGIN = 'auth/LOGIN';
-const REGISTER = 'auth/RESIGER';
-
-/*
-export const login = createAction(LOGIN, async formData => {
-    //  api호출
-    const  res = await loginApi(formData);
-    console.log(res.data.user._id);
-    if(res.status!==200){
-        return {
-            success: false,
-            loginFailure: res.data.loginFailure
-        }
-    }
-    return {
-        success: true,
-        userData: res.data.user
-    };
-});
-*/
+// 액션 생성 함수 정의
 
 export const login = (formData) => async (dispatch) => {
   const res = await loginApi(formData);
-  if (res.status !== 200) {
-    // 이렇게 쓰면 ESLint 에러나옴
-    // const data = {
-    //   success: false,
-    //   loginFailure: res.data.loginFailure,
-    // };
-  }
+  
   const data = {
     success: true,
     userData: res.data.user,
@@ -80,6 +52,8 @@ export const register = (formData) => async (dispatch) => {
   return data;
 };
 
+// 초기상태
+
 const initialState = {
   userData: {
     id: null,
@@ -91,6 +65,8 @@ const initialState = {
     loginFailure: null,
   },
 };
+
+// 리듀서
 
 const userAuth = handleActions({
   [LOGIN]: (state, { payload: { userData, loginFailure, success } }) => ({
