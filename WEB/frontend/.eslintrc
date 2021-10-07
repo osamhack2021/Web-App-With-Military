@@ -5,6 +5,7 @@
   "rules": {
     "react/jsx-filename-extension": 0,
     "react/jsx-wrap-multilines": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off"
   }
 }
