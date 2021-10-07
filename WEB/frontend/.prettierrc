@@ -6,4 +6,8 @@
   "trailingComma": "all",
   "printWidth": 80,
   "arrowParens": "avoid"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master

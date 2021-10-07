@@ -5,7 +5,13 @@
   "rules": {
     "react/jsx-filename-extension": 0,
     "react/jsx-wrap-multilines": "off",
+<<<<<<< HEAD
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off"
   }
 }
+=======
+    "react/react-in-jsx-scope": "off"
+  }
+}
+>>>>>>> origin/master
