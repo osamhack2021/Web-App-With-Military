@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "frontend",
-=======
-  "name": "with-military",
->>>>>>> 332ae0f14aad54d37247d52f093735a31be3a4e8
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -54,13 +50,8 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
-<<<<<<< HEAD
     "prettier": "2.4.1",
     "prettier-eslint": "^13.0.0"
   },
   "proxy": "http://localhost:5000/"
-=======
-    "prettier": "2.4.1"
-  }
->>>>>>> 332ae0f14aad54d37247d52f093735a31be3a4e8
 }
