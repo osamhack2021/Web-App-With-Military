@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon bin/www.js",
+    "backend": "nodemon bin/www.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npm run server\" \"npm run start --prefix ./../client\""
+    "dev": "concurrently \"npm run backend\" \"npm run start --prefix ./../frontend\""
   },
   "author": "",
   "license": "ISC",

@@ -14,17 +14,14 @@ mongoose
   .then(() => console.log('DB 연결 성공'))
   .catch(e => console.log('MongoDB error: ', e));
 
-// connection test
-app.get('/api/hello', (req, res) => {
-	res.send('back connected!');
-});
-
 const users = require('./src/routes/users');
 const groups = require('./src/routes/groups');
 const ranks = require('./src/routes/ranks');
+const studying = require('./src/routes/studying');
 
-app.use('/api/users', users);
-app.use('/api/groups', groups);
-app.use('/api/ranks', ranks);
+app.use('/users', users);
+app.use('/groups', groups);
+app.use('/ranks', ranks);
+app.use('/studying', studying);
 
 module.exports = app;

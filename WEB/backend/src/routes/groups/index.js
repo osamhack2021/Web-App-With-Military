@@ -4,8 +4,8 @@ const router = express.Router();
 const { auth } = require('../../middleware/auth');
 const ctrl = require('./groups.ctrl');
 
-router.get('/info', auth, ctrl.output.info);
-router.post('/create', ctrl.process.create);
-router.post('/join', ctrl.process.join);
+router.post('/create', auth, ctrl.process.create);
+router.post('/join', auth, ctrl.process.join);
+router.post('/search', ctrl.process.search);
 
 module.exports = router;

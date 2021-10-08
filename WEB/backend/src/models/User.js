@@ -5,16 +5,10 @@ const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
-  id: {
-    type: String,
-    minlength: 4,
-    maxlength: 30,
-    unique: 1,
-  },
   email: {
     type: String,
-    trim: true,
-    unique: 1,
+    unique: true,
+    required: true,
   },
   password: {
     type: String,
@@ -24,35 +18,43 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: 2,
     maxlength: 30,
+    unique: true,
+    index: true,
+    required: true,
   },
-  division: {
-    type: String,
-    default: null,
+  created: {
+    type: Date,
+    default: Date.now,
   },
-  activeGroups: {
+  division: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Division',
+    },
+  ],
+  groupList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Group',
+    },
+  ],
+  totalTime: {
+    type: Number,
+  },
+  history: {
     type: Array,
-    default: null,
+  },
+  maxStreak: {
+    type: Number,
+  },
+  currentStreak: {
+    type: Number,
+  },
+  startTime: {
+    type: Date,
   },
   token: {
     type: String,
-  },
-  tokenExp: {
-    type: Number,
-  },
-  userTotalTime: {
-    type: Number,
-  },
-  userHistory: {
-    type: Array,
-  },
-  userTotalCount: {
-    type: Number,
-  },
-  userMaxStreak: {
-    type: Number,
-  },
-  userCurrentStreak: {
-    type: Number,
   },
 });
 
@@ -63,16 +65,16 @@ userSchema.pre('save', function (next) {
   // 비밀번호 변경 시
   if (user.isModified('password')) {
     // 비밀번호 암호화
-    bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.genSalt(saltRounds, (err, salt) => {
       if (err) return next(err);
-      bcrypt.hash(user.password, salt, function (err, hash) {
+      bcrypt.hash(user.password, salt, (err, hash) => {
         if (err) return next(err);
         user.password = hash;
-        next();
+        return next();
       });
     });
   } else {
-    next();
+    return next();
   }
 });
 
@@ -80,7 +82,7 @@ userSchema.pre('save', function (next) {
 userSchema.methods.comparePassword = function (plainPassword, cb) {
   bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
-    cb(null, isMatch);
+    return cb(null, isMatch);
   });
 };
 
@@ -93,7 +95,7 @@ userSchema.methods.generateToken = function (cb) {
   user.token = token;
   user.save(function (err, user) {
     if (err) return cb(err);
-    cb(null, user);
+    return cb(null, user);
   });
 };
 
@@ -105,7 +107,7 @@ userSchema.statics.findByToken = function (token, cb) {
   jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
     user.findOne({ _id: decoded, token }, function (err, user) {
       if (err) return cb(err);
-      cb(null, user);
+      return cb(null, user);
     });
   });
 };
@@ -113,11 +115,6 @@ userSchema.statics.findByToken = function (token, cb) {
 // 이메일 찾기
 userSchema.statics.findByEmail = function (email) {
   return this.findOne({ email });
-};
-
-// 아이디 찾기
-userSchema.statics.findById = function (id) {
-  return this.findOne({ id });
 };
 
 const User = mongoose.model('User', userSchema);
