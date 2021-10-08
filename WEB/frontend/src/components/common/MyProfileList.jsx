@@ -1,26 +1,26 @@
 /* eslint-disable max-len */
 import {
-  List, ListItem, ListItemAvatar, ListItemButton,
+  List, ListItem, ListItemText, ListItemAvatar, ListItemButton,
 } from '@mui/material';
 
 const MyProfileList = ({
-  secondaryElement, avatar, primaryListItemText, secondaryListItemText,
+  secondaryElement, avatar, primary, secondary,
 }) => (
   <>
-    <List>
+    <List disablePadding>
       <ListItem
-        secondaryAction={
-      secondaryElement
-  }
+        secondaryAction={secondaryElement}
         disablePadding
       >
-        <ListItemButton>
+        <ListItemButton sx={{ p: 0 }}>
+
           <ListItemAvatar>
             {avatar}
           </ListItemAvatar>
-          {primaryListItemText}
-          {secondaryListItemText}
-
+          <ListItemText
+            primary={primary}
+            secondary={secondary}
+          />
         </ListItemButton>
       </ListItem>
     </List>

@@ -22,8 +22,13 @@ const User = ({ userName }) => (
         height: '3.5rem',
       }}
       />}
-      primaryListItemText={<ListItemText primary={`@${userName}`} sx={{ color: 'white' }} />}
-      secondaryListItemText={<ListItemText secondary={
+      primary={
+        <Typography style={{ color: 'white' }}>
+          @
+          {userName}
+        </Typography>
+      }
+      secondary={
         <Box sx={{
           display: 'flex',
 
@@ -42,9 +47,7 @@ const User = ({ userName }) => (
             Gold
           </Typography>
         </Box>
-
       }
-      />}
     />
   </>
 );

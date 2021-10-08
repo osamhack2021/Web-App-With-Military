@@ -9,11 +9,10 @@ import MyStudyGroupAvatar from './MyStudyGroupAvatar';
 import NavBar from './NavBar';
 
 const StudyGroupTemplate = ({ children }) => {
-  const backgroudImageUrl = 'https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=850&q=80 850w';
+  const backgroudImageUrl = 'https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80';
 
   return (
     <>
-      {/* boxSizing: border-box  이용? */}
       <Container
         component="main"
         maxWidth="xs"

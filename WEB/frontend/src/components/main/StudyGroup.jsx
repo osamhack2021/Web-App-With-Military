@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Button, ListItemText,
-} from '@mui/material';
+import { Button, Typography } from '@mui/material';
 // import CommentIcon from '@mui/icons-material/Comment';
 import { ReactComponent as TimerIcon } from '../../static/icons/timer_main.svg';
 import MyStudyGroupList from '../common/MyStudyGroupList';
@@ -28,10 +26,11 @@ const StudyGroup = () => (
       avatar={<MyStudyGroupAvatar sx={{
         width: '3rem',
         height: '3rem',
+        borderRadius: '1rem',
       }}
       />}
-      primaryListItemText={<ListItemText primary={tmp[0]} sx={{ color: 'white' }} />}
-      secondaryListItemText={<ListItemText secondary={tmp[1]} sx={{ color: 'white' }} />}
+      primary={<Typography style={{ color: 'white' }}>{tmp[0]}</Typography>}
+      secondary={<Typography style={{ color: 'white' }}>{tmp[1]}</Typography>}
     />
 
   </>

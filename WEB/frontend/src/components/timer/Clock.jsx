@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Box, Button, Typography, ListItemText,
+  Box, Button, Typography,
 } from '@mui/material';
 import { ReactComponent as DialIcon } from '../../static/icons/dial.svg';
 import MyProfileAvatar from '../common/MyProfileAvatar';
@@ -21,7 +21,7 @@ const Clock = () => (
         height: '3.5rem',
       }}
       />}
-      primaryListItemText={<ListItemText primary={title} sx={{ color: 'white' }} />}
+      primary={<Typography style={{ color: 'white' }}>{title}</Typography>}
     />
     <Box style={{
       textAlign: 'center',

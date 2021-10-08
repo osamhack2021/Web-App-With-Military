@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Box, Typography, Button, ListItemText,
+  Box, Typography, Button,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import PublicIcon from '@mui/icons-material/Public';
@@ -8,9 +8,10 @@ import { ReactComponent as WhiteTimerIcon } from '../../static/icons/timer_white
 import MyProfileAvatar from '../common/MyProfileAvatar';
 import MyProfileList from '../common/MyProfileList';
 
-const title = 'Study with me :)';
 const userName = 'goodgun';
-const StudyGroupMain = ({ totalMember, studyGroupName }) => (
+const totalMember = 26;
+const studyGroupName = 'Study with me :)';
+const StudyGroupMain = () => (
   <>
     <Box sx={{
       color: 'rgba(0, 0, 0, 0.54)',
@@ -70,7 +71,7 @@ const StudyGroupMain = ({ totalMember, studyGroupName }) => (
             ml: 0.5,
           }}
         >
-          {title}
+          {studyGroupName}
         </Typography>
       </Button>
 
@@ -85,8 +86,8 @@ const StudyGroupMain = ({ totalMember, studyGroupName }) => (
             height: '3.5rem',
           }}
           />}
-          primaryListItemText={<ListItemText primary={userName} />}
-          secondaryListItemText={<ListItemText secondary={
+          primary={<Typography>{userName}</Typography>}
+          secondary={
             <Box sx={{
               display: 'flex',
 
@@ -97,9 +98,7 @@ const StudyGroupMain = ({ totalMember, studyGroupName }) => (
               </Typography>
               <PublicIcon />
             </Box>
-
-      }
-          />}
+            }
         />
       </Box>
     </Box>

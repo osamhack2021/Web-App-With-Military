@@ -1,24 +1,23 @@
 import {
-  ListItem, ListItemAvatar, ListItemButton,
+  ListItem, ListItemText, ListItemAvatar, ListItemButton,
 } from '@mui/material';
 
-// import MoreIcon from './MoreIcon'
-
 const MyStudyGroupListItem = ({
-  secondaryElement, avatar, primaryListItemText, secondaryListItemText,
+  secondaryElement, avatar, primary, secondary,
 }) => (
   <ListItem
-    secondaryAction={
-      secondaryElement
-  }
+    secondaryAction={secondaryElement}
     disablePadding
   >
-    <ListItemButton>
+    <ListItemButton sx={{ p: 0 }}>
+
       <ListItemAvatar>
         {avatar}
       </ListItemAvatar>
-      {primaryListItemText}
-      {secondaryListItemText}
+      <ListItemText
+        primary={primary}
+        secondary={secondary}
+      />
 
     </ListItemButton>
   </ListItem>
