@@ -1,13 +1,14 @@
 import React from 'react';
 import {
-  Avatar, Box, Typography, ListItemText,
+  Avatar, Box, List, Typography,
 } from '@mui/material';
-import MyProfileAvatar from '../common/MyProfileAvatar';
-import MyProfileList from '../common/MyProfileList';
+import MyAvatar from '../common/MyAvatar';
+import MyListItem from '../common/MyListItem';
 
+const imageUrl = 'https://images.unsplash.com/photo-1484800089236-7ae8f5dffc8e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80';
 const User = ({ userName }) => (
-  <>
-    <MyProfileList
+  <List>
+    <MyListItem
       secondaryElement={
         <Avatar sx={{
           width: '3rem',
@@ -17,10 +18,12 @@ const User = ({ userName }) => (
         }}
         />
       }
-      avatar={<MyProfileAvatar sx={{
-        width: '3.5rem',
-        height: '3.5rem',
-      }}
+      avatar={<MyAvatar
+        sx={{
+          width: '3.5rem',
+          height: '3.5rem',
+        }}
+        imageUrl={imageUrl}
       />}
       primary={
         <Typography style={{ color: 'white' }}>
@@ -49,7 +52,7 @@ const User = ({ userName }) => (
         </Box>
       }
     />
-  </>
+  </List>
 );
 
 export default User;

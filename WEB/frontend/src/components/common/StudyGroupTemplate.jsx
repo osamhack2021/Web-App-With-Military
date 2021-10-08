@@ -4,9 +4,11 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import MyStudyGroupAvatar from './MyStudyGroupAvatar';
+import MyAvatar from './MyAvatar';
 
 import NavBar from './NavBar';
+
+const imageUrl = 'https://images.unsplash.com/photo-1484800089236-7ae8f5dffc8e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80';
 
 const StudyGroupTemplate = ({ children }) => {
   const backgroudImageUrl = 'https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80';
@@ -66,15 +68,17 @@ const StudyGroupTemplate = ({ children }) => {
           transform: 'translate(-50%, -50%)',
         }}
         />
-        <MyStudyGroupAvatar sx={{
-          width: '8rem',
-          height: '8rem',
-          position: 'absolute',
-          zIndex: 4,
-          top: '20%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
+        <MyAvatar
+          sx={{
+            width: '8rem',
+            height: '8rem',
+            position: 'absolute',
+            zIndex: 4,
+            top: '20%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+          imageUrl={imageUrl}
         />
       </Container>
     </>

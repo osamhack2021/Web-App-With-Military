@@ -3,10 +3,11 @@ import {
   Box, Button, Typography,
 } from '@mui/material';
 import { ReactComponent as DialIcon } from '../../static/icons/dial.svg';
-import MyProfileAvatar from '../common/MyProfileAvatar';
-import MyProfileList from '../common/MyProfileList';
+import MyAvatar from '../common/MyAvatar';
+import MyListItem from '../common/MyListItem';
 
 const title = 'Study with me :)';
+const imageUrl = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3R1ZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
 
 const Clock = () => (
   <Box sx={{
@@ -15,18 +16,22 @@ const Clock = () => (
     position: 'relative',
   }}
   >
-    <MyProfileList
-      avatar={<MyProfileAvatar sx={{
-        width: '3.5rem',
-        height: '3.5rem',
-      }}
+    <MyListItem
+      avatar={<MyAvatar
+        sx={{
+          width: '3.5rem',
+          height: '3.5rem',
+        }}
+        imageUrl={imageUrl}
       />}
       primary={<Typography style={{ color: 'white' }}>{title}</Typography>}
     />
-    <Box style={{
-      textAlign: 'center',
-      positon: 'relative',
-    }}
+    <Box
+      style={{
+        textAlign: 'center',
+        positon: 'relative',
+      }}
+      imageUrl={imageUrl}
     >
       <Box style={{
         position: 'absolute',
