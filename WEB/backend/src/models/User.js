@@ -53,6 +53,9 @@ const userSchema = mongoose.Schema({
   startTime: {
     type: Date,
   },
+  pauseTime: {
+    type: Number,
+  },
   token: {
     type: String,
   },

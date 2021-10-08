@@ -114,34 +114,37 @@ const process = {
   },
 
   // 그룹 검색
-  // search: async (req, res, next) => {
-  //   try {
-  //     const group = await Group.find({
-  //       // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-  //       name: new RegExp(req.body.search),
-  //     });
+  search: async (req, res, next) => {
+    try {
+      const group = await Group.find({
+        // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
+        name: new RegExp(req.body.search),
+      });
 
-  //     await Tag.find({
-  //       name: new RegExp(req.body.search),
-  //     })
-  //       .populate('groups')
-  //       .exec((err, tag) => {
-  //         if (err) return res.status(400).json(err);
-  //         for (let i = 0; i < tag.length; i++) {
-  //           for (let j = 0; j < tag[i].groups.length; j++) {
-  //             Object.assign(group, tag[i].groups[j]);
-  //           }
-  //         }
-  //       });
-  //     console.log(group );
-  //     if (!group)
-  //       return res.status(200).json({ message: '검색 결과가 없습니다.' });
-  //     return res.status(200).json(group);
-  //   } catch (error) {
-  //     error.status = 500;
-  //     return next(error);
-  //   }
-  // },
+      await Tag.find({
+        name: new RegExp(req.body.search),
+      })
+        .populate('groups')
+        .exec((err, tag) => {
+          if (err) return res.status(400).json(err);
+          let array = [];
+          for (let i = 0; i < tag.length; i++) {
+            if (tag[i].groups.length) array = array.concat(tag[i].groups);
+          }
+          array = array.concat(group);
+          const result = Array.from(
+            new Map(array.map(elem => [elem._id.toString(), elem])).values(),
+          );
+          console.log(result);
+          if (!result)
+            return res.status(200).json({ message: '검색 결과가 없습니다.' });
+          return res.status(200).json(result);
+        });
+    } catch (error) {
+      error.status = 500;
+      return next(error);
+    }
+  },
 };
 
 module.exports = {
