@@ -28,7 +28,7 @@ app.use('/tags', tags);
 
 // 에러 처리 미들웨어
 app.use((err, req, res, next) => {
-  res.status(err.status).json(err.body);
+  res.status(500).json(err);
   next();
 });
 

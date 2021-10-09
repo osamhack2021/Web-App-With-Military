@@ -1,10 +1,9 @@
-const { json } = require('express');
 const { User } = require('../../models/User');
 
 const output = {
   // 로그인 확인 후 정보 표시
   auth: (req, res) => {
-    User.findOne({ name: req.user.name })
+    User.findOne({ userName: req.user.userName })
       .populate('groupList')
       .exec((err, user) => {
         if (err) return res.status(400).json(err);
@@ -71,16 +70,16 @@ const process = {
           registerFailure: { email: true },
         });
       }
+      // 데이터베이스 저장
+      await user.save(err => {
+        if (err) return res.status(400).json(err);
+        return res.status(200).json({
+          user: user.serialize(),
+        });
+      });
     } catch (err) {
       return res.status(400).json(err);
     }
-    // 데이터베이스 저장
-    await user.save(err => {
-      if (err) return res.status(400).json(err);
-      return res.status(200).json({
-        user: user.serialize(),
-      });
-    });
   },
 
   // 유저 검색
@@ -88,9 +87,9 @@ const process = {
     const result = await User.find(
       {
         // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-        name: new RegExp(req.body.searchUser),
+        userName: new RegExp(req.body.searchUser),
       },
-      { name: 1 },
+      { userName: 1 },
     ).limit(20);
     if (!result.length)
       return res.status(200).json({ searchFailure: { result: true } });

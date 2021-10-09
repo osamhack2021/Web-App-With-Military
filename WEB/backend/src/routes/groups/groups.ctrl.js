@@ -43,7 +43,7 @@ const process = {
   // 그룹에 참가
   join: async (req, res) => {
     // 존재하는 그룹인지 확인
-    const group = await Group.findByName(req.body.name);
+    const group = await Group.findByName(req.body.groupName);
     if (!group)
       return res
         .status(409)
@@ -65,7 +65,7 @@ const process = {
 
     // 새로운 유저 그룹 멤버 목록에 추가
     Group.findOneAndUpdate(
-      { name: req.body.name },
+      { groupName: req.body.groupName },
       { $addToSet: { members: req.user._id } },
       (err, group) => {
         if (err) {
@@ -87,20 +87,20 @@ const process = {
   },
 
   tagging: (req, res) => {
-    Group.findOne({ name: req.body.group }, (err, group) => {
+    Group.findOne({ groupName: req.body.groupName }, (err, group) => {
       if (err) {
         return res.status(500).json({ taggingSuccess: false, err });
       }
       Tag.findOneAndUpdate(
-        { name: req.body.name },
+        { tagName: req.body.tagName },
         { $addToSet: { groups: group._id } },
         (err, tag) => {
           if (err) {
             return res.status(500).json({ taggingSuccess: false, err });
           }
           Group.findOneAndUpdate(
-            { name: req.body.group },
-            { $addToSet: { tags: req.body.name } },
+            { groupName: req.body.groupName },
+            { $addToSet: { tags: req.body.tagName } },
             (err, user) => {
               if (err) {
                 return res.status(500).json({ taggingSuccess: false });
@@ -118,11 +118,11 @@ const process = {
     try {
       const group = await Group.find({
         // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-        name: new RegExp(req.body.search),
+        groupName: new RegExp(req.body.search),
       });
 
       await Tag.find({
-        name: new RegExp(req.body.search),
+        groupName: req.body.search,
       })
         .populate('groups')
         .exec((err, tag) => {
@@ -140,7 +140,6 @@ const process = {
           return res.status(200).json(result);
         });
     } catch (error) {
-      error.status = 500;
       return next(error);
     }
   },

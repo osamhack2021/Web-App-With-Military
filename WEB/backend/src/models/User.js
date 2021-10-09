@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: 4,
   },
-  name: {
+  userName: {
     type: String,
     minlength: 2,
     maxlength: 30,
@@ -40,13 +40,9 @@ const userSchema = mongoose.Schema({
   ],
   totalTime: {
     type: Number,
-    default: null,
+    default: 0,
   },
-  history: [
-    {
-      type: Object,
-    },
-  ],
+  history: [{ type: Object }],
   maxStreak: {
     type: Number,
   },
@@ -58,6 +54,9 @@ const userSchema = mongoose.Schema({
   },
   pauseTime: {
     type: Number,
+  },
+  activeGroup: {
+    type: String,
   },
   token: {
     type: String,
