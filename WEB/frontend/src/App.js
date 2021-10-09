@@ -8,9 +8,10 @@ import MainPage from './pages/MainPage';
 import TimerPage from './pages/TimerPage';
 import SearchPage from './pages/SearchPage';
 import UploadPage from './pages/UploadPage';
+import PCMainPage from './pages/PCMainPage';
 // import ReportPage from './pages/ReportPage';
 import StudyGroupMainPage from './pages/StudyGroupMainPage';
-import CreateGroupPage from './pages/CreateGroupPage';
+// import CreateGroupPage from './pages/CreateGroupPage';
 
 const App = () => (
   <>
@@ -29,7 +30,8 @@ const App = () => (
       <Route exact path="/timer" component={TimerPage} />
       <Route exact path="/upload" component={UploadPage} />
       <Route exact path="/search" component={SearchPage} />
-      <Route exact path="/creategroup" component={CreateGroupPage} />
+      <Route exact path="/pcmain" component={PCMainPage} />
+      {/* <Route exact path="/creategroup" component={CreateGroupPage} /> */}
       <Route exact path="/studygroup" component={StudyGroupMainPage} />
       {/* <Route exact path="/studygroup/profile" component={StudyGroupProfilePage} /> */}
     </Switch>

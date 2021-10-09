@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import { ReactComponent as WhiteLogo } from '../../static/icons/logo_white.svg';
 
+
 const NavBar = ({
   title, bgColor, sx, children,
 }) => (
