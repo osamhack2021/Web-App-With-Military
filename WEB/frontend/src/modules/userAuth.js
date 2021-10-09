@@ -1,6 +1,9 @@
 import { handleActions } from 'redux-actions';
 import axios from 'axios';
-import { login as loginApi, register as registerApi } from '../lib/api/userAuth';
+import {
+  login as loginApi,
+  register as registerApi,
+} from '../lib/api/userAuth';
 
 // 액션 타입 정의
 
@@ -8,8 +11,7 @@ const LOGIN = 'auth/LOGIN';
 const REGISTER = 'auth/RESIGER';
 
 export function auth() {
-  const request = axios.get('/users/auth')
-    .then((response) => response.data);
+  const request = axios.get('/users/auth').then(response => response.data);
   return {
     type: AUTH_USER,
     payload: request,
@@ -18,9 +20,9 @@ export function auth() {
 
 // 액션 생성 함수 정의
 
-export const login = (formData) => async (dispatch) => {
+export const login = formData => async dispatch => {
   const res = await loginApi(formData);
-  
+
   const data = {
     success: true,
     userData: res.data.user,
@@ -32,7 +34,7 @@ export const login = (formData) => async (dispatch) => {
   return data;
 };
 
-export const register = (formData) => async (dispatch) => {
+export const register = formData => async dispatch => {
   const res = await registerApi(formData);
   if (res.status !== 200) {
     // 이렇게 쓰면 ESLint 에러나옴
@@ -68,21 +70,22 @@ const initialState = {
 
 // 리듀서
 
-const userAuth = handleActions({
-  [LOGIN]: (state, { payload: { userData, loginFailure, success } }) => ({
-    ...state,
-    user: {
-      // ESLint rule : no-underscore-dangle
-      // id: userData._id,
-      userName: userData.userName,
-      // 추가 데이터
-    },
-    login: {
-      success,
-      loginFailure,
-    },
-  }),
-},
-initialState);
+const userAuth = handleActions(
+  {
+    [LOGIN]: (state, { payload: { isLoginSuccessful, userName } }) => ({
+      ...state,
+      user: {
+        // ESLint rule : no-underscore-dangle
+        // id: userData._id,
+        userName,
+        // 추가 데이터
+      },
+      login: {
+        isLoginSuccessful,
+      },
+    }),
+  },
+  initialState,
+);
 
 export default userAuth;

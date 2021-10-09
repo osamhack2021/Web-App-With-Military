@@ -45,7 +45,7 @@ const process = {
       user.comparePassword(req.body.password, (err, isMatch) => {
         if (!isMatch) {
           return res.json({
-            loginSuccess: false,
+            isLoginSuccessful: false,
             message: '이메일 또는 비밀번호가 잘못 입력 되었습니다.',
           });
         }
@@ -60,7 +60,8 @@ const process = {
             })
             .status(200)
             .json({
-              loginSuccess: true,
+              isLoginSuccessful: true,
+              userName: user.name,
             });
         });
       });
@@ -69,7 +70,8 @@ const process = {
 
   // 회원가입 처리
   register: async (req, res) => {
-    const user = new User(req.body);
+    const { email, password, userName: name } = req.body;
+    const user = new User({ email, password, name });
     try {
       // email 중복 확인
       const EMAIL = await User.findByEmail(user.email);
