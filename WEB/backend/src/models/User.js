@@ -40,10 +40,13 @@ const userSchema = mongoose.Schema({
   ],
   totalTime: {
     type: Number,
+    default: null,
   },
-  history: {
-    type: Array,
-  },
+  history: [
+    {
+      type: Object,
+    },
+  ],
   maxStreak: {
     type: Number,
   },

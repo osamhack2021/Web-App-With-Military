@@ -135,7 +135,6 @@ const process = {
           const result = Array.from(
             new Map(array.map(elem => [elem._id.toString(), elem])).values(),
           );
-          console.log(result);
           if (!result)
             return res.status(200).json({ message: '검색 결과가 없습니다.' });
           return res.status(200).json(result);

@@ -31,6 +31,7 @@ const output = {
     });
   },
 
+  // 타이머 일시정지
   pause: (req, res) => {
     const now = new Date();
     User.findOne({ name: req.user.name }, (err, user) => {
@@ -63,6 +64,7 @@ const output = {
     });
   },
 
+  // 타이머 재개
   resume: (req, res) => {
     let now = new Date();
     User.findOne({ name: req.user.name }, (err, user) => {
@@ -94,7 +96,7 @@ const output = {
   // 타이머 종료
   end: (req, res) => {
     let now = new Date();
-    User.findOne({ name: req.user.name }, (err, user) => {
+    User.findOne({ name: req.user.name }, async (err, user) => {
       if (err) {
         return res.status(500).json({ isSuccessful: false, err });
       }
@@ -105,22 +107,36 @@ const output = {
       if (user.pauseTime)
         user.startTime = now - user.pauseTime + user.startTime.valueOf();
       now = Math.floor((now - user.startTime) / 1000);
-      User.findOneAndUpdate(
-        { name: req.user.name },
-        {
-          $set: {
-            startTime: null,
-            totalTime: now,
-            pauseTime: null,
-          },
-        },
-        err => {
-          if (err) {
-            return res.status(500).json({ isSuccessful: false, err });
-          }
-          return res.status(200).json({ isSuccessful: true, elapsedTime: now });
-        },
+
+      const USER = await User.findById(user._id);
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = `0${today.getMonth() + 1}`.slice(-2);
+      const day = `0${today.getDate()}`.slice(-2);
+      const dateString = `${year}-${month}-${day}`;
+
+      const array = [{ day: dateString }].concat(USER.history);
+      const result = Array.from(
+        new Map(array.map(elem => [elem.day.toString(), elem])).values(),
       );
+
+      USER.history = result;
+      USER.history.map(his => {
+        if (his.day === dateString) {
+          if (his.value === null) his.value = 0;
+          his.value += now;
+        }
+      });
+      USER.startTime = null;
+      if (USER.totalTime === null) USER.totalTime = 0;
+      USER.totalTime += now;
+      USER.pauseTime = null;
+
+      const temp = await new User(USER);
+      await temp.save(err => {
+        if (err) return res.status(500).json({ isSuccessful: false, err });
+        return res.status(200).json({ isSuccessful: true, elapsedTime: now });
+      });
     });
   },
 
