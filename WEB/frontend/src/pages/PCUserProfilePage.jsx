@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-// import TierBar from '../components/main/TierBar';';
-import PCMainTemplate from '../components/pcmain/PCMainTemplate';
+import PCUserProfileTemplate from '../components/pcuserprofile/PCUserProfileTemplate';
 
-const PCMainPage = () => {
+const PCUserProfilePage = () => {
   const user = useSelector((state) => state.userAuth);
 
   useEffect(() => {
@@ -16,10 +15,10 @@ const PCMainPage = () => {
 
   return (
     <>
-      <PCMainTemplate>
-      </PCMainTemplate>
+      <PCUserProfileTemplate>
+      </PCUserProfileTemplate>
     </>
   );
 };
 
-export default withRouter(PCMainPage);
+export default withRouter(PCUserProfilePage);

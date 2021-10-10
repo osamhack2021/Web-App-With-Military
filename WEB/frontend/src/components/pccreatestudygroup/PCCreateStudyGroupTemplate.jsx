@@ -9,7 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import NavBar from '../common/NavBar';
 import PCTemplate from '../common/PCTemplate';
 
-const MainTemplate = ({ children }) => (
+const PCMainTemplate = ({ children }) => (
   <>
     <NavBar
       title="위드밀리터리"
@@ -56,4 +56,4 @@ const MainTemplate = ({ children }) => (
   </>
 );
 
-export default MainTemplate;
+export default PCMainTemplate;

@@ -4,10 +4,11 @@ import { Container } from '@mui/material';
 const PCTemplate = ({ sx, children }) => (
   <Container
     component="main"
-    width="100vw"
-    height="100vh"
-    position="relative"
-    // maxWidth="none"
+    maxWidth="lg"
+    style={{
+      height: '100vh',
+      padding: 0,
+    }}
     sx={{
       ...sx,
     }}

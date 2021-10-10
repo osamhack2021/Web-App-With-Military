@@ -5,7 +5,7 @@ import {
   TextField,
 } from '@mui/material';
 
-const SearchInput = () => (
+const PCSearchInput = () => (
   <>
     <Box sx={{
       display: 'flex',
@@ -15,7 +15,7 @@ const SearchInput = () => (
       '& input': {
         color: '#5E5E5E',
       },
-      mt: 5,
+      mt: 10,
     }}
     >
       <TextField
@@ -40,4 +40,4 @@ const SearchInput = () => (
   </>
 );
 
-export default SearchInput;
+export default PCSearchInput;

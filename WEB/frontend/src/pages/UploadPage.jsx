@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import UploadTemplate from '../components/upload/UploadTemplate';
 import UploadForm from '../components/upload/UploadForm';
 // import { useDispatch } from 'react-redux';
@@ -44,4 +45,4 @@ const UploadPage = () => {
     </>
   );
 };
-export default UploadPage;
+export default withRouter(UploadPage);

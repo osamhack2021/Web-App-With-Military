@@ -116,9 +116,9 @@ const ListItems = studyGroupList.map((studyGroup) => <Grid item xs={12} sm={6}>
       </>
 }
   />
-                                                     </Grid>);
+</Grid>);
 
-const StudyGroup = () => (
+const PCStudyGroupList = () => (
   <>
     <Box sx={{
       display: 'flex',
@@ -196,4 +196,4 @@ const StudyGroup = () => (
 
 );
 
-export default StudyGroup;
+export default PCStudyGroupList;

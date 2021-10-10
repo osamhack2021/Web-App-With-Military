@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-
+import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 // import TierBar from '../components/main/TierBar';
 import StudyGroupList from '../components/main/StudyGroupList';
@@ -28,4 +28,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default withRouter(MainPage);

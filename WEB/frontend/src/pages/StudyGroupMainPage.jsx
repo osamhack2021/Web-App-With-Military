@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import StudyGroupTemplate from '../components/common/StudyGroupTemplate';
 import StudyGroupMain from '../components/studygroup/StudyGroupMain';
 
@@ -13,4 +14,4 @@ const StudyGroupPage = () => {
     </>
   );
 };
-export default StudyGroupPage;
+export default withRouter(StudyGroupPage);

@@ -3,9 +3,12 @@ import {
 } from '@mui/material';
 
 const MyStudyGroupListItem = ({
-  secondaryElement, avatar, primary, secondary,
+  sx, secondaryElement, avatar, primary, secondary,
 }) => (
   <ListItem
+    sx={{
+      ...sx,
+    }}
     secondaryAction={secondaryElement}
     disablePadding
   >
