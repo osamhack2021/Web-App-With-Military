@@ -1,5 +1,4 @@
 const { User } = require('../../models/User');
-const { History } = require('../../models/History');
 const { Group } = require('../../models/Group');
 
 const output = {
@@ -98,15 +97,15 @@ const output = {
       if (user.pauseTime)
         user.startTime = now - user.pauseTime + user.startTime.valueOf();
       now = Math.floor((now - user.startTime) / 1000);
-
-      const USER = await User.findById(user._id);
       const today = new Date();
       const year = today.getFullYear();
       const month = `0${today.getMonth() + 1}`.slice(-2);
       const day = `0${today.getDate()}`.slice(-2);
       const dateString = `${year}-${month}-${day}`;
 
+      const USER = await User.findById(user._id);
       const array = await [{ day: dateString }].concat(USER.history);
+
       const result = await Array.from(
         new Map(array.map(elem => [elem.day.toString(), elem])).values(),
       );
@@ -115,17 +114,19 @@ const output = {
 
       Group.findOne({ groupName: user.activeGroup }, async (err, group) => {
         if (err) return res.status(500).json({ isSuccessful: false, err });
+
         await USER.history.map(async his => {
           if (his.day === dateString) {
-            if (user.activeGroup) {
-              if (his[group.category] === undefined)
-                his[group.category] = await 0;
-              his[group.category] += await now;
-            }
-
             if (his.value === undefined) his.value = 0;
             his.value += await now;
-            await console.log(his[group.category]);
+
+            if (group.category !== undefined) {
+              if (user.activeGroup) {
+                if (his[group.category] === undefined)
+                  his[group.category] = await 0;
+                his[group.category] += await now;
+              }
+            }
           }
         });
 

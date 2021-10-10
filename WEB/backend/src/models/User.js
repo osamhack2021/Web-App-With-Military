@@ -42,7 +42,11 @@ const userSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  history: [{ type: Object }],
+  history: [
+    {
+      type: Object,
+    },
+  ],
   maxStreak: {
     type: Number,
   },

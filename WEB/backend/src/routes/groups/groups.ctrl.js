@@ -13,6 +13,7 @@ const process = {
           createSuccess: false,
           message: '이미 사용중인 그룹 이름입니다.',
         });
+
       const group = new Group(req.body);
       // 새로운 그룹 정보 DB에 저장
       group.save((err, group) => {

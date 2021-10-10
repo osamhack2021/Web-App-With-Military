@@ -5,8 +5,6 @@ const groupSchema = mongoose.Schema({
     type: String,
     minlength: 4,
     maxlength: 30,
-    unique: true,
-    required: true,
   },
   admins: [
     {
