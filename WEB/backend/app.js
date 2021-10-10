@@ -16,13 +16,13 @@ mongoose
 
 const users = require('./src/routes/users');
 const groups = require('./src/routes/groups');
-const ranks = require('./src/routes/ranks');
+const ranking = require('./src/routes/ranking');
 const studying = require('./src/routes/studying');
 const tags = require('./src/routes/tags');
 
 app.use('/users', users);
 app.use('/groups', groups);
-app.use('/ranks', ranks);
+app.use('/ranking', ranking);
 app.use('/studying', studying);
 app.use('/tags', tags);
 

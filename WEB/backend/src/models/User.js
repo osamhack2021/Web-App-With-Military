@@ -42,7 +42,11 @@ const userSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  history: [{ type: Object }],
+  history: [
+    {
+      type: Object,
+    },
+  ],
   maxStreak: {
     type: Number,
   },
@@ -58,8 +62,14 @@ const userSchema = mongoose.Schema({
   activeGroup: {
     type: String,
   },
+  activeCategory: {
+    type: String,
+  },
   token: {
     type: String,
+  },
+  rank: {
+    type: Number,
   },
 });
 

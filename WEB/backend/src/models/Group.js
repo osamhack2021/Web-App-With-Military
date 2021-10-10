@@ -6,7 +6,7 @@ const groupSchema = mongoose.Schema({
     minlength: 4,
     maxlength: 30,
     unique: true,
-    required: true,
+    require: true,
   },
   admins: [
     {
@@ -25,6 +25,7 @@ const groupSchema = mongoose.Schema({
   },
   category: {
     type: String,
+    require: true,
   },
   totalTime: {
     type: Number,
