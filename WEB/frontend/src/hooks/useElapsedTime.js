@@ -22,33 +22,57 @@ const useElapsedTime = () => {
   const second = elapsedTime % 60;
 
   const formedTime = { hour, minute, second };
-  const formedTimeString = `{hour}:{minute}:{second}`;
+  const formedTimeString = `${hour}:${minute}:${second}`;
 
   useEffect(() => {
     let intervalId;
     axios
-      .get('/timer/status', {
-        validateStatus(status) {
-          return status < 500;
-        },
+      .get('studying/start')
+      .then(res => res.data)
+      .then(({ isStudyingNow, elapsedTime: updatedElapsedTime }) => {
+        setElapsedTime(updatedElapsedTime);
       })
-      .then(res => {
-        if (res.error.status === 500) {
-          history.push('/error');
-        }
-        // TODO: exit async task when response comes with error status code
-        return res.data;
-      })
-      .then(({ elapsedTime: currentElapsedTime, isStudyingNow }) => {
-        if (isStudyingNow) {
-          intervalId = setElapsedTime(currentElapsedTime);
-        }
+      .then(() => {
+        intervalId = setInterval(
+          () => setElapsedTime(elapsedTime => elapsedTime + 1),
+          1000,
+        );
       });
+    // axios
+    //   .get('/studying/status', {
+    //     validateStatus(status) {
+    //       return status < 500;
+    //     },
+    //   })
+    //   .catch(error => history.push('/error'))
+    //   .then(
+    //     res =>
+    //       // TODO: exit async task when response comes with error status code
+    //       res.data,
+    //   )
+    //   .then(({ isStudyingNow, elapsedTime: measuredElapsedTime }) => {
+    //     if (!isStudyingNow) {
+    //       axios
+    //         .get('/studying/start')
+    //         .then(res => res.data)
+    //         .then(({ elapsedTime: updatedElapsedTime, isStudyingNow }) => {
+    //           if (isStudyingNow) {
+    //             setElapsedTime(updatedElapsedTime);
+    //           }
+    //         });
+    //     } else {
+    //       setElapsedTime(measuredElapsedTime);
+    //     }
+    //     intervalId = setInterval(
+    //       () => setElapsedTime(elapsedTime => elapsedTime + 1),
+    //       1000,
+    //     );
+    //   });
 
     return function cleanup() {
       if (intervalId) clearInterval(intervalId);
     };
-  });
+  }, [elapsedTime, setElapsedTime]);
 
   return { elapsedTime, formedTimeString };
 };
