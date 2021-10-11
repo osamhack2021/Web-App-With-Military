@@ -61,9 +61,9 @@ Body(JSON)으로
 */
 
 //게시판 글 검색
-boardRouter.get('/search/:title', async(req,res) => {
+boardRouter.get('/search/:title_search', async(req,res) => {
 
-    const {title_search} =req.body;
+    const {title_search} =req.params;
     try{
         if(typeof title_search !== 'string') res.status(400).send({err : "put the title"});
         const title = await Board.find({title: title_search});
@@ -75,12 +75,8 @@ boardRouter.get('/search/:title', async(req,res) => {
 
 }) 
 /* 
-GET http://localhost:3000/board/search/:title 으로 제목을 통해 게시글을 찾을 수 있다. 
+GET http://localhost:3000/board/search/:title_search 으로 제목을 통해 게시글을 찾을 수 있다. 
 그러나 Group에서 작성한 게시글은 찾을 수 없다.
-Body(JSON)으로 
-{ 
-    "title" : " 오늘 한 일"
-}
-*/
+url : http://localhost:3000/board/search/오늘 한 일 
 
 module.exports = {boardRouter};
