@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const tagSchema = mongoose.Schema({
-  tagName: {
+const categorySchema = mongoose.Schema({
+  categoryName: {
     type: String,
     unique: true,
   },
@@ -13,6 +13,6 @@ const tagSchema = mongoose.Schema({
   ],
 });
 
-const Tag = mongoose.model('Tag', tagSchema);
+const Category = mongoose.model('Category', categorySchema);
 
-module.exports = { Tag };
+module.exports = { Category };

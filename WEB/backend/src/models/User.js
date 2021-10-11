@@ -26,12 +26,10 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  division: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Division',
-    },
-  ],
+  division: {
+    type: String,
+    require: true,
+  },
   groupList: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -49,9 +47,11 @@ const userSchema = mongoose.Schema({
   ],
   maxStreak: {
     type: Number,
+    default: 0,
   },
-  currentStreak: {
+  curStreak: {
     type: Number,
+    default: 0,
   },
   startTime: {
     type: Date,
@@ -70,6 +70,12 @@ const userSchema = mongoose.Schema({
   },
   rank: {
     type: Number,
+  },
+  enlistmentDate: {
+    type: Date,
+  },
+  dischargetDate: {
+    type: Date,
   },
 });
 

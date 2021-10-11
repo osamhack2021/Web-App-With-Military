@@ -47,7 +47,7 @@ const output = {
         }
         return res.status(200).json({
           isSuccessful: true,
-          elapsedTime: Math.floor((new Date() - req.user.startTime) / 1000),
+          elapsedTime: Math.floor((new Date() - now) / 1000),
           isStudyingNow: true,
         });
       },
@@ -133,8 +133,45 @@ const output = {
       USER.activeGroup = null;
       USER.activeCategory = null;
 
-      const temp = await new User(USER);
-      await temp.save(err => {
+      const temp = await USER.history.sort((a, b) => {
+        const x = a.day;
+        const y = b.day;
+        if (x < y) {
+          return 1;
+        }
+        if (x > y) {
+          return -1;
+        }
+        return 0;
+      });
+      await console.log(temp);
+
+      // 스트릭 구하기
+      let streak = 1;
+      let yesterday = new Date(
+        new Date(year, month - 1, day).setDate(
+          new Date(year, month - 1, day).getDate() - 1,
+        ),
+      );
+      // yesterday에 어제의 값을 넣고 다음 배열과 같으면 ++ 다르면 break
+      for (let i = 1; i < USER.history.length; i++) {
+        const year2 = USER.history[i].day.substring(0, 4);
+        const month2 = USER.history[i].day.substring(5, 7);
+        const day2 = USER.history[i].day.substring(8, 10);
+        if (String(yesterday) === String(new Date(year2, month2 - 1, day2)))
+          streak += 1;
+        else break;
+        yesterday = new Date(
+          new Date(year2, month2 - 1, day2).setDate(
+            new Date(year2, month2 - 1, day2).getDate() - 1,
+          ),
+        );
+      }
+      // 스트릭 db에 저장
+      USER.curStreak = streak;
+      if (USER.maxStreak < streak) USER.maxStreak = streak;
+      const final = await new User(USER);
+      await final.save(err => {
         return res.status(200).json({
           isSuccessful: true,
           elapsedTime: now,

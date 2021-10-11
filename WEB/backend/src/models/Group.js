@@ -20,6 +20,12 @@ const groupSchema = mongoose.Schema({
       ref: 'User',
     },
   ],
+  waiting: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
   tags: {
     type: Array,
   },
@@ -30,6 +36,10 @@ const groupSchema = mongoose.Schema({
   totalTime: {
     type: Number,
     default: 0,
+  },
+  readme: {
+    type: String,
+    default: null,
   },
 });
 

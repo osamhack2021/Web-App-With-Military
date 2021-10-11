@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const divisionSchema = mongoose.Schema({
-  name: {
+  divisionName: {
     type: String,
     unique: true,
   },

@@ -1,4 +1,5 @@
 const { User } = require('../../models/User');
+const { Division } = require('../../models/Division');
 
 const output = {
   // 로그인 확인 후 정보 표시
@@ -14,8 +15,8 @@ const output = {
   // 로그아웃 처리
   logout: (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, err => {
-      if (err) return res.status(400).json(err);
-      return res.cookie('x_auth', '').status(200);
+      if (err) return res.status(400).json({ logoutSuccess: true, err });
+      return res.cookie('x_auth', '').status(200).json({ logoutSuccess: true });
     });
   },
 };
@@ -71,11 +72,16 @@ const process = {
         });
       }
       // 데이터베이스 저장
-      await user.save(err => {
-        if (err) return res.status(400).json(err);
-        return res.status(200).json({
-          user: user.serialize(),
-        });
+      await user.save((err, user) => {
+        Division.findOneAndUpdate(
+          { division: req.body.division },
+          { $addToSet: { users: user._id } },
+          err => {
+            return res.status(200).json({
+              user: user.serialize(),
+            });
+          },
+        );
       });
     } catch (err) {
       return res.status(400).json(err);
