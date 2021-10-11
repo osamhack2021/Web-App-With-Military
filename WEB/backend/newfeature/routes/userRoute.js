@@ -22,6 +22,10 @@ userRouter.get("/", async(req,res) => {
 
 })
 
+/*
+GET : http://localhost:3000/user 를 통해 모든 user을 불러올 수 있다.
+*/
+
 userRouter.post('/',  async(req,res) => {
 
     try{
@@ -40,7 +44,18 @@ userRouter.post('/',  async(req,res) => {
     }
     
 })
-
+/*
+POST : http://localhost:3000/user 를 통해 user을 db에 넣을 수 있다.
+Body(JSON)으로 
+{
+    "username" : "June", 
+    "name" : 
+    {
+        "first" : "jun",
+        "last" : "IM"
+    }
+}
+*/
 
 
 
