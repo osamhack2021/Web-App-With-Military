@@ -22,7 +22,7 @@ boardRouter.get('/:userId', async(req,res) => {
 })
 
 /*
-GET : http://localhost:3000/user/:userId 으로 UserId(objectId)를 통해 개인이 쓴 글을 불러와 
+GET : http://localhost:3000/board/:userId 으로 UserId(objectId)를 통해 개인이 쓴 글을 불러와 
 개인의 게시판에 활용할 수 있다.
 */
 
@@ -49,7 +49,7 @@ boardRouter.post('/:userId', async(req,res) => {
     
 })
 /*
-POST : http://localhost:3000/user/:userId 으로 
+POST : http://localhost:3000/board/:userId 으로 
 개인의 게시판에 글을 작성할 수 있다. 
 Body(JSON)으로 
 { 
@@ -75,7 +75,8 @@ boardRouter.get('/search/:title', async(req,res) => {
 
 }) 
 /* 
-제목을 게시글을 찾을 수 있다. 그러나 Group에서 작성한 게시글은 찾을 수 없다.
+GET http://localhost:3000/board/search/:title 으로 제목을 통해 게시글을 찾을 수 있다. 
+그러나 Group에서 작성한 게시글은 찾을 수 없다.
 Body(JSON)으로 
 { 
     "title" : " 오늘 한 일"
