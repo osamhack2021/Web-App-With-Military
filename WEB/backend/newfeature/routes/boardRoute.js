@@ -21,6 +21,11 @@ boardRouter.get('/:userId', async(req,res) => {
     
 })
 
+/*
+GET : http://localhost:3000/user/:userId 으로 UserId(objectId)를 통해 개인이 쓴 글을 불러와 
+개인의 게시판에 활용할 수 있다.
+*/
+
 //게시판 작성
 boardRouter.post('/:userId', async(req,res) => {
     
@@ -43,6 +48,17 @@ boardRouter.post('/:userId', async(req,res) => {
     }
     
 })
+/*
+POST : http://localhost:3000/user/:userId 으로 
+개인의 게시판에 글을 작성할 수 있다. 
+Body(JSON)으로 
+{ 
+    "title" : " 오늘 한 일",
+    "content" : "영어단어 30개, 책 읽기 p.32-48 ",
+    "userId" : "(objectId)"
+} 과 같다.
+개인의 게시판에 활용할 수 있다.
+*/
 
 //게시판 글 검색
 boardRouter.get('/search/:title', async(req,res) => {
@@ -57,7 +73,13 @@ boardRouter.get('/search/:title', async(req,res) => {
         res.status(500).send({err: err.message});
     }
 
-
-})
+}) 
+/* 
+제목을 게시글을 찾을 수 있다. 그러나 Group에서 작성한 게시글은 찾을 수 없다.
+Body(JSON)으로 
+{ 
+    "title" : " 오늘 한 일"
+}
+*/
 
 module.exports = {boardRouter};
