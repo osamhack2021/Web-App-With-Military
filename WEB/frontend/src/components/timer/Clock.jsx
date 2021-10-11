@@ -5,7 +5,16 @@ import { ReactComponent as DialIcon } from '../../static/icons/dial.svg';
 import useElapsedTime from '../../hooks/useElapsedTime';
 
 const Clock = () => {
-  const { elapsedTime, formedTimeString } = useElapsedTime();
+  const {
+    elapsedTime,
+    formedTimeString,
+    resume,
+    pause,
+    isPaused,
+    isStarted,
+    start,
+    stop,
+  } = useElapsedTime();
   return (
     <Box
       sx={{
@@ -111,8 +120,11 @@ const Clock = () => {
             margin: 'auto',
             borderRadius: '8px',
           }}
+          onClick={!isStarted ? start : isPaused ? resume : pause}
         >
-          <Typography>일시 정지</Typography>
+          <Typography>
+            {!isStarted ? '시작하기' : isPaused ? '계속하기' : '일시정지'}
+          </Typography>
         </Button>
         <Button
           variant="contained"
@@ -124,6 +136,7 @@ const Clock = () => {
             margin: 'auto',
             borderRadius: '8px',
           }}
+          onClick={stop}
         >
           <Typography>기록하기</Typography>
         </Button>

@@ -57,7 +57,7 @@ const output = {
           }
           return res.status(200).json({
             isSuccessful: true,
-            elapsedTime: Math.floor((new Date() - user.startTime) / 1000),
+            elapsedTime: Math.floor((new Date() - now) / 1000),
             isStudyingNow: true,
           });
         },
@@ -73,13 +73,17 @@ const output = {
         return res.status(500).json({ isSuccessful: false, err });
       }
       if (!user.startTime)
-        return res
-          .status(200)
-          .json({ isSuccessful: false, isStudyingNow: false });
+        return res.status(200).json({ isStudyingNow: false });
+      if (user.pauseTime)
+        return res.status(200).json({
+          isStudyingNow: true,
+          isPaused: true,
+          elapsedTime: Math.floor((now - user.startTime) / 1000),
+        });
       return res.status(200).json({
-        isSuccessful: true,
-        elapsedTime: Math.floor((now - user.startTime) / 1000),
         isStudyingNow: true,
+        isPaused: false,
+        elapsedTime: Math.floor((now - user.startTime) / 1000),
       });
     });
   },
@@ -128,17 +132,17 @@ const output = {
             await console.log(his[group.category]);
           }
         });
+      });
 
-        USER.startTime = null;
-        USER.totalTime += now;
-        USER.pauseTime = null;
-        USER.activeGroup = null;
+      USER.startTime = null;
+      USER.totalTime += now;
+      USER.pauseTime = null;
+      USER.activeGroup = null;
 
-        const temp = await new User(USER);
-        await temp.save(err => {
-          if (err) return res.status(500).json({ isSuccessful: false, err });
-          return res.status(200).json({ isSuccessful: true, elapsedTime: now });
-        });
+      const temp = await new User(USER);
+      await temp.save(err => {
+        if (err) return res.status(500).json({ isSuccessful: false, err });
+        return res.status(200).json({ isSuccessful: true, elapsedTime: now });
       });
     });
   },
@@ -147,7 +151,7 @@ const output = {
 const process = {
   // 타이머 시작
   start: (req, res) => {
-    if (!req.body.userName) req.body.userName = null;
+    if (!req.user.userName) req.user.userName = null;
     const now = new Date();
     User.findOne({ userName: req.user.userName }, (err, user) => {
       if (err) {
@@ -156,7 +160,9 @@ const process = {
       if (user.startTime)
         return res.status(200).json({
           isSuccessful: false,
+          elapsedTime: Math.floor((new Date() - user.startTime) / 1000),
           message: '이미 공부 중 입니다.',
+          isStudyingNow: false,
         });
 
       User.findOneAndUpdate(

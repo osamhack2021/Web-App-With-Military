@@ -56,7 +56,7 @@ const process = {
             .status(200)
             .json({
               isLoginSuccessful: true,
-              userName: user.name,
+              userName: user.userName,
             });
         });
       });
@@ -65,8 +65,8 @@ const process = {
 
   // 회원가입 처리
   register: async (req, res) => {
-    const { email, password, userName: name } = req.body;
-    const user = new User({ email, password, name });
+    const { email, password, userName } = req.body;
+    const user = new User({ email, password, userName });
     try {
       // email 중복 확인
       const EMAIL = await User.findByEmail(user.email);
