@@ -1,17 +1,21 @@
 const mongoose = require('mongoose');
 
 const boardSchema = mongoose.Schema({
+  title: {
+    type: String,
+    require: true,
+  },
   content: {
     type: String,
     require: true,
   },
-  writer: {
-    type: String,
-    require: true,
+  writerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   },
-  groupName: {
-    type: String,
-    default: null,
+  groupId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
   },
   posted: {
     type: Date,
