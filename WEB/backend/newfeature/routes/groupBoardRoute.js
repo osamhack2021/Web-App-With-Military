@@ -24,7 +24,10 @@ groupBoardRouter.get('/:groupId', async(req, res) => {
     }
 
 })
-
+/* 
+GET : http://localhost:3000/groupBoard/:groupId(그룹을 구별하기 위함)를 통해 그룹 내 게시글을 모두 불러올 수 있다.
+- groupBoards 에 들어있는 db 중 groupId(고유값)을 통해 게시글을 모두 불러옴
+*/
 
 // 그룹 내 게시글 작성(db: groupBoard에 저장)
 groupBoardRouter.post('/:groupId', async(req,res) => {
@@ -50,12 +53,23 @@ groupBoardRouter.post('/:groupId', async(req,res) => {
     }
 
 })
+/*
+POST : http://localhost:3000/groupBoard/:groupId 를 통해 그룹 내 게시글을 작성할 수 있다. 
+Body(JSON)으로 
+{
+    "title" : "그룹 참가자 유의사항",
+    "content" : "1. 주간 계획표 작성하기, 2.출석 후 게시글 작성", 
+    "userId" : "(objectId)", //작성한 유저를 구분하기 위함.
+    "groupId" : "(objectId)" //그룹 별 게시글을 구분하기 위함.
+}
+
+*/
 
 
 //게시판 글 검색
-groupBoardRouter.get('/search/:title', async(req,res) => {
+groupBoardRouter.get('/search/:title_search', async(req,res) => {
 
-    const {title_search} =req.body;
+    const {title_search} =req.params;
     try{
         if(typeof title_search !== 'string') res.status(400).send({err : "put the title"});
         const title = await groupBoard.find({title: title_search});
@@ -65,5 +79,10 @@ groupBoardRouter.get('/search/:title', async(req,res) => {
         res.status(500).send({err: err.message});
     }
 })
+/*
+GET : http://localhost:3000/groupBoard/search/:title_search 을 통해 
+제목을 통해 그룹내 게시글 검색기능  
+*/
+
 
 module.exports = {groupBoardRouter};
