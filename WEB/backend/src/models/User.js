@@ -71,9 +71,11 @@ const userSchema = mongoose.Schema({
   rank: {
     type: Number,
   },
+  // 입대일
   enlistmentDate: {
     type: Date,
   },
+  // 전역일
   dischargetDate: {
     type: Date,
   },

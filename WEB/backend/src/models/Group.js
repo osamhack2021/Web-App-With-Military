@@ -41,6 +41,9 @@ const groupSchema = mongoose.Schema({
     type: String,
     default: null,
   },
+  rank: {
+    type: Number,
+  },
 });
 
 groupSchema.statics.findByName = function (groupName) {

@@ -45,7 +45,7 @@ const output = {
         },
       },
     ]);
-    return res.status(200).json(result);
+    return res.status(200).json({ result });
   },
 
   // 전체 그룹 랭킹

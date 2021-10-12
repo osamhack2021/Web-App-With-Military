@@ -61,17 +61,30 @@ const output = {
       return res
         .status(200)
         .json({ isSuccessful: false, isStudyingNow: false });
+    if (req.user.pauseTime) {
+      return res.status(200).json({
+        isSuccessful: true,
+        elapsedTime: Math.floor(
+          (req.user.pauseTime - req.user.startTime) / 1000,
+        ),
+        isStudyingNow: true,
+        isPaused: true,
+        activeGroup: req.user.activeGroup,
+        activeCategory: req.user.activeCategory,
+      });
+    }
     return res.status(200).json({
       isSuccessful: true,
       elapsedTime: Math.floor((now - req.user.startTime) / 1000),
       isStudyingNow: true,
+      isPaused: false,
       activeGroup: req.user.activeGroup,
       activeCategory: req.user.activeCategory,
     });
   },
 
   // 타이머 종료
-  end: async (req, res, next) => {
+  end: async (req, res) => {
     let now = await new Date();
     if (!req.user.startTime)
       return res
@@ -144,7 +157,6 @@ const output = {
         }
         return 0;
       });
-      await console.log(temp);
 
       // 스트릭 구하기
       let streak = 1;
@@ -180,7 +192,7 @@ const output = {
         });
       });
     } catch (err) {
-      next(err);
+      return res.status(500).json({ isSuccessful: false, err });
     }
   },
 };

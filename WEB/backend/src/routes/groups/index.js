@@ -5,10 +5,10 @@ const { auth } = require('../../middleware/auth');
 const ctrl = require('./groups.ctrl');
 
 router.post('/create', auth, ctrl.process.create);
-router.post('/join', auth, ctrl.process.join);
+router.post('/approve', auth, ctrl.process.approve);
 router.post('/search', ctrl.process.search);
 router.post('/tagging', ctrl.process.tagging);
 router.post('/waiting', auth, ctrl.process.waiting);
-router.post('/approve', ctrl.process.join);
+router.post('/profile', ctrl.process.profile);
 
 module.exports = router;

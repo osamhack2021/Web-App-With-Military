@@ -5,6 +5,10 @@ const boardSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  elapsedTime: {
+    type: Number,
+    default: null,
+  },
   content: {
     type: String,
     require: true,

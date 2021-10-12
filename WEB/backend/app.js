@@ -28,10 +28,4 @@ app.use('/studying', studying);
 app.use('/tags', tags);
 app.use('/board', board);
 
-// 에러 처리 미들웨어
-app.use((err, req, res, next) => {
-  res.status(500).json(err);
-  next();
-});
-
 module.exports = app;

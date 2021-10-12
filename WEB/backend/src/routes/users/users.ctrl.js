@@ -7,16 +7,18 @@ const output = {
     User.findOne({ userName: req.user.userName })
       .populate('groupList')
       .exec((err, user) => {
-        if (err) return res.status(400).json(err);
-        return res.status(200).send({ user: user.serialize() });
+        if (err) return res.status(500).json({ isSuccessful: false, err });
+        return res
+          .status(200)
+          .send({ isSucessful: true, user: user.serialize() });
       }); // 또는 populate({ path: 'groupList' })도 가능
   },
 
   // 로그아웃 처리
   logout: (req, res) => {
     User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, err => {
-      if (err) return res.status(400).json({ logoutSuccess: true, err });
-      return res.cookie('x_auth', '').status(200).json({ logoutSuccess: true });
+      if (err) return res.status(500).json({ isSuccessful: false, err });
+      return res.cookie('x_auth', '').status(200).json({ isSuccessful: true });
     });
   },
 };
@@ -25,28 +27,31 @@ const process = {
   // 로그인 처리
   login: (req, res) => {
     if (!req.body.email || !req.body.password) {
-      return res.status(403).json({
-        loginFailure: { form: true },
-      });
+      return res
+        .status(403)
+        .json({ isSuccessful: false, message: '로그인 폼 오류' });
     }
     // 이메일 존재 여부 확인
     User.findOne({ email: req.body.email }, (err, user) => {
+      if (err) res.status(500).json({ isSuccessful: false, err });
       if (!user) {
         return res.status(403).json({
-          loginFailure: { email: true },
+          isSuccessful: false,
+          message: '존재하지 않는 이메일 입니다.',
         });
       }
       // DB에 저장된 user의 password와 비교
       user.comparePassword(req.body.password, (err, isMatch) => {
-        if (err) return req.status(403).json(err);
+        if (err) return res.status(500).json({ isSuccessful: false, err });
         if (!isMatch) {
-          return res.json({
-            loginFailure: { password: true },
+          return res.status(403).json({
+            isSuccessful: false,
+            message: '비밀번호가 틀렸습니다.',
           });
         }
         // 토큰 생성 및 쿠키에 저장
         user.generateToken((err, user) => {
-          if (err) return res.status(400).send(err);
+          if (err) return res.status(500).send({ isSuccessful: false, err });
           return res
             .cookie('x_auth', user.token, {
               // 유효기간 : 24시간
@@ -54,7 +59,7 @@ const process = {
               httpOnly: true,
             })
             .status(200)
-            .json({ user: user.serialize() });
+            .json({ isSuccessful: true, user: user.serialize() });
         });
       });
     });
@@ -68,7 +73,15 @@ const process = {
       const EMAIL = await User.findByEmail(user.email);
       if (EMAIL) {
         return res.status(409).json({
-          registerFailure: { email: true },
+          isSuccessful: false,
+          message: '이미 사용중인 이메일 입니다.',
+        });
+      }
+      const NAME = await User.find({ userName: user.userName });
+      if (NAME) {
+        return res.status(409).json({
+          isSuccessful: false,
+          message: '이미 사용중인 사용자명 입니다.',
         });
       }
       // 데이터베이스 저장
@@ -78,13 +91,14 @@ const process = {
           { $addToSet: { users: user._id } },
           err => {
             return res.status(200).json({
+              isSuccessful: true,
               user: user.serialize(),
             });
           },
         );
       });
     } catch (err) {
-      return res.status(400).json(err);
+      return res.status(500).json({ isSuccessful: false, err });
     }
   },
 
@@ -98,8 +112,10 @@ const process = {
       { userName: 1 },
     ).limit(20);
     if (!result.length)
-      return res.status(200).json({ searchFailure: { result: true } });
-    return res.status(200).json(result);
+      return res
+        .status(200)
+        .json({ isSuccessful: false, message: '검색결과가 없습니다.' });
+    return res.status(200).json({ isSuccessful: true, result });
   },
 
   // 특정 유저 정보 조회
@@ -158,9 +174,11 @@ const process = {
     )
       .populate('groupList')
       .exec(async (err, user) => {
-        if (err) return res.status(400).json(err);
-        user.rank = final[0].rank;
-        return res.status(200).send(user.serialize());
+        if (err) return res.status(400).json({ isSuccessful: false, err });
+        user.rank = await final[0].rank;
+        return res
+          .status(200)
+          .send({ isSuccessful: true, user: user.serialize() });
       });
   },
 };
