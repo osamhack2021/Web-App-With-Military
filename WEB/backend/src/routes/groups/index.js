@@ -10,5 +10,6 @@ router.post('/search', ctrl.process.search);
 router.post('/tagging', ctrl.process.tagging);
 router.post('/waiting', auth, ctrl.process.waiting);
 router.post('/profile', ctrl.process.profile);
+router.post('/edit', auth, ctrl.process.edit);
 
 module.exports = router;

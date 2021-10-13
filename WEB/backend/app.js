@@ -20,6 +20,7 @@ const ranking = require('./src/routes/ranking');
 const studying = require('./src/routes/studying');
 const tags = require('./src/routes/tags');
 const board = require('./src/routes/board');
+const search = require('./src/routes/search');
 
 app.use('/users', users);
 app.use('/groups', groups);
@@ -27,5 +28,6 @@ app.use('/ranking', ranking);
 app.use('/studying', studying);
 app.use('/tags', tags);
 app.use('/board', board);
+app.use('/search', search);
 
 module.exports = app;

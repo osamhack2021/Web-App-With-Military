@@ -22,6 +22,10 @@ const userSchema = mongoose.Schema({
     index: true,
     required: true,
   },
+  info: {
+    type: String,
+    default: null,
+  },
   created: {
     type: Date,
     default: Date.now,
@@ -86,7 +90,7 @@ userSchema.pre('save', function (next) {
   const user = this;
 
   // 비밀번호 변경 시
-  if (user.isModified('password')) {
+  if (this.password && this.isNew) {
     // 비밀번호 암호화
     bcrypt.genSalt(saltRounds, (err, salt) => {
       if (err) return next(err);

@@ -67,39 +67,49 @@ const process = {
 
   // 회원가입 처리
   register: async (req, res) => {
-    const user = new User(req.body);
-    try {
-      // email 중복 확인
-      const EMAIL = await User.findByEmail(user.email);
-      if (EMAIL) {
-        return res.status(409).json({
-          isSuccessful: false,
-          message: '이미 사용중인 이메일 입니다.',
-        });
-      }
-      const NAME = await User.find({ userName: user.userName });
-      if (NAME) {
-        return res.status(409).json({
-          isSuccessful: false,
-          message: '이미 사용중인 사용자명 입니다.',
-        });
-      }
-      // 데이터베이스 저장
-      await user.save((err, user) => {
-        Division.findOneAndUpdate(
-          { division: req.body.division },
-          { $addToSet: { users: user._id } },
-          err => {
-            return res.status(200).json({
-              isSuccessful: true,
-              user: user.serialize(),
-            });
-          },
-        );
+    const user = await new User(req.body);
+    // email 중복 확인
+    const EMAIL = await User.findByEmail(user.email);
+    if (EMAIL !== null) {
+      return res.status(409).json({
+        isSuccessful: false,
+        message: '이미 사용중인 이메일 입니다.',
       });
-    } catch (err) {
-      return res.status(500).json({ isSuccessful: false, err });
     }
+    const NAME = await User.findOne({ userName: user.userName });
+    if (NAME !== null) {
+      return res.status(409).json({
+        isSuccessful: false,
+        message: '이미 사용중인 사용자명 입니다.',
+      });
+    }
+    // 데이터베이스 저장
+    await user.save((err, user) => {
+      if (err) return res.status(500).json({ isSuccessful: false, err });
+      Division.findOneAndUpdate(
+        { division: req.body.division },
+        { $addToSet: { users: user._id } },
+        err => {
+          if (err) return res.status(500).json({ isSuccessful: false, err });
+          return res.status(200).json({
+            isSuccessful: true,
+            user: user.serialize(),
+          });
+        },
+      );
+    });
+  },
+
+  // 프로필 정보 수정
+  edit: (req, res) => {
+    User.findOneAndUpdate(
+      { id: req.user._id },
+      { $set: { info: req.body.info } },
+      err => {
+        if (err) return res.status(500).json({ isSuccessful: false, err });
+        return res.status(500).json({ isSuccessful: true });
+      },
+    );
   },
 
   // 유저 검색

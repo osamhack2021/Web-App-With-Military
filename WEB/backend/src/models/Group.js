@@ -37,7 +37,7 @@ const groupSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  readme: {
+  info: {
     type: String,
     default: null,
   },

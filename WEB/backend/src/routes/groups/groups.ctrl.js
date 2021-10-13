@@ -54,6 +54,56 @@ const process = {
     });
   },
 
+  // 그룹 정보 수정
+  edit: (req, res) => {
+    Group.findOne({ id: req.body.id }, (err, group) => {
+      if (err) return res.status(500).json({ isSuccessful: false, err });
+      let admin = false;
+      for (let i = 0; i < group.admins.length; i++) {
+        if (String(group.admins[i]) === String(req.user._id)) admin = true;
+      }
+      if (admin) {
+        Group.findOneAndUpdate(
+          { id: group._id },
+          {
+            $set: {
+              info: req.body.info,
+            },
+          },
+          err => {
+            if (err) return res.status(500).json({ isSuccessful: false, err });
+            return res.status(200).json({ isSuccessful: true });
+          },
+        );
+      } else {
+        return res
+          .status(403)
+          .json({ isSuccessful: false, message: '관리자가 아닙니다.' });
+      }
+    });
+  },
+
+  // 그룹 삭제
+  remove: (req, res) => {
+    Group.findOne({ id: req.body.id }, (err, group) => {
+      if (err) return res.status(500).json({ isSuccessful: false, err });
+      let admin = false;
+      for (let i = 0; i < group.admins.length; i++) {
+        if (String(group.admins[i]) === String(req.user._id)) admin = true;
+      }
+      if (admin) {
+        Group.deleteOne({ id: group._id }, err => {
+          if (err) return res.status(500).json({ isSuccessful: false, err });
+          return res.status(200).json({ isSuccessful: true });
+        });
+      } else {
+        return res
+          .status(403)
+          .json({ isSuccessful: false, message: '관리자가 아닙니다.' });
+      }
+    });
+  },
+
   // 그룹 참가 신청 승인
   approve: async (req, res) => {
     try {
