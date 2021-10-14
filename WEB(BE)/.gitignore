@@ -41,6 +41,7 @@ build/Release
 **node_modules/
 **frontend/
 jspm_packages/
+wimilKeyPair.pem
 
 # TypeScript v1 declaration files
 typings/
