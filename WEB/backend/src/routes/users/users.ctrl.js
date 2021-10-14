@@ -40,8 +40,7 @@ const process = {
         if (err) return req.status(403).json(err);
         if (!isMatch) {
           return res.json({
-            isLoginSuccessful: false,
-            message: '이메일 또는 비밀번호가 잘못 입력 되었습니다.',
+            loginFailure: { password: true },
           });
         }
         // 토큰 생성 및 쿠키에 저장
@@ -54,9 +53,9 @@ const process = {
               httpOnly: true,
             })
             .status(200)
-            .json({
+            .json({ 
               isLoginSuccessful: true,
-              userName: user.userName,
+              user: user.serialize()
             });
         });
       });
@@ -99,6 +98,68 @@ const process = {
     if (!result.length)
       return res.status(200).json({ searchFailure: { result: true } });
     return res.status(200).json(result);
+  },
+
+  // 특정 유저 정보 조회
+  profile: async (req, res) => {
+    // totalTime 기준으로 rank 부여
+    const result = await User.aggregate([
+      {
+        $sort: {
+          totalTime: -1,
+        },
+      },
+      {
+        $group: {
+          // Add in an array
+          _id: null,
+          items: {
+            $push: '$$ROOT',
+          },
+        },
+      },
+      {
+        $unwind: {
+          // De-normalize and get index
+          path: '$items',
+          includeArrayIndex: 'items.rank',
+        },
+      },
+      {
+        $replaceRoot: {
+          // Reshape
+          newRoot: '$items',
+        },
+      },
+      {
+        $addFields: {
+          // Add 1 to get to proper rank as array is index starts 0
+          rank: {
+            $add: ['$rank', 1],
+          },
+        },
+      },
+    ]);
+
+    // 호출한 유저 필터링
+    function isUser(element) {
+      if (element.userName === req.body.userName) {
+        return true;
+      }
+    }
+    const final = await result.filter(isUser);
+
+    // rank 저장 후 정보 표시
+    User.findOneAndUpdate(
+      { userName: req.body.userName },
+      { $set: { rank: final[0].rank } },
+    )
+      .populate('groupList')
+      .exec(async (err, user) => {
+        if (err) return res.status(400).json(err);
+        user.rank = final[0].rank;
+        return res.status(200).send(user.serialize());
+      });
   },
 };
 

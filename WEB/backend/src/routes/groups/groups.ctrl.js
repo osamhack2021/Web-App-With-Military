@@ -6,20 +6,21 @@ const process = {
   // 그룹 만들기
   create: (req, res) => {
     // 그룹이름 중복 여부 확인
-    Group.findOne({ name: req.body.name }, (err, name) => {
+    Group.findOne({ groupName: req.body.groupName }, (err, groupName) => {
       if (err) return res.json({ createSuccess: false, err });
-      if (name)
+      if (groupName)
         return res.status(409).json({
           createSuccess: false,
           message: '이미 사용중인 그룹 이름입니다.',
         });
+
       const group = new Group(req.body);
       // 새로운 그룹 정보 DB에 저장
       group.save((err, group) => {
         if (err) return res.json({ createSuccess: false, err });
         // 그룹 어드민 목록에 해당 유저 추가
         Group.findOneAndUpdate(
-          { name: group.name },
+          { groupName: group.groupName },
           { $addToSet: { admins: req.user._id } },
           (err, group) => {
             if (err) return res.json({ createSuccess: false, err });
@@ -86,6 +87,7 @@ const process = {
     );
   },
 
+  // 그룹 태깅
   tagging: (req, res) => {
     Group.findOne({ groupName: req.body.groupName }, (err, group) => {
       if (err) {
