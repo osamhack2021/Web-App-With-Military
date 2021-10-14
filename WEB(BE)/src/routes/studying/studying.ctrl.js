@@ -1,10 +1,16 @@
 const { User } = require('../../models/User');
 const { Group } = require('../../models/Group');
 
+function seoul() {
+  const temp = new Date();
+  temp.setHours(temp.getHours() + 9);
+  return temp;
+}
+
 const output = {
   // 타이머 일시정지
   pause: (req, res) => {
-    const now = new Date();
+    const now = seoul();
     if (req.user.pauseTime)
       return res
         .status(200)
@@ -23,7 +29,7 @@ const output = {
         }
         return res.status(200).json({
           isSuccessful: true,
-          elapsedTime: Math.floor((new Date() - req.user.startTime) / 1000),
+          elapsedTime: Math.floor((seoul() - req.user.startTime) / 1000),
           isStudyingNow: true,
         });
       },
@@ -32,7 +38,7 @@ const output = {
 
   // 타이머 재개
   resume: (req, res) => {
-    let now = new Date();
+    let now = seoul();
     if (!req.user.pauseTime)
       return res
         .status(200)
@@ -47,7 +53,7 @@ const output = {
         }
         return res.status(200).json({
           isSuccessful: true,
-          elapsedTime: Math.floor((new Date() - now) / 1000),
+          elapsedTime: Math.floor((seoul() - now) / 1000),
           isStudyingNow: true,
         });
       },
@@ -56,7 +62,7 @@ const output = {
 
   // 타이머 경과 시간
   status: (req, res) => {
-    const now = new Date();
+    const now = seoul();
     if (!req.user.startTime)
       return res
         .status(200)
@@ -85,7 +91,7 @@ const output = {
 
   // 타이머 종료
   end: async (req, res) => {
-    let now = await new Date();
+    let now = await seoul();
     if (!req.user.startTime)
       return res
         .status(200)
@@ -114,7 +120,7 @@ const output = {
           },
         );
       }
-      const today = new Date();
+      const today = seoul();
       const year = today.getFullYear();
       const month = `0${today.getMonth() + 1}`.slice(-2);
       const day = `0${today.getDate()}`.slice(-2);
@@ -210,7 +216,7 @@ const process = {
     if (req.body.category === undefined)
       req.body.category = await group.category;
 
-    const now = new Date();
+    const now = seoul();
 
     try {
       await User.findOneAndUpdate(

@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+function seoul() {
+  const temp = new Date();
+  temp.setHours(temp.getHours() + 9);
+  return temp;
+}
+
 const boardSchema = mongoose.Schema({
   title: {
     type: String,
@@ -23,7 +29,7 @@ const boardSchema = mongoose.Schema({
   },
   posted: {
     type: Date,
-    default: Date.now,
+    default: seoul(),
   },
 });
 

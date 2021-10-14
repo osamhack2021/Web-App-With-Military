@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+function seoul() {
+  const temp = new Date();
+  temp.setHours(temp.getHours() + 9);
+  return temp;
+}
+
 const commentSchema = mongoose.Schema({
   comment: {
     type: String,
@@ -15,7 +21,7 @@ const commentSchema = mongoose.Schema({
   },
   posted: {
     type: Date,
-    default: Date.now,
+    default: seoul(),
   },
 });
 
