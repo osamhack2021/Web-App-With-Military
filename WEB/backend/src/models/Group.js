@@ -1,25 +1,40 @@
 const mongoose = require('mongoose');
 
 const groupSchema = mongoose.Schema({
-  name: {
+  groupName: {
     type: String,
     minlength: 4,
     maxlength: 30,
-    unique: 1,
+    unique: true,
+    require: true,
   },
-  members: {
+  admins: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  members: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  tags: {
     type: Array,
   },
   category: {
     type: String,
+    require: true,
   },
-  score: {
+  totalTime: {
     type: Number,
+    default: 0,
   },
 });
 
-groupSchema.statics.findByGroupName = function (name) {
-  return this.findOne({ name });
+groupSchema.statics.findByName = function (groupName) {
+  return this.findOne({ groupName });
 };
 
 const Group = mongoose.model('Group', groupSchema);

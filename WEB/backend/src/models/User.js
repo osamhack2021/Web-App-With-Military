@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: 4,
   },
-  name: {
+  userName: {
     type: String,
     minlength: 2,
     maxlength: 30,
@@ -40,10 +40,13 @@ const userSchema = mongoose.Schema({
   ],
   totalTime: {
     type: Number,
+    default: 0,
   },
-  history: {
-    type: Array,
-  },
+  history: [
+    {
+      type: Object,
+    },
+  ],
   maxStreak: {
     type: Number,
   },
@@ -53,8 +56,20 @@ const userSchema = mongoose.Schema({
   startTime: {
     type: Date,
   },
+  pauseTime: {
+    type: Number,
+  },
+  activeGroup: {
+    type: String,
+  },
+  activeCategory: {
+    type: String,
+  },
   token: {
     type: String,
+  },
+  rank: {
+    type: Number,
   },
 });
 
@@ -115,6 +130,14 @@ userSchema.statics.findByToken = function (token, cb) {
 // 이메일 찾기
 userSchema.statics.findByEmail = function (email) {
   return this.findOne({ email });
+};
+
+// 비밀번호와 토큰을 제외한 유저정보 전송
+userSchema.methods.serialize = function () {
+  const data = this.toJSON();
+  delete data.password;
+  delete data.token;
+  return data;
 };
 
 const User = mongoose.model('User', userSchema);
