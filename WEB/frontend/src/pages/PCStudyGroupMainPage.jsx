@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 // import TierBar from '../components/main/TierBar';
 import PCStudyGroupMain from '../components/pcstudygroupmain/PCStudyGroupMain';
-import PCStudyGroupMainTemplate from '../components/pcstudygroupmain/PCStudyGroupTemplate';
+import PCStudyGroupMainTemplate from '../components/pcstudygroupmain/PCStudyGroupMainTemplate';
 
 const PCStudyGroupMainPage = () => {
   const totalMember = 26;

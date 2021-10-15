@@ -7,8 +7,8 @@ const PCRegisterForm = ({
   form, onChange, onSubmit, /* error */
 }) => {
   const {
-    studyGroupName, studyGroupTheme, tag1,
-    tag2, tag3, maxMember, groupIntro,
+    groupName, category, tag1,
+    tag2, tag3, members,
   } = form;
 
   return (
@@ -33,14 +33,14 @@ const PCRegisterForm = ({
           <TextField
             variant="outlined"
             size="small"
-            name="studyGroupName"
+            name="groupName"
             fullWidth
             required
             sx={{ my: 1 }}
-            value={studyGroupName}
+            value={groupName}
             onChange={onChange}
             // error={error}
-            // helperText={error.studyGroupName?"사용가능한 그룹명입니다":false}
+            // helperText={error.groupName?"사용가능한 그룹명입니다":false}
           />
         </Box>
 
@@ -61,11 +61,11 @@ const PCRegisterForm = ({
           <TextField
             variant="outlined"
             size="small"
-            name="studyGroupTheme"
+            name="category"
             fullWidth
             required
             sx={{ my: 1 }}
-            value={studyGroupTheme}
+            value={category}
             onChange={onChange}
           />
         </Box>
@@ -160,11 +160,11 @@ const PCRegisterForm = ({
           <TextField
             variant="outlined"
             size="small"
-            name="maxMember"
+            name="members"
             fullWidth
             required
             sx={{ my: 1 }}
-            value={maxMember}
+            value={members}
             onChange={onChange}
           />
         </Box>
@@ -190,7 +190,7 @@ const PCRegisterForm = ({
             fullWidth
             required
             sx={{ my: 1 }}
-            value={groupIntro}
+            // value={groupIntro}
             onChange={onChange}
           />
         </Box>

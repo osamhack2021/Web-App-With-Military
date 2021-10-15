@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import StudyGroupTemplate from '../components/common/StudyGroupTemplate';
+import StudyGroupMainTemplate from '../components/pcstudygroupmain/PCStudyGroupMainTemplate';
 import StudyGroupMain from '../components/studygroup/StudyGroupMain';
 
 const StudyGroupPage = () => {
@@ -8,9 +8,9 @@ const StudyGroupPage = () => {
   const studyGroupName = 'Study with me :)';
   return (
     <>
-      <StudyGroupTemplate>
+      <StudyGroupMainTemplate>
         <StudyGroupMain studyGroupName={studyGroupName} totalMember={totalMember} />
-      </StudyGroupTemplate>
+      </StudyGroupMainTemplate>
     </>
   );
 };

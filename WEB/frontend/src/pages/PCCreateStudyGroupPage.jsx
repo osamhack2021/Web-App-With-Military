@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import useSWR from 'swr';
 import PCCreateStudyGroupForm from '../components/pccreatestudygroup/PCCreateStudyGroupForm';
 import PCCreateStudyGroupTemplate from '../components/pccreatestudygroup/PCCreateStudyGroupTemplate';
+import { fetcher } from '../lib/api/fetcher';
 
 const PCCreateStudyGroupPage = () => {
   const error = { email: false, userName: false };
 
   const [form, setForm] = useState({
-    studyGroupName: '',
-    studyGroupTheme: '',
+    groupName: '',
+    category: '',
     tag1: '',
     tag2: '',
     tag3: '',
-    maxMember: 0,
-    groupIntro: '',
+    members: 0,
   });
 
   const onChange = (e) => {
@@ -28,20 +29,19 @@ const PCCreateStudyGroupPage = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    const { data, error } = useSWR('/board/{userId}', fetcher);
     const formData = {
-      email: form.email,
-      password: form.password,
-      userName: form.userName,
-    };
+      groupName: form.gorupName,
+      category: form.category,
+      tags: [form.tag1, form.tag2, form.tag3],
+      members: form.members,
 
-  //   dispatch(register(formData))
-  //     .then((response) => {
-  //       if (response.success) {
-  //         history.push('/login');
-  //       } else {
-  //         alert('Failed to sign up');
-  //       }
-  //     });
+    };
+    return {
+      user: data,
+      isLoading: !error && !data,
+      isError: error,
+    };
   };
 
   return (
