@@ -53,7 +53,10 @@ const process = {
               httpOnly: true,
             })
             .status(200)
-            .json({ user: user.serialize() });
+            .json({ 
+              isLoginSuccessful: true,
+              user: user.serialize()
+            });
         });
       });
     });
@@ -61,7 +64,8 @@ const process = {
 
   // 회원가입 처리
   register: async (req, res) => {
-    const user = new User(req.body);
+    const { email, password, userName } = req.body;
+    const user = new User({ email, password, userName });
     try {
       // email 중복 확인
       const EMAIL = await User.findByEmail(user.email);

@@ -8,7 +8,7 @@ import {
 const LOGIN = 'auth/LOGIN';
 const REGISTER = 'auth/RESIGER';
 export function auth() {
-  const request = axios.get('/users/auth').then((response) => response.data);
+  const request = axios.get('/users/auth').then(response => response.data);
   return {
     type: AUTH_USER,
     payload: request,
@@ -38,7 +38,8 @@ export const login = (formData) => async (dispatch) => {
   });
   return data;
 };
-export const register = (formData) => async (dispatch) => {
+
+export const register = formData => async dispatch => {
   const res = await registerApi(formData);
   if (res.status !== 200) {
     const data = {
@@ -74,12 +75,19 @@ const initialState = {
   },
 };
 // 리듀서
+
 const userAuth = handleActions(
   {
-    [LOGIN]: (state, { payload: { success, userData } }) => ({
-      ...userData,
+    [LOGIN]: (state, { payload: { isLoginSuccessful, userName } }) => ({
+      ...state,
+      user: {
+        // ESLint rule : no-underscore-dangle
+        // id: userData._id,
+        userName,
+        // 추가 데이터
+      },
       login: {
-        success,
+        isLoginSuccessful,
       },
     }),
   },
