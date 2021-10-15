@@ -1,11 +1,19 @@
 import React from 'react';
 import {
-  Box, Typography, Button,
+  Box, Button, List, Typography,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
+import PublicIcon from '@mui/icons-material/Public';
 import { ReactComponent as WhiteTimerIcon } from '../../static/icons/timer_white.svg';
+import MyAvatar from '../common/MyAvatar';
+import MyListItem from '../common/MyListItem';
 
-const StudyGroupMain = ({ totalMember, studyGroupName }) => (
+const userName = 'goodgun';
+const totalMember = 26;
+const studyGroupName = 'Study with me :)';
+const imageUrl = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3R1ZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
+
+const StudyGroupMain = () => (
   <>
     <Box sx={{
       color: 'rgba(0, 0, 0, 0.54)',
@@ -65,7 +73,7 @@ const StudyGroupMain = ({ totalMember, studyGroupName }) => (
             ml: 0.5,
           }}
         >
-          Start with
+          {studyGroupName}
         </Typography>
       </Button>
 
@@ -74,6 +82,30 @@ const StudyGroupMain = ({ totalMember, studyGroupName }) => (
       }}
       >
         {/* 본인 프로필 ListItem과 작성한 글이 나오는 곳 */}
+        <List>
+          <MyListItem
+            avatar={<MyAvatar
+              sx={{
+                width: '3.5rem',
+                height: '3.5rem',
+              }}
+              imageUrl={imageUrl}
+            />}
+            primary={<Typography>{userName}</Typography>}
+            secondary={
+              <Box sx={{
+                display: 'flex',
+
+              }}
+              >
+                <Typography>
+                  5시간
+                </Typography>
+                <PublicIcon />
+              </Box>
+            }
+          />
+        </List>
       </Box>
     </Box>
   </>

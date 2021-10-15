@@ -1,7 +1,6 @@
 import React from 'react';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { ReactComponent as DialIcon } from '../../static/icons/dial.svg';
-// auto, flex, justifyContent, textalign으로 대충 가운데 놨지만 더 좋은 방법은 없을까..
 import useElapsedTime from '../../hooks/useElapsedTime';
 
 const Clock = () => {

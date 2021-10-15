@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import {
@@ -79,12 +80,12 @@ const Rank = () => {
             <Table size="small">
               {/*  <TableHead></TableHead> */}
               <TableBody>
-                {users.map(({ rankNum, name }) => (
+                {users.map(({ rank, name }) => (
                   <TableRow
                     style={{
                       backgroundColor: '#000F04',
                     }}
-                    key={rankNum}
+                    key={rank}
                   >
                     <TableCell
                       style={{
@@ -95,7 +96,7 @@ const Rank = () => {
                       align="right"
                     >
                       #
-                      {rankNum + 17}
+                      {rank + 17}
                     </TableCell>
                     <TableCell
                       style={{
@@ -171,12 +172,12 @@ const Rank = () => {
             <Table size="small">
               {/*  <TableHead></TableHead> */}
               <TableBody>
-                {users.map(({ rankNum, name }) => (
+                {users.map(({ rank, name }) => (
                   <TableRow
                     style={{
                       backgroundColor: '#000F04',
                     }}
-                    key={rankNum}
+                    key={rank}
                   >
                     <TableCell
                       style={{
@@ -187,7 +188,7 @@ const Rank = () => {
                       align="right"
                     >
                       #
-                      {rankNum + 17}
+                      {rank + 17}
                     </TableCell>
                     <TableCell
                       style={{
