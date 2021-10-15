@@ -8,11 +8,24 @@ const process = {
     // 그룹이름 중복 여부 확인
     Group.findOne({ groupName: req.body.groupName }, (err, exist) => {
       if (err) return res.status(500).json({ isSuccessful: false, err });
-      if (exist)
+      if (exist !== null)
         return res.status(409).json({
           isSuccessful: false,
           message: '이미 사용중인 그룹 이름입니다.',
         });
+
+      for (let i = 0; i < req.body.tags.length; i++) {
+        Tag.findOne({ tagName: req.body.tags[i] }, (err, exist) => {
+          if (err) return res.status(500).json({ isSuccessful: false, err });
+          if (exist === null) {
+            const tag = new Tag({ tagName: req.body.tags[i] });
+            tag.save(err => {
+              if (err)
+                return res.status(200).json({ isSuccessful: false, err });
+            });
+          }
+        });
+      }
 
       const group = new Group(req.body);
       // 새로운 그룹 정보 DB에 저장
@@ -29,9 +42,19 @@ const process = {
               { _id: req.user._id },
               { $addToSet: { groupList: group._id } },
               err => {
-                if (err) {
-                  if (err)
-                    return res.status(500).json({ isSuccessful: false, err });
+                if (err)
+                  return res.status(500).json({ isSuccessful: false, err });
+                for (let i = 0; i < req.body.tags.length; i++) {
+                  Tag.findOneAndUpdate(
+                    { tagName: req.body.tags[i] },
+                    { $addToSet: { groupList: group._id } },
+                    err => {
+                      if (err)
+                        return res
+                          .status(500)
+                          .json({ isSuccessful: false, err });
+                    },
+                  );
                 }
                 return res.status(200).json({ isSuccessful: true });
               },
@@ -143,34 +166,6 @@ const process = {
     }
   },
 
-  // 그룹 태깅
-  tagging: (req, res) => {
-    Group.findOne({ groupName: req.body.groupName }, (err, group) => {
-      if (err) {
-        return res.status(500).json({ isSuccessful: false, err });
-      }
-      Tag.findOneAndUpdate(
-        { tagName: req.body.tagName },
-        { $addToSet: { groups: group._id } },
-        err => {
-          if (err) {
-            return res.status(500).json({ isSuccessful: false, err });
-          }
-          Group.findOneAndUpdate(
-            { groupName: req.body.groupName },
-            { $set: { tags: req.body.tagName } },
-            err => {
-              if (err) {
-                return res.status(500).json({ isSuccessful: false, err });
-              }
-              return res.status(200).json({ isSuccessful: true });
-            },
-          );
-        },
-      );
-    });
-  },
-
   // 그룹 검색
   search: async (req, res) => {
     try {
@@ -182,12 +177,12 @@ const process = {
       await Tag.find({
         groupName: req.body.search,
       })
-        .populate('groups')
+        .populate('groupList')
         .exec((err, tag) => {
           if (err) return res.status(500).json({ isSuccessful: false, err });
           let array = [];
           for (let i = 0; i < tag.length; i++) {
-            if (tag[i].groups.length) array = array.concat(tag[i].groups);
+            if (tag[i].groupList.length) array = array.concat(tag[i].groupList);
           }
           array = array.concat(group);
           const result = Array.from(

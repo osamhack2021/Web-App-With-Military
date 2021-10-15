@@ -5,7 +5,7 @@ const tagSchema = mongoose.Schema({
     type: String,
     unique: true,
   },
-  groups: [
+  groupList: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Group',
