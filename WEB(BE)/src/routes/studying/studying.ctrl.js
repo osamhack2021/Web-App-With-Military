@@ -76,7 +76,6 @@ const output = {
         isStudyingNow: true,
         isPaused: true,
         activeGroup: req.user.activeGroup,
-        activeCategory: req.user.activeCategory,
       });
     }
     return res.status(200).json({
@@ -85,7 +84,6 @@ const output = {
       isStudyingNow: true,
       isPaused: false,
       activeGroup: req.user.activeGroup,
-      activeCategory: req.user.activeCategory,
     });
   },
 
@@ -139,10 +137,6 @@ const output = {
         if (his.day === dateString) {
           if (his.value === undefined) his.value = 0;
           his.value += await now;
-
-          if (his[req.user.activeCategory] === undefined)
-            his[req.user.activeCategory] = await 0;
-          his[req.user.activeCategory] += await now;
         }
       });
 
@@ -150,7 +144,6 @@ const output = {
       USER.totalTime += now;
       USER.pauseTime = null;
       USER.activeGroup = null;
-      USER.activeCategory = null;
 
       const temp = await USER.history.sort((a, b) => {
         const x = a.day;
@@ -194,7 +187,6 @@ const output = {
           isSuccessful: true,
           elapsedTime: now,
           activeGroup: req.user.activeGroup,
-          activeCategory: req.user.activeCategory,
         });
       });
     } catch (err) {
@@ -212,9 +204,6 @@ const process = {
         message: '이미 공부 중 입니다.',
       });
     if (req.body.groupName === undefined) req.body.groupName = null;
-    const group = await Group.findOne({ groupName: req.body.groupName });
-    if (req.body.category === undefined)
-      req.body.category = await group.category;
 
     const now = seoul();
 
@@ -225,7 +214,6 @@ const process = {
           $set: {
             startTime: now,
             activeGroup: req.body.groupName,
-            activeCategory: req.body.category,
           },
         },
       );
@@ -234,7 +222,6 @@ const process = {
         elapsedTime: 0,
         isStudyingNow: true,
         activeGroup: req.body.groupName,
-        activeCategory: req.body.category,
       });
     } catch (err) {
       return res.status(500).json({ isSuccessful: false, err });

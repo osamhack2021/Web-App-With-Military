@@ -71,21 +71,14 @@ const userSchema = mongoose.Schema({
   activeGroup: {
     type: String,
   },
-  activeCategory: {
-    type: String,
-  },
   token: {
     type: String,
   },
   rank: {
     type: Number,
   },
-  // 입대일
-  enlistmentDate: {
-    type: Date,
-  },
   // 전역일
-  dischargetDate: {
+  dischargeDate: {
     type: Date,
   },
 });
