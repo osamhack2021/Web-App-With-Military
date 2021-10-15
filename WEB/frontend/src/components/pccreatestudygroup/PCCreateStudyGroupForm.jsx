@@ -3,21 +3,19 @@ import {
   Box, Button, TextField, Typography,
 } from '@mui/material';
 
-const PCRegisterForm = ({
-  form, onChange, onSubmit, /* error */
-}) => {
+const PCRegisterForm = ({ form, onChange, onSubmit /* error */ }) => {
   const {
-    groupName, category, tag1,
-    tag2, tag3, members,
+    groupName, category, tag1, tag2, tag3, readme,
   } = form;
 
   return (
     <>
       <form onSubmit={onSubmit}>
-        <Box sx={{
-          display: 'flex',
-          textAlign: 'center',
-        }}
+        <Box
+          sx={{
+            display: 'flex',
+            textAlign: 'center',
+          }}
         >
           <Typography
             component={Box}
@@ -44,9 +42,10 @@ const PCRegisterForm = ({
           />
         </Box>
 
-        <Box sx={{
-          display: 'flex',
-        }}
+        <Box
+          sx={{
+            display: 'flex',
+          }}
         >
           <Typography
             component={Box}
@@ -69,9 +68,10 @@ const PCRegisterForm = ({
             onChange={onChange}
           />
         </Box>
-        <Box sx={{
-          display: 'flex',
-        }}
+        <Box
+          sx={{
+            display: 'flex',
+          }}
         >
           <Typography
             component={Box}
@@ -93,9 +93,10 @@ const PCRegisterForm = ({
             onChange={onChange}
           />
         </Box>
-        <Box sx={{
-          display: 'flex',
-        }}
+        <Box
+          sx={{
+            display: 'flex',
+          }}
         >
           <Typography
             component={Box}
@@ -118,9 +119,10 @@ const PCRegisterForm = ({
           />
         </Box>
 
-        <Box sx={{
-          display: 'flex',
-        }}
+        <Box
+          sx={{
+            display: 'flex',
+          }}
         >
           <Typography
             component={Box}
@@ -143,35 +145,10 @@ const PCRegisterForm = ({
           />
         </Box>
 
-        <Box sx={{
-          display: 'flex',
-        }}
-        >
-          <Typography
-            component={Box}
-            align="left"
-            sx={{
-              py: '1rem',
-              width: '33%',
-            }}
-          >
-            그룹 가입 가능 인원
-          </Typography>
-          <TextField
-            variant="outlined"
-            size="small"
-            name="members"
-            fullWidth
-            required
-            sx={{ my: 1 }}
-            value={members}
-            onChange={onChange}
-          />
-        </Box>
-
-        <Box sx={{
-          display: 'flex',
-        }}
+        <Box
+          sx={{
+            display: 'flex',
+          }}
         >
           <Typography
             component={Box}
@@ -190,7 +167,7 @@ const PCRegisterForm = ({
             fullWidth
             required
             sx={{ my: 1 }}
-            // value={groupIntro}
+            value={readme}
             onChange={onChange}
           />
         </Box>
@@ -210,3 +187,31 @@ const PCRegisterForm = ({
 };
 
 export default PCRegisterForm;
+
+/* 그룹 가입 가능 인원은 일단 api 로직 상에서 제외되었으므로 ui에서도 제외함
+<Box
+  sx={{
+    display: 'flex',
+  }}
+>
+  <Typography
+    component={Box}
+    align="left"
+    sx={{
+      py: '1rem',
+      width: '33%',
+    }}
+  >
+    그룹 가입 가능 인원
+  </Typography>
+  <TextField
+    variant="outlined"
+    size="small"
+    name="maxMember"
+    fullWidth
+    required
+    sx={{ my: 1 }}
+    value={maxMember}
+    onChange={onChange}
+  />
+</Box>; */

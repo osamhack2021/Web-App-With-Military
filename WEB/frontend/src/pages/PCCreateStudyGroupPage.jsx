@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import useSWR from 'swr';
+import { withRouter, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import PCCreateStudyGroupForm from '../components/pccreatestudygroup/PCCreateStudyGroupForm';
 import PCCreateStudyGroupTemplate from '../components/pccreatestudygroup/PCCreateStudyGroupTemplate';
-import { fetcher } from '../lib/api/fetcher';
+import { createGroup } from '../modules/group';
 
 const PCCreateStudyGroupPage = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const error = { email: false, userName: false };
 
   const [form, setForm] = useState({
@@ -14,7 +17,7 @@ const PCCreateStudyGroupPage = () => {
     tag1: '',
     tag2: '',
     tag3: '',
-    members: 0,
+    readme: '',
   });
 
   const onChange = (e) => {
@@ -29,25 +32,46 @@ const PCCreateStudyGroupPage = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const { data, error } = useSWR('/board/{userId}', fetcher);
-    const formData = {
-      groupName: form.gorupName,
-      category: form.category,
-      tags: [form.tag1, form.tag2, form.tag3],
-      members: form.members,
+    const {
+      studyGroupName, category, tag1, tag2, tag3, readme,
+    } = form;
 
-    };
-    return {
-      user: data,
-      isLoading: !error && !data,
-      isError: error,
-    };
+    axios
+      .post('/groups/create', {
+        studyGroupName,
+        category,
+        tags: [tag1, tag2, tag3],
+        readme,
+      })
+      .then((res) => res.data)
+      .then(({ isSuccessful }) => {
+        if (isSuccessful) {
+          history.push('/pcstudygroup');
+          createGroup({
+            studyGroupName, category, tag1, tag2, tag3, readme,
+          });
+        }
+      });
+
+    //   dispatch(register(formData))
+    //     .then((response) => {
+    //       if (response.success) {
+    //         history.push('/login');
+    //       } else {
+    //         alert('Failed to sign up');
+    //       }
+    //     });
   };
 
   return (
     <>
       <PCCreateStudyGroupTemplate>
-        <PCCreateStudyGroupForm form={form} onChange={onChange} onSubmit={onSubmit} error={error} />
+        <PCCreateStudyGroupForm
+          form={form}
+          onChange={onChange}
+          onSubmit={onSubmit}
+          error={error}
+        />
       </PCCreateStudyGroupTemplate>
     </>
   );

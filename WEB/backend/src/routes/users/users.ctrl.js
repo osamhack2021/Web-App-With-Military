@@ -81,7 +81,7 @@ const process = {
       return res.status(400).json(err);
     }
   },
-
+  
   // 유저 검색
   search: async (req, res) => {
     const result = await User.find(

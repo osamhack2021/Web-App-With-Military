@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import {
-  Box, Button, Grid, IconButton, Typography,
-} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import PublicIcon from '@mui/icons-material/Public';
 import TimerIcon from '@mui/icons-material/Timer';
@@ -9,20 +7,37 @@ import CreateIcon from '@mui/icons-material/Create';
 import MyAvatar from '../common/MyAvatar';
 import MyListItem from '../common/MyListItem';
 import PCUploadForm from './PCUploadForm';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import createGroup from '../../modules/group';
 
 const PCStudyGroupMain = () => {
+  const { groupName, members, tags, rank, info } = useSelector(
+    state => state.group,
+  );
+  const { userName } = useSelector(state => state.userData.userName);
+  const dispatch = useDispatch();
+
   const userData = {
     userName: 'goodgun',
     totalMember: 26,
     studyGroupName: 'Study with me :)',
     tier: 'Gold',
-    imageUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3R1ZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80',
+    imageUrl:
+      'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3R1ZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80',
   };
+
+  useEffect(() => {
+    axios
+      .post('/groups/profile', { groupName })
+      .then(res => res.data)
+      .then(({ group }) => dispatch(createGroup(group)));
+  }, [groupName]);
 
   const [toggleUploadForm, setToggleUploadForm] = useState(false);
 
   const onClickToggle = () => {
-    setToggleUploadForm((prev) => !prev);
+    setToggleUploadForm(prev => !prev);
   };
 
   const time = { startTime: '00:00:00', endTime: '00:00:00' };
@@ -32,7 +47,7 @@ const PCStudyGroupMain = () => {
     subTitle: '',
     content: '',
   });
-  const onChange = (e) => {
+  const onChange = e => {
     const nextForm = {
       ...form,
       [e.target.name]: e.target.value,
@@ -41,20 +56,21 @@ const PCStudyGroupMain = () => {
     console.log(form);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault();
   };
 
   return (
     <>
-      {toggleUploadForm
-      && <PCUploadForm
-        form={form}
-        time={time}
-        onChange={onChange}
-        onSubmit={onSubmit}
-        onClickToggle={onClickToggle}
-      />}
+      {toggleUploadForm && (
+        <PCUploadForm
+          form={form}
+          time={time}
+          onChange={onChange}
+          onSubmit={onSubmit}
+          onClickToggle={onClickToggle}
+        />
+      )}
       <Button
         variant="contained"
         color="secondary"
@@ -93,42 +109,42 @@ const PCStudyGroupMain = () => {
               fontWeight: 'bold',
             }}
           >
-            {userData.studyGroupName}
+            {groupName}
           </Typography>
         }
-        secondary={<>
-          <Typography
-            component={Box}
-          >
-            {userData.tier}
-          </Typography>
-          <Box sx={{
-            color: '#5E5E5E',
-            display: 'flex',
-          }}
-          >
-            <PersonIcon width="1rem" height="1rem" sx={{ mr: 0.5 }} />
-            <Typography
-              component={Box}
+        secondary={
+          <>
+            <Typography component={Box}>{}</Typography>
+            <Box
               sx={{
-                fontWeight: 'bold',
-                py: '2px',
+                color: '#5E5E5E',
+                display: 'flex',
               }}
             >
-              {/* ↓ 스터디 그룹에 참여하는 총 인원 */}
-              {userData.totalMember}
-              /30
-            </Typography>
-          </Box>
-                   </>}
+              <PersonIcon width="1rem" height="1rem" sx={{ mr: 0.5 }} />
+              <Typography
+                component={Box}
+                sx={{
+                  fontWeight: 'bold',
+                  py: '2px',
+                }}
+              >
+                {/* ↓ 스터디 그룹에 참여하는 총 인원 */}
+                {members.length}
+                /30
+              </Typography>
+            </Box>
+          </>
+        }
       />
 
-      <Box sx={{
-        mt: 2,
-        mx: 6,
-        p: 4,
-        borderTop: '1px solid #5E5E5E',
-      }}
+      <Box
+        sx={{
+          mt: 2,
+          mx: 6,
+          p: 4,
+          borderTop: '1px solid #5E5E5E',
+        }}
       >
         {/* studygroup_main content */}
 
@@ -151,29 +167,26 @@ const PCStudyGroupMain = () => {
               },
             }}
           >
-            <Box sx={{
-              p: 3,
-              mb: 4,
-              backgroundColor: ' #E8E8E8',
-              borderRadius: '1rem',
-            }}
+            <Box
+              sx={{
+                p: 3,
+                mb: 4,
+                backgroundColor: ' #E8E8E8',
+                borderRadius: '1rem',
+              }}
             >
               정보
             </Box>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={7}
-            sx={{ }}
-          >
-            <Box sx={{
-              p: 3,
-              mb: 4,
-              backgroundColor: ' #E8E8E8',
-              borderRadius: '1rem',
-              display: 'flex',
-            }}
+          <Grid item xs={12} sm={7} sx={{}}>
+            <Box
+              sx={{
+                p: 3,
+                mb: 4,
+                backgroundColor: ' #E8E8E8',
+                borderRadius: '1rem',
+                display: 'flex',
+              }}
             >
               <Typography
                 component={Box}
@@ -196,43 +209,41 @@ const PCStudyGroupMain = () => {
               </IconButton>
             </Box>
 
-            <Box sx={{
-              p: 3,
-              mb: 4,
-              backgroundColor: ' #E8E8E8',
-              borderRadius: '1rem',
-            }}
+            <Box
+              sx={{
+                p: 3,
+                mb: 4,
+                backgroundColor: ' #E8E8E8',
+                borderRadius: '1rem',
+              }}
             >
               <MyListItem
-                avatar={<MyAvatar
-                  sx={{
-                    width: '3.5rem',
-                    height: '3.5rem',
-                  }}
-                  imageUrl={userData.imageUrl}
-                />}
-                primary={<Typography>{userData.userName}</Typography>}
+                avatar={
+                  <MyAvatar
+                    sx={{
+                      width: '3.5rem',
+                      height: '3.5rem',
+                    }}
+                    imageUrl={userData.imageUrl}
+                  />
+                }
+                primary={<Typography>{userName}</Typography>}
                 secondary={
-                  <Box sx={{
-                    display: 'flex',
-
-                  }}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                    }}
                   >
-                    <Typography>
-                      5시간
-                    </Typography>
+                    <Typography>5시간</Typography>
                     <PublicIcon />
                   </Box>
-                    }
+                }
               />
             </Box>
           </Grid>
         </Grid>
-
       </Box>
-
     </>
-
   );
 };
 
