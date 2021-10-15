@@ -19,11 +19,8 @@ const PCSearchPage = () => {
   return (
     <>
       <PCSearchTemplate>
-        {/* <User userName={userName} /> */}
-        {/* <TierBar /> */}
         <PCSearchInput />
         <PCStudyGroupList />
-        {/* <Rank /> */}
       </PCSearchTemplate>
     </>
   );
