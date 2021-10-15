@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+function seoul() {
+  const temp = new Date();
+  temp.setHours(temp.getHours() + 9);
+  return temp;
+}
+
 const groupSchema = mongoose.Schema({
   groupName: {
     type: String,
@@ -20,16 +26,29 @@ const groupSchema = mongoose.Schema({
       ref: 'User',
     },
   ],
+  waiting: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
   tags: {
     type: Array,
-  },
-  category: {
-    type: String,
-    require: true,
   },
   totalTime: {
     type: Number,
     default: 0,
+  },
+  info: {
+    type: String,
+    default: null,
+  },
+  rank: {
+    type: Number,
+  },
+  created: {
+    type: Date,
+    default: seoul(),
   },
 });
 

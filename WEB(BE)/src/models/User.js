@@ -4,6 +4,11 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 
+function seoul() {
+  const temp = new Date();
+  temp.setHours(temp.getHours() + 9);
+  return temp;
+}
 const userSchema = mongoose.Schema({
   email: {
     type: String,
@@ -22,16 +27,14 @@ const userSchema = mongoose.Schema({
     index: true,
     required: true,
   },
+  info: {
+    type: String,
+    default: null,
+  },
   created: {
     type: Date,
-    default: Date.now,
+    default: seoul(),
   },
-  division: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Division',
-    },
-  ],
   groupList: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -49,9 +52,11 @@ const userSchema = mongoose.Schema({
   ],
   maxStreak: {
     type: Number,
+    default: 0,
   },
-  currentStreak: {
+  curStreak: {
     type: Number,
+    default: 0,
   },
   startTime: {
     type: Date,
@@ -62,14 +67,15 @@ const userSchema = mongoose.Schema({
   activeGroup: {
     type: String,
   },
-  activeCategory: {
-    type: String,
-  },
   token: {
     type: String,
   },
   rank: {
     type: Number,
+  },
+  // 전역일
+  dischargeDate: {
+    type: Date,
   },
 });
 
@@ -78,7 +84,7 @@ userSchema.pre('save', function (next) {
   const user = this;
 
   // 비밀번호 변경 시
-  if (user.isModified('password')) {
+  if (this.password && this.isNew) {
     // 비밀번호 암호화
     bcrypt.genSalt(saltRounds, (err, salt) => {
       if (err) return next(err);

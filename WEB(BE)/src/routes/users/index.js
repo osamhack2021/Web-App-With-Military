@@ -13,5 +13,6 @@ router.post('/login', ctrl.process.login);
 router.post('/register', ctrl.process.register);
 router.post('/search', ctrl.process.search);
 router.post('/profile', ctrl.process.profile);
+router.post('/edit', auth, ctrl.process.edit);
 
 module.exports = router;

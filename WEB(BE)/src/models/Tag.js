@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const tagSchema = mongoose.Schema({
-  name: {
+  tagName: {
     type: String,
     unique: true,
   },
-  groups: [
+  groupList: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Group',
