@@ -23,14 +23,16 @@ const process = {
       ).limit(20);
       if (USERS.length === 0) USERS = null;
       await Tag.find({
-        groupName: req.body.search,
+        groupList: req.body.search,
       })
-        .populate('groups')
+        .populate('groupList')
         .exec((err, tag) => {
-          if (err) return res.status(500).json({ isSuccessful: false, err });
           let array = [];
-          for (let i = 0; i < tag.length; i++) {
-            if (tag[i].groups.length) array = array.concat(tag[i].groups);
+          if (tag !== undefined) {
+            for (let i = 0; i < tag.length; i++) {
+              if (tag[i].groupList.length)
+                array = array.concat(tag[i].groupList);
+            }
           }
           array = array.concat(group);
           let GROUPS = Array.from(
