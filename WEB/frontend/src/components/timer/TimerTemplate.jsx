@@ -5,6 +5,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SearchIcon from '@mui/icons-material/Search';
 import NavBar from '../common/NavBar';
 import DarkTemplate from '../common/DarkTemplate';
+import Overlay from './Overlay';
 
 const TimerTemplate = ({ children }) => (
   <>
@@ -26,6 +27,7 @@ const TimerTemplate = ({ children }) => (
           <MenuIcon />
         </IconButton>
       </NavBar>
+      <Overlay />
       {/* ↓ 다이얼, 버튼 */}
       {children}
     </DarkTemplate>
