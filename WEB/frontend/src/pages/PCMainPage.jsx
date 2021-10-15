@@ -17,6 +17,7 @@ const PCMainPage = () => {
   return (
     <>
       <PCMainTemplate>
+        <div>메인페이지 입니다.</div>
       </PCMainTemplate>
     </>
   );

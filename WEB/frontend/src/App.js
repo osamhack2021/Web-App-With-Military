@@ -9,13 +9,13 @@ import TimerPage from './pages/TimerPage';
 import SearchPage from './pages/SearchPage';
 import UploadPage from './pages/UploadPage';
 import StudyGroupMainPage from './pages/StudyGroupMainPage';
-// import PCMainPage from './pages/PCMainPage';
+import PCMainPage from './pages/PCMainPage';
 import PCSearchPage from './pages/PCSearchPage';
 import PCUserProfilePage from './pages/PCUserProfilePage';
 import PCStudyGroupMainPage from './pages/PCStudyGroupMainPage';
 import PCRegisterPage from './pages/PCRegisterPage';
 import PCCreateStudyGroupPage from './pages/PCCreateStudyGroupPage';
- 
+
 const App = () => (
   <>
     <Switch>
@@ -34,7 +34,8 @@ const App = () => (
       <Route exact path="/upload" component={UploadPage} />
       <Route exact path="/search" component={SearchPage} />
       <Route exact path="/studygroup" component={StudyGroupMainPage} />
-      {/* <Route exact path="/pcmain" component={PCMainPage} /> */}
+
+      <Route exact path="/pcmain" component={PCMainPage} />
       <Route exact path="/pcsearch" component={PCSearchPage} />
       <Route exact path="/pcuserprofile" component={PCUserProfilePage} />
       <Route exact path="/pcstudygroup" component={PCStudyGroupMainPage} />
