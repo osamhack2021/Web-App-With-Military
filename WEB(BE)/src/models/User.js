@@ -35,10 +35,6 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: seoul(),
   },
-  division: {
-    type: String,
-    require: true,
-  },
   groupList: [
     {
       type: mongoose.Schema.Types.ObjectId,

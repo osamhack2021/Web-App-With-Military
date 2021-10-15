@@ -1,5 +1,4 @@
 const { User } = require('../../models/User');
-const { Division } = require('../../models/Division');
 
 const output = {
   // 로그인 확인 후 정보 표시
@@ -86,17 +85,10 @@ const process = {
     // 데이터베이스 저장
     await user.save((err, user) => {
       if (err) return res.status(500).json({ isSuccessful: false, err });
-      Division.findOneAndUpdate(
-        { division: req.body.division },
-        { $addToSet: { users: user._id } },
-        err => {
-          if (err) return res.status(500).json({ isSuccessful: false, err });
-          return res.status(200).json({
-            isSuccessful: true,
-            user: user.serialize(),
-          });
-        },
-      );
+      return res.status(200).json({
+        isSuccessful: true,
+        user: user.serialize(),
+      });
     });
   },
 
