@@ -28,8 +28,8 @@ const process = {
         loginFailure: { form: true },
       });
     }
-    // 아이디 존재 여부 확인
-    User.findOne({ id: req.body.id }, (err, user) => {
+    // 이메일 존재 여부 확인
+    User.findOne({ email: req.body.email }, (err, user) => {
       if (!user) {
         return res.status(403).json({
           loginFailure: { email: true },
@@ -85,7 +85,7 @@ const process = {
       return res.status(400).json(err);
     }
   },
-  
+
   // 유저 검색
   search: async (req, res) => {
     const result = await User.find(
