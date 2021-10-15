@@ -1,3 +1,4 @@
+import { withRouter } from 'react-router-dom';
 import { Box } from '@mui/material';
 import MyStudyGroup from '../MyStudyGroup';
 import MyMenu from '../components/studygroup/MyMenu';
@@ -11,4 +12,4 @@ const MyGroup = () => (
   </Box>
 );
 
-export default MyGroup;
+export default withRouter(MyGroup);

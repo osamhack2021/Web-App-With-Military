@@ -1,5 +1,6 @@
 import React from 'react';
-import StudyGroupTemplate from '../components/common/StudyGroupTemplate';
+import { withRouter } from 'react-router-dom';
+import StudyGroupMainTemplate from '../components/pcstudygroupmain/PCStudyGroupMainTemplate';
 import StudyGroupMain from '../components/studygroup/StudyGroupMain';
 
 const StudyGroupPage = () => {
@@ -7,10 +8,10 @@ const StudyGroupPage = () => {
   const studyGroupName = 'Study with me :)';
   return (
     <>
-      <StudyGroupTemplate>
+      <StudyGroupMainTemplate>
         <StudyGroupMain studyGroupName={studyGroupName} totalMember={totalMember} />
-      </StudyGroupTemplate>
+      </StudyGroupMainTemplate>
     </>
   );
 };
-export default StudyGroupPage;
+export default withRouter(StudyGroupPage);

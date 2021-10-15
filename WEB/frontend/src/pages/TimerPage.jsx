@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { withRouter } from 'react-router-dom';
 import TimerTemplate from '../components/timer/TimerTemplate';
 import Clock from '../components/timer/Clock';
 
@@ -10,4 +10,4 @@ const TimerPage = () => (
     </TimerTemplate>
   </>
 );
-export default TimerPage;
+export default withRouter(TimerPage);

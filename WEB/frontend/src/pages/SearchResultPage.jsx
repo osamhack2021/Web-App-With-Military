@@ -1,3 +1,5 @@
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   Menu,
   MenuItem,
@@ -118,4 +120,4 @@ const SearchResult = () => (
   </Box>
 );
 
-export default SearchResult;
+export default withRouter(SearchResult);

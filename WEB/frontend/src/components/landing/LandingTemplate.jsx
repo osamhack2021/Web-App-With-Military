@@ -83,7 +83,7 @@ const LandingTemplate = () => {
             </Button>
           </Link>
 
-          <Link href="/register" underline="none">
+          <Link href="/pcregister" underline="none">
             <Button
               variant="contained"
               style={{

@@ -50,7 +50,7 @@ const LoginTemplate = ({ children }) => (
           </Link>
         </Grid>
         <Grid item>
-          <Link href="#">
+          <Link href="/register">
             회원가입
           </Link>
         </Grid>

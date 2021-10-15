@@ -86,7 +86,6 @@ const process = {
       },
     );
   },
-
   // 그룹 태깅
   tagging: (req, res) => {
     Group.findOne({ groupName: req.body.groupName }, (err, group) => {
