@@ -50,42 +50,15 @@ solved.ac는 프로그래밍에 국한되어 있기 때문에 여러 가지 아�
 
 ## 프로젝트 설명
 
-<table>
-    <tr>
-        <td width="30%">
-            ![group](./group.png)
-        </td>
-        <td width="30%">
-            ![ui](./ui.png)
-        </td>
-    </tr>
-    <tr>
-        <td align="center">
-            <a>그룹 생성 및 가입</a>
-        </td>
-        <td align="center">
-            <a>활동 UI 제공</a>
-        </td>
-    </tr>
-</table>
-<table>
-    <tr>
-        <td width="30%">
-            ![rank](./rank.png)
-        </td>
-        <td width="30%">
-            ![board](./board.png)
-        </td>
-    </tr>
-    <tr>
-        <td align="center">
-            <a>랭킹 시스템</a>
-        </td>
-        <td align="center">
-            <a>게시판 작성</a>
-        </td>
-    </tr>
-</table>
+
+| ![group](./group.png) | ![ui](./ui.png) |
+| --------------------- | --------------- |
+| 그룹 생성 및 가입     | 활동 UI 제공    |
+
+| ![rank](./rank.png) | ![board](./board.png) |
+| ------------------- | --------------------- |
+| 랭킹 시스템         | 게시판 작성           |
+
 
 ## 기대효과
 
