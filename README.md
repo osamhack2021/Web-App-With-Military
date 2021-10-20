@@ -87,11 +87,9 @@ solved.ac는 프로그래밍에 국한되어 있기 때문에 여러 가지 아�
     </tr>
 </table>
 
-
-
 ## 기대효과
 
-- 스터디그룹에 속하며 함께 성장해가는 기회 
+- 스터디그룹에 속하며 함께 성장해가는 기회
 - 타이머 및 랭킹시스템을 통한 자기주도적 학습
 - 학습자료 공유 및 자기개발 내용 공유
 
@@ -136,13 +134,13 @@ $ git clone https://github.com/osamhack2021/Web_With_Military_temp
 2. 프론트엔드 또는 백엔드 디렉토리로 이동
 
 ```
-cd ./WEB/frontend
+cd ./WEB(BE)
 ```
 
 or
 
 ```
-cd ./WEB/backend
+cd ./WEB(FE)
 ```
 
 3. 패키지 매니저를 이용해 저장소에서 의존하는 패키지를 설치
