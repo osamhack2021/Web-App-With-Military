@@ -10,7 +10,6 @@
 - 내가 얼마나 자기개발을 열심히 했는지 각종 랭킹으로 알아보자 !
 
 - 발표자료 / 데모
-- 간단 소개
 
 ## 팀 소개
 
@@ -51,18 +50,55 @@ solved.ac는 프로그래밍에 국한되어 있기 때문에 여러 가지 아�
 
 ## 프로젝트 설명
 
-- 데이터베이스 ERD
-  ![ERD](./ERD.png)
+<table>
+    <tr>
+        <td width="30%">
+            ![group](./group.png)
+        </td>
+        <td width="30%">
+            ![ui](./ui.png)
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <a>그룹 생성 및 가입</a>
+        </td>
+        <td align="center">
+            <a>활동 UI 제공</a>
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td width="30%">
+            ![rank](./rank.png)
+        </td>
+        <td width="30%">
+            ![board](./board.png)
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <a>랭킹 시스템</a>
+        </td>
+        <td align="center">
+            <a>게시판 작성</a>
+        </td>
+    </tr>
+</table>
 
-- (동영상)/(실행사진)/(시연 및 기능설명)
+
 
 ## 기대효과
 
-- 내용
+- 스터디그룹에 속하며 함께 성장해가는 기회 
+- 타이머 및 랭킹시스템을 통한 자기주도적 학습
+- 학습자료 공유 및 자기개발 내용 공유
 
 ## 서비스플로우
 
-- 내용
+- 데이터베이스 ERD
+  ![ERD](./ERD.png)
 
 ## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
 
