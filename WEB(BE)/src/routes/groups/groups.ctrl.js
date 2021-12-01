@@ -1,6 +1,7 @@
 const { Group } = require('../../models/Group');
 const { User } = require('../../models/User');
 const { Tag } = require('../../models/Tag');
+const { Category } = require('../../models/Category');
 
 const process = {
   // 그룹 만들기
@@ -29,34 +30,44 @@ const process = {
 
       const group = new Group(req.body);
       // 새로운 그룹 정보 DB에 저장
+
       group.save((err, group) => {
         if (err) return res.status(500).json({ isSuccessful: false, err });
-        // 그룹 어드민 목록에 해당 유저 추가
-        Group.findOneAndUpdate(
-          { groupName: group.groupName },
-          { $addToSet: { admins: req.user._id, members: req.user._id } },
+        // 카테고리 DB 에 그룹 저장
+        Category.findOneAndUpdate(
+          { categoryName: group.category },
+          { $addToSet: { groups: group._id } },
           err => {
             if (err) return res.status(500).json({ isSuccessful: false, err });
-            // 유저 그룹 목록에 해당 그룹 추가
-            User.findOneAndUpdate(
-              { _id: req.user._id },
-              { $addToSet: { groupList: group._id } },
+            // 그룹 어드민 목록에 해당 유저 추가
+            Group.findOneAndUpdate(
+              { groupName: group.groupName },
+              { $addToSet: { admins: req.user._id, members: req.user._id } },
               err => {
                 if (err)
                   return res.status(500).json({ isSuccessful: false, err });
-                for (let i = 0; i < req.body.tags.length; i++) {
-                  Tag.findOneAndUpdate(
-                    { tagName: req.body.tags[i] },
-                    { $addToSet: { groupList: group._id } },
-                    err => {
-                      if (err)
-                        return res
-                          .status(500)
-                          .json({ isSuccessful: false, err });
-                    },
-                  );
-                }
-                return res.status(200).json({ isSuccessful: true });
+                // 유저 그룹 목록에 해당 그룹 추가
+                User.findOneAndUpdate(
+                  { _id: req.user._id },
+                  { $addToSet: { groupList: group._id } },
+                  err => {
+                    if (err)
+                      return res.status(500).json({ isSuccessful: false, err });
+                    for (let i = 0; i < req.body.tags.length; i++) {
+                      Tag.findOneAndUpdate(
+                        { tagName: req.body.tags[i] },
+                        { $addToSet: { groupList: group._id } },
+                        err => {
+                          if (err)
+                            return res
+                              .status(500)
+                              .json({ isSuccessful: false, err });
+                        },
+                      );
+                    }
+                    return res.status(200).json({ isSuccessful: true });
+                  },
+                );
               },
             );
           },
