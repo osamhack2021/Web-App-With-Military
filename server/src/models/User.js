@@ -27,6 +27,7 @@ const userSchema = mongoose.Schema({
     index: true,
     required: true,
   },
+  image: String,
   info: {
     type: String,
     default: null,
@@ -69,6 +70,9 @@ const userSchema = mongoose.Schema({
   },
   token: {
     type: String,
+  },
+  tokenExp :{
+	type: Number
   },
   rank: {
     type: Number,

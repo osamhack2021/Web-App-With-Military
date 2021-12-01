@@ -21,11 +21,11 @@ const studying = require('./src/routes/studying');
 const board = require('./src/routes/board');
 const search = require('./src/routes/search');
 
-app.use('/users', users);
-app.use('/groups', groups);
-app.use('/ranking', ranking);
-app.use('/studying', studying);
-app.use('/board', board);
-app.use('/search', search);
+app.use('/api/users', users);
+app.use('/api/groups', groups);
+app.use('/api/ranking', ranking);
+app.use('/api/studying', studying);
+app.use('/api/board', board);
+app.use('/api/search', search);
 
 module.exports = app;
