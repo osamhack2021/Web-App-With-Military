@@ -27,7 +27,6 @@ const userSchema = mongoose.Schema({
     index: true,
     required: true,
   },
-  image: String,
   // 유저 소개
   info: {
     type: String,
@@ -90,6 +89,7 @@ const userSchema = mongoose.Schema({
   dischargeDate: {
     type: Date,
   },
+	image: String,
 });
 
 // DB에 저장
