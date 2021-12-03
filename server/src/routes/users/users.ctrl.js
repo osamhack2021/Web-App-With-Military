@@ -61,7 +61,7 @@ const process = {
               httpOnly: true,
             })
             .status(200)
-            .json({ loginSuccess: true, userId: user._id });
+            .json({ loginSuccess: true, userId: user._id, image: user.image });
         });
       });
     });

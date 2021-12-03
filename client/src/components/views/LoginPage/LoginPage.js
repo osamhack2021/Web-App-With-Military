@@ -46,6 +46,7 @@ function LoginPage(props) {
             .then(response => {
               if (response.payload.loginSuccess) {
                 window.localStorage.setItem('userId', response.payload.userId);
+                window.localStorage.setItem('image', response.payload.image);
                 if (rememberMe === true) {
                   window.localStorage.setItem('rememberMe', values.email);
                 } else {
