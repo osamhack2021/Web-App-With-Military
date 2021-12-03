@@ -89,7 +89,7 @@ const userSchema = mongoose.Schema({
   dischargeDate: {
     type: Date,
   },
-	image: String,
+  image: String,
 });
 
 // DB에 저장
