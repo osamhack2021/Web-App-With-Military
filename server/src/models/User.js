@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema({
     required: true,
   },
   image: String,
+  // 유저 소개
   info: {
     type: String,
     default: null,
@@ -46,15 +47,18 @@ const userSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  // 유저 기록
   history: [
     {
       type: Object,
     },
   ],
+  // 최대 연속 일 수
   maxStreak: {
     type: Number,
     default: 0,
   },
+  // 현재 연속 일 수
   curStreak: {
     type: Number,
     default: 0,
@@ -65,14 +69,19 @@ const userSchema = mongoose.Schema({
   pauseTime: {
     type: Number,
   },
+  // 현재 자기개발 중인 그룹
   activeGroup: {
+    type: String,
+  },
+  // 현재 자기개발 중인 카테고리
+  activeCategory: {
     type: String,
   },
   token: {
     type: String,
   },
-  tokenExp :{
-	type: Number
+  tokenExp: {
+	type: String,  
   },
   rank: {
     type: Number,

@@ -26,12 +26,17 @@ const groupSchema = mongoose.Schema({
       ref: 'User',
     },
   ],
+  // 가입 승인 대기
   waiting: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
   ],
+  category: {
+    type: String,
+    require: true,
+  },
   tags: {
     type: Array,
   },
@@ -39,6 +44,7 @@ const groupSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  // 그룹 소개
   info: {
     type: String,
     default: null,
