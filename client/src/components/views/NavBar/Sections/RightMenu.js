@@ -58,6 +58,9 @@ function RightMenu(props) {
 		const menu = (
 			<Menu>
 				<Menu.Item key="0">
+					<a href={`/users/${localStorage.getItem('userId')}`}>Profile</a>
+				</Menu.Item>
+				<Menu.Item key="1">
 					<a onClick={logoutHandler}>Logout</a>
 				</Menu.Item>
 			</Menu>

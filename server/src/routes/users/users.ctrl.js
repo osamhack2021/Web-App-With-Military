@@ -126,66 +126,74 @@ const process = {
 
   // 특정 유저 정보 조회
   profile: async (req, res) => {
-    // totalTime 기준으로 rank 부여
-    const result = await User.aggregate([
-      {
-        $sort: {
-          totalTime: -1,
-        },
-      },
-      {
-        $group: {
-          // Add in an array
-          _id: null,
-          items: {
-            $push: '$$ROOT',
-          },
-        },
-      },
-      {
-        $unwind: {
-          // De-normalize and get index
-          path: '$items',
-          includeArrayIndex: 'items.rank',
-        },
-      },
-      {
-        $replaceRoot: {
-          // Reshape
-          newRoot: '$items',
-        },
-      },
-      {
-        $addFields: {
-          // Add 1 to get to proper rank as array is index starts 0
-          rank: {
-            $add: ['$rank', 1],
-          },
-        },
-      },
-    ]);
+    // // totalTime 기준으로 rank 부여
+    // const result = await User.aggregate([
+    //   {
+    //     $sort: {
+    //       totalTime: -1,
+    //     },
+    //   },
+    //   {
+    //     $group: {
+    //       // Add in an array
+    //       _id: null,
+    //       items: {
+    //         $push: '$$ROOT',
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $unwind: {
+    //       // De-normalize and get index
+    //       path: '$items',
+    //       includeArrayIndex: 'items.rank',
+    //     },
+    //   },
+    //   {
+    //     $replaceRoot: {
+    //       // Reshape
+    //       newRoot: '$items',
+    //     },
+    //   },
+    //   {
+    //     $addFields: {
+    //       // Add 1 to get to proper rank as array is index starts 0
+    //       rank: {
+    //         $add: ['$rank', 1],
+    //       },
+    //     },
+    //   },
+    // ]);
 
-    // 호출한 유저 필터링
-    function isUser(element) {
-      if (element.userName === req.body.userName) {
-        return true;
-      }
-    }
-    const final = await result.filter(isUser);
+    // // 호출한 유저 필터링
+    // function isUser(element) {
+    //   if (element._id === req.body.userId) {
+    //     return true;
+    //   }
+    // }
+    // const final = await result.filter(isUser);
 
-    // rank 저장 후 정보 표시
-    User.findOneAndUpdate(
-      { userName: req.body.userName },
-      { $set: { rank: final[0].rank } },
-    )
-      .populate('groupList')
-      .exec(async (err, user) => {
-        if (err) return res.status(400).json({ isSuccessful: false, err });
-        user.rank = await final[0].rank;
-        return res
+    // // rank 저장 후 정보 표시
+    // User.findOneAndUpdate(
+    //   { _id: req.body.userId },
+    //   { $set: { rank: final[0].rank } },
+    // )
+    //   .populate('groupList')
+    //   .exec(async (err, user) => {
+    //     if (err) return res.status(400).json({ success: false, err });
+    //     user.rank = await final[0].rank;
+    //     return res
+    //       .status(200)
+    //       .send({ success: true, user: user.serialize() });
+    //   });
+	  User.findOne({'_id':req.body.userId})
+	  .exec((err, user) => {
+		  if (err) return res.status(400).json({ success: false, err });
+		  return res
           .status(200)
-          .send({ isSuccessful: true, user: user.serialize() });
-      });
+          .send({ success: true, user: user });
+	  })
+	  
   },
 };
 
