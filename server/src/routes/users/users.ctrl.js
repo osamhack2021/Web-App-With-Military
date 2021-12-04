@@ -3,12 +3,14 @@ const { User } = require('../../models/User');
 const output = {
   // 로그인 확인 후 정보 표시
   auth: (req, res) => {
+	  
 	  res.status(200).json({
         _id: req.user._id,
         isAuth: true,
         userName: req.user.userName,
         email: req.user.email,
         image: req.user.image,
+		  groupList: req.user.groupList
     });
     // User.findOne({ userName: req.user.userName })
     //   .populate('groupList')
@@ -187,6 +189,7 @@ const process = {
     //       .send({ success: true, user: user.serialize() });
     //   });
 	  User.findOne({'_id':req.body.userId})
+	  .populate('groupList')
 	  .exec((err, user) => {
 		  if (err) return res.status(400).json({ success: false, err });
 		  return res
