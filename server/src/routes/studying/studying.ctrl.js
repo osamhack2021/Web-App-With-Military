@@ -14,21 +14,21 @@ const output = {
     if (req.user.pauseTime)
       return res
         .status(200)
-        .json({ isSuccessful: false, message: '이미 쉬는 중 입니다!' });
+        .json({ success: false, message: '이미 쉬는 중 입니다!' });
     if (!req.user.startTime)
       return res
         .status(200)
-        .json({ isSuccessful: false, isStudyingNow: false });
+        .json({ success: false, isStudyingNow: false });
 
     User.findOneAndUpdate(
       { userName: req.user.userName },
       { $set: { pauseTime: now } },
       err => {
         if (err) {
-          return res.status(500).json({ isSuccessful: false, err });
+          return res.status(500).json({ success: false, err });
         }
         return res.status(200).json({
-          isSuccessful: true,
+          success: true,
           elapsedTime: Math.floor((seoul() - req.user.startTime) / 1000),
           isStudyingNow: true,
         });
@@ -42,17 +42,17 @@ const output = {
     if (!req.user.pauseTime)
       return res
         .status(200)
-        .json({ isSuccessful: false, message: '일시정지 상태가 아닙니다.' });
+        .json({ success: false, message: '일시정지 상태가 아닙니다.' });
     now = now - req.user.pauseTime + req.user.startTime.valueOf();
     User.findOneAndUpdate(
       { userName: req.user.userName },
       { $set: { pauseTime: null, startTime: now } },
       err => {
         if (err) {
-          return res.status(500).json({ isSuccessful: false, err });
+          return res.status(500).json({ success: false, err });
         }
         return res.status(200).json({
-          isSuccessful: true,
+          success: true,
           elapsedTime: Math.floor((seoul() - now) / 1000),
           isStudyingNow: true,
         });
@@ -66,10 +66,10 @@ const output = {
     if (!req.user.startTime)
       return res
         .status(200)
-        .json({ isSuccessful: false, isStudyingNow: false });
+        .json({ success: false, isStudyingNow: false });
     if (req.user.pauseTime) {
       return res.status(200).json({
-        isSuccessful: true,
+        success: true,
         elapsedTime: Math.floor(
           (req.user.pauseTime - req.user.startTime) / 1000,
         ),
@@ -80,7 +80,7 @@ const output = {
       });
     }
     return res.status(200).json({
-      isSuccessful: true,
+      success: true,
       elapsedTime: Math.floor((now - req.user.startTime) / 1000),
       isStudyingNow: true,
       isPaused: false,
@@ -95,7 +95,7 @@ const output = {
     if (!req.user.startTime)
       return res
         .status(200)
-        .json({ isSuccessful: false, message: '공부를 시작해주세요.' });
+        .json({ success: false, message: '공부를 시작해주세요.' });
     if (req.user.pauseTime)
       req.user.startTime =
         now - req.user.pauseTime + req.user.startTime.valueOf();
@@ -191,14 +191,14 @@ const output = {
       const final = await new User(USER);
       await final.save(err => {
         return res.status(200).json({
-          isSuccessful: true,
+          success: true,
           elapsedTime: now,
           activeGroup: req.user.activeGroup,
           activeCategory: req.user.activeCategory,
         });
       });
     } catch (err) {
-      return res.status(500).json({ isSuccessful: false, err });
+      return res.status(500).json({ success: false, err });
     }
   },
 };
@@ -208,7 +208,7 @@ const process = {
   start: async (req, res) => {
     if (req.user.startTime)
       return res.status(200).json({
-        isSuccessful: false,
+        success: false,
         message: '이미 공부 중 입니다.',
       });
     if (req.body.groupName === undefined) req.body.groupName = null;
@@ -232,14 +232,14 @@ const process = {
         },
       );
       return res.status(200).json({
-        isSuccessful: true,
+        success: true,
         elapsedTime: 0,
         isStudyingNow: true,
         activeGroup: req.body.groupName,
         activeCategory: req.body.category,
       });
     } catch (err) {
-      return res.status(500).json({ isSuccessful: false, err });
+      return res.status(500).json({ success: false, err });
     }
   },
 };

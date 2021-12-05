@@ -15,7 +15,7 @@ const output = {
     // User.findOne({ userName: req.user.userName })
     //   .populate('groupList')
     //   .exec((err, user) => {
-    //     if (err) return res.status(500).json({ isSuccessful: false, err });
+    //     if (err) return res.status(500).json({ success: false, err });
     //     return res
     //       .status(200)
     //       .send({ isSucessful: true, user: user.serialize() });
@@ -77,14 +77,14 @@ const process = {
     const EMAIL = await User.findByEmail(user.email);
     if (EMAIL !== null) {
       return res.status(409).json({
-        isSuccessful: false,
+        success: false,
         message: '이미 사용중인 이메일 입니다.',
       });
     }
     const NAME = await User.findOne({ userName: user.userName });
     if (NAME !== null) {
       return res.status(409).json({
-        isSuccessful: false,
+        success: false,
         message: '이미 사용중인 사용자명 입니다.',
       });
     }
@@ -104,8 +104,8 @@ const process = {
       { id: req.user._id },
       { $set: { info: req.body.info } },
       err => {
-        if (err) return res.status(500).json({ isSuccessful: false, err });
-        return res.status(500).json({ isSuccessful: true });
+        if (err) return res.status(500).json({ success: false, err });
+        return res.status(500).json({ success: true });
       },
     );
   },
@@ -122,8 +122,8 @@ const process = {
     if (!result.length)
       return res
         .status(200)
-        .json({ isSuccessful: false, message: '검색결과가 없습니다.' });
-    return res.status(200).json({ isSuccessful: true, result });
+        .json({ success: false, message: '검색결과가 없습니다.' });
+    return res.status(200).json({ success: true, result });
   },
 
   // 특정 유저 정보 조회

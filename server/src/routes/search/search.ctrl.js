@@ -9,7 +9,7 @@ const process = {
       if (req.body.search === '')
         return res
           .status(200)
-          .json({ isSuccessful: true, group: null, users: null });
+          .json({ success: true, group: null, users: null });
       const group = await Group.find({
         // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
         groupName: new RegExp(req.body.search),
@@ -41,10 +41,10 @@ const process = {
           if (GROUPS.length === 0) GROUPS = null;
           return res
             .status(200)
-            .json({ isSuccessful: true, group: GROUPS, user: USERS });
+            .json({ success: true, group: GROUPS, user: USERS });
         });
     } catch (err) {
-      return res.status(500).json({ isSuccessful: false, err });
+      return res.status(500).json({ success: false, err });
     }
   },
 };

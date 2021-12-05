@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
 import { USER_SERVER } from '../../../Config';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -9,10 +9,11 @@ import { Menu, Avatar, Badge, Dropdown } from 'antd';
 import { PlaySquareOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 
 function RightMenu(props) {
+	
 	const user = useSelector((state) => state.user);
 
 	const logoutHandler = () => {
-		axios.get(`${USER_SERVER}/logout`).then((response) => {
+		Axios.get(`${USER_SERVER}/logout`).then((response) => {
 			if (response.status === 200) {
 				props.history.push('/login');
 			} else {
@@ -55,6 +56,7 @@ function RightMenu(props) {
 			</Menu>
 		);
 	} else {
+		
 		const menu = (
 			<Menu>
 				<Menu.Item key="0">
@@ -63,6 +65,11 @@ function RightMenu(props) {
 				<Menu.Item key="1">
 					<a onClick={logoutHandler}>Logout</a>
 				</Menu.Item>
+				{user.userData !== undefined && user.userData.groupList.map((group, index) => (
+				 <Menu.Item key="groups">
+					<a href={`/groups/${group._id}`}>{group.groupName}</a>
+				</Menu.Item>
+			))}
 			</Menu>
 		);
 

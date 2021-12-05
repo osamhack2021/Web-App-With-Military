@@ -8,6 +8,7 @@ import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
 import UserPage from "./views/UserPage/UserPage"
+import GroupPage from "./views/GroupPage/GroupPage"
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -22,7 +23,8 @@ function App() {
           <Route exact path="/" component={Auth(LandingPage, null)} />
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
-			<Route exact path="/users/:userId" component={Auth(UserPage, null)} />
+          <Route exact path="/users/:userId" component={Auth(UserPage, null)} />
+          <Route exact path="/groups/:groupId" component={Auth(GroupPage, null)} />
         </Switch>
       </div>
       <Footer />
