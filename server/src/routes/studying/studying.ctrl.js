@@ -66,7 +66,7 @@ const output = {
     if (!req.user.startTime)
       return res
         .status(200)
-        .json({ success: false, isStudyingNow: false });
+        .json({ success: true, isStudyingNow: false });
     if (req.user.pauseTime) {
       return res.status(200).json({
         success: true,

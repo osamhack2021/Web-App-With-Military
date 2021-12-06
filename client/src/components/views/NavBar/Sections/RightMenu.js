@@ -4,12 +4,12 @@ import Axios from 'axios';
 import { USER_SERVER } from '../../../Config';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import StudyMenu from './StudyMenu';
 
 import { Menu, Avatar, Badge, Dropdown } from 'antd';
 import { PlaySquareOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 
 function RightMenu(props) {
-	
 	const user = useSelector((state) => state.user);
 
 	const logoutHandler = () => {
@@ -56,7 +56,6 @@ function RightMenu(props) {
 			</Menu>
 		);
 	} else {
-		
 		const menu = (
 			<Menu>
 				<Menu.Item key="0">
@@ -65,14 +64,14 @@ function RightMenu(props) {
 				<Menu.Item key="1">
 					<a onClick={logoutHandler}>Logout</a>
 				</Menu.Item>
-				{user.userData !== undefined && user.userData.groupList.map((group, index) => (
-				 <Menu.Item key="groups">
-					<a href={`/groups/${group._id}`}>{group.groupName}</a>
-				</Menu.Item>
-			))}
+				{user.userData !== undefined &&
+					user.userData.groupList.map((group, index) => (
+						<Menu.Item key="groups">
+							<a href={`/groups/${group._id}`}>{group.groupName}</a>
+						</Menu.Item>
+					))}
 			</Menu>
 		);
-
 		return (
 			<Menu mode={props.mode}>
 				<Menu.Item key="ranking">
@@ -93,7 +92,11 @@ function RightMenu(props) {
 							<Avatar
 								size="large"
 								src={localStorage.getItem('image')}
-								style={{ fontSize: '32px', position: 'flex', transform: 'translateY(-25%)' }}
+								style={{
+									fontSize: '32px',
+									position: 'flex',
+									transform: 'translateY(-25%)',
+								}}
 							/>
 						</Badge>
 					</Dropdown>
