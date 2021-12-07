@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import StudyMenu from './StudyMenu';
 
 import { Menu, Avatar, Badge, Dropdown } from 'antd';
-import { PlaySquareOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
+import { EditOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 
 function RightMenu(props) {
 	const user = useSelector((state) => state.user);
@@ -15,6 +15,7 @@ function RightMenu(props) {
 	const logoutHandler = () => {
 		Axios.get(`${USER_SERVER}/logout`).then((response) => {
 			if (response.status === 200) {
+				console.log(user)
 				props.history.push('/login');
 			} else {
 				alert('Log Out Failed');
@@ -49,7 +50,7 @@ function RightMenu(props) {
 						<Avatar
 							style={{ fontSize: '32px' }}
 							icon={<UserOutlined style={{ fontSize: '32px' }} />}
-							style={{ position: 'flex', transform: 'translateY(-25%)' }}
+							style={{ position: 'flex' }}
 						/>
 					</Dropdown>
 				</Menu.Item>
@@ -73,7 +74,7 @@ function RightMenu(props) {
 			</Menu>
 		);
 		return (
-			<Menu mode={props.mode}>
+			<Menu mode={props.mode} style={{ transform: 'translateY(40%)' }}>
 				<Menu.Item key="ranking">
 					<a>Ranking</a>
 				</Menu.Item>
@@ -83,23 +84,28 @@ function RightMenu(props) {
 				<Menu.Item key="search">
 					<SearchOutlined style={{ fontSize: '32px' }} />
 				</Menu.Item>
-				<Menu.Item key="play">
-					<PlaySquareOutlined style={{ fontSize: '32px' }} />
-				</Menu.Item>
-				<Menu.Item key="user">
-					<Dropdown overlay={menu}>
-						<Badge count={1}>
-							<Avatar
-								size="large"
-								src={localStorage.getItem('image')}
-								style={{
-									fontSize: '32px',
-									position: 'flex',
-									transform: 'translateY(-25%)',
-								}}
-							/>
+				<Menu.Item key="study">
+					<Dropdown overlay={<StudyMenu />} trigger={['click']}>
+						<Badge status="success">
+							<EditOutlined style={{ fontSize: '32px' }} />
 						</Badge>
 					</Dropdown>
+				</Menu.Item>
+				<Menu.Item key="user">
+					<div style={{ transform: 'translateY(-20%)' }}>
+						<Dropdown overlay={menu} trigger={['click']}>
+							<Badge count={1}>
+								<Avatar
+									size="large"
+									src={localStorage.getItem('image')}
+									style={{
+										fontSize: '32px',
+										position: 'flex',
+									}}
+								/>
+							</Badge>
+						</Dropdown>
+					</div>
 				</Menu.Item>
 			</Menu>
 		);

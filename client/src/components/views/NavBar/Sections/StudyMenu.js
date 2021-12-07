@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import { Menu } from 'antd';
-import { Button, Tooltip } from 'antd';
-import { CaretRightOutlined, PauseOutlined, CheckOutlined } from '@ant-design/icons';
+import { Menu, Button, Space} from 'antd';
 
 function StudyMenu() {
 	
@@ -28,39 +26,29 @@ function StudyMenu() {
 	
 	return (
 		<Menu>
+			<Menu.Item key="1">
+			<Space size='large'>
 			{Studying ? 
 				(
 				Pause ?
-				<Menu.Item key="0">
-				<Tooltip title="재시작">
-				<Button icon={<CaretRightOutlined />} type="primary" shape="circle">
+				<Button type="primary" shape="circle" size="large">
+						재시작
    				</Button>
-				</Tooltip>
-				</Menu.Item>
 				:
-				<Menu.Item key="0">
-				<Tooltip title="일시정지">
-				<Button icon={<PauseOutlined />} type="primary" shape="circle">
+				<Button type="primary" shape="circle" size="large">
+					일시정지
    				</Button>
-				</Tooltip>
-				</Menu.Item>
 				
 			) :
-				<Menu.Item key="0">
-				<Tooltip title="공부 시작">
-				<Button icon={<CaretRightOutlined />} type="primary" shape="circle">
+				<Button type="primary" shape="circle" size="large">
+					시작
    				</Button>
-				</Tooltip>
-				</Menu.Item>
 			}
-			<Menu.Item key="1">
-				<Tooltip title="공부 끝내기">
-				<Button icon={<CheckOutlined />} type="primary" shape="circle">
-   				</Button>
-				</Tooltip>
-				</Menu.Item>
-			
-			
+			<Button type="primary" size="large">
+				끝내기
+   			</Button>
+			</Space>
+			</Menu.Item>
 		</Menu>
 	);
 }

@@ -139,7 +139,9 @@ userSchema.statics.findByToken = function (token, cb) {
 
   // 토큰 decode
   jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
-    user.findOne({ _id: decoded, token }, function (err, user) {
+    user.findOne({ _id: decoded, token })
+	  .populate('groupList')
+	  .exec((err, user) => {
       if (err) return cb(err);
       return cb(null, user);
     });

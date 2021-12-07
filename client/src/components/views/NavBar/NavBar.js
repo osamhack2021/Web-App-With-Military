@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import RightMenu from './Sections/RightMenu';
-import { Drawer, Button, Icon } from 'antd';
+import { Drawer, Button } from 'antd';
 import './Sections/Navbar.css';
+import Icon from '@ant-design/icons';
 
 function NavBar() {
   const [visible, setVisible] = useState(false)
@@ -19,6 +20,7 @@ function NavBar() {
       <div className="menu__logo">
         <a href="/">With Military</a>
       </div>
+		  
       <div className="menu__container">
         <div className="menu_right">
           <RightMenu mode="horizontal" />

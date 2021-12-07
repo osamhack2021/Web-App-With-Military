@@ -10,7 +10,7 @@ const output = {
         userName: req.user.userName,
         email: req.user.email,
         image: req.user.image,
-		  groupList: req.user.groupList
+	    groupList: req.user.groupList
     });
     // User.findOne({ userName: req.user.userName })
     //   .populate('groupList')
