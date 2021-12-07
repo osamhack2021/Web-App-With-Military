@@ -211,6 +211,7 @@ const process = {
         success: false,
         message: '이미 공부 중 입니다.',
       });
+	  
     if (req.body.groupName === undefined) req.body.groupName = null;
     else {
       const group = await Group.findOne({ groupName: req.body.groupName });

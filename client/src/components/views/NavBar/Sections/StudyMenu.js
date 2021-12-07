@@ -24,6 +24,62 @@ function StudyMenu() {
 		});
 	}, []);
 	
+	const onStart = (event) => {
+		event.preventDefault();
+		
+		Axios.post('/api/studying/start', {category: 'programming'})
+			.then(response => {
+			if(response.data.success) {
+				setElapsedTime(response.data.elapsedTime)
+				setStudying(response.data.isStudyingNow)
+			} else {
+				alert(response.data.message)
+			}
+		})
+	}
+	
+	const onStop = (event) => {
+		event.preventDefault();
+		
+		Axios.get('/api/studying/end')
+			.then(response => {
+			if(response.data.success) {
+				setElapsedTime(response.data.elapsedTime)
+				setStudying(false)
+			} else {
+				alert(response.data.message)
+			}
+		})
+	}
+	
+	const onPause = (event) => {
+		event.preventDefault();
+		
+		Axios.get('/api/studying/pause')
+			.then(response => {
+			if(response.data.success) {
+				setElapsedTime(response.data.elapsedTime)
+				setPause(true)
+			} else {
+				alert(response.data.message)
+			}
+		})
+	}
+	
+	const onResume = (event) => {
+		event.preventDefault();
+		
+		Axios.get('/api/studying/resume')
+			.then(response => {
+			if(response.data.success) {
+				setElapsedTime(response.data.elapsedTime)
+				setPause(false)
+			} else {
+				alert(response.data.message)
+			}
+		})
+	}
+	
 	return (
 		<Menu>
 			<Menu.Item key="1">
@@ -31,20 +87,20 @@ function StudyMenu() {
 			{Studying ? 
 				(
 				Pause ?
-				<Button type="primary" shape="circle" size="large">
+				<Button type="primary" shape="circle" size="large" onClick={onResume}>
 						재시작
    				</Button>
 				:
-				<Button type="primary" shape="circle" size="large">
+				<Button type="primary" shape="circle" size="large" onClick={onPause}>
 					일시정지
    				</Button>
 				
 			) :
-				<Button type="primary" shape="circle" size="large">
+				<Button type="primary" shape="circle" size="large" onClick={onStart}>
 					시작
    				</Button>
 			}
-			<Button type="primary" size="large">
+			<Button type="primary" size="large" onClick={onStop}>
 				끝내기
    			</Button>
 			</Space>
