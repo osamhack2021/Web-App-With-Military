@@ -1,13 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Axios from 'axios';
 import { Menu, Button, Space} from 'antd';
+
+// 타이머를 위한 커스텀 훅
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
 
 function StudyMenu() {
 	
 	const [ElapsedTime, setElapsedTime] = useState(0);
 	const [Pause, setPause] = useState(false);
 	const [Studying, setStudying] = useState(false);
-
+	
 	useEffect(() => {
 		
 		Axios.get('/api/studying')
@@ -24,6 +45,11 @@ function StudyMenu() {
 		});
 	}, []);
 	
+	// 타이머 시간 누적
+	useInterval(() => {
+    	setElapsedTime(ElapsedTime+1);
+  	}, (Studying && !Pause) ? 1000 : null);
+
 	const onStart = (event) => {
 		event.preventDefault();
 		
@@ -82,6 +108,9 @@ function StudyMenu() {
 	
 	return (
 		<Menu>
+			<Menu.Item key="0">
+				{ElapsedTime}
+			</Menu.Item>
 			<Menu.Item key="1">
 			<Space size='large'>
 			{Studying ? 
