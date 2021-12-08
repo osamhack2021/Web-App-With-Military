@@ -17,7 +17,7 @@ const commentSchema = mongoose.Schema({
   },
   boardId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Board',
   },
   posted: {
     type: Date,

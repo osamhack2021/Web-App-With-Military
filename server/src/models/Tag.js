@@ -11,6 +11,12 @@ const tagSchema = mongoose.Schema({
       ref: 'Group',
     },
   ],
+  boardList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Board',
+    },
+  ],
 });
 
 const Tag = mongoose.model('Tag', tagSchema);
