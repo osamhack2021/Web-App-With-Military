@@ -11,7 +11,7 @@
     "core-js": "^3.6.4",
     "formik": "^1.5.8",
     "moment": "^2.24.0",
-    "react": "^16.8.6",
+    "react": "^17.0.2",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.8.6",
     "react-icons": "^3.7.0",

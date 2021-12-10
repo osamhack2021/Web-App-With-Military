@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import GrassChart from './Sections/GrassChart';
+import AllLineChart from './Sections/AllLineChart';
 
 function UserPage(props) {
 	const userId = props.match.params.userId;
@@ -25,6 +26,7 @@ function UserPage(props) {
 					<h2>{UserInfo.totalTime}</h2>
 					<br />
 					<GrassChart data={UserInfo.history} />
+					<AllLineChart data={UserInfo.history} />
 				</div>
 			)}
 		</div>
