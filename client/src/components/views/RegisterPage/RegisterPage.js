@@ -41,12 +41,12 @@ function RegisterPage(props) {
     <Formik
       initialValues={{
         email: '',
-        userName: '',
+        name: '',
         password: '',
         confirmPassword: ''
       }}
       validationSchema={Yup.object().shape({
-        userName: Yup.string()
+        name: Yup.string()
           .required('User Name is required'),
         email: Yup.string()
           .email('Email is invalid')
@@ -64,7 +64,7 @@ function RegisterPage(props) {
           let dataToSubmit = {
             email: values.email,
             password: values.password,
-            userName: values.userName,
+            name: values.name,
             image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
           };
 
@@ -99,18 +99,18 @@ function RegisterPage(props) {
 
               <Form.Item required label="User Name">
                 <Input
-                  id="userName"
+                  id="name"
                   placeholder="Enter your User Name"
                   type="text"
-                  value={values.userName}
+                  value={values.name}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={
-                    errors.userName && touched.userName ? 'text-input error' : 'text-input'
+                    errors.name && touched.name ? 'text-input error' : 'text-input'
                   }
                 />
-                {errors.userName && touched.userName && (
-                  <div className="input-feedback">{errors.userName}</div>
+                {errors.name && touched.name && (
+                  <div className="input-feedback">{errors.name}</div>
                 )}
               </Form.Item>
 

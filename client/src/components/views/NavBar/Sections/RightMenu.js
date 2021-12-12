@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Axios from 'axios';
 import { USER_SERVER } from '../../../Config';
 import { withRouter } from 'react-router-dom';
@@ -15,7 +15,7 @@ function RightMenu(props) {
 	const logoutHandler = () => {
 		Axios.get(`${USER_SERVER}/logout`).then((response) => {
 			if (response.status === 200) {
-				console.log(user)
+				console.log(user);
 				props.history.push('/login');
 			} else {
 				alert('Log Out Failed');
@@ -24,16 +24,6 @@ function RightMenu(props) {
 	};
 
 	if (user.userData && !user.userData.isAuth) {
-		const menu = (
-			<Menu>
-				<Menu.Item key="mail">
-					<a href="/login">Signin</a>
-				</Menu.Item>
-				<Menu.Item key="app">
-					<a href="/register">Signup</a>
-				</Menu.Item>
-			</Menu>
-		);
 		return (
 			<Menu mode={props.mode}>
 				<Menu.Item key="ranking">
@@ -43,16 +33,15 @@ function RightMenu(props) {
 					<a>StudyGroup</a>
 				</Menu.Item>
 				<Menu.Item key="search">
-					<SearchOutlined style={{ fontSize: '32px' }} />
+					<a href="/search">
+						<SearchOutlined style={{ fontSize: '32px' }} />
+					</a>
 				</Menu.Item>
-				<Menu.Item key="user">
-					<Dropdown overlay={menu}>
-						<Avatar
-							style={{ fontSize: '32px' }}
-							icon={<UserOutlined style={{ fontSize: '32px' }} />}
-							style={{ position: 'flex' }}
-						/>
-					</Dropdown>
+				<Menu.Item key="mail">
+					<a href="/login">Signin</a>
+				</Menu.Item>
+				<Menu.Item key="app">
+					<a href="/register">Signup</a>
 				</Menu.Item>
 			</Menu>
 		);
@@ -82,7 +71,9 @@ function RightMenu(props) {
 					<a>StudyGroup</a>
 				</Menu.Item>
 				<Menu.Item key="search">
-					<SearchOutlined style={{ fontSize: '32px' }} />
+					<a href="/search">
+						<SearchOutlined style={{ fontSize: '32px' }} />
+					</a>
 				</Menu.Item>
 				<Menu.Item key="study">
 					<Dropdown overlay={<StudyMenu />} trigger={['click']}>

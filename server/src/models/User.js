@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema({
     type: String,
     minlength: 4,
   },
-  userName: {
+  name: {
     type: String,
     minlength: 2,
     maxlength: 30,
@@ -93,23 +93,23 @@ const userSchema = mongoose.Schema({
 });
 
 // DB에 저장
-userSchema.pre('save', function (next) {
-  const user = this;
-
-  // 비밀번호 변경 시
-  if (this.password && this.isNew) {
-    // 비밀번호 암호화
-    bcrypt.genSalt(saltRounds, (err, salt) => {
-      if (err) return next(err);
-      bcrypt.hash(user.password, salt, (err, hash) => {
-        if (err) return next(err);
-        user.password = hash;
-        return next();
-      });
-    });
-  } else {
-    return next();
-  }
+userSchema.pre('save', function( next ) {
+    var user = this;
+    
+    if(user.isModified('password')){    
+        // console.log('password changed')
+        bcrypt.genSalt(saltRounds, function(err, salt){
+            if(err) return next(err);
+    
+            bcrypt.hash(user.password, salt, function(err, hash){
+                if(err) return next(err);
+                user.password = hash 
+                next()
+            })
+        })
+    } else {
+        next()
+    }
 });
 
 // 비밀번호 비교

@@ -61,27 +61,3 @@
 .menu_drawer .ant-drawer-header {
   padding: 14px 24px !important;
 }
-
-@media (max-width: 767px) {
-  .menu__mobile-button {
-    display: inline-block !important;
-  }
-
-  .menu_left,
-  .menu_right {
-    display: none;
-  }
-
-  .menu__logo a {
-    margin-left: -20px;
-  }
-
-  .menu__container .ant-menu-item,
-  .menu__container .ant-menu-submenu-title {
-    padding: 1px 20px;
-  }
-
-  .menu__logo a {
-    padding: 10px 20px;
-  }
-}

@@ -7,7 +7,7 @@ const output = {
 	  res.status(200).json({
         _id: req.user._id,
         isAuth: true,
-        userName: req.user.userName,
+        name: req.user.name,
         email: req.user.email,
         image: req.user.image,
 	    groupList: req.user.groupList
@@ -74,23 +74,25 @@ const process = {
     const user = await new User(req.body);
 	  console.log(req.body);
     // email 중복 확인
-    const EMAIL = await User.findByEmail(user.email);
-    if (EMAIL !== null) {
-      return res.status(409).json({
-        success: false,
-        message: '이미 사용중인 이메일 입니다.',
-      });
-    }
-    const NAME = await User.findOne({ userName: user.userName });
-    if (NAME !== null) {
-      return res.status(409).json({
-        success: false,
-        message: '이미 사용중인 사용자명 입니다.',
-      });
-    }
+    // const EMAIL = await User.findByEmail(user.email);
+    // if (EMAIL !== null) {
+    //   return res.status(409).json({
+    //     success: false,
+    //     message: '이미 사용중인 이메일 입니다.',
+    //   });
+    // }
+    // const NAME = await User.findOne({ userName: user.userName });
+    // if (NAME !== null) {
+    //   return res.status(409).json({
+    //     success: false,
+    //     message: '이미 사용중인 사용자명 입니다.',
+    //   });
+    // }
     // 데이터베이스 저장
     await user.save((err, user) => {
-      if (err) return res.status(500).json({ success: false, err });
+      if (err) {
+		  console.log(err)
+		  return res.status(500).json({ success: false, err });}
       return res.status(200).json({
         success: true,
         user: user.serialize(),

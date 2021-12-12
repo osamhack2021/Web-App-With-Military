@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from "react-router-dom";
 import Auth from "../hoc/auth";
+
 // pages for this product
 import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
@@ -9,6 +10,8 @@ import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
 import UserPage from "./views/UserPage/UserPage"
 import GroupPage from "./views/GroupPage/GroupPage"
+import SearchResult from "./views/Search/SearchResult"
+import Search from "./views/Search/Search"
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -25,6 +28,8 @@ function App() {
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/users/:userId" component={Auth(UserPage, null)} />
           <Route exact path="/groups/:groupId" component={Auth(GroupPage, null)} />
+	      <Route exact path="/search/" component={Auth(Search, null)} />
+          <Route exact path="/search/:searchData" component={Auth(SearchResult, null)} />
         </Switch>
       </div>
       <Footer />

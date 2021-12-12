@@ -9,7 +9,7 @@ const process = {
       if (req.body.search === '')
         return res
           .status(200)
-          .json({ success: true, group: null, users: null });
+          .json({ success: true, group: [], users: [] });
       const group = await Group.find({
         // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
         groupName: new RegExp(req.body.search),
@@ -21,7 +21,7 @@ const process = {
         },
         { userName: 1, totalTime: 1 },
       ).limit(20);
-      if (USERS.length === 0) USERS = null;
+      if (USERS.length === 0) USERS = [];
       await Tag.find({
         groupList: req.body.search,
       })
@@ -38,10 +38,10 @@ const process = {
           let GROUPS = Array.from(
             new Map(array.map(elem => [elem._id.toString(), elem])).values(),
           );
-          if (GROUPS.length === 0) GROUPS = null;
+          if (GROUPS.length === 0) GROUPS = [];
           return res
             .status(200)
-            .json({ success: true, group: GROUPS, user: USERS });
+            .json({ success: true, GROUPS, USERS });
         });
     } catch (err) {
       return res.status(500).json({ success: false, err });
