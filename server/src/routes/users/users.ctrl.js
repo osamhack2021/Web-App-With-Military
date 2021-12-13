@@ -12,7 +12,7 @@ const output = {
         image: req.user.image,
 	    groupList: req.user.groupList
     });
-    // User.findOne({ userName: req.user.userName })
+    // User.findOne({ name: req.user.name })
     //   .populate('groupList')
     //   .exec((err, user) => {
     //     if (err) return res.status(500).json({ success: false, err });
@@ -81,7 +81,7 @@ const process = {
     //     message: '이미 사용중인 이메일 입니다.',
     //   });
     // }
-    // const NAME = await User.findOne({ userName: user.userName });
+    // const NAME = await User.findOne({ name: user.name });
     // if (NAME !== null) {
     //   return res.status(409).json({
     //     success: false,
@@ -117,9 +117,9 @@ const process = {
     const result = await User.find(
       {
         // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-        userName: new RegExp(req.body.searchUser),
+        name: new RegExp(req.body.searchUser),
       },
-      { userName: 1 },
+      { name: 1 },
     ).limit(20);
     if (!result.length)
       return res

@@ -27,7 +27,7 @@ function RightMenu(props) {
 		return (
 			<Menu mode={props.mode}>
 				<Menu.Item key="ranking">
-					<a>Ranking</a>
+					<a href="/ranking/user">Ranking</a>
 				</Menu.Item>
 				<Menu.Item key="group">
 					<a>StudyGroup</a>
@@ -65,7 +65,7 @@ function RightMenu(props) {
 		return (
 			<Menu mode={props.mode} style={{ transform: 'translateY(40%)' }}>
 				<Menu.Item key="ranking">
-					<a>Ranking</a>
+					<a href="/ranking/user">Ranking</a>
 				</Menu.Item>
 				<Menu.Item key="group">
 					<a>StudyGroup</a>

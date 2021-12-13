@@ -140,7 +140,7 @@ const process = {
         if (String(group.admins[i]) === String(req.user._id)) admin = true;
       }
       if (admin) {
-        User.findOne({ userName: req.body.userName }, (err, user) => {
+        User.findOne({ name: req.body.name }, (err, user) => {
           if (!user)
             return res.status(409).json({
               success: false,
@@ -157,7 +157,7 @@ const process = {
               if (err) res.status(500).json({ success: false, err });
               // 유저 그룹 목록에 해당 그룹 추가
               User.findOneAndUpdate(
-                { userName: req.body.userName },
+                { name: req.body.name },
                 { $addToSet: { groupList: group._id } },
                 err => {
                   if (err) res.status(500).json({ success: false, err });

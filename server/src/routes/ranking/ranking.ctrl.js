@@ -46,7 +46,7 @@ const output = {
         },
       },
     ]);
-    return res.status(200).json({ result });
+    return res.status(200).json({ success: true, result});
   },
 
   // 전체 그룹 랭킹
@@ -88,7 +88,7 @@ const output = {
         },
       },
     ]);
-    return res.status(200).json(result);
+    return res.status(200).json({ success: true, result});
   },
 
   // 인기 태그
@@ -114,7 +114,7 @@ const output = {
         },
       },
     ]);
-    return res.status(200).json(result);
+    return res.status(200).json({ success: true, result});
   },
 };
 

@@ -27,10 +27,10 @@ function SearchResult(props) {
 			<SearchBar />
 			<span>전체 유저 검색 결과 {Users.length} 건</span>
 			{Users.map((user) => (
-				<div>
+				<a href={`/users/${user._id}`} >
 					{user.name} : {user.totalTime}
 					<br />
-				</div>
+				</a>
 			))}
 			<br />
 			<span>전체 그룹 검색 결과 {Groups.length} 건</span>
