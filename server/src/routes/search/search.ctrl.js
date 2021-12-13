@@ -14,14 +14,14 @@ const process = {
         // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
         groupName: new RegExp(req.body.search),
       });
-      let USERS = await User.find(
+      let Users = await User.find(
         {
           // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-          userName: new RegExp(req.body.search),
+          name: new RegExp(req.body.search),
         },
-        { userName: 1, totalTime: 1 },
+        { name: 1, totalTime: 1 },
       ).limit(20);
-      if (USERS.length === 0) USERS = [];
+      if (Users.length === 0) Users = [];
       await Tag.find({
         groupList: req.body.search,
       })
@@ -35,13 +35,13 @@ const process = {
             }
           }
           array = array.concat(group);
-          let GROUPS = Array.from(
+          let Groups = Array.from(
             new Map(array.map(elem => [elem._id.toString(), elem])).values(),
           );
-          if (GROUPS.length === 0) GROUPS = [];
+          if (Groups.length === 0) Groups = [];
           return res
             .status(200)
-            .json({ success: true, GROUPS, USERS });
+            .json({ success: true, Groups, Users });
         });
     } catch (err) {
       return res.status(500).json({ success: false, err });

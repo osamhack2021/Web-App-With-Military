@@ -21,7 +21,7 @@ const output = {
         .json({ success: false, isStudyingNow: false });
 
     User.findOneAndUpdate(
-      { userName: req.user.userName },
+      { name: req.user.name },
       { $set: { pauseTime: now } },
       err => {
         if (err) {
@@ -45,7 +45,7 @@ const output = {
         .json({ success: false, message: '일시정지 상태가 아닙니다.' });
     now = now - req.user.pauseTime + req.user.startTime.valueOf();
     User.findOneAndUpdate(
-      { userName: req.user.userName },
+      { name: req.user.name },
       { $set: { pauseTime: null, startTime: now } },
       err => {
         if (err) {
@@ -223,7 +223,7 @@ const process = {
 
     try {
       await User.findOneAndUpdate(
-        { userName: req.user.userName },
+        { name: req.user.name },
         {
           $set: {
             startTime: now,
