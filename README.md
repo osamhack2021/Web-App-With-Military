@@ -140,6 +140,6 @@ $ yarn start or npm run start
 
 ## 저작권 및 사용권 정보 (Copyleft / End User License)
 
-- [MIT](https://github.com/osamhack2021/Web_With_Military_temp/blob/master/LICENSE)
+- [MIT](https://github.com/osamhack2021/Web_With_Military_temp/blob/master/license.md)
 
 This project is licensed under the terms of the MIT license.
