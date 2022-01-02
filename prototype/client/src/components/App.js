@@ -13,6 +13,7 @@ import GroupPage from "./views/GroupPage/GroupPage"
 import SearchResult from "./views/Search/SearchResult"
 import Search from "./views/Search/Search"
 import RankingPage from "./views/RankingPage/RankingPage"
+import CreateGroupPage from "./views/CreateGroupPage/CreateGroupPage"
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -32,6 +33,7 @@ function App() {
 	      <Route exact path="/search/" component={Auth(Search, null)} />
           <Route exact path="/search/:searchData" component={Auth(SearchResult, null)} />
 	      <Route exact path="/ranking/:target" component={Auth(RankingPage, null)} />
+		  <Route exact path="/group/create" component={Auth(CreateGroupPage, true)} />
         </Switch>
       </div>
       <Footer />

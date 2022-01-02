@@ -29,9 +29,6 @@ function RightMenu(props) {
 				<Menu.Item key="ranking">
 					<a href="/ranking/user">Ranking</a>
 				</Menu.Item>
-				<Menu.Item key="group">
-					<a>StudyGroup</a>
-				</Menu.Item>
 				<Menu.Item key="search">
 					<a href="/search">
 						<SearchOutlined style={{ fontSize: '32px' }} />
@@ -68,7 +65,7 @@ function RightMenu(props) {
 					<a href="/ranking/user">Ranking</a>
 				</Menu.Item>
 				<Menu.Item key="group">
-					<a>StudyGroup</a>
+					<a href="/group/create">Create StudyGroup</a>
 				</Menu.Item>
 				<Menu.Item key="search">
 					<a href="/search">
