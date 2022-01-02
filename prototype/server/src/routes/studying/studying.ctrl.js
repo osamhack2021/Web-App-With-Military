@@ -1,5 +1,5 @@
-const { User } = require('../../models/User');
-const { Group } = require('../../models/Group');
+const { User } = require("../../models/User");
+const { Group } = require("../../models/Group");
 
 function seoul() {
   const temp = new Date();
@@ -14,16 +14,14 @@ const output = {
     if (req.user.pauseTime)
       return res
         .status(200)
-        .json({ success: false, message: '이미 쉬는 중 입니다!' });
+        .json({ success: false, message: "이미 쉬는 중 입니다!" });
     if (!req.user.startTime)
-      return res
-        .status(200)
-        .json({ success: false, isStudyingNow: false });
+      return res.status(200).json({ success: false, isStudyingNow: false });
 
     User.findOneAndUpdate(
       { name: req.user.name },
       { $set: { pauseTime: now } },
-      err => {
+      (err) => {
         if (err) {
           return res.status(500).json({ success: false, err });
         }
@@ -32,7 +30,7 @@ const output = {
           elapsedTime: Math.floor((seoul() - req.user.startTime) / 1000),
           isStudyingNow: true,
         });
-      },
+      }
     );
   },
 
@@ -42,12 +40,12 @@ const output = {
     if (!req.user.pauseTime)
       return res
         .status(200)
-        .json({ success: false, message: '일시정지 상태가 아닙니다.' });
+        .json({ success: false, message: "일시정지 상태가 아닙니다." });
     now = now - req.user.pauseTime + req.user.startTime.valueOf();
     User.findOneAndUpdate(
       { name: req.user.name },
       { $set: { pauseTime: null, startTime: now } },
-      err => {
+      (err) => {
         if (err) {
           return res.status(500).json({ success: false, err });
         }
@@ -56,7 +54,7 @@ const output = {
           elapsedTime: Math.floor((seoul() - now) / 1000),
           isStudyingNow: true,
         });
-      },
+      }
     );
   },
 
@@ -64,14 +62,12 @@ const output = {
   status: (req, res) => {
     const now = seoul();
     if (!req.user.startTime)
-      return res
-        .status(200)
-        .json({ success: true, isStudyingNow: false });
+      return res.status(200).json({ success: true, isStudyingNow: false });
     if (req.user.pauseTime) {
       return res.status(200).json({
         success: true,
         elapsedTime: Math.floor(
-          (req.user.pauseTime - req.user.startTime) / 1000,
+          (req.user.pauseTime - req.user.startTime) / 1000
         ),
         isStudyingNow: true,
         isPaused: true,
@@ -95,7 +91,7 @@ const output = {
     if (!req.user.startTime)
       return res
         .status(200)
-        .json({ success: false, message: '공부를 시작해주세요.' });
+        .json({ success: false, message: "공부를 시작해주세요." });
     if (req.user.pauseTime)
       req.user.startTime =
         now - req.user.pauseTime + req.user.startTime.valueOf();
@@ -112,12 +108,12 @@ const output = {
                   $set: {
                     totalTime: group.totalTime + now,
                   },
-                },
+                }
               );
             } catch (err) {
               res.status(500).json(err);
             }
-          },
+          }
         );
       }
       const today = seoul();
@@ -126,76 +122,85 @@ const output = {
       const day = `0${today.getDate()}`.slice(-2);
       const dateString = `${year}-${month}-${day}`;
 
-      const USER = await User.findById(req.user._id);
-      const array = await [{ day: dateString }].concat(USER.history);
+      User.findOne({ _id: req.user._id }, async (err, USER) => {
+        const array = await [{ day: dateString }].concat(USER.history);
 
-      const result = await Array.from(
-        new Map(array.map(elem => [elem.day.toString(), elem])).values(),
-      );
-
-      USER.history = await result;
-
-      await USER.history.map(async his => {
-        if (his.day === dateString) {
-          if (his.value === undefined) his.value = 0;
-          his.value += await now;
-
-          if (his[req.user.activeCategory] === undefined)
-            his[req.user.activeCategory] = await 0;
-          his[req.user.activeCategory] += await now;
-        }
-      });
-
-      USER.startTime = null;
-      USER.totalTime += now;
-      USER.pauseTime = null;
-      USER.activeGroup = null;
-      USER.activeCategory = null;
-
-      const temp = await USER.history.sort((a, b) => {
-        const x = a.day;
-        const y = b.day;
-        if (x < y) {
-          return 1;
-        }
-        if (x > y) {
-          return -1;
-        }
-        return 0;
-      });
-
-      // 스트릭 구하기
-      let streak = 1;
-      let yesterday = new Date(
-        new Date(year, month - 1, day).setDate(
-          new Date(year, month - 1, day).getDate() - 1,
-        ),
-      );
-      // yesterday에 어제의 값을 넣고 다음 배열과 같으면 ++ 다르면 break
-      for (let i = 1; i < USER.history.length; i++) {
-        const year2 = USER.history[i].day.substring(0, 4);
-        const month2 = USER.history[i].day.substring(5, 7);
-        const day2 = USER.history[i].day.substring(8, 10);
-        if (String(yesterday) === String(new Date(year2, month2 - 1, day2)))
-          streak += 1;
-        else break;
-        yesterday = new Date(
-          new Date(year2, month2 - 1, day2).setDate(
-            new Date(year2, month2 - 1, day2).getDate() - 1,
-          ),
+        let result = await Array.from(
+          new Map(array.map((elem) => [elem.day.toString(), elem])).values()
         );
-      }
-      // 스트릭 db에 저장
-      USER.curStreak = streak;
-      if (USER.maxStreak < streak) USER.maxStreak = streak;
-      const final = await new User(USER);
-      await final.save(err => {
-        return res.status(200).json({
-          success: true,
-          elapsedTime: now,
-          activeGroup: req.user.activeGroup,
-          activeCategory: req.user.activeCategory,
+
+        await result.map(async (his) => {
+          if (his.day === dateString) {
+            if (his.value === undefined) his.value = 0;
+            his.value += await now;
+
+            if (his[req.user.activeCategory] === undefined)
+              his[req.user.activeCategory] = await 0;
+            his[req.user.activeCategory] += await now;
+          }
         });
+
+        result = await result.sort((a, b) => {
+          const x = a.day;
+          const y = b.day;
+          if (x < y) {
+            return 1;
+          }
+          if (x > y) {
+            return -1;
+          }
+          return 0;
+        });
+
+        // 스트릭 구하기
+        let streak = 1;
+        let yesterday = new Date(
+          new Date(year, month - 1, day).setDate(
+            new Date(year, month - 1, day).getDate() - 1
+          )
+        );
+        // yesterday에 어제의 값을 넣고 다음 배열과 같으면 ++ 다르면 break
+        for (let i = 1; i < USER.history.length; i++) {
+          const year2 = USER.history[i].day.substring(0, 4);
+          const month2 = USER.history[i].day.substring(5, 7);
+          const day2 = USER.history[i].day.substring(8, 10);
+          if (String(yesterday) === String(new Date(year2, month2 - 1, day2)))
+            streak += 1;
+          else break;
+          yesterday = new Date(
+            new Date(year2, month2 - 1, day2).setDate(
+              new Date(year2, month2 - 1, day2).getDate() - 1
+            )
+          );
+        }
+
+        let maxStreak = USER.maxStreak;
+        if (maxStreak < streak) maxStreak = streak;
+
+        User.findOneAndUpdate(
+          { _id: req.user._id },
+          {
+            $set: {
+              history: result,
+              startTime: null,
+              pauseTime: null,
+              activeGroup: null,
+              activeCategory: null,
+              totalTime: USER.totalTime + now,
+              curStreak: streak,
+              maxStreak: maxStreak,
+            },
+          },
+          (err, user) => {
+            if (err) return res.status(500).json({ success: false, err });
+            return res.status(200).json({
+              success: true,
+              elapsedTime: now,
+              activeGroup: req.user.activeGroup,
+              activeCategory: req.user.activeCategory,
+            });
+          }
+        );
       });
     } catch (err) {
       return res.status(500).json({ success: false, err });
@@ -209,9 +214,9 @@ const process = {
     if (req.user.startTime)
       return res.status(200).json({
         success: false,
-        message: '이미 공부 중 입니다.',
+        message: "이미 공부 중 입니다.",
       });
-	  
+
     if (req.body.groupName === undefined) req.body.groupName = null;
     else {
       const group = await Group.findOne({ groupName: req.body.groupName });
@@ -230,7 +235,7 @@ const process = {
             activeGroup: req.body.groupName,
             activeCategory: req.body.category,
           },
-        },
+        }
       );
       return res.status(200).json({
         success: true,
