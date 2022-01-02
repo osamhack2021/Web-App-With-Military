@@ -21,9 +21,11 @@ function UserPage(props) {
 		<div>
 			{UserInfo && (
 				<div>
-					<h1>{UserInfo.userName}</h1>
+					<h1> 유저 이름 : {UserInfo.name}</h1>
 					<br />
-					<h2>{UserInfo.totalTime}</h2>
+					<h2> 전체 공부 시간 : {UserInfo.totalTime}</h2>
+					<br />
+					<h2> 최장 스트릭 : {UserInfo.maxStreak} 현재 스트릭 : {UserInfo.curStreak}</h2>
 					<br />
 					<GrassChart data={UserInfo.history} />
 					<AllLineChart data={UserInfo.history} />
