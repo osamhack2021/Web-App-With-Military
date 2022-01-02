@@ -72,6 +72,7 @@ function StudyMenu() {
 			if(response.data.success) {
 				setElapsedTime(response.data.elapsedTime)
 				setStudying(false)
+				setPause(false)
 			} else {
 				alert(response.data.message)
 			}

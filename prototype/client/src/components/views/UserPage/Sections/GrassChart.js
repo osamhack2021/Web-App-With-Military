@@ -7,8 +7,8 @@ function GrassChart(props) {
 		<div className="" style={{ height: 1000 }}>
 			{props.data &&  <ResponsiveCalendar
       data={props.data}
-      from="2021-01-01"
-      to="2021-12-31"
+      from="2022-01-01"
+      to="2022-12-31"
       emptyColor="#eeeeee"
       colors={["#61cdbb", "#97e3d5", "#e8c1a0", "#f47560"]}
       margin={{

@@ -35,10 +35,10 @@ function SearchResult(props) {
 			<br />
 			<span>전체 그룹 검색 결과 {Groups.length} 건</span>
 			{Groups.map((group) => (
-				<div>
+				<a href={`/groups/${group._id}`}>
 					{group.groupName} : {group.totalTime}
 					<br />
-				</div>
+				</a>
 			))}
 		</div>
 	);

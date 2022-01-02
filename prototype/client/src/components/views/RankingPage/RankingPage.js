@@ -18,11 +18,12 @@ function RankingPage(props) {
 
 	return (
 		<div>
+			<br />
 			{Users.map((user, i) => (
-				<div>
+				<a href={`/users/${user._id}`}>
 					{i+1} 등 - {user.name} : {user.totalTime}
 					<br />
-				</div>
+				</a>
 			))}
 		</div>
 	);
