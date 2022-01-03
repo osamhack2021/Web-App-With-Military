@@ -11,7 +11,7 @@ import {
 
 
 function AllLineChart(props) {
-	props.data && props.data.reverse(); 
+	// props.data && props.data.reverse(); 
 	
 	return (
 		<LineChart
