@@ -26,6 +26,7 @@ function SearchResult(props) {
 			<br />
 			<SearchBar />
 			<span>전체 유저 검색 결과 {Users.length} 건</span>
+			<br />
 			{Users.map((user) => (
 				<a href={`/users/${user._id}`} >
 					{user.name} : {user.totalTime}
@@ -34,6 +35,7 @@ function SearchResult(props) {
 			))}
 			<br />
 			<span>전체 그룹 검색 결과 {Groups.length} 건</span>
+			<br />
 			{Groups.map((group) => (
 				<a href={`/groups/${group._id}`}>
 					{group.groupName} : {group.totalTime}
