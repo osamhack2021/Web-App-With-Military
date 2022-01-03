@@ -160,10 +160,10 @@ const output = {
           )
         );
         // yesterday에 어제의 값을 넣고 다음 배열과 같으면 ++ 다르면 break
-        for (let i = 1; i < USER.history.length; i++) {
-          const year2 = USER.history[i].day.substring(0, 4);
-          const month2 = USER.history[i].day.substring(5, 7);
-          const day2 = USER.history[i].day.substring(8, 10);
+        for (let i = 1; i < result.length; i++) {
+          const year2 = result[i].day.substring(0, 4);
+          const month2 = result[i].day.substring(5, 7);
+          const day2 = result[i].day.substring(8, 10);
           if (String(yesterday) === String(new Date(year2, month2 - 1, day2)))
             streak += 1;
           else break;
