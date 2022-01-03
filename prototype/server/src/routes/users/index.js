@@ -6,13 +6,12 @@ const { auth } = require('../../middleware/auth');
 
 const ctrl = require('./users.ctrl');
 
-router.get('/auth', auth, ctrl.output.auth);
-router.get('/logout', auth, ctrl.output.logout);
+router.get('/auth', auth, ctrl.auth);
+router.get('/logout', auth, ctrl.logout);
 
-router.post('/login', ctrl.process.login);
-router.post('/register', ctrl.process.register);
-router.post('/search', ctrl.process.search);
-router.post('/profile', ctrl.process.profile);
-router.post('/edit', auth, ctrl.process.edit);
+router.post('/login', ctrl.login);
+router.post('/register', ctrl.register);
+router.post('/profile', ctrl.profile);
+router.post('/edit', auth, ctrl.edit);
 
 module.exports = router;
