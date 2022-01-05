@@ -15,10 +15,6 @@ const boardSchema = mongoose.Schema({
     type: Number,
     default: null,
   },
-  content: {
-    type: String,
-    require: true,
-  },
   writerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -30,6 +26,10 @@ const boardSchema = mongoose.Schema({
   posted: {
     type: Date,
     default: seoul(),
+  },	
+  content: {
+    type: String,
+    require: true,
   },
 });
 
