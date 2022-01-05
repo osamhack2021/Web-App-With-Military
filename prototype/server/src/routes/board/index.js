@@ -6,16 +6,16 @@ const { auth } = require('../../middleware/auth');
 
 const ctrl = require('./board.ctrl');
 
-router.get('/', ctrl.output.all);
+router.get('/', ctrl.get.all);
 
-router.post('/write', auth, ctrl.process.write);
-router.post('/edit', auth, ctrl.process.edit);
-router.post('/remove', auth, ctrl.process.remove);
-router.post('/comment/write', auth, ctrl.process.commentWrite);
-router.post('/comment/remove', auth, ctrl.process.commentRemove);
+router.post('/write', auth, ctrl.post.write);
+router.post('/edit', auth, ctrl.post.edit);
+router.post('/remove', auth, ctrl.post.remove);
+router.post('/comment/write', auth, ctrl.post.commentWrite);
+router.post('/comment/remove', auth, ctrl.post.commentRemove);
 
-router.post('/user', ctrl.process.user);
-router.post('/group', ctrl.process.group);
-router.post('/comment/read', ctrl.process.read);
+router.post('/user', ctrl.post.user);
+router.post('/group', ctrl.post.group);
+router.post('/comment/read', ctrl.post.read);
 
 module.exports = router;

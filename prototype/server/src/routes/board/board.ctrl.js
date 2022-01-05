@@ -1,7 +1,7 @@
 const { Board } = require('../../models/Board');
 const { Comment } = require('../../models/Comment');
 
-const output = {
+const get = {
   // 글 전체 불러오기
   all: async (req, res) => {
     try {
@@ -13,7 +13,7 @@ const output = {
   },
 };
 
-const process = {
+const post = {
   // 글 쓰기
   write: async (req, res) => {
     const contents = await new Board(req.body);
@@ -109,6 +109,6 @@ const process = {
 };
 
 module.exports = {
-  output,
-  process,
+  get,
+  post,
 };

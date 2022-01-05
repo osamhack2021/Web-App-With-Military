@@ -3,7 +3,7 @@ const { User } = require('../../models/User');
 const { Tag } = require('../../models/Tag');
 const { Category } = require('../../models/Category');
 
-const process = {
+const post = {
   // 그룹 만들기
   create: (req, res) => {
 	  console.log(req.body)
@@ -178,37 +178,6 @@ const process = {
     }
   },
 
-  // 그룹 검색
-  search: async (req, res) => {
-    try {
-      const group = await Group.find({
-        // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-        groupName: new RegExp(req.body.search),
-      });
-
-      await Tag.find({
-        groupName: req.body.search,
-      })
-        .populate('groupList')
-        .exec((err, tag) => {
-          if (err) return res.status(500).json({ success: false, err });
-          let array = [];
-          for (let i = 0; i < tag.length; i++) {
-            if (tag[i].groupList.length) array = array.concat(tag[i].groupList);
-          }
-          array = array.concat(group);
-          const result = Array.from(
-            new Map(array.map(elem => [elem._id.toString(), elem])).values(),
-          );
-          if (!result)
-            return res.status(200).json({ message: '검색 결과가 없습니다.' });
-          return res.status(200).json({ success: true, result });
-        });
-    } catch (err) {
-      return res.status(500).json({ success: false, err });
-    }
-  },
-
   // 그룹 참가 신청
   waiting: async (req, res) => {
     // 존재하는 그룹인지 확인
@@ -321,5 +290,5 @@ const process = {
 };
 
 module.exports = {
-  process,
+  post,
 };

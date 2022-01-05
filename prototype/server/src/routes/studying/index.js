@@ -6,11 +6,10 @@ const { auth } = require('../../middleware/auth');
 
 const ctrl = require('./studying.ctrl');
 
-router.get('/', auth, ctrl.output.status);
-router.get('/end', auth, ctrl.output.end);
-router.get('/pause', auth, ctrl.output.pause);
-router.get('/resume', auth, ctrl.output.resume);
-
-router.post('/start', auth, ctrl.process.start);
+router.get('/', auth, ctrl.get.status);
+router.get('/end', auth, ctrl.get.end);
+router.get('/pause', auth, ctrl.get.pause);
+router.get('/resume', auth, ctrl.get.resume);
+router.post('/start', auth, ctrl.post.start);
 
 module.exports = router;
