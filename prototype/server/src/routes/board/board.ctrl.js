@@ -4,7 +4,6 @@ const post = {
   // 게시글 쓰기
   saveBoard: (req, res) => {
     const board = new Board(req.body);
-	  console.log(board)
     board.save((err, board) => {
       if (err) return res.status(400).json({ success: false, err });
       Board.find({ _id: board._id })
@@ -17,7 +16,6 @@ const post = {
   },
   // 그룹 게시글 불러오기
   getGroupBoards: (req, res) => {
-	  console.log(req.body.groupId)
     Board.find({ groupId: req.body.groupId })
       .populate("writerId")
       .exec((err, boards) => {

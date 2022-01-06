@@ -45,6 +45,7 @@ function NewBoard(props) {
   };
   return (
     <div>
+	<h2>글 쓰기</h2>
       <Form>
         <Form.Item
           label="title"
@@ -59,6 +60,7 @@ function NewBoard(props) {
             value={TitleValue}
             type="text"
             name="title"
+			  placeholder="제목을 입력해 주세요."
           />
         </Form.Item>
         <Form.Item
@@ -73,7 +75,7 @@ function NewBoard(props) {
             style={{ width: "100%", borderRadius: "5px" }}
             onChange={handleContent}
             value={BoardValue}
-            placeholder="게시글을 작성해 주세요"
+            placeholder="내용을 입력해 주세요."
           />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>

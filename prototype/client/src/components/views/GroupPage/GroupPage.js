@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Row, Col, List, Avatar } from "antd";
 import NewBoard from "./Sections/NewBoard";
+import Board from "./Sections/Board";
 
 function GroupPage(props) {
   const groupId = props.match.params.groupId;
@@ -20,11 +21,11 @@ function GroupPage(props) {
       }
     });
 
-    Axios.post("/api/board/group/boards", variable).then((response) => {
+    Axios.post("/api/board/group", variable).then((response) => {
       if (response.data.success) {
         setBoardLists(response.data.boards);
       } else {
-        alert("코멘트 정보를 가져오는 것을 실패했습니다.");
+        alert("게시글 정보를 가져오는 것을 실패했습니다.");
       }
     });
   }, []);
@@ -49,30 +50,22 @@ function GroupPage(props) {
       )}
       {BoardLists && (
         <div>
-          {BoardLists.map((board) => (
-            <div>
-              {console.log(board)}
-
-              <div>제목 : {board.title}</div>
-				<div>작성자 : {board.writerId.name}</div>
-              <div>내용 : {board.content}</div>
-						  <br/>
-            </div>
-          ))}
           <Row>
             <Col lg={18} xs={24}>
               <div style={{ width: "100%", padding: "3rem 4rem" }}>
                 {/* Boards */}
-                <NewBoard
-                  refreshFunction={refreshFunction}
-                  BoardLists={BoardLists}
-                  groupId={groupId}
-                />
+                <Board refreshFunction={refreshFunction} BoardLists={BoardLists} groupId={groupId} />
               </div>
             </Col>
           </Row>
+
+          
         </div>
       )}
+		  <NewBoard
+            refreshFunction={refreshFunction}
+            groupId={groupId}
+          />
     </div>
   );
 }
