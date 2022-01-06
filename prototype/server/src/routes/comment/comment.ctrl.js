@@ -4,8 +4,6 @@ const post = {
   // 댓글 쓰기
   saveComment: (req, res) => {
     const comment = new Comment(req.body);
-	  console.log(comment)
-
     comment.save((err, comment) => {
       if (err) return res.status(400).json({ success: false, err });
       Comment.find({ _id: comment._id })
