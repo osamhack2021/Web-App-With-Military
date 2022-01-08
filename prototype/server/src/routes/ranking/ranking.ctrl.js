@@ -2,7 +2,7 @@ const { User } = require('../../models/User');
 const { Group } = require('../../models/Group');
 const { Tag } = require('../../models/Tag');
 
-const output = {
+const get = {
   // 전체 유저 랭킹
   user: async (req, res) => {
     const result = await User.aggregate([
@@ -119,5 +119,5 @@ const output = {
 };
 
 module.exports = {
-  output,
+  get,
 };

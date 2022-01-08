@@ -7,10 +7,6 @@ function seoul() {
 }
 
 const commentSchema = mongoose.Schema({
-  comment: {
-    type: String,
-    require: true,
-  },
   writerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -18,6 +14,10 @@ const commentSchema = mongoose.Schema({
   boardId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Board',
+  },
+  content: {
+    type: String,
+    require: true,
   },
   posted: {
     type: Date,

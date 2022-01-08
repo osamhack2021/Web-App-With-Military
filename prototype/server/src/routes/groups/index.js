@@ -4,11 +4,10 @@ const router = express.Router();
 const { auth } = require('../../middleware/auth');
 const ctrl = require('./groups.ctrl');
 
-router.post('/create', auth, ctrl.process.create);
-router.post('/approve', auth, ctrl.process.approve);
-router.post('/search', ctrl.process.search);
-router.post('/waiting', auth, ctrl.process.waiting);
-router.post('/profile', ctrl.process.profile);
-router.post('/edit', auth, ctrl.process.edit);
+router.post('/create', auth, ctrl.post.create);
+router.post('/approve', auth, ctrl.post.approve);
+router.post('/waiting', auth, ctrl.post.waiting);
+router.post('/profile', ctrl.post.profile);
+router.post('/edit', auth, ctrl.post.edit);
 
 module.exports = router;

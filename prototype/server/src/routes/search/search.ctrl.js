@@ -2,7 +2,7 @@ const { Group } = require('../../models/Group');
 const { User } = require('../../models/User');
 const { Tag } = require('../../models/Tag');
 
-const process = {
+const post = {
   // 그룹 검색
   all: async (req, res) => {
     try {
@@ -50,5 +50,5 @@ const process = {
 };
 
 module.exports = {
-  process,
+  post,
 };

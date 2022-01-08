@@ -7,7 +7,7 @@ function seoul() {
   return temp;
 }
 
-const output = {
+const get = {
   // 타이머 일시정지
   pause: (req, res) => {
     const now = seoul();
@@ -33,7 +33,6 @@ const output = {
       }
     );
   },
-
   // 타이머 재개
   resume: (req, res) => {
     let now = seoul();
@@ -208,7 +207,7 @@ const output = {
   },
 };
 
-const process = {
+const post = {
   // 타이머 시작
   start: async (req, res) => {
     if (req.user.startTime)
@@ -251,6 +250,6 @@ const process = {
 };
 
 module.exports = {
-  output,
-  process,
+  get,
+  post,
 };
