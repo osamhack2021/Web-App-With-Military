@@ -29,7 +29,7 @@ function SingleComment(props) {
 		okText="Yes"
 		cancelText="No"
 	  >
-		<CloseOutlined />
+		<CloseOutlined /> 삭제하기
 	  </Popconfirm>
 	]
 	

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Axios from "axios";
-import Comment from "./Comment";
 import { EditOutlined } from "@ant-design/icons";
-import EditBoard from "./EditBoard";
-import { Row, Col } from "antd";
+import { Row, Col, Button } from "antd";
 import NewBoard from "./NewBoard";
+import Comment from "./Comment";
+import EditBoard from "./EditBoard";
 
 function Board(props) {
+  const user = useSelector((state) => state.user);
   const groupId = props.groupId;
   const [BoardLists, setBoardLists] = useState([]);
-  const [OpenEdit, setOpenEdit] = useState(false);
 
   useEffect(() => {
     Axios.post("/api/board/group", { groupId: groupId }).then((response) => {
@@ -21,22 +22,31 @@ function Board(props) {
     });
   }, []);
 
-  const onClickEdit = () => {
-    setOpenEdit(!OpenEdit);
-  };
+  function onClickEdit(event, board) {
+    if (board.writerId._id === user.userData._id) {
+      setBoardLists((BoardLists) =>
+        BoardLists.map((item) => {
+          if (item._id === board._id) {
+            item.edit = true;
+          }
+          return item;
+        })
+      );
+    }
+  }
   const editFunction = (board) => {
-    setOpenEdit(!OpenEdit);
-    setBoardLists(BoardLists =>
+    setBoardLists((BoardLists) =>
       BoardLists.map((item) => {
         if (item._id === board.boardId) {
           item.title = board.title;
           item.content = board.content;
+          item.edit = false;
         }
         return item;
       })
     );
   };
-  
+
   const refreshFunction = (newBoard) => {
     setBoardLists(BoardLists.concat(newBoard));
   };
@@ -53,15 +63,19 @@ function Board(props) {
                   BoardLists.map((board, index) => (
                     <React.Fragment>
                       <h2>제목 : {board.title}</h2>
-                      <span onClick={onClickEdit}>
+                      <Button
+                        onClick={(e) => {
+                          onClickEdit(e, board);
+                        }}
+                      >
                         <EditOutlined />
                         수정하기
-                      </span>
+                      </Button>
                       <h3>
                         작성자 : {board.writerId.name} 작성일 : {board.posted}
                       </h3>
                       <h3>내용 : {board.content}</h3>
-                      {OpenEdit && (
+                      {board.edit && (
                         <form style={{ display: "flex", marginLeft: "40px" }}>
                           <EditBoard
                             board={board}
