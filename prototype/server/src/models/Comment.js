@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 function seoul() {
   const temp = new Date();
@@ -9,15 +9,11 @@ function seoul() {
 const commentSchema = mongoose.Schema({
   writerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   boardId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Board",
-  },
-  responseTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'Board',
   },
   content: {
     type: String,
@@ -29,6 +25,6 @@ const commentSchema = mongoose.Schema({
   },
 });
 
-const Comment = mongoose.model("Comment", commentSchema);
+const Comment = mongoose.model('Comment', commentSchema);
 
 module.exports = { Comment };

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import SingleComment from "./SingleComment";
-import ReplyComment from "./ReplyComment";
 import { Button, Input } from "antd";
 const { TextArea } = Input;
 
@@ -23,6 +22,9 @@ function Comment(props) {
   }, []);
 	const refreshFunction = (comment) => {
     setCommentLists(CommentLists.concat(comment));
+  };
+  const removeFunction = (commentId) => {
+    setCommentLists(CommentLists.filter(item => item._id !== commentId));
   };
 
   const handleClick = (event) => {
@@ -60,13 +62,8 @@ function Comment(props) {
               <React.Fragment>
                 <SingleComment
                   refreshFunction={refreshFunction}
+                  removeFunction={removeFunction}
                   comment={comment}
-                  boardId={props.boardId}
-                />
-                <ReplyComment
-                  refreshFunction={refreshFunction}
-                  parentCommentId={comment._id}
-                  CommentLists={CommentLists}
                   boardId={props.boardId}
                 />
               </React.Fragment>

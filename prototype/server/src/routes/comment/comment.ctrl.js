@@ -1,4 +1,4 @@
-const { Comment } = require("../../models/Comment");
+const { Comment } = require('../../models/Comment');
 
 const post = {
   // 댓글 쓰기
@@ -7,7 +7,7 @@ const post = {
     comment.save((err, comment) => {
       if (err) return res.status(400).json({ success: false, err });
       Comment.find({ _id: comment._id })
-        .populate("writerId")
+        .populate('writerId')
         .exec((err, result) => {
           if (err) return res.status(400).json({ success: false, err });
           return res.status(200).json({ success: true, result });
@@ -18,7 +18,7 @@ const post = {
   // 댓글 불러오기
   getComments: (req, res) => {
     Comment.find({ boardId: req.body.boardId })
-      .populate("writerId")
+      .populate('writerId')
       .exec((err, comments) => {
         if (err) return res.status(400).json({ success: false, err });
         return res.status(200).json({ success: true, comments });
@@ -32,10 +32,10 @@ const post = {
       if (String(comment.writerId) !== String(req.user._id))
         return res
           .status(500)
-          .json({ success: false, message: "작성자가 아닙니다." });
-      Comment.deleteOne({ _id: req.body.commentId }, (err) => {
+          .json({ success: false, message: '작성자가 아닙니다.' });
+      Comment.deleteOne({ _id: req.body.commentId }, err => {
         if (err) return res.status(500).json({ success: false });
-        return res.status(200).json({ success: true });
+        return res.status(200).json({ success: true, result: req.user._id });
       });
     });
   },
