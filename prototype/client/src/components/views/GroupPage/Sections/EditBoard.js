@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { useSelector } from "react-redux";
 import { Button, Input, Form } from "antd";
 const layout = {
   labelCol: {
@@ -11,16 +10,14 @@ const layout = {
   },
 };
 
-function NewBoard(props) {
-  const groupId = props.groupId;
-  const user = useSelector((state) => state.user);
-  const [BoardValue, setBoardValue] = useState("");
-  const [TitleValue, setTitleValue] = useState("");
+function EditBoard(props) {
+  const [BoardValue, setBoardValue] = useState(props.board.content);
+  const [TitleValue, setTitleValue] = useState(props.board.title);
 
   const handleContent = (event) => {
     setBoardValue(event.currentTarget.value);
   };
-	const handleTitle = (event) => {
+  const handleTitle = (event) => {
     setTitleValue(event.currentTarget.value);
   };
   const onSubmit = (event) => {
@@ -29,22 +26,20 @@ function NewBoard(props) {
     const variables = {
       title: TitleValue,
       content: BoardValue,
-      writerId: user.userData._id,
-      groupId: groupId,
+      boardId: props.board._id,
     };
 
-    Axios.post("/api/board/save", variables).then((response) => {
+    Axios.post("/api/board/edit", variables).then((response) => {
       if (response.data.success) {
-        setBoardValue("");
-        props.refreshFunction(response.data.result);
+        props.editFunction(variables);
       } else {
-        alert("게시글을 저장하지 못했습니다.");
+        alert("게시글을 수정하지 못했습니다.");
       }
     });
   };
   return (
     <div>
-	<h2>글 쓰기</h2>
+      <h2>수정하기</h2>
       <Form>
         <Form.Item
           label="title"
@@ -59,7 +54,7 @@ function NewBoard(props) {
             value={TitleValue}
             type="text"
             name="title"
-			  placeholder="제목을 입력해 주세요."
+            placeholder="제목을 입력해 주세요."
           />
         </Form.Item>
         <Form.Item
@@ -87,4 +82,4 @@ function NewBoard(props) {
   );
 }
 
-export default NewBoard;
+export default EditBoard;

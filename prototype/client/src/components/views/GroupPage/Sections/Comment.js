@@ -10,9 +10,9 @@ function Comment(props) {
   const user = useSelector((state) => state.user);
   const [CommentValue, setCommentValue] = useState("");
   const [CommentLists, setCommentLists] = useState([]);
-	
-	useEffect(() => {
-    Axios.post("/api/comment/", {boardId: boardId}).then((response) => {
+
+  useEffect(() => {
+    Axios.post("/api/comment/", { boardId: boardId }).then((response) => {
       if (response.data.success) {
         setCommentLists(response.data.comments);
       } else {
@@ -20,11 +20,11 @@ function Comment(props) {
       }
     });
   }, []);
-	const refreshFunction = (comment) => {
+  const refreshFunction = (comment) => {
     setCommentLists(CommentLists.concat(comment));
   };
   const removeFunction = (commentId) => {
-    setCommentLists(CommentLists.filter(item => item._id !== commentId));
+    setCommentLists(CommentLists.filter((item) => item._id !== commentId));
   };
 
   const handleClick = (event) => {
@@ -56,22 +56,18 @@ function Comment(props) {
 
       {/* Coment Lists */}
       {CommentLists &&
-        CommentLists.map(
-          (comment, index) =>
-            (!comment.responseTo && 
-              <React.Fragment>
-                <SingleComment
-                  refreshFunction={refreshFunction}
-                  removeFunction={removeFunction}
-                  comment={comment}
-                  boardId={props.boardId}
-                />
-              </React.Fragment>
-            )
-        )}
+        CommentLists.map((comment, index) => (
+          <React.Fragment>
+            <SingleComment
+              refreshFunction={refreshFunction}
+              removeFunction={removeFunction}
+              comment={comment}
+              boardId={props.boardId}
+            />
+          </React.Fragment>
+        ))}
 
       {/* Root Comment Form */}
-
       <form style={{ display: "flex" }} onSubmit={onSubmit}>
         <TextArea
           style={{ width: "100%", borderRadius: "5px" }}

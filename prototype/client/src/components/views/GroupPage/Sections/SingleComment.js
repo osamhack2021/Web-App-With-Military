@@ -17,10 +17,10 @@ function SingleComment(props) {
 		  });
 	  }
 	  
-	  function cancel(e) {
+	function cancel(e) {
 		console.log(e);
 		message.error('취소하였습니다.');
-	  }
+	}
 	
 	const actions = [<Popconfirm
 		title="댓글을 정말로 삭제 하시겠습니까?"
