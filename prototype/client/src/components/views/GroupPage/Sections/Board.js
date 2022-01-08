@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Axios from "axios";
-import { EditOutlined } from "@ant-design/icons";
-import { Row, Col, Button } from "antd";
+import { EditOutlined, CloseOutlined } from "@ant-design/icons";
+import { Row, Col, Button, Popconfirm, message } from "antd";
 import NewBoard from "./NewBoard";
 import Comment from "./Comment";
 import EditBoard from "./EditBoard";
@@ -32,7 +32,28 @@ function Board(props) {
           return item;
         })
       );
+    } else {
+      message.error("작성자가 아닙니다.");
     }
+  }
+  function confirm(e, board) {
+    if (board.writerId._id === user.userData._id) {
+      Axios.post("/api/board/remove", { boardId: board._id }).then(
+        (response) => {
+          if (response.data.success) {
+            setBoardLists(BoardLists.filter((item) => item._id !== board._id));
+          } else {
+            alert("게시글 삭제에 실패했습니다.");
+          }
+        }
+      );
+    } else {
+      message.error("작성자가 아닙니다.");
+    }
+  }
+
+  function cancel(e) {
+    message.error("취소하였습니다.");
   }
   const editFunction = (board) => {
     setBoardLists((BoardLists) =>
@@ -71,6 +92,17 @@ function Board(props) {
                         <EditOutlined />
                         수정하기
                       </Button>
+                      <Popconfirm
+                        title="게시글을 정말로 삭제 하시겠습니까?"
+                        onConfirm={(e) => {
+                          confirm(e, board);
+                        }}
+                        onCancel={cancel}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <CloseOutlined /> 삭제하기
+                      </Popconfirm>
                       <h3>
                         작성자 : {board.writerId.name} 작성일 : {board.posted}
                       </h3>

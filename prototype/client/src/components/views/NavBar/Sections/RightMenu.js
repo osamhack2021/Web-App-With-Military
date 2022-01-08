@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import StudyMenu from "./StudyMenu";
 
 import { Menu, Avatar, Badge, Dropdown } from "antd";
-import { EditOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
+import { EditOutlined, SearchOutlined} from "@ant-design/icons";
 
 function RightMenu(props) {
   const user = useSelector((state) => state.user);
