@@ -24,7 +24,6 @@ function SingleComment(props) {
   }
 
   function cancel(e) {
-    console.log(e);
     message.error("취소하였습니다.");
   }
 

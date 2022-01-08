@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import StudyMenu from "./StudyMenu";
 
 import { Menu, Avatar, Badge, Dropdown } from "antd";
-import { EditOutlined, SearchOutlined} from "@ant-design/icons";
+import { EditOutlined, SearchOutlined } from "@ant-design/icons";
 
 function RightMenu(props) {
   const user = useSelector((state) => state.user);
@@ -23,11 +23,27 @@ function RightMenu(props) {
     });
   };
 
+  const ranking = (
+    <Menu>
+      <Menu.Item key="1">
+        <a href="/ranking/all">All</a>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <a href="/ranking/group">Group</a>
+      </Menu.Item>
+      <Menu.Item key="3">
+        <a href="/ranking/user">User</a>
+      </Menu.Item>
+    </Menu>
+  );
+
   if (user.userData && !user.userData.isAuth) {
     return (
       <Menu mode={props.mode}>
         <Menu.Item key="ranking">
-          <a href="/ranking/user">Ranking</a>
+          <Dropdown overlay={ranking} trigger={["click"]}>
+            <div>Ranking</div>
+          </Dropdown>
         </Menu.Item>
         <Menu.Item key="search">
           <a href="/search">
@@ -57,19 +73,6 @@ function RightMenu(props) {
               <a href={`/groups/${group._id}`}>{group.groupName}</a>
             </Menu.Item>
           ))}
-      </Menu>
-    );
-    const ranking = (
-      <Menu>
-			<Menu.Item key="1">
-          <a href="/ranking/all">All</a>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <a href="/ranking/group">Group</a>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <a href="/ranking/user">User</a>
-        </Menu.Item>
       </Menu>
     );
     return (
