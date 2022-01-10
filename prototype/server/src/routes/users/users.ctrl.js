@@ -1,4 +1,4 @@
-const { User } = require("../../models/User");
+const { User } = require('../../models/User');
 
 const get = {
   auth: (req, res) => {
@@ -14,11 +14,11 @@ const get = {
   logout: (req, res) => {
     User.findOneAndUpdate(
       { _id: req.user._id },
-      { token: "", tokenExp: "" },
-      (err) => {
+      { token: '', tokenExp: '' },
+      err => {
         if (err) return res.status(500).json({ success: false, err });
-        return res.cookie("w_auth", "").status(200).json({ success: true });
-      }
+        return res.cookie('w_auth', '').status(200).json({ success: true });
+      },
     );
   },
 };
@@ -31,7 +31,7 @@ const post = {
       if (!user) {
         return res.status(403).json({
           loginSuccess: false,
-          message: "존재하지 않는 이메일 입니다.",
+          message: '존재하지 않는 이메일 입니다.',
         });
       }
       // DB에 저장된 user의 password와 비교
@@ -40,15 +40,15 @@ const post = {
         if (!isMatch) {
           return res.status(403).json({
             loginSuccess: false,
-            message: "비밀번호가 틀렸습니다.",
+            message: '비밀번호가 틀렸습니다.',
           });
         }
         // 토큰 생성 및 쿠키에 저장
         user.generateToken((err, user) => {
           if (err) return res.status(500).send({ loginSuccess: false, err });
-          res.cookie("w_authExp", user.tokenExp);
+          res.cookie('w_authExp', user.tokenExp);
           return res
-            .cookie("w_auth", user.token, {
+            .cookie('w_auth', user.token, {
               // 유효기간 : 24시간
               maxAge: 24 * 60 * 60 * 1000,
               httpOnly: true,
@@ -91,12 +91,12 @@ const post = {
   },
   edit: (req, res) => {
     User.findOneAndUpdate(
-      { id: req.user._id },
+      { _id: req.user._id },
       { $set: { info: req.body.info } },
-      (err) => {
+      err => {
         if (err) return res.status(500).json({ success: false, err });
         return res.status(500).json({ success: true });
-      }
+      },
     );
   },
   profile: (req, res) => {
@@ -161,10 +161,10 @@ const post = {
     //       .send({ success: true, user: user.serialize() });
     //   });
     User.findOne({ _id: req.body.userId })
-      .populate("groupList")
+      .populate('groupList')
       .exec((err, user) => {
         if (err) return res.status(400).json({ success: false, err });
-        return res.status(200).send({ success: true, user: user });
+        return res.status(200).send({ success: true, user });
       });
   },
 };

@@ -76,7 +76,7 @@ const post = {
 
   // 그룹 정보 수정
   edit: (req, res) => {
-    Group.findOne({ id: req.body.id }, (err, group) => {
+    Group.findOne({ _id: req.body.groupId }, (err, group) => {
       if (err) return res.status(500).json({ success: false, err });
       let admin = false;
       for (let i = 0; i < group.admins.length; i++) {
@@ -84,7 +84,7 @@ const post = {
       }
       if (admin) {
         Group.findOneAndUpdate(
-          { id: group._id },
+          { id: req.body.groupId },
           {
             $set: {
               info: req.body.info,
@@ -105,14 +105,14 @@ const post = {
 
   // 그룹 삭제
   remove: (req, res) => {
-    Group.findOne({ id: req.body.id }, (err, group) => {
+    Group.findOne({ _id: req.body.groupId }, (err, group) => {
       if (err) return res.status(500).json({ success: false, err });
       let admin = false;
       for (let i = 0; i < group.admins.length; i++) {
         if (String(group.admins[i]) === String(req.user._id)) admin = true;
       }
       if (admin) {
-        Group.deleteOne({ id: group._id }, err => {
+        Group.deleteOne({ _id: req.body.groupId }, err => {
           if (err) return res.status(500).json({ success: false, err });
           return res.status(200).json({ success: true });
         });
@@ -220,7 +220,7 @@ const post = {
 
     // 유저 참가 대기열에 추가
     Group.findOneAndUpdate(
-      { groupName: req.body.groupId },
+      { _id: req.body.groupId },
       { $addToSet: { waiting: req.user._id } },
       err => {
         if (err) {
