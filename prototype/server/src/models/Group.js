@@ -58,10 +58,6 @@ const groupSchema = mongoose.Schema({
   },
 });
 
-groupSchema.statics.findByName = function (groupName) {
-  return this.findOne({ groupName });
-};
-
 const Group = mongoose.model('Group', groupSchema);
 
 module.exports = { Group };

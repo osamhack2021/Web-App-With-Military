@@ -6,7 +6,7 @@ const ctrl = require('./groups.ctrl');
 
 router.post('/create', auth, ctrl.post.create);
 router.post('/approve', auth, ctrl.post.approve);
-router.post('/waiting', auth, ctrl.post.waiting);
+router.post('/join', auth, ctrl.post.join);
 router.post('/profile', ctrl.post.profile);
 router.post('/edit', auth, ctrl.post.edit);
 
