@@ -80,7 +80,7 @@ const userSchema = mongoose.Schema({
     type: String,
   },
   tokenExp: {
-	type: String,  
+    type: String,
   },
   rank: {
     type: Number,
@@ -93,23 +93,23 @@ const userSchema = mongoose.Schema({
 });
 
 // DB에 저장
-userSchema.pre('save', function( next ) {
-    var user = this;
-    
-    if(user.isModified('password')){    
-        // console.log('password changed')
-        bcrypt.genSalt(saltRounds, function(err, salt){
-            if(err) return next(err);
-    
-            bcrypt.hash(user.password, salt, function(err, hash){
-                if(err) return next(err);
-                user.password = hash 
-                next()
-            })
-        })
-    } else {
-        next()
-    }
+userSchema.pre('save', function (next) {
+  const user = this;
+
+  if (user.isModified('password')) {
+    // console.log('password changed')
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      if (err) return next(err);
+
+      bcrypt.hash(user.password, salt, function (err, hash) {
+        if (err) return next(err);
+        user.password = hash;
+        next();
+      });
+    });
+  } else {
+    next();
+  }
 });
 
 // 비밀번호 비교
@@ -139,18 +139,14 @@ userSchema.statics.findByToken = function (token, cb) {
 
   // 토큰 decode
   jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
-    user.findOne({ _id: decoded, token })
-	  .populate('groupList')
-	  .exec((err, user) => {
-      if (err) return cb(err);
-      return cb(null, user);
-    });
+    user
+      .findOne({ _id: decoded, token })
+      .populate('groupList')
+      .exec((err, user) => {
+        if (err) return cb(err);
+        return cb(null, user);
+      });
   });
-};
-
-// 이메일 찾기
-userSchema.statics.findByEmail = function (email) {
-  return this.findOne({ email });
 };
 
 // 비밀번호와 토큰을 제외한 유저정보 전송

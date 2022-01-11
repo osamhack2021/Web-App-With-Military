@@ -1,5 +1,5 @@
-const { User } = require("../../models/User");
-const { Group } = require("../../models/Group");
+const { User } = require('../../models/User');
+const { Group } = require('../../models/Group');
 
 function seoul() {
   const temp = new Date();
@@ -14,14 +14,14 @@ const get = {
     if (req.user.pauseTime)
       return res
         .status(200)
-        .json({ success: false, message: "이미 쉬는 중 입니다!" });
+        .json({ success: false, message: '이미 쉬는 중 입니다!' });
     if (!req.user.startTime)
       return res.status(200).json({ success: false, isStudyingNow: false });
 
     User.findOneAndUpdate(
       { name: req.user.name },
       { $set: { pauseTime: now } },
-      (err) => {
+      err => {
         if (err) {
           return res.status(500).json({ success: false, err });
         }
@@ -30,7 +30,7 @@ const get = {
           elapsedTime: Math.floor((seoul() - req.user.startTime) / 1000),
           isStudyingNow: true,
         });
-      }
+      },
     );
   },
   // 타이머 재개
@@ -39,12 +39,12 @@ const get = {
     if (!req.user.pauseTime)
       return res
         .status(200)
-        .json({ success: false, message: "일시정지 상태가 아닙니다." });
+        .json({ success: false, message: '일시정지 상태가 아닙니다.' });
     now = now - req.user.pauseTime + req.user.startTime.valueOf();
     User.findOneAndUpdate(
       { name: req.user.name },
       { $set: { pauseTime: null, startTime: now } },
-      (err) => {
+      err => {
         if (err) {
           return res.status(500).json({ success: false, err });
         }
@@ -53,7 +53,7 @@ const get = {
           elapsedTime: Math.floor((seoul() - now) / 1000),
           isStudyingNow: true,
         });
-      }
+      },
     );
   },
 
@@ -66,7 +66,7 @@ const get = {
       return res.status(200).json({
         success: true,
         elapsedTime: Math.floor(
-          (req.user.pauseTime - req.user.startTime) / 1000
+          (req.user.pauseTime - req.user.startTime) / 1000,
         ),
         isStudyingNow: true,
         isPaused: true,
@@ -90,7 +90,7 @@ const get = {
     if (!req.user.startTime)
       return res
         .status(200)
-        .json({ success: false, message: "공부를 시작해주세요." });
+        .json({ success: false, message: '공부를 시작해주세요.' });
     if (req.user.pauseTime)
       req.user.startTime =
         now - req.user.pauseTime + req.user.startTime.valueOf();
@@ -107,12 +107,12 @@ const get = {
                   $set: {
                     totalTime: group.totalTime + now,
                   },
-                }
+                },
               );
             } catch (err) {
               res.status(500).json(err);
             }
-          }
+          },
         );
       }
       const today = seoul();
@@ -125,10 +125,10 @@ const get = {
         const array = await [{ day: dateString }].concat(USER.history);
 
         let result = await Array.from(
-          new Map(array.map((elem) => [elem.day.toString(), elem])).values()
+          new Map(array.map(elem => [elem.day.toString(), elem])).values(),
         );
 
-        await result.map(async (his) => {
+        await result.map(async his => {
           if (his.day === dateString) {
             if (his.value === undefined) his.value = 0;
             his.value += await now;
@@ -155,8 +155,8 @@ const get = {
         let streak = 1;
         let yesterday = new Date(
           new Date(year, month - 1, day).setDate(
-            new Date(year, month - 1, day).getDate() - 1
-          )
+            new Date(year, month - 1, day).getDate() - 1,
+          ),
         );
         // yesterday에 어제의 값을 넣고 다음 배열과 같으면 ++ 다르면 break
         for (let i = 1; i < result.length; i++) {
@@ -168,12 +168,12 @@ const get = {
           else break;
           yesterday = new Date(
             new Date(year2, month2 - 1, day2).setDate(
-              new Date(year2, month2 - 1, day2).getDate() - 1
-            )
+              new Date(year2, month2 - 1, day2).getDate() - 1,
+            ),
           );
         }
 
-        let maxStreak = USER.maxStreak;
+        let { maxStreak } = USER;
         if (maxStreak < streak) maxStreak = streak;
 
         User.findOneAndUpdate(
@@ -187,7 +187,7 @@ const get = {
               activeCategory: null,
               totalTime: USER.totalTime + now,
               curStreak: streak,
-              maxStreak: maxStreak,
+              maxStreak,
             },
           },
           (err, user) => {
@@ -198,7 +198,7 @@ const get = {
               activeGroup: req.user.activeGroup,
               activeCategory: req.user.activeCategory,
             });
-          }
+          },
         );
       });
     } catch (err) {
@@ -213,7 +213,7 @@ const post = {
     if (req.user.startTime)
       return res.status(200).json({
         success: false,
-        message: "이미 공부 중 입니다.",
+        message: '이미 공부 중 입니다.',
       });
 
     if (req.body.groupName === undefined) req.body.groupName = null;
@@ -234,7 +234,7 @@ const post = {
             activeGroup: req.body.groupName,
             activeCategory: req.body.category,
           },
-        }
+        },
       );
       return res.status(200).json({
         success: true,

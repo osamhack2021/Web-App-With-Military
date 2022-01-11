@@ -77,6 +77,13 @@ const post = {
   // 그룹 정보 수정
   edit: (req, res) => {
     Group.findOne({ _id: req.body.groupId }, (err, group) => {
+      // 존재하는 그룹인지 확인
+      if (!group) {
+        return res.status(400).json({
+          success: false,
+          message: '존재하지 않는 그룹에 접근하였습니다.',
+        });
+      }
       if (err) return res.status(500).json({ success: false, err });
       let admin = false;
       for (let i = 0; i < group.admins.length; i++) {
@@ -106,6 +113,13 @@ const post = {
   // 그룹 삭제
   remove: (req, res) => {
     Group.findOne({ _id: req.body.groupId }, (err, group) => {
+      // 존재하는 그룹인지 확인
+      if (!group) {
+        return res.status(400).json({
+          success: false,
+          message: '존재하지 않는 그룹에 접근하였습니다.',
+        });
+      }
       if (err) return res.status(500).json({ success: false, err });
       let admin = false;
       for (let i = 0; i < group.admins.length; i++) {
@@ -126,12 +140,14 @@ const post = {
 
   // 그룹 참가 신청 승인
   approve: async (req, res) => {
-    // 존재하는 그룹인지 확인
     Group.findOne({ _id: req.body.groupId }, (err, group) => {
-      if (!group)
-        return res
-          .status(409)
-          .json({ success: false, message: '존재하지 않는 그룹입니다.' });
+      // 존재하는 그룹인지 확인
+      if (!group) {
+        return res.status(400).json({
+          success: false,
+          message: '존재하지 않는 그룹에 접근하였습니다.',
+        });
+      }
       // 관리자 권한 확인
       let admin = false;
       for (let i = 0; i < group.admins.length; i++) {
@@ -189,12 +205,14 @@ const post = {
 
   // 그룹 참가 신청
   join: (req, res) => {
-    // 존재하는 그룹인지 확인
     Group.findOne({ _id: req.body.groupId }, (err, group) => {
-      if (!group)
-        return res
-          .status(409)
-          .json({ success: false, message: '존재하지 않는 그룹입니다.' });
+      // 존재하는 그룹인지 확인
+      if (!group) {
+        return res.status(400).json({
+          success: false,
+          message: '존재하지 않는 그룹에 접근하였습니다.',
+        });
+      }
       // 가입한 그룹인지 확인
       if (String(group.admins[0]) === String(req.user._id))
         return res.status(409).json({
@@ -233,65 +251,14 @@ const post = {
 
   // 특정 그룹 정보 조회
   profile: async (req, res) => {
-    // totalTime 기준으로 rank 부여
-    // const result = await Group.aggregate([
-    //   {
-    //     $sort: {
-    //       totalTime: -1,
-    //     },
-    //   },
-    //   {
-    //     $group: {
-    //       // Add in an array
-    //       _id: null,
-    //       items: {
-    //         $push: '$$ROOT',
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $unwind: {
-    //       // De-normalize and get index
-    //       path: '$items',
-    //       includeArrayIndex: 'items.rank',
-    //     },
-    //   },
-    //   {
-    //     $replaceRoot: {
-    //       // Reshape
-    //       newRoot: '$items',
-    //     },
-    //   },
-    //   {
-    //     $addFields: {
-    //       // Add 1 to get to proper rank as array is index starts 0
-    //       rank: {
-    //         $add: ['$rank', 1],
-    //       },
-    //     },
-    //   },
-    // ]);
-
-    // // 호출한 그룹 필터링
-    // function isGroup(element) {
-    //   if (element.groupName === req.body.groupName) {
-    //     return true;
-    //   }
-    // }
-    // const final = await result.filter(isGroup);
-
-    // // rank 저장 후 정보 표시
-    // Group.findOneAndUpdate(
-    //   { groupName: req.body.groupName },
-    //   { $set: { rank: final[0].rank } },
-    // )
-    //   .populate('members')
-    //   .exec(async (err, group) => {
-    //     if (err) return res.status(400).json({ success: false, err });
-    //     group.rank = await final[0].rank;
-    //     return res.status(200).send({ success: true, group });
-    //   });
     Group.findOne({ _id: req.body.groupId }).exec((err, group) => {
+      // 존재하는 그룹인지 확인
+      if (!group) {
+        return res.status(404).json({
+          success: false,
+          message: '존재하지 않는 그룹입니다.',
+        });
+      }
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).send({ success: true, group });
     });
