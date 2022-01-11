@@ -1,12 +1,13 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from "react-router-dom";
 import Auth from "../hoc/auth";
-
+import CssBaseline from '@mui/material/CssBaseline';
 // pages for this product
 import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
+
 import Footer from "./views/Footer/Footer"
 import UserPage from "./views/UserPage/UserPage"
 import GroupPage from "./views/GroupPage/GroupPage"
@@ -22,6 +23,7 @@ import CreateGroupPage from "./views/CreateGroupPage/CreateGroupPage"
 function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
+      <CssBaseline />
       <NavBar />
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>

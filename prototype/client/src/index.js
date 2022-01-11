@@ -14,6 +14,8 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './styles/theme';
 
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
@@ -26,7 +28,10 @@ ReactDOM.render(
         )}
     >
         <BrowserRouter>
-            <App />
+            <ThemeProvider theme={theme}>
+                <App />
+            </ThemeProvider>
+            
         </BrowserRouter>
     </Provider>
     , document.getElementById('root'));
