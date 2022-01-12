@@ -125,52 +125,22 @@ function RightMenu(props) {
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
-          //textColor="secondary"
-          //indicatorColor="secondary"
+          textColor="primary.contrastText"
+          indicatorColor="primary"
         >
           <Tab
-            label="Dashboard"
+            label="Ranking"
             sx={{ color: 'white'}}
             ref={anchorRef}
-            id="composition-button"
             aria-controls={open ? 'composition-menu' : undefined}
             aria-expanded={open ? 'true' : undefined}
             aria-haspopup="true"
             onClick={handleToggle}
           />
-          
-          <Tab
-            label="Signin"
-            component={Link}
-            to="/login"
-            sx={{ color: 'white'}}
-          />
-          <Tab
-            label="Signup"
-            component={Link}
-            to="/register"
-            sx={{ color: 'white' }}
-          />
         </Tabs>
       </Stack>
     );
   } else {
-    // const menu = (
-    //   <Menu>
-    //     <Menu.Item key="0">
-    //       <a href={`/users/${localStorage.getItem("userId")}`}>Profile</a>
-    //     </Menu.Item>
-    //     <Menu.Item key="1">
-    //       <a onClick={logoutHandler}>Logout</a>
-    //     </Menu.Item>
-    //     {user.userData !== undefined &&
-    //       user.userData.groupList.map((group, index) => (
-    //         <Menu.Item key="groups">
-    //           <a href={`/groups/${group._id}`}>{group.groupName}</a>
-    //         </Menu.Item>
-    //       ))}
-    //   </Menu>
-    // );
     return (
       <Stack direction="row" spacing={2}>
         <Popper
@@ -228,31 +198,22 @@ function RightMenu(props) {
         <Tabs
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
-          //textColor="secondary"
-          //indicatorColor="secondary"
+          aria-label="navigation tabs"
+          textColor="primary.contrastText"
+          indicatorColor="primary"
         >
           <Tab
-            label="Dashboard"
-            sx={{ color: 'white'}}
+            label="Studygroup"
+            component={Link}
+            to={'/groups'}
+          />
+          <Tab
+            label="Ranking"
             ref={anchorRef}
-            id="composition-button"
             aria-controls={open ? 'composition-menu' : undefined}
             aria-expanded={open ? 'true' : undefined}
             aria-haspopup="true"
             onClick={handleToggle}
-          />
-          <Tab
-            label="Logout"
-            component={Link}
-            onClick={logoutHandler}
-            sx={{ color: 'white'}}
-          />
-          <Tab
-            label="Signup"
-            component={Link}
-            to="/register"
-            sx={{ color: 'white' }}
           />
         </Tabs>
       </Stack>
