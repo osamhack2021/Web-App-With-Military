@@ -63,6 +63,7 @@ function CreateGroup(props) {
             tags: Tags,
             category: values.category,
             info: values.info,
+            image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
           };
 
           Axios.post('/api/groups/create', dataToSubmit).then((response) => {
