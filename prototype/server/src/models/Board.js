@@ -26,7 +26,7 @@ const boardSchema = mongoose.Schema({
   posted: {
     type: Date,
     default: seoul(),
-  },	
+  },
   content: {
     type: String,
     require: true,

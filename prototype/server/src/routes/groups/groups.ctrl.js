@@ -21,8 +21,7 @@ const post = {
           if (exist === null) {
             const tag = new Tag({ tagName: req.body.tags[i] });
             tag.save(err => {
-              if (err)
-                return res.status(200).json({ success: false, err });
+              if (err) return res.status(200).json({ success: false, err });
             });
           }
         });
@@ -44,8 +43,7 @@ const post = {
               { groupName: group.groupName },
               { $addToSet: { admins: req.user._id, members: req.user._id } },
               err => {
-                if (err)
-                  return res.status(500).json({ success: false, err });
+                if (err) return res.status(500).json({ success: false, err });
                 // 유저 그룹 목록에 해당 그룹 추가
                 User.findOneAndUpdate(
                   { _id: req.user._id },
@@ -78,7 +76,14 @@ const post = {
 
   // 그룹 정보 수정
   edit: (req, res) => {
-    Group.findOne({ id: req.body.id }, (err, group) => {
+    Group.findOne({ _id: req.body.groupId }, (err, group) => {
+      // 존재하는 그룹인지 확인
+      if (!group) {
+        return res.status(400).json({
+          success: false,
+          message: '존재하지 않는 그룹에 접근하였습니다.',
+        });
+      }
       if (err) return res.status(500).json({ success: false, err });
       let admin = false;
       for (let i = 0; i < group.admins.length; i++) {
@@ -86,7 +91,7 @@ const post = {
       }
       if (admin) {
         Group.findOneAndUpdate(
-          { id: group._id },
+          { id: req.body.groupId },
           {
             $set: {
               info: req.body.info,
@@ -107,14 +112,21 @@ const post = {
 
   // 그룹 삭제
   remove: (req, res) => {
-    Group.findOne({ id: req.body.id }, (err, group) => {
+    Group.findOne({ _id: req.body.groupId }, (err, group) => {
+      // 존재하는 그룹인지 확인
+      if (!group) {
+        return res.status(400).json({
+          success: false,
+          message: '존재하지 않는 그룹에 접근하였습니다.',
+        });
+      }
       if (err) return res.status(500).json({ success: false, err });
       let admin = false;
       for (let i = 0; i < group.admins.length; i++) {
         if (String(group.admins[i]) === String(req.user._id)) admin = true;
       }
       if (admin) {
-        Group.deleteOne({ id: group._id }, err => {
+        Group.deleteOne({ _id: req.body.groupId }, err => {
           if (err) return res.status(500).json({ success: false, err });
           return res.status(200).json({ success: true });
         });
@@ -128,37 +140,40 @@ const post = {
 
   // 그룹 참가 신청 승인
   approve: async (req, res) => {
-    try {
-      const group = await Group.findByName(req.body.groupName);
+    Group.findOne({ _id: req.body.groupId }, (err, group) => {
       // 존재하는 그룹인지 확인
-      if (!group)
-        return res
-          .status(409)
-          .json({ success: false, message: '존재하지 않는 그룹입니다.' });
+      if (!group) {
+        return res.status(400).json({
+          success: false,
+          message: '존재하지 않는 그룹에 접근하였습니다.',
+        });
+      }
+      // 관리자 권한 확인
       let admin = false;
       for (let i = 0; i < group.admins.length; i++) {
         if (String(group.admins[i]) === String(req.user._id)) admin = true;
       }
       if (admin) {
-        User.findOne({ name: req.body.name }, (err, user) => {
-          if (!user)
-            return res.status(409).json({
-              success: false,
-              message: '존재하지 않는 유저입니다.',
-            });
-          if (err) res.status(500).json({ success: false, err });
+        // 참가 신청 확인
+        let exist = false;
+        for (let i = 0; i < group.waiting.length; i++) {
+          if (String(group.waiting[i]) === String(req.body.userId))
+            exist = true;
+        }
+        if (exist) {
+          // 대기열에서 제거 및 그룹에 추가
           Group.findOneAndUpdate(
-            { groupName: req.body.groupName },
+            { _id: req.body.groupId },
             {
-              $addToSet: { members: user._id },
-              $pull: { waiting: user._id },
+              $addToSet: { members: req.body.userId },
+              $pull: { waiting: req.body.userId },
             },
-            (err, group) => {
+            err => {
               if (err) res.status(500).json({ success: false, err });
               // 유저 그룹 목록에 해당 그룹 추가
               User.findOneAndUpdate(
-                { name: req.body.name },
-                { $addToSet: { groupList: group._id } },
+                { _id: req.body.userId },
+                { $addToSet: { groupList: req.body.groupId } },
                 err => {
                   if (err) res.status(500).json({ success: false, err });
                   return res.status(200).json({ success: true });
@@ -166,50 +181,64 @@ const post = {
               );
             },
           );
-        });
+        } else {
+          return res.status(403).json({
+            success: false,
+            message: '해당 유저는 참가신청을 하지 않았습니다.',
+          });
+        }
       } else {
         return res
           .status(403)
           .json({ success: false, message: '관리자가 아닙니다.' });
       }
-    } catch (err) {
-      if (err) res.status(500).json({ success: false, err });
-    }
+      // 가입 신청 한 그룹인지 확인
+      for (let i = 0; i < group.waiting.length; i++) {
+        if (String(group.waiting[i]) === String(req.user._id))
+          return res.status(409).json({
+            success: false,
+            message: '이미 해당 그룹에 가입 신청 하였습니다.',
+          });
+      }
+    });
   },
 
   // 그룹 참가 신청
-  waiting: async (req, res) => {
-    // 존재하는 그룹인지 확인
-    const group = await Group.findByName(req.body.groupName);
-    if (!group)
-      return res
-        .status(409)
-        .json({ success: false, message: '존재하지 않는 그룹입니다.' });
-    // 가입한 그룹인지 확인
-    if (String(group.admins[0]) === String(req.user._id))
-      return res.status(409).json({
-        success: false,
-        message: '이미 해당 그룹에 가입하였습니다.',
-      });
-    for (let i = 0; i < group.members.length; i++) {
-      if (String(group.members[i]) === String(req.user._id))
+  join: (req, res) => {
+    Group.findOne({ _id: req.body.groupId }, (err, group) => {
+      // 존재하는 그룹인지 확인
+      if (!group) {
+        return res.status(400).json({
+          success: false,
+          message: '존재하지 않는 그룹에 접근하였습니다.',
+        });
+      }
+      // 가입한 그룹인지 확인
+      if (String(group.admins[0]) === String(req.user._id))
         return res.status(409).json({
           success: false,
-          message: '이미 해당 그룹에 가입 하였습니다.',
+          message: '이미 해당 그룹에 가입하였습니다.',
         });
-    }
-    // 가입 신청 한 그룹인지 확인
-    for (let i = 0; i < group.waiting.length; i++) {
-      if (String(group.waiting[i]) === String(req.user._id))
-        return res.status(409).json({
-          success: false,
-          message: '이미 해당 그룹에 가입 신청 하였습니다.',
-        });
-    }
+      for (let i = 0; i < group.members.length; i++) {
+        if (String(group.members[i]) === String(req.user._id))
+          return res.status(409).json({
+            success: false,
+            message: '이미 해당 그룹에 가입 하였습니다.',
+          });
+      }
+      // 가입 신청 한 그룹인지 확인
+      for (let i = 0; i < group.waiting.length; i++) {
+        if (String(group.waiting[i]) === String(req.user._id))
+          return res.status(409).json({
+            success: false,
+            message: '이미 해당 그룹에 가입 신청 하였습니다.',
+          });
+      }
+    });
 
-    // 새로운 유저 그룹 멤버 목록에 추가
+    // 유저 참가 대기열에 추가
     Group.findOneAndUpdate(
-      { groupName: req.body.groupName },
+      { _id: req.body.groupId },
       { $addToSet: { waiting: req.user._id } },
       err => {
         if (err) {
@@ -222,69 +251,17 @@ const post = {
 
   // 특정 그룹 정보 조회
   profile: async (req, res) => {
-    // totalTime 기준으로 rank 부여
-    // const result = await Group.aggregate([
-    //   {
-    //     $sort: {
-    //       totalTime: -1,
-    //     },
-    //   },
-    //   {
-    //     $group: {
-    //       // Add in an array
-    //       _id: null,
-    //       items: {
-    //         $push: '$$ROOT',
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $unwind: {
-    //       // De-normalize and get index
-    //       path: '$items',
-    //       includeArrayIndex: 'items.rank',
-    //     },
-    //   },
-    //   {
-    //     $replaceRoot: {
-    //       // Reshape
-    //       newRoot: '$items',
-    //     },
-    //   },
-    //   {
-    //     $addFields: {
-    //       // Add 1 to get to proper rank as array is index starts 0
-    //       rank: {
-    //         $add: ['$rank', 1],
-    //       },
-    //     },
-    //   },
-    // ]);
-
-    // // 호출한 그룹 필터링
-    // function isGroup(element) {
-    //   if (element.groupName === req.body.groupName) {
-    //     return true;
-    //   }
-    // }
-    // const final = await result.filter(isGroup);
-
-    // // rank 저장 후 정보 표시
-    // Group.findOneAndUpdate(
-    //   { groupName: req.body.groupName },
-    //   { $set: { rank: final[0].rank } },
-    // )
-    //   .populate('members')
-    //   .exec(async (err, group) => {
-    //     if (err) return res.status(400).json({ success: false, err });
-    //     group.rank = await final[0].rank;
-    //     return res.status(200).send({ success: true, group });
-    //   });
-	  Group.findOne({ _id: req.body.groupId})
-	  .exec((err, group) => {
-		  if (err) return res.status(400).json({ success: false, err });
-		  return res.status(200).send({ success: true, group });
-	  })
+    Group.findOne({ _id: req.body.groupId }).exec((err, group) => {
+      // 존재하는 그룹인지 확인
+      if (!group) {
+        return res.status(404).json({
+          success: false,
+          message: '존재하지 않는 그룹입니다.',
+        });
+      }
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).send({ success: true, group });
+    });
   },
 };
 

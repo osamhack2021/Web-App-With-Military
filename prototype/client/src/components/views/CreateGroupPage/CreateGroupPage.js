@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -63,6 +64,7 @@ function CreateGroup(props) {
             tags: Tags,
             category: values.category,
             info: values.info,
+            image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
           };
 
           Axios.post('/api/groups/create', dataToSubmit).then((response) => {

@@ -56,11 +56,8 @@ const groupSchema = mongoose.Schema({
     type: Date,
     default: seoul(),
   },
+  image: String,
 });
-
-groupSchema.statics.findByName = function (groupName) {
-  return this.findOne({ groupName });
-};
 
 const Group = mongoose.model('Group', groupSchema);
 
