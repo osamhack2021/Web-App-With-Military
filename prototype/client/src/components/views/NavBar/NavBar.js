@@ -15,8 +15,8 @@ import { styled, useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
+import PersonIcon from '@mui/icons-material/Person';
 
 const drawerWidth = 240;
 
@@ -133,6 +133,13 @@ function NavBar(props) {
           <div className="menu_right">
             <RightMenu mode="horizontal" />
           </div>
+          <IconButton
+            color="inherit"
+            component={Link}
+            to='/'
+          >
+            <PersonIcon />
+          </IconButton>
           <IconButton
             color="inherit"
             aria-label="open drawer"

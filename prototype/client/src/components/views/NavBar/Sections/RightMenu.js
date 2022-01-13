@@ -205,7 +205,7 @@ function RightMenu(props) {
           <Tab
             label="Studygroup"
             component={Link}
-            to={'/groups'}
+            to={'/user/groups'}
           />
           <Tab
             label="Ranking"
