@@ -6,7 +6,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 export default function StudyGroupCard({ group }) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ minHeight: 400, borderRadius: '1rem' }}>
       <CardMedia
         component="img"
         height="140"
