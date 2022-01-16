@@ -7,7 +7,6 @@ import PeopleIcon from '@mui/icons-material/People';
 
 export default function UserGroupPage(props) {
     const user = useSelector((state) => state.user);
-    const { userId } = props.match.params;
     
     if (user.userData === undefined) {
         return (

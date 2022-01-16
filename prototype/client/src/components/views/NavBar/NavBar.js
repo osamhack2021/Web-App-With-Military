@@ -104,7 +104,7 @@ function NavBar(props) {
         }}
       >
         <Toolbar sx={{ my: 'auto' }}>
-          <Link to="/">
+          <Link to="/main">
             <WhiteLogo
               width="2rem"
               height="2rem"
@@ -116,7 +116,7 @@ function NavBar(props) {
               ml: '12px',
             }}
           >
-            <Link to="/">
+            <Link to="/main">
               <Typography
                 style={{
                   fontSize: '1.2rem',
