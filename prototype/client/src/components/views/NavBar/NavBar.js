@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { withRouter, Link } from 'react-router-dom';
 
-import { ReactComponent as WhiteLogo } from '../../../static/icons/logo_white.svg';
+import { ReactComponent as WhiteLogo } from '../../../static/imgs/logo_white.svg';
 import { styled, useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';

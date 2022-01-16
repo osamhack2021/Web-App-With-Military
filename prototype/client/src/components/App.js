@@ -7,7 +7,6 @@ import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
-
 import Footer from "./views/Footer/Footer"
 import MainPage from "./views/MainPage/MainPage"
 import UserPage from "./views/UserPage/UserPage"
@@ -25,7 +24,19 @@ function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
       <CssBaseline />
-      <NavBar />
+      <Switch>
+        <Route exact path="/main" component={NavBar} />
+        <Route exact path="/login" component={NavBar} />
+        <Route exact path="/register" component={NavBar} />
+        <Route exact path="/users/:userId" component={NavBar} />
+        <Route exact path="/groups/:groupId" component={NavBar} />
+        <Route exact path="/search/" component={NavBar} />
+        <Route exact path="/search/:searchData" component={NavBar} />
+        <Route exact path="/ranking/:target" component={NavBar} />
+        <Route exact path="/group/create" component={NavBar} />
+        <Route exact path="/users/:userId/groups" component={NavBar} />
+      </Switch>
+      
       <Switch>
         <Route exact path="/" component={Auth(LandingPage, null)} />
         <Route exact path="/main" component={Auth(MainPage, true)} />
@@ -39,6 +50,7 @@ function App() {
         <Route exact path="/group/create" component={Auth(CreateGroupPage, true)} />
         <Route exact path="/users/:userId/groups" component={Auth(UserGroupPage, true)} />
       </Switch>
+
       <Footer />
     </Suspense>
   );
