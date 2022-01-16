@@ -5,15 +5,17 @@ import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import StudyMenu from "./StudyMenu";
-import {Box, Button, Divider, Grow, Paper, Popper, MenuItem, MenuList, Stack, Tabs, Tab } from '@mui/material';
+import {Box, Button, Divider, Grow, Paper, Popper, MenuItem, MenuList, IconButton, Stack, Tabs, Tab } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Link } from 'react-router-dom';
 import { Menu, Avatar, Badge, Dropdown } from "antd";
 import { EditOutlined, SearchOutlined } from "@ant-design/icons";
+import PersonIcon from '@mui/icons-material/Person';
 
 
 function RightMenu(props) {
   const user = useSelector((state) => state.user);
+
 
   const logoutHandler = () => {
     Axios.get(`${USER_SERVER}/logout`).then((response) => {
@@ -65,160 +67,175 @@ function RightMenu(props) {
     prevOpen.current = open;
   }, [open]);
   
+  if (user.userData) {
+    if (!user.userData.isAuth) {
+      return (
+        <Stack direction="row" spacing={2}>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            placement="bottom-start"
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === 'bottom-start' ? 'left top' : 'left bottom',
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="composition-menu"
+                      aria-labelledby="composition-button"
+                      onKeyDown={handleListKeyDown}
+                    >
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/ranking/all"
+                      >
+                        All
+                      </MenuItem>
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/ranking/group"
+                      >
+                        Group
+                      </MenuItem>
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/ranking/user"
+                      >
+                        User
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+  
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            textColor="primary.contrastText"
+            indicatorColor="primary"
+          >
+            <Tab
+              label="Ranking"
+              sx={{ color: 'white'}}
+              ref={anchorRef}
+              aria-controls={open ? 'composition-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-haspopup="true"
+              onClick={handleToggle}
+            />
+          </Tabs>
+        </Stack>
+      );
+    } else {
+      return (
+        <Stack direction="row" spacing={2}>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            placement="bottom-start"
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === 'bottom-start' ? 'left top' : 'left bottom',
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="composition-menu"
+                      aria-labelledby="composition-button"
+                      onKeyDown={handleListKeyDown}
+                    >
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/ranking/all"
+                      >
+                        All
+                      </MenuItem>
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/ranking/group"
+                      >
+                        Group
+                      </MenuItem>
+                      <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/ranking/user"
+                      >
+                        User
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
 
-  if (user.userData && !user.userData.isAuth) {
-    return (
-      <Stack direction="row" spacing={2}>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === 'bottom-start' ? 'left top' : 'left bottom',
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    <MenuItem
-                      onClick={handleClose}
-                      component={Link}
-                      to="/ranking/all"
-                    >
-                      All
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleClose}
-                      component={Link}
-                      to="/ranking/group"
-                    >
-                      Group
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleClose}
-                      component={Link}
-                      to="/ranking/user"
-                    >
-                      User
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-          textColor="primary.contrastText"
-          indicatorColor="primary"
-        >
-          <Tab
-            label="Ranking"
-            sx={{ color: 'white'}}
-            ref={anchorRef}
-            aria-controls={open ? 'composition-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleToggle}
-          />
-        </Tabs>
-      </Stack>
-    );
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="navigation tabs"
+            textColor="primary.contrastText"
+            indicatorColor="primary"
+          >
+            <Tab
+              label="Studygroup"
+              component={Link}
+              to={`/users/${user.userData._id}/groups`}
+            />
+            <Tab
+              label="Ranking"
+              ref={anchorRef}
+              aria-controls={open ? 'composition-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-haspopup="true"
+              onClick={handleToggle}
+            />
+          </Tabs>
+          <IconButton
+            color="inherit"
+            component={Link}
+            to={`/users/${user.userData._id}`}
+          >
+            <PersonIcon />
+          </IconButton>
+        </Stack>
+      );
+    }
   } else {
     return (
-      <Stack direction="row" spacing={2}>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === 'bottom-start' ? 'left top' : 'left bottom',
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    <MenuItem
-                      onClick={handleClose}
-                      component={Link}
-                      to="/ranking/all"
-                    >
-                      All
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleClose}
-                      component={Link}
-                      to="/ranking/group"
-                    >
-                      Group
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleClose}
-                      component={Link}
-                      to="/ranking/user"
-                    >
-                      User
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="navigation tabs"
-          textColor="primary.contrastText"
-          indicatorColor="primary"
-        >
-          <Tab
-            label="Studygroup"
-            component={Link}
-            to={'/user/groups'}
-          />
-          <Tab
-            label="Ranking"
-            ref={anchorRef}
-            aria-controls={open ? 'composition-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleToggle}
-          />
-        </Tabs>
-      </Stack>
+      <></>
     );
   }
+
+
+  
 }
 
 export default withRouter(RightMenu);
