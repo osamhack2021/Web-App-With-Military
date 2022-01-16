@@ -15,15 +15,13 @@ import { styled, useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
+import PersonIcon from '@mui/icons-material/Person';
 
 const drawerWidth = 240;
 
 function NavBar(props) {
   const user = useSelector((state) => state.user);
-
-  
 
   const theme = useTheme();
   const [visible, setVisible] = useState(false);
@@ -58,11 +56,9 @@ function NavBar(props) {
     });
   };
 
-  
-  
-  let list = 0;
-  if (user.userData && !user.userData.isAuth) {
-    list =
+  const list =
+  <>
+    { user.userData && !user.userData.isAuth ? 
       <List>
         <ListItem
           button
@@ -84,21 +80,19 @@ function NavBar(props) {
           </ListItemIcon>
           <ListItemText primary={"Signup"} />
         </ListItem>
-      </List>
-  } else {
-    list =
+      </List> :
       <List>
-        <ListItem
-          button
-          onClick={logoutHandler}
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Logout"} />
-        </ListItem>
-      </List>
-  }
+      <ListItem
+        button
+        onClick={logoutHandler}
+      >
+        <ListItemIcon>
+          <InboxIcon />
+        </ListItemIcon>
+        <ListItemText primary={"Logout"} />
+      </ListItem>
+    </List> }
+  </>
     
   return (
     <Box sx={{ display: 'flex' }}>
@@ -111,14 +105,19 @@ function NavBar(props) {
         }}
       >
         <Toolbar sx={{ my: 'auto' }}>
-          <WhiteLogo width="2rem" height="2rem" style={{ color: '#e6e1e0' }} />
+          <Link to="/">
+            <WhiteLogo
+              width="2rem"
+              height="2rem"
+              style={{ color: '#e6e1e0' }} />
+          </Link>
           <Box
             sx={{
               mt: '4px',
               ml: '12px',
             }}
           >
-            <Link to="/search">
+            <Link to="/">
               <Typography
                 style={{
                   fontSize: '1.2rem',
@@ -134,6 +133,13 @@ function NavBar(props) {
           <div className="menu_right">
             <RightMenu mode="horizontal" />
           </div>
+          <IconButton
+            color="inherit"
+            component={Link}
+            to='/'
+          >
+            <PersonIcon />
+          </IconButton>
           <IconButton
             color="inherit"
             aria-label="open drawer"
