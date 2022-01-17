@@ -64,29 +64,27 @@ export default function LandingPage() {
             <WhiteLogo width="5rem" height="5rem" />
           </Box>
   
-          <Box sx={{ display: 'flex', py: 1 }}>
-            <Link href="/login" underline="none">
-              <Button
-                variant="contained"
-                sx={{ mr: 1 }}
+          <Link href="/main" underline="none" sx={{py: 1}}>
+            <Button
+              variant="contained"
+              sx={{ mr: 1 }}
+              style={{
+                borderRadius: '2rem',
+                backgroundColor: 'white',
+                width: '11.5rem',
+                height: '4rem',
+              }}
+            >
+              <Typography
+                variant="h5"
                 style={{
-                  borderRadius: '2rem',
-                  backgroundColor: 'white',
-                  width: '11.5rem',
-                  height: '4rem',
+                  color: '#1c893b',
                 }}
               >
-                <Typography
-                  variant="h5"
-                  style={{
-                    color: '#1c893b',
-                  }}
-                >
-                  시작하기
-                </Typography>
-              </Button>
-            </Link>
-          </Box>
+                시작하기
+              </Typography>
+            </Button>
+          </Link>
   
         </Container>
         <Box sx={{
