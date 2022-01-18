@@ -5,9 +5,9 @@ import Axios from "axios";
 import StudyGroupCard from './Sections/StudyGroupCard';
 import PeopleIcon from '@mui/icons-material/People';
 
-export default function UserGroupPage() {
+export default function UserGroupPage(props) {
     const user = useSelector((state) => state.user);
-
+    
     if (user.userData === undefined) {
         return (
             <div>유저정보 불러오는 중</div>
@@ -15,7 +15,7 @@ export default function UserGroupPage() {
     }   else {
         const myGroups = 
             <>
-            { user.userData.groupList.map((group, index) => (
+                { user.userData.groupList.map((group, index) => (
                     <Grid
                         item
                         xs={3}
@@ -75,10 +75,7 @@ export default function UserGroupPage() {
                         }}/>
                     </Box>
                     <Grid container spacing={4}>
-                        <Grid
-                            item
-                            xs={3}
-                            >
+                        <Grid item xs={3}>
                             <Card sx={{ 
                                 minHeight: 400, 
                                 borderRadius: '1rem',
@@ -98,13 +95,10 @@ export default function UserGroupPage() {
                                 >
                                     <Typography
                                         variant="h2"
-                                        sx={{
-                                            color: '#5E5E5E',
-                                        }}
+                                        sx={{ color: '#5E5E5E', }}
                                     >
                                         +
                                     </Typography>
-                                    
                                 </Button>
                                 <Typography
                                     variant="h6"
@@ -112,13 +106,11 @@ export default function UserGroupPage() {
                                         position: 'absolute',
                                         top: '55%',
                                         color: '#5E5E5E',
-                                    
                                 }}>
                                     스터디 그룹 추가
                                 </Typography>
                             </Card>
                         </Grid>
-                        
                         {myGroups}
                     </Grid>
                 </Box>

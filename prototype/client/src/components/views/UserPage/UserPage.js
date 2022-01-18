@@ -4,7 +4,7 @@ import GrassChart from './Sections/GrassChart';
 import AllLineChart from './Sections/AllLineChart';
 
 function UserPage(props) {
-	const userId = props.match.params.userId;
+	const { userId } = props.match.params;
 	const [UserInfo, setUserInfo] = useState([]);
 
 	useEffect(() => {

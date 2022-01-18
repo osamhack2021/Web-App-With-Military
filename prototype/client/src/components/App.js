@@ -7,8 +7,8 @@ import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
-
 import Footer from "./views/Footer/Footer"
+import MainPage from "./views/MainPage/MainPage"
 import UserPage from "./views/UserPage/UserPage"
 import GroupPage from "./views/GroupPage/GroupPage"
 import SearchResult from "./views/Search/SearchResult"
@@ -24,21 +24,33 @@ function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
       <CssBaseline />
-      <NavBar />
-      <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
-        <Switch>
-          <Route exact path="/" component={Auth(LandingPage, null)} />
-          <Route exact path="/login" component={Auth(LoginPage, false)} />
-          <Route exact path="/register" component={Auth(RegisterPage, false)} />
-          <Route exact path="/users/:userId" component={Auth(UserPage, null)} />
-          <Route exact path="/groups/:groupId" component={Auth(GroupPage, null)} />
-	        <Route exact path="/search/" component={Auth(Search, null)} />
-          <Route exact path="/search/:searchData" component={Auth(SearchResult, null)} />
-	        <Route exact path="/ranking/:target" component={Auth(RankingPage, null)} />
-		      <Route exact path="/group/create" component={Auth(CreateGroupPage, true)} />
-          <Route exact path="/user/groups" component={Auth(UserGroupPage, true)} />
-        </Switch>
-      </div>
+      <Switch>
+        <Route exact path="/main" component={NavBar} />
+        <Route exact path="/login" component={NavBar} />
+        <Route exact path="/register" component={NavBar} />
+        <Route exact path="/users/:userId" component={NavBar} />
+        <Route exact path="/groups/:groupId" component={NavBar} />
+        <Route exact path="/search/" component={NavBar} />
+        <Route exact path="/search/:searchData" component={NavBar} />
+        <Route exact path="/ranking/:target" component={NavBar} />
+        <Route exact path="/group/create" component={NavBar} />
+        <Route exact path="/users/:userId/groups" component={NavBar} />
+      </Switch>
+      
+      <Switch>
+        <Route exact path="/" component={Auth(LandingPage, null)} />
+        <Route exact path="/main" component={Auth(MainPage, true)} />
+        <Route exact path="/login" component={Auth(LoginPage, false)} />
+        <Route exact path="/register" component={Auth(RegisterPage, false)} />
+        <Route exact path="/users/:userId" component={Auth(UserPage, null)} />
+        <Route exact path="/groups/:groupId" component={Auth(GroupPage, null)} />
+        <Route exact path="/search/" component={Auth(Search, null)} />
+        <Route exact path="/search/:searchData" component={Auth(SearchResult, null)} />
+        <Route exact path="/ranking/:target" component={Auth(RankingPage, null)} />
+        <Route exact path="/group/create" component={Auth(CreateGroupPage, true)} />
+        <Route exact path="/users/:userId/groups" component={Auth(UserGroupPage, true)} />
+      </Switch>
+
       <Footer />
     </Suspense>
   );

@@ -10,13 +10,12 @@ import {
 } from '@mui/material';
 import { withRouter, Link } from 'react-router-dom';
 
-import { ReactComponent as WhiteLogo } from '../../../static/icons/logo_white.svg';
+import { ReactComponent as WhiteLogo } from '../../../static/imgs/logo_white.svg';
 import { styled, useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MenuIcon from '@mui/icons-material/Menu';
-import PersonIcon from '@mui/icons-material/Person';
 
 const drawerWidth = 240;
 
@@ -105,7 +104,7 @@ function NavBar(props) {
         }}
       >
         <Toolbar sx={{ my: 'auto' }}>
-          <Link to="/">
+          <Link to="/main">
             <WhiteLogo
               width="2rem"
               height="2rem"
@@ -117,7 +116,7 @@ function NavBar(props) {
               ml: '12px',
             }}
           >
-            <Link to="/">
+            <Link to="/main">
               <Typography
                 style={{
                   fontSize: '1.2rem',
@@ -130,16 +129,9 @@ function NavBar(props) {
             </Link>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <div className="menu_right">
-            <RightMenu mode="horizontal" />
-          </div>
-          <IconButton
-            color="inherit"
-            component={Link}
-            to='/'
-          >
-            <PersonIcon />
-          </IconButton>
+
+          <RightMenu mode="horizontal" />
+          
           <IconButton
             color="inherit"
             aria-label="open drawer"
