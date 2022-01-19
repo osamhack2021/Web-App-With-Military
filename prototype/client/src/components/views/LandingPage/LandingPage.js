@@ -64,7 +64,7 @@ export default function LandingPage() {
             <WhiteLogo width="5rem" height="5rem" />
           </Box>
   
-          <Link href="/main" underline="none" sx={{py: 1}}>
+          <Link href="/login" underline="none" sx={{py: 1}}>
             <Button
               variant="contained"
               sx={{ mr: 1 }}
