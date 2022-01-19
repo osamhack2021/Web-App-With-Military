@@ -4,8 +4,11 @@ import {
     REGISTER_USER,
     AUTH_USER,
     LOGOUT_USER,
+    PROFILE_USER,
+    RANKING_USER,
+    RANKING_GROUP,
 } from './types';
-import { USER_SERVER} from '../components/Config.js';
+import { USER_SERVER, RANKING_SERVER} from '../components/Config.js';
 
 export function registerUser(dataToSubmit){
     const request = axios.post(`${USER_SERVER}/register`,dataToSubmit)
@@ -42,6 +45,36 @@ export function logoutUser(){
 
     return {
         type: LOGOUT_USER,
+        payload: request
+    }
+}
+
+export function profileUser(dataToSubmit) {
+    const request = axios.post(`${USER_SERVER}/profile`, dataToSubmit).
+    then(response => response.data);
+
+    return {
+        type: PROFILE_USER,
+        payload: request
+    }
+}
+
+export function rankingUser(dataToSubmit) {
+    const request = axios.get(`${RANKING_SERVER}/user`).
+    then(response => response.data);
+
+    return {
+        type: RANKING_USER,
+        payload: request
+    }
+}
+
+export function rankingGroup(dataToSubmit) {
+    const request = axios.get(`${RANKING_SERVER}/group`).
+    then(response => response.data);
+
+    return {
+        type: RANKING_GROUP,
         payload: request
     }
 }
