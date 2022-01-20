@@ -67,8 +67,8 @@ function RightMenu(props) {
     prevOpen.current = open;
   }, [open]);
   
-  if (user.userData) {
-    if (!user.userData.isAuth) {
+  if (user.loginUserData) {
+    if (!user.loginUserData.isAuth) {
       return (
         <Stack direction="row" spacing={2}>
           <Popper
@@ -207,7 +207,7 @@ function RightMenu(props) {
             <Tab
               label="Studygroup"
               component={Link}
-              to={`/users/${user.userData._id}/groups`}
+              to={`/users/${user.loginUserData._id}/groups`}
             />
             <Tab
               label="Ranking"
@@ -221,7 +221,7 @@ function RightMenu(props) {
           <IconButton
             color="inherit"
             component={Link}
-            to={`/users/${user.userData._id}`}
+            to={`/users/${user.loginUserData._id}`}
           >
             <PersonIcon />
           </IconButton>

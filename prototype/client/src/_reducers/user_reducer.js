@@ -16,7 +16,7 @@ export default function(state={}, action){
         case LOGIN_USER:
             return {...state, loginSuccess: action.payload }
         case AUTH_USER:
-            return {...state, userData: action.payload }
+            return {...state, loginUserData: action.payload }
         case LOGOUT_USER:
             return {...state }
         case PROFILE_USER:
