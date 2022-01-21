@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Badge, Box, Button, Container, Grid, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { profileUser, rankingUser, rankingGroup } from "../../../_actions/user_actions";
-import Tier from './Section/Tier';
 import HomeIcon from '@mui/icons-material/Home';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
+import Tier from './Sections/Tier';
 
 const GrayBox = styled(Box)({
     backgroundColor: '#E8E8E8',
@@ -37,14 +37,14 @@ function MainPage() {
         dispatch(rankingUser())
         .then(response => {
             if (response.payload.success) {
-                console.log(response.payload);
+                //console.log(response.payload);
             }
         });
 
         dispatch(rankingGroup())
         .then(response => {
             if (response.payload.success) {
-                console.log(response.payload);
+                //console.log(response.payload);
             }
         });
     }, []);
@@ -61,8 +61,8 @@ function MainPage() {
         const groupRank = user.groupRank.result;
         
         const me = getUser(userRank, userId);
-        //console.log(userProfile);
-        //console.log(userRank, groupRank);
+        console.log(userProfile);
+        console.log(userRank, groupRank);
         //getUserRanking(userRank, userId);
         console.log(me);
         return (
