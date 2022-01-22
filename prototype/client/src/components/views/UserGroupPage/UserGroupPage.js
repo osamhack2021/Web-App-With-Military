@@ -20,18 +20,18 @@ export default function UserGroupPage(props) {
 
     }, []);
     
-    const user = useSelector((state) => state.user);
+    const userData = useSelector((state) => state.user);
 
-    if (user.userProfile === undefined) {
+    if (userData.userProfile === undefined) {
         return (
             <div>유저정보 불러오는 중</div>
         );
     }   else {
-        const userProfile = user.userProfile.user;
-        console.log(userProfile);
+        const {user} = userData.userProfile;
+        //console.log(userProfile);
         const myGroups = 
             <>
-                { userProfile.groupList.map((group, index) => (
+                { user.groupList.map((group, index) => (
                     <Grid
                         item
                         xs={3}
@@ -62,7 +62,7 @@ export default function UserGroupPage(props) {
                     />
                     <Typography variant="h5"
                     >
-                        안녕하세요, {userProfile.name}님!
+                        안녕하세요, {user.name}님!
                         공부를 시작한지 벌써 000이 지났어요
                     </Typography>
                 </Box>
