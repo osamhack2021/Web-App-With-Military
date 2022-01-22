@@ -1,41 +1,38 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, {useState, useEffect, useRef} from "react";
 import Axios from "axios";
 import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
-import StudyMenu from "./StudyMenu";
+//import { createPopper } from '@popperjs/core';
+import TimerOverlay from "./TimerOverlay.js"
 import {Box, Button, Divider, Grow, Paper, Popper, MenuItem, MenuList, IconButton, Stack, Tabs, Tab } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Link } from 'react-router-dom';
-import { Menu, Avatar, Badge, Dropdown } from "antd";
-import { EditOutlined, SearchOutlined } from "@ant-design/icons";
 import PersonIcon from '@mui/icons-material/Person';
+import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
+//import './popper.css';
 
 
 function RightMenu(props) {
-  const user = useSelector((state) => state.user);
-
-
+  const loginUserData = useSelector((state) => state.user.loginUserData);
   const logoutHandler = () => {
     Axios.get(`${USER_SERVER}/logout`).then((response) => {
       if (response.status === 200) {
-        console.log(user);
         props.history.push("/login");
       } else {
         alert("Log Out Failed");
       }
     });
   };
-  
-  
-  const [value, setValue] = React.useState(0);
+
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -57,9 +54,19 @@ function RightMenu(props) {
     }
   }
 
+  //timeoverlay
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = event =>
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+
+  const openOverlay = Boolean(anchorEl);
+  const id = openOverlay ? 'timer-popper' : undefined;
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
+  const prevOpen = useRef(openOverlay);
+  //timeoverlay
+
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus();
     }
@@ -67,8 +74,8 @@ function RightMenu(props) {
     prevOpen.current = open;
   }, [open]);
   
-  if (user.loginUserData) {
-    if (!user.loginUserData.isAuth) {
+  if (loginUserData) {
+    if (!loginUserData.isAuth) {
       return (
         <Stack direction="row" spacing={2}>
           <Popper
@@ -143,6 +150,7 @@ function RightMenu(props) {
         </Stack>
       );
     } else {
+      console.log(loginUserData);
       return (
         <Stack direction="row" spacing={2}>
           <Popper
@@ -196,6 +204,7 @@ function RightMenu(props) {
               </Grow>
             )}
           </Popper>
+          
 
           <Tabs
             value={value}
@@ -207,7 +216,7 @@ function RightMenu(props) {
             <Tab
               label="Studygroup"
               component={Link}
-              to={`/users/${user.loginUserData._id}/groups`}
+              to={`/users/${loginUserData._id}/groups`}
             />
             <Tab
               label="Ranking"
@@ -221,10 +230,20 @@ function RightMenu(props) {
           <IconButton
             color="inherit"
             component={Link}
-            to={`/users/${user.loginUserData._id}`}
+            to={`/users/${loginUserData._id}`}
           >
             <PersonIcon />
           </IconButton>
+          <IconButton
+            component="button"
+            aria-describedby={id}
+            onClick={handleClick}
+          >
+            <TimerOutlinedIcon />
+          </IconButton>
+          <Popper id={id} open={openOverlay} anchorEl={anchorEl}>
+            <TimerOverlay groupList={loginUserData.groupList}/>
+          </Popper>
         </Stack>
       );
     }
