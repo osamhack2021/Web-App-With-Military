@@ -5,10 +5,11 @@ import {
     AUTH_USER,
     LOGOUT_USER,
     PROFILE_USER,
+    PROFILE_GROUP,
     RANKING_USER,
     RANKING_GROUP,
 } from './types';
-import { USER_SERVER, RANKING_SERVER} from '../components/Config.js';
+import { USER_SERVER, GROUP_SERVER, RANKING_SERVER} from '../components/Config.js';
 
 export function registerUser(dataToSubmit){
     const request = axios.post(`${USER_SERVER}/register`,dataToSubmit)
@@ -55,6 +56,16 @@ export function profileUser(dataToSubmit) {
 
     return {
         type: PROFILE_USER,
+        payload: request
+    }
+}
+
+export function profileGroup(dataToSubmit) {
+    const request = axios.post(`${GROUP_SERVER}/profile`, dataToSubmit).
+    then(response => response.data);
+
+    return {
+        type: PROFILE_GROUP,
         payload: request
     }
 }
