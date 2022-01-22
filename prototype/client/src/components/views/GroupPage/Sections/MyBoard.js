@@ -199,8 +199,6 @@ const MyBoard = ({group}) => {
         </Grid>
       </Box>
 
-      <StudyMenu />
-
     </>
   );
 };
