@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Avatar, Badge, Box, Button, Container, Grid, Typography, Stack } from '@mui/material';
+import { Avatar, Badge, Box, Button, Container, Divider, Grid, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { profileUser, rankingUser, rankingGroup } from "../../../_actions/user_actions";
 import HomeIcon from '@mui/icons-material/Home';
@@ -9,7 +9,7 @@ import Tier from './Sections/Tier';
 
 const GrayBox = styled(Box)({
     backgroundColor: '#E8E8E8',
-    borderRadius: '2.5rem',
+    borderRadius: '1rem',
     padding: '1rem',
 })
 
@@ -18,7 +18,7 @@ const userId = localStorage.getItem('userId')
 function MainPage() {
     const dispatch = useDispatch();
 
-    const getUser = (userArray, userId) => {
+    const findUser = (userArray, userId) => {
         const me =
         userArray.find( (user) => {
             return user._id === userId;
@@ -56,11 +56,11 @@ function MainPage() {
             <div>유저정보 불러오는 중</div>
         );
     }   else {
-        const {user} = userData.userProfile;
+        const { user } = userData.userProfile;
         const userRankArray = userData.userRank.result;
         const groupRankArray = userData.groupRank.result;
         
-        const myData = getUser(userRankArray, userId);
+        const myData = findUser(userRankArray, userId);
         console.log(user);
         console.log(userRankArray, groupRankArray);
         console.log(myData);
@@ -72,7 +72,7 @@ function MainPage() {
                 <Box sx={{display: 'flex', my: 4}}>
                     <Avatar
                         size="large"
-                        src={localStorage.getItem("image")}
+                        src={user.image}
                         sx={{
                             fontSize: "32px",
                             mr: 2,
@@ -103,13 +103,42 @@ function MainPage() {
 
                                 <Tier point={myData.totalTime} tier="Gold" />
 
-                                <Stack direction="row" spacing={2}>
-                                    <Typography>{myData.rank}위</Typography>
-                                    <Typography>
-                                        상위 {myData.rank/userRankArray.length * 100}%
-                                    </Typography>
-                                    <Typography>{myData.totalTime}초</Typography>
-
+                                <Stack
+                                    direction="row"
+                                    spacing={2}
+                                    divider={<Divider orientation="vertical" flexItem />}
+                                    sx={{
+                                        py: 1,
+                                        '& .MuiBox-root': {
+                                            display: 'flex',
+                                        },
+                                    }}
+                                >
+                                    <Box>
+                                        <Typography sx={{fontWeight: 'bold'}}>{myData.rank}</Typography>
+                                        <Typography>위</Typography>
+                                    </Box>
+                                    <Box>
+                                        <Typography>상위</Typography>
+                                        <Typography sx={{fontWeight: 'bold'}}>
+                                            {(myData.rank/userRankArray.length * 100).toFixed(0)}
+                                        </Typography>
+                                        <Typography>%</Typography>
+                                    </Box>
+                                    <Box>
+                                        <Typography sx={{fontWeight: 'bold'}}>
+                                            { parseInt(myData.totalTime/3600) }
+                                        </Typography>
+                                        <Typography sx={{mr: 1}}>시간</Typography>
+                                        <Typography sx={{fontWeight: 'bold'}}>
+                                            { parseInt((myData.totalTime%3600)/60) }
+                                        </Typography>
+                                        <Typography sx={{mr: 1}}>분</Typography>
+                                        <Typography sx={{fontWeight: 'bold'}}>
+                                            { myData.totalTime%60 }
+                                        </Typography>
+                                        <Typography>초</Typography>
+                                    </Box>
                                 </Stack>
                             </Box>
                             
