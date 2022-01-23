@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Avatar, Box, Button, Grid, ListItem, ListItemText, ListItemAvatar, ListItemButton, Paper, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, Link, ListItem, ListItemText, ListItemAvatar, ListItemButton, Paper, Stack, Typography } from '@mui/material';
+
 import { ReactComponent as Dial } from '../../../../static/imgs/dial.svg';
 import Axios from 'axios';
 import { styled } from '@mui/material/styles';
@@ -26,8 +27,6 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-
-
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -39,14 +38,25 @@ export default function TimerOverlay({groupList}) {
   const [ElapsedTime, setElapsedTime] = useState(0);
   const [Pause, setPause] = useState(false);
   const [Studying, setStudying] = useState(false);
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);
   
   const groupRef = useRef([]);
 
-  function handleGroup (event, index) {
-    setSelectedGroup(groupRef.current[index].name);
+  const findGroup = (groupArray, groupId) => {
+    const selectedGroup =
+    groupArray.find( (group) => {
+        return group._id === groupId;
+    })
+    return selectedGroup
   }
-  function makeListItem(groupData, index) {
+  const handleGroup = (event, index) => {
+    //setSelectedGroupId(groupRef.current[index].id);
+    const myGroup = findGroup(groupList, groupRef.current[index].id)
+    setSelectedGroup(myGroup);
+    setElapsedTime(myGroup.totalTime);
+  }
+  const makeListItem = (groupData, index) => {
     return (
       <ListItem
         key={index}
@@ -54,7 +64,13 @@ export default function TimerOverlay({groupList}) {
         disablePadding
         >
         <ListItemAvatar>
-          {/* {groupData.avatar} */}
+          <Avatar 
+            alt="Group Profile Avatar"
+            src={groupData.image}
+            sx={{
+
+            }}
+          />
         </ListItemAvatar>
         <Grid container>
           <Grid xs={6}>
@@ -73,9 +89,16 @@ export default function TimerOverlay({groupList}) {
               0연속
             </Typography>
           </Grid>
-          <Grid xs={6}>
+          <Grid xs={6}
+            sx={{
+              display: 'flex',
+            }}
+          >
             <Button
-              name={groupData.groupName}
+              variant="contained"
+              color="secondary"
+              size="small"
+              id={groupData._id}
               ref={el => (groupRef.current[index] = el)}
               onClick={
                 (e)=>{
@@ -84,7 +107,23 @@ export default function TimerOverlay({groupList}) {
                 }
               }
             >
-              그룹이동
+              <Typography sx={{
+                whiteSpace: 'nowrap',
+              }}>
+                시간 재기
+              </Typography>
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              href={`/groups/${groupData._id}`}
+            >
+              <Typography sx={{
+                whiteSpace: 'nowrap',
+              }}>
+                그룹 이동
+              </Typography>
             </Button>
           </Grid>
         </Grid>
@@ -113,9 +152,9 @@ export default function TimerOverlay({groupList}) {
     (Studying && !Pause) ? 1000 : null
   );
 
-  const onStart = (event) => {
+  const onStart = (event, groupName) => {
 		event.preventDefault();
-		Axios.post('/api/studying/start', {groupName: 'study chinese'})
+		Axios.post('/api/studying/start', {groupName: groupName})
 			.then(response => {
 			if(response.data.success) {
 				setElapsedTime(response.data.elapsedTime)
@@ -174,22 +213,31 @@ export default function TimerOverlay({groupList}) {
         display: 'flex',
         justifyContent: 'center',
       }}>
-        <Avatar
-          alt="Group Profile Image"
-          src=""
-          sx={{
-            width: '2.5rem',
-            height: '2.5rem',
-            borderRadius: '13px',
-            mr: '0.5rem',
-          }}
-        />
-        <Typography sx={{
-          fontWeight: 'bold',
-          fontSize: '1.5rem',
-        }}>
-          {selectedGroup}
-        </Typography>
+        { selectedGroup === null ? 
+          <Typography sx={{
+            fontWeight: 'bold',
+            fontSize: '1.5rem',
+          }}>
+            그룹을 선택해주세요
+          </Typography> : 
+          <>
+            <Avatar
+              alt="Group Profile Image"
+              src={selectedGroup.image}
+              sx={{
+                width: '2.5rem',
+                height: '2.5rem',
+                borderRadius: '13px',
+                mr: '0.5rem',
+              }}
+            />
+            <Typography sx={{
+              fontWeight: 'bold',
+              fontSize: '1.5rem',
+            }}>
+              {selectedGroup.groupName}
+            </Typography>
+          </> }
       </Item>
 
       <Item sx={{
@@ -231,7 +279,7 @@ export default function TimerOverlay({groupList}) {
             margin: 'auto',
             borderRadius: '8px',
           }}
-          onClick={!Studying ? onStart : (Pause ? onResume : onPause)}
+          onClick={!Studying ? (e) => {onStart(e, selectedGroup.groupName)} : (Pause ? onResume : onPause)}
         >
           <Typography>
             {!Studying? '시작하기' : Pause ? '계속하기' : '일시정지'}

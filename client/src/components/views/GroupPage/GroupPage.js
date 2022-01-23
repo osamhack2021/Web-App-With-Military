@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Box, Badge, Container, IconButton, Typography } from '@mui/material';
 import { profileGroup } from "../../../_actions/user_actions";
 import MyBoard from './Sections/MyBoard';
+import Axios from "axios";
 
 function GroupPage(props) {
   const { groupId } = props.match.params;
@@ -71,30 +72,13 @@ function GroupPage(props) {
             left: '15%',
             transform: 'translate(-50%, -50%)',
           }}
-          src={localStorage.getItem('image')}
+          src={group.image}
         />
+        
       </Container>
     );
   }
-  
-  // return (
-  //   <div>
-  //     {GroupInfo && (
-  //       <div>
-	// 		<img src={GroupInfo.image} />
-  //         <h1> 그룹 이름 : {GroupInfo.groupName} </h1>
-  //         <h2> 그룹 설명 : {GroupInfo.Info} </h2>
-  //         <h2> 카테고리 : {GroupInfo.category} </h2>
-  //         <h2> 전체 공부 시간 : {GroupInfo.totalTime} </h2>
-  //         <h3>태그</h3>
-  //         {Tags.map((tag) => (
-  //           <span>{tag} </span>
-  //         ))}
-  //       </div>
-  //     )}
-  //     <Board groupId={props.match.params.groupId}/>
-  //   </div>
-  // );
+
 }
 
 export default GroupPage;
