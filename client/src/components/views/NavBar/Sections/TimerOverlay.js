@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Avatar, Box, Button, Grid, Link, ListItem, ListItemText, ListItemAvatar, ListItemButton, Paper, Stack, Typography } from '@mui/material';
-
+import { useSelector, useDispatch } from "react-redux";
+import {
+  Avatar, Box, Button, Grid,
+  Link, ListItem, ListItemText, ListItemAvatar, ListItemButton,
+  Paper, Stack, Typography
+} from '@mui/material';
+import { studyingStatus, studyingStart, studyingEnd, studyingPause, studyingResume } from "../../../../_actions/user_actions";
 import { ReactComponent as Dial } from '../../../../static/imgs/dial.svg';
 import Axios from 'axios';
 import { styled } from '@mui/material/styles';
@@ -38,9 +43,12 @@ export default function TimerOverlay({groupList}) {
   const [ElapsedTime, setElapsedTime] = useState(0);
   const [Pause, setPause] = useState(false);
   const [Studying, setStudying] = useState(false);
+
   const [selectedGroupId, setSelectedGroupId] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);
   
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user);
   const groupRef = useRef([]);
 
   const findGroup = (groupArray, groupId) => {
@@ -51,7 +59,6 @@ export default function TimerOverlay({groupList}) {
     return selectedGroup
   }
   const handleGroup = (event, index) => {
-    //setSelectedGroupId(groupRef.current[index].id);
     const myGroup = findGroup(groupList, groupRef.current[index].id)
     setSelectedGroup(myGroup);
     setElapsedTime(myGroup.totalTime);
@@ -67,9 +74,7 @@ export default function TimerOverlay({groupList}) {
           <Avatar 
             alt="Group Profile Avatar"
             src={groupData.image}
-            sx={{
-
-            }}
+            sx={{ }}
           />
         </ListItemAvatar>
         <Grid container>
@@ -79,19 +84,31 @@ export default function TimerOverlay({groupList}) {
             </Typography>
           </Grid>
           <Grid xs={6}>
-            <Typography>
-              {groupData.totolTime}
+            <Typography align="right"
+              sx={{
+                pr : 1,
+                fontWeight: 'medium',
+              }}
+            >
+              { parseInt(groupData.totalTime/3600) }:
+              { parseInt((groupData.totalTime%3600)/60) }:
+              { groupData.totalTime%60 }
             </Typography>
           </Grid>
-          <Grid xs={6}>
-            <MenuBookIcon />
+          <Grid 
+            xs={6}
+            sx={{ display: 'flex' }}
+          >
+            <MenuBookIcon sx={{ mr:1 }}/>
             <Typography>
               0연속
             </Typography>
           </Grid>
-          <Grid xs={6}
+          <Grid
+            xs={6}
             sx={{
               display: 'flex',
+              justifyContent: 'center',
             }}
           >
             <Button
@@ -106,6 +123,7 @@ export default function TimerOverlay({groupList}) {
                   handleGroup(e, index);
                 }
               }
+              sx={{ mr:1 }}
             >
               <Typography sx={{
                 whiteSpace: 'nowrap',
@@ -132,18 +150,18 @@ export default function TimerOverlay({groupList}) {
   } 
 
   useEffect(() => {
-		Axios.get('/api/studying')
-			.then((response) => {
-			if (response.data.success) {
-				if(response.data.isStudyingNow) {
-					setElapsedTime(response.data.elapsedTime)
-					setPause(response.data.isPaused)
-				}
-				setStudying(response.data.isStudyingNow)
-			} else {
-				alert('공부상태 가져오기를 실패했습니다.');
-			}
-		});
+    dispatch(studyingStatus())
+      .then( response => {
+        if (response.payload.success) {
+          if(response.payload.isStudyingNow) {
+            setElapsedTime(response.payload.elapsedTime)
+            setPause(response.payload.isPaused)
+          }
+          setStudying(response.payload.isStudyingNow)
+        } else {
+          alert('공부상태 가져오기를 실패했습니다.');
+        }
+      });
 	}, []);
 
   // 타이머 시간 누적
@@ -154,156 +172,164 @@ export default function TimerOverlay({groupList}) {
 
   const onStart = (event, groupName) => {
 		event.preventDefault();
-		Axios.post('/api/studying/start', {groupName: groupName})
-			.then(response => {
-			if(response.data.success) {
-				setElapsedTime(response.data.elapsedTime)
-				setStudying(response.data.isStudyingNow)
-			} else {
-				alert(response.data.message)
-			}
-		})
+    dispatch(studyingStart({groupName: groupName}))
+      .then(response => {
+        if(response.payload.success) {
+          setElapsedTime(response.payload.elapsedTime)
+          setStudying(response.payload.isStudyingNow)
+        } else {
+          alert(response.payload.message)
+        }
+      })
 	}
 	
 	const onStop = (event) => {
 		event.preventDefault();
-		Axios.get('/api/studying/end')
-			.then(response => {
-			if(response.data.success) {
-				setElapsedTime(response.data.elapsedTime)
-				setStudying(false)
-				setPause(false)
-			} else {
-				alert(response.data.message)
-			}
-		})
+    dispatch(studyingEnd())
+      .then(response => {
+        if(response.payload.success) {
+          setElapsedTime(response.payload.elapsedTime)
+          setStudying(false)
+          setPause(false)
+        } else {
+          alert(response.payload.message)
+        }
+		  })
 	}
 	
 	const onPause = (event) => {
 		event.preventDefault();
-		Axios.get('/api/studying/pause')
+    dispatch(studyingPause())
 			.then(response => {
-			if(response.data.success) {
-				setElapsedTime(response.data.elapsedTime)
+			if(response.payload.success) {
+				setElapsedTime(response.payload.elapsedTime)
 				setPause(true)
 			} else {
-				alert(response.data.message)
+				alert(response.payload.message)
 			}
 		})
 	}
 	
 	const onResume = (event) => {
 		event.preventDefault();
-		Axios.get('/api/studying/resume')
+    dispatch(studyingResume())
 			.then(response => {
-			if(response.data.success) {
-				setElapsedTime(response.data.elapsedTime)
+			if(response.payload.success) {
+				setElapsedTime(response.payload.elapsedTime)
 				setPause(false)
 			} else {
-				alert(response.data.message)
+				alert(response.payload.message)
 			}
 		})
 	}
-  return (
-    <Stack sx={{
-      color: '#e6e1e0',
-      margin: 'auto',
-    }}>
-      <Item sx={{
-        display: 'flex',
-        justifyContent: 'center',
+  if (userData.userProfile === undefined) {
+    return (
+        <div>유저정보 불러오는 중</div>
+    );
+  } else {
+    const {user} = userData.userProfile;
+    //console.log(user);
+    return (
+      <Stack sx={{
+        color: '#e6e1e0',
+        margin: 'auto',
       }}>
-        { selectedGroup === null ? 
-          <Typography sx={{
-            fontWeight: 'bold',
-            fontSize: '1.5rem',
-          }}>
-            그룹을 선택해주세요
-          </Typography> : 
-          <>
-            <Avatar
-              alt="Group Profile Image"
-              src={selectedGroup.image}
-              sx={{
-                width: '2.5rem',
-                height: '2.5rem',
-                borderRadius: '13px',
-                mr: '0.5rem',
-              }}
-            />
+        <Item sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}>
+          { selectedGroup === null ? 
             <Typography sx={{
               fontWeight: 'bold',
               fontSize: '1.5rem',
             }}>
-              {selectedGroup.groupName}
-            </Typography>
-          </> }
-      </Item>
+              그룹을 선택해주세요
+            </Typography> : 
+            <>
+              <Avatar
+                alt="Group Profile Image"
+                src={selectedGroup.image}
+                sx={{
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  borderRadius: '13px',
+                  mr: '0.5rem',
+                }}
+              />
+              <Typography sx={{
+                fontWeight: 'bold',
+                fontSize: '1.5rem',
+              }}>
+                {selectedGroup.groupName}
+              </Typography>
+            </> }
+        </Item>
 
-      <Item sx={{
-        textAlign: 'center',
-        position: 'relative',
-      }}>
-        <Box sx={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
+        <Item sx={{
+          textAlign: 'center',
+          position: 'relative',
         }}>
-          <Typography sx={{
-            fontSize: '1rem',
-            fontWeight: '500',
+          <Box sx={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
           }}>
-            {ElapsedTime}초
-          </Typography>
-        </Box>
-        <Dial style={{
-          // background: 'radial-gradient(116.7% 116.7% at 127.95% -2.95%, #FFFFFF 0%, #073113 100%)',
-          // borderRadius: '24px',
-          // transform: 'rotate(-90deg)'
-        }} />
-      </Item>
+            <Typography sx={{
+              fontSize: '1rem',
+              fontWeight: '500',
+            }}>
+              {ElapsedTime}초
+            </Typography>
+          </Box>
+          <Dial style={{
+            // background: 'radial-gradient(116.7% 116.7% at 127.95% -2.95%, #FFFFFF 0%, #073113 100%)',
+            // borderRadius: '24px',
+            // transform: 'rotate(-90deg)'
+          }} />
+        </Item>
 
-      <Item sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        pt: '3rem',
-      }}>
-        <Button
-          variant="contained"
-          size="small"
-          style={{
-            backgroundColor: '#FF4545',
-            width: '156px',
-            height: '42px',
-            margin: 'auto',
-            borderRadius: '8px',
-          }}
-          onClick={!Studying ? (e) => {onStart(e, selectedGroup.groupName)} : (Pause ? onResume : onPause)}
-        >
-          <Typography>
-            {!Studying? '시작하기' : Pause ? '계속하기' : '일시정지'}
-          </Typography>
-        </Button>
-        <Button
-          variant="contained"
-          size="small"
-          style={{
-            backgroundColor: '#5ED0A7',
-            width: '156px',
-            height: '42px',
-            margin: 'auto',
-            borderRadius: '8px',
-          }}
-          onClick={onStop}
-        >
-          <Typography>기록하기</Typography>
-        </Button>
-      </Item>
+        <Item sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          pt: '3rem',
+        }}>
+          <Button
+            variant="contained"
+            size="small"
+            style={{
+              backgroundColor: '#FF4545',
+              width: '156px',
+              height: '42px',
+              margin: 'auto',
+              borderRadius: '8px',
+            }}
+            onClick={!Studying ? (e) => {onStart(e, selectedGroup.groupName)} : (Pause ? onResume : onPause)}
+          >
+            <Typography>
+              {!Studying? '시작하기' : Pause ? '계속하기' : '일시정지'}
+            </Typography>
+          </Button>
+          <Button
+            variant="contained"
+            size="small"
+            style={{
+              backgroundColor: '#5ED0A7',
+              width: '156px',
+              height: '42px',
+              margin: 'auto',
+              borderRadius: '8px',
+            }}
+            onClick={onStop}
+          >
+            <Typography>기록하기</Typography>
+          </Button>
+        </Item>
 
-      <Item>
-        { groupList.map((group, index) => makeListItem(group, index)) }
-      </Item>
-    </Stack>
-  );
+        <Item>
+          { user.groupList.map((group, index) => makeListItem(group, index)) }
+        </Item>
+      </Stack>
+    );
+  }
 };
