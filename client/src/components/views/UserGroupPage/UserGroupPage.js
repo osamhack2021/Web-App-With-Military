@@ -1,21 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Badge, Box, Button, Card, CardActions, Container, Grid, Link, Typography } from '@mui/material';
 import Axios from "axios";
 import StudyGroupCard from './Sections/StudyGroupCard';
 import PeopleIcon from '@mui/icons-material/People';
+import { profileUser } from "../../../_actions/user_actions";
 
 export default function UserGroupPage(props) {
-    const user = useSelector((state) => state.user);
+    const { userId } = props.match.params;
+    const dispatch = useDispatch();
+
+    useEffect( () => {
+        dispatch(profileUser({userId : userId}))
+        .then(response => {
+            if (response.payload.success) {
+                //console.log(response.payload);
+            }
+        });
+
+    }, []);
     
-    if (user.userData === undefined) {
+    const userData = useSelector((state) => state.user);
+
+    if (userData.userProfile === undefined) {
         return (
             <div>유저정보 불러오는 중</div>
         );
     }   else {
+        const {user} = userData.userProfile;
+        //console.log(userProfile);
         const myGroups = 
             <>
-                { user.userData.groupList.map((group, index) => (
+                { user.groupList.map((group, index) => (
                     <Grid
                         item
                         xs={3}
@@ -46,7 +62,7 @@ export default function UserGroupPage(props) {
                     />
                     <Typography variant="h5"
                     >
-                        안녕하세요, {user.userData.name}님!
+                        안녕하세요, {user.name}님!
                         공부를 시작한지 벌써 000이 지났어요
                     </Typography>
                 </Box>

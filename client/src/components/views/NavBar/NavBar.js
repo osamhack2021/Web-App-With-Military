@@ -24,7 +24,7 @@ function NavBar(props) {
 
   const theme = useTheme();
   const [visible, setVisible] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -57,7 +57,7 @@ function NavBar(props) {
 
   const list =
   <>
-    { user.userData && !user.userData.isAuth ? 
+    { user.loginUserData === undefined || !user.loginUserData.isAuth ? 
       <List>
         <ListItem
           button

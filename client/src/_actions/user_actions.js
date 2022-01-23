@@ -5,13 +5,14 @@ import {
     AUTH_USER,
     LOGOUT_USER,
     PROFILE_USER,
+    PROFILE_GROUP,
     RANKING_USER,
     RANKING_GROUP,
 } from './types';
-import { USER_SERVER, RANKING_SERVER} from '../components/Config.js';
+import { USER_SERVER, GROUP_SERVER, RANKING_SERVER } from '../components/Config.js';
 
 export function registerUser(dataToSubmit){
-    const request = axios.post(`${USER_SERVER}/register`,dataToSubmit)
+    const request = axios.post(`${USER_SERVER}/register`, dataToSubmit)
         .then(response => response.data);
     
     return {
@@ -20,7 +21,7 @@ export function registerUser(dataToSubmit){
     }
 }
 export function loginUser(dataToSubmit){
-    const request = axios.post(`${USER_SERVER}/login`,dataToSubmit)
+    const request = axios.post(`${USER_SERVER}/login`, dataToSubmit)
                 .then(response => response.data);
 
     return {
@@ -50,8 +51,8 @@ export function logoutUser(){
 }
 
 export function profileUser(dataToSubmit) {
-    const request = axios.post(`${USER_SERVER}/profile`, dataToSubmit).
-    then(response => response.data);
+    const request = axios.post(`${USER_SERVER}/profile`, dataToSubmit)
+    .then(response => response.data);
 
     return {
         type: PROFILE_USER,
@@ -59,9 +60,19 @@ export function profileUser(dataToSubmit) {
     }
 }
 
-export function rankingUser(dataToSubmit) {
-    const request = axios.get(`${RANKING_SERVER}/user`).
-    then(response => response.data);
+export function profileGroup(dataToSubmit) {
+    const request = axios.post(`${GROUP_SERVER}/profile`, dataToSubmit)
+    .then(response => response.data);
+
+    return {
+        type: PROFILE_GROUP,
+        payload: request
+    }
+}
+
+export function rankingUser() {
+    const request = axios.get(`${RANKING_SERVER}/user`)
+    .then(response => response.data);
 
     return {
         type: RANKING_USER,
@@ -69,13 +80,12 @@ export function rankingUser(dataToSubmit) {
     }
 }
 
-export function rankingGroup(dataToSubmit) {
-    const request = axios.get(`${RANKING_SERVER}/group`).
-    then(response => response.data);
+export function rankingGroup() {
+    const request = axios.get(`${RANKING_SERVER}/group`)
+    .then(response => response.data);
 
     return {
         type: RANKING_GROUP,
         payload: request
     }
 }
-

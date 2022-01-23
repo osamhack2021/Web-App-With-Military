@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Axios from 'axios';
+import { Box, Badge, Container, IconButton, Typography } from '@mui/material';
+
 import { Menu, Button, Space} from 'antd';
 
 // 타이머를 위한 커스텀 훅
@@ -30,7 +32,6 @@ function StudyMenu() {
 	const [Studying, setStudying] = useState(false);
 	
 	useEffect(() => {
-		
 		Axios.get('/api/studying')
 			.then((response) => {
 			if (response.data.success) {
@@ -53,7 +54,7 @@ function StudyMenu() {
 	const onStart = (event) => {
 		event.preventDefault();
 		
-		Axios.post('/api/studying/start', {category: 'programming'})
+		Axios.post('/api/studying/start', {groupName: 'study chinese'})
 			.then(response => {
 			if(response.data.success) {
 				setElapsedTime(response.data.elapsedTime)

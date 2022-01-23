@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Badge, Box, Button, Container, Grid, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { profileUser, rankingUser, rankingGroup } from "../../../_actions/user_actions";
-import Tier from './Section/Tier';
 import HomeIcon from '@mui/icons-material/Home';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
+import Tier from './Sections/Tier';
 
 const GrayBox = styled(Box)({
     backgroundColor: '#E8E8E8',
@@ -37,34 +37,33 @@ function MainPage() {
         dispatch(rankingUser())
         .then(response => {
             if (response.payload.success) {
-                console.log(response.payload);
+                //console.log(response.payload);
             }
         });
 
         dispatch(rankingGroup())
         .then(response => {
             if (response.payload.success) {
-                console.log(response.payload);
+                //console.log(response.payload);
             }
         });
     }, []);
 
-    const user = useSelector((state) => state.user);
+    const userData = useSelector((state) => state.user);
 
-    if (user.userProfile === undefined || user.userRank === undefined || user.groupRank === undefined) {
+    if (userData.userProfile === undefined || userData.userRank === undefined || userData.groupRank === undefined) {
         return (
             <div>유저정보 불러오는 중</div>
         );
     }   else {
-        const userProfile = user.userProfile.user;
-        const userRank = user.userRank.result;
-        const groupRank = user.groupRank.result;
+        const {user} = userData.userProfile;
+        const userRankArray = userData.userRank.result;
+        const groupRankArray = userData.groupRank.result;
         
-        const me = getUser(userRank, userId);
-        //console.log(userProfile);
-        //console.log(userRank, groupRank);
-        //getUserRanking(userRank, userId);
-        console.log(me);
+        const myData = getUser(userRankArray, userId);
+        console.log(user);
+        console.log(userRankArray, groupRankArray);
+        console.log(myData);
         return (
             <Container 
                 component="main"
@@ -81,7 +80,7 @@ function MainPage() {
                     />
                     <Typography variant="h5"
                     >
-                        안녕하세요, {userProfile.name}님!
+                        안녕하세요, {user.name}님!
                         공부를 시작한지 벌써 000이 지났어요
                     </Typography>
                 </Box>
@@ -102,14 +101,14 @@ function MainPage() {
                             </Box>
                             <Box sx={{p:2}}>
 
-                                <Tier point={me.totalTime} tier="Gold" />
+                                <Tier point={myData.totalTime} tier="Gold" />
 
                                 <Stack direction="row" spacing={2}>
-                                    <Typography>{me.rank}위</Typography>
+                                    <Typography>{myData.rank}위</Typography>
                                     <Typography>
-                                        상위 {me.rank/userRank.length * 100}%
+                                        상위 {myData.rank/userRankArray.length * 100}%
                                     </Typography>
-                                    <Typography>{me.totalTime}초</Typography>
+                                    <Typography>{myData.totalTime}초</Typography>
 
                                 </Stack>
                             </Box>
