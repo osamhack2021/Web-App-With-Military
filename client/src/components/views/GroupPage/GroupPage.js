@@ -22,6 +22,7 @@ function GroupPage(props) {
     <div>
       {GroupInfo && (
         <div>
+			<img src={GroupInfo.image} />
           <h1> 그룹 이름 : {GroupInfo.groupName} </h1>
           <h2> 그룹 설명 : {GroupInfo.Info} </h2>
           <h2> 카테고리 : {GroupInfo.category} </h2>
