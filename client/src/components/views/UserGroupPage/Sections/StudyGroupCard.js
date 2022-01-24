@@ -54,22 +54,14 @@ export default function StudyGroupCard({ group }) {
           </Typography>
         </Box>
         <Box>
-          {
-            group.tags.map((tag, index) => 
-              <CardActions
-                key={index}
-              >
-                <Button
+          <Button
                   variant="contained"
                   size="small"
                   color="secondary"
                   sx={{borderRadius: '1rem'}}
                 >
-                  {tag}
+                  {group.category}
                 </Button>
-              </CardActions>
-              )
-          }
         </Box>
       </CardContent>
     </Card>

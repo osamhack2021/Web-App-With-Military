@@ -37,9 +37,6 @@ const groupSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  tags: {
-    type: Array,
-  },
   totalTime: {
     type: Number,
     default: 0,

@@ -1,6 +1,5 @@
 const { Group } = require('../../models/Group');
 const { User } = require('../../models/User');
-const { Tag } = require('../../models/Tag');
 const { Category } = require('../../models/Category');
 
 const post = {
@@ -14,18 +13,6 @@ const post = {
           success: false,
           message: '이미 사용중인 그룹 이름입니다.',
         });
-
-      for (let i = 0; i < req.body.tags.length; i++) {
-        Tag.findOne({ tagName: req.body.tags[i] }, (err, exist) => {
-          if (err) return res.status(500).json({ success: false, err });
-          if (exist === null) {
-            const tag = new Tag({ tagName: req.body.tags[i] });
-            tag.save(err => {
-              if (err) return res.status(200).json({ success: false, err });
-            });
-          }
-        });
-      }
 
       const group = new Group(req.body);
       // 새로운 그룹 정보 DB에 저장
@@ -51,18 +38,6 @@ const post = {
                   err => {
                     if (err)
                       return res.status(500).json({ success: false, err });
-                    for (let i = 0; i < req.body.tags.length; i++) {
-                      Tag.findOneAndUpdate(
-                        { tagName: req.body.tags[i] },
-                        { $addToSet: { groupList: group._id } },
-                        err => {
-                          if (err)
-                            return res
-                              .status(500)
-                              .json({ success: false, err });
-                        },
-                      );
-                    }
                     return res.status(200).json({ success: true, group });
                   },
                 );

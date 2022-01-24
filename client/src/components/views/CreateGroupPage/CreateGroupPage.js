@@ -37,31 +37,22 @@ const formItemLayoutWithOutLabel = {
 };
 
 function CreateGroup(props) {
-	const [Tags, setTags] = useState([]);
-  const onFinish = (values) => {
-    setTags(values.tags);
-  };
   return (
     <Formik
       initialValues={{
         groupName: "",
         category: "",
-        tags: [],
         info: "",
       }}
       validationSchema={Yup.object().shape({
         category: Yup.string().required("Category is required"),
         groupName: Yup.string().required("Group Name is required"),
-        tags: Yup.array(),
         info: Yup.string().min(6, "Info must be at least 6 characters"),
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-			if(Tags.length === 0) alert('Tag is required');
-			else {
 				let dataToSubmit = {
             groupName: values.groupName,
-            tags: Tags,
             category: values.category,
             info: values.info,
             image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
@@ -74,9 +65,6 @@ function CreateGroup(props) {
               alert(response.data.err.errmsg);
             }
           });
-
-          
-			}
           setSubmitting(false);
         }, 500);
       }}
@@ -164,83 +152,6 @@ function CreateGroup(props) {
                   <div className="input-feedback">{errors.info}</div>
                 )}
               </Form.Item>
-              <Form
-                name="dynamic_form_item"
-                {...formItemLayoutWithOutLabel}
-                onFinish={onFinish}
-              >
-                <Form.List
-                  name="tags"
-                  rules={[
-                    {
-                      validator: async (_, tags) => {
-                        if (!tags || tags.length < 1) {
-                          return Promise.reject(
-                            new Error("At least 1 tags")
-                          );
-                        }
-                      },
-                    },
-                  ]}
-                >
-                  {(fields, { add, remove }, { errors }) => (
-                    <>
-                      {fields.map((field, index) => (
-                        <Form.Item
-                          {...(index === 0
-                            ? formItemLayout
-                            : formItemLayoutWithOutLabel)}
-                          label={index === 0 ? "Tags" : ""}
-                          required={false}
-                          key={field.key}
-                        >
-                          <Form.Item
-                            {...field}
-                            validateTrigger={["onChange", "onBlur"]}
-                            rules={[
-                              {
-                                required: true,
-                                whitespace: true,
-                                message:
-                                  "Please input tag's name or delete this field.",
-                              },
-                            ]}
-                            noStyle
-                          >
-                            <Input
-                              placeholder="tag name"
-                              style={{ width: "60%" }}
-                            />
-                          </Form.Item>
-                          {fields.length > 1 ? (
-                            <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              onClick={() => remove(field.name)}
-                            />
-                          ) : null}
-                        </Form.Item>
-                      ))}
-                      <Form.Item>
-                        <Button
-                          type="dashed"
-                          onClick={() => add()}
-                          style={{ width: "60%" }}
-                          icon={<PlusOutlined />}
-                        >
-                          Add Tag
-                        </Button>
-                        <Form.ErrorList errors={errors} />
-                      </Form.Item>
-                    </>
-                  )}
-                </Form.List>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    태그 완료
-                  </Button>
-                </Form.Item>
-              </Form>
-
               <Form.Item {...tailFormItemLayout}>
                 <Button
                   onClick={handleSubmit}
