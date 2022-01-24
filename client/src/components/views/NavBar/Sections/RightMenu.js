@@ -16,7 +16,7 @@ import './Navbar.css';
 //import './popper.css';
 
 function RightMenu(props) {
-  const loginUserData = useSelector((state) => state.user.loginUserData);
+  const loginUserData = useSelector((state) => state.auth.loginUserData);
   const logoutHandler = () => {
     Axios.get(`${USER_SERVER}/logout`).then((response) => {
       if (response.status === 200) {

@@ -20,15 +20,14 @@ export default function UserGroupPage(props) {
 
     }, []);
     
-    const userData = useSelector((state) => state.user);
+    const userData = useSelector((state) => state.profile.userProfile);
 
-    if (userData.userProfile === undefined) {
+    if (userData === undefined) {
         return (
             <div>유저정보 불러오는 중</div>
         );
     }   else {
-        const {user} = userData.userProfile;
-        //console.log(userProfile);
+        const {user} = userData;
         const myGroups = 
             <>
                 { user.groupList.map((group, index) => (

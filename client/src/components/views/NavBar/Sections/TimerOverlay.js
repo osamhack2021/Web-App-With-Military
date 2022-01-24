@@ -47,8 +47,8 @@ export default function TimerOverlay() {
 
   const groupRef = useRef([]);
   
-  const groups = useSelector((state) => state.user.userProfile.user.groupList);
-  const userId = useSelector((state) => state.user.userProfile.user._id);
+  const groups = useSelector((state) => state.profile.userProfile.user.groupList);
+  const userId = useSelector((state) => state.profile.userProfile.user._id);
   
   const findGroup = (groupArray, groupId) => {
     const selectedGroup =
