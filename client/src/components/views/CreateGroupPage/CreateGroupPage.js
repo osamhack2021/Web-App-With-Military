@@ -1,9 +1,14 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import Axios from 'axios';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import { Form, Input, Button } from "antd";
 
@@ -36,16 +41,23 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
+
+
+
 function CreateGroup(props) {
+	const [category, setCategory] = useState('');
+
+  const categoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+	
   return (
     <Formik
       initialValues={{
         groupName: "",
-        category: "",
         info: "",
       }}
       validationSchema={Yup.object().shape({
-        category: Yup.string().required("Category is required"),
         groupName: Yup.string().required("Group Name is required"),
         info: Yup.string().min(6, "Info must be at least 6 characters"),
       })}
@@ -53,7 +65,7 @@ function CreateGroup(props) {
         setTimeout(() => {
 				let dataToSubmit = {
             groupName: values.groupName,
-            category: values.category,
+            category: category,
             info: values.info,
             image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
           };
@@ -81,29 +93,31 @@ function CreateGroup(props) {
         } = props;
         return (
           <div className="app">
-            <h2>Sign up</h2>
+            <h2>스터디 그룹 생성</h2>
             <Form
               style={{ minWidth: "375px" }}
               {...formItemLayout}
               onSubmit={handleSubmit}
             >
-              <Form.Item required label="Category">
-                <Input
-                  id="category"
-                  placeholder="Enter your Category"
-                  type="text"
-                  value={values.category}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.category && touched.category
-                      ? "text-input error"
-                      : "text-input"
-                  }
-                />
-                {errors.category && touched.category && (
-                  <div className="input-feedback">{errors.category}</div>
-                )}
+              <Form.Item required label="카테고리">
+				  <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">카테고리를 선택 해주세요.</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={category}
+          label="카테고리"
+          onChange={categoryChange}
+        >
+          <MenuItem value={"language"}>어학</MenuItem>
+          <MenuItem value={"programming"}>프로그래밍</MenuItem>
+			<MenuItem value={"exam"}>시험대비</MenuItem>
+          <MenuItem value={"activity"}>운동/교양</MenuItem>
+			<MenuItem value={"anything"}>자율</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
               </Form.Item>
 
               <Form.Item
