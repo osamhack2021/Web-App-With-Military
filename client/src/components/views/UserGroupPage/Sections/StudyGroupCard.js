@@ -10,7 +10,7 @@ export default function StudyGroupCard({ group }) {
       <CardMedia
         component="img"
         height="140"
-        image={group.imageUrl}
+        image={group.image}
         alt="study group"
       />
       <CardHeader
