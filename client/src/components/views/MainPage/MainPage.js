@@ -49,21 +49,22 @@ function MainPage() {
         });
     }, []);
 
-    const userData = useSelector((state) => state.user);
+    const userData = useSelector((state) => state.profile.userProfile);
+    const rankData = useSelector((state) => state.ranking);
 
-    if (userData.userProfile === undefined || userData.userRank === undefined || userData.groupRank === undefined) {
+    if (userData === undefined || rankData.userRank === undefined || rankData.groupRank === undefined) {
         return (
             <div>유저정보 불러오는 중</div>
         );
     }   else {
-        const { user } = userData.userProfile;
-        const userRankArray = userData.userRank.result;
-        const groupRankArray = userData.groupRank.result;
+        const { user } = userData;
+        const userRankArray = rankData.userRank.result;
+        const groupRankArray = rankData.groupRank.result;
         
         const myData = findUser(userRankArray, userId);
-        console.log(user);
-        console.log(userRankArray, groupRankArray);
-        console.log(myData);
+        //console.log(user);
+        //console.log(userRankArray, groupRankArray);
+        //console.log(myData);
         return (
             <Container 
                 component="main"

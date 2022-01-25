@@ -19,14 +19,14 @@ function GroupPage(props) {
     });
   }, []);
 
-  const groupData = useSelector((state) => state.user);
+  const groupData = useSelector((state) => state.profile.groupProfile);
 
-  if (groupData.groupProfile === undefined) {
+  if (groupData === undefined) {
     return (
         <div>그룹정보 불러오는 중</div>
     );
   } else {
-    const {group} = groupData.groupProfile;
+    const {group} = groupData;
     console.log(group);
     return (
       <Container 

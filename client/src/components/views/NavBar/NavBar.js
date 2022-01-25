@@ -3,7 +3,6 @@ import Axios from "axios";
 import { useSelector } from "react-redux";
 import { USER_SERVER } from "../../Config";
 import RightMenu from './Sections/RightMenu';
-import './Sections/Navbar.css';
 import {
   AppBar, Box, Toolbar, Drawer, Divider, IconButton, List, ListItem,
   ListItemIcon, ListItemText, Typography
@@ -20,7 +19,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 const drawerWidth = 240;
 
 function NavBar(props) {
-  const user = useSelector((state) => state.user);
+  const loginUserData = useSelector((state) => state.auth.loginUserData);
 
   const theme = useTheme();
   const [visible, setVisible] = useState(false);
@@ -46,7 +45,6 @@ function NavBar(props) {
   const logoutHandler = () => {
     Axios.get(`${USER_SERVER}/logout`).then((response) => {
       if (response.status === 200) {
-        console.log(user);
         props.history.push("/login");
         setOpen(false);
       } else {
@@ -57,7 +55,7 @@ function NavBar(props) {
 
   const list =
   <>
-    { user.loginUserData === undefined || !user.loginUserData.isAuth ? 
+    { loginUserData === undefined || !loginUserData.isAuth ? 
       <List>
         <ListItem
           button
@@ -116,17 +114,13 @@ function NavBar(props) {
               ml: '12px',
             }}
           >
-            <Link to="/main">
-              <Typography
-                style={{
-                  fontSize: '1.2rem',
-                  // color: 'white'
-                }}
-              >
-                {/* ↓ AppBar의 텍스트 */}
-                위드밀리터리
-              </Typography>
-            </Link>
+            <Typography
+              style={{
+                fontSize: '1.2rem',
+              }}
+            >
+              위드밀리터리
+            </Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
 
@@ -137,7 +131,10 @@ function NavBar(props) {
             aria-label="open drawer"
             edge="end"
             onClick={handleDrawerOpen}
-            sx={{ ...(open && { display: 'none' }) }}
+            sx={{
+              ...(open && { display: 'none' }),
+              ml: 2,
+            }}
           >
             <MenuIcon />
           </IconButton>
