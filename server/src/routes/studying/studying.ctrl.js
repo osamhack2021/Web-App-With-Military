@@ -98,11 +98,11 @@ const get = {
     try {
       if (req.user.activeGroup !== null) {
         Group.findOne(
-          { groupName: req.user.activeGroup },
+          { _id: req.user.activeGroup },
           async (err, group) => {
             try {
               await Group.findOneAndUpdate(
-                { groupName: req.user.activeGroup },
+                { _id: req.user.activeGroup },
                 {
                   $set: {
                     totalTime: group.totalTime + now,
@@ -216,9 +216,9 @@ const post = {
         message: '이미 공부 중 입니다.',
       });
 
-    if (req.body.groupName === undefined) req.body.groupName = null;
+    if (req.body.groupId === undefined) req.body.groupId = null;
     else {
-      const group = await Group.findOne({ groupName: req.body.groupName });
+      const group = await Group.findOne({ _id: req.body.groupId });
       if (req.body.category === undefined)
         req.body.category = await group.category;
     }
@@ -231,7 +231,7 @@ const post = {
         {
           $set: {
             startTime: now,
-            activeGroup: req.body.groupName,
+            activeGroup: req.body.groupId,
             activeCategory: req.body.category,
           },
         },
@@ -240,7 +240,7 @@ const post = {
         success: true,
         elapsedTime: 0,
         isStudyingNow: true,
-        activeGroup: req.body.groupName,
+        activeGroup: req.body.groupId,
         activeCategory: req.body.category,
       });
     } catch (err) {
