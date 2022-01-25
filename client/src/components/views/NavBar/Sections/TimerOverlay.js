@@ -79,7 +79,7 @@ export default function TimerOverlay() {
         <Grid container>
           <Grid xs={6}>
             <Typography>
-              {groupData.groupName}
+              {groupData.groupId}
             </Typography>
           </Grid>
           <Grid xs={6}>
@@ -150,9 +150,9 @@ export default function TimerOverlay() {
 
   const makeGroupList = (groupList) => groupList.map((groupData, index) => makeListItem(groupList, groupData, index))
 
-  const onStart = (event, groupName) => {
+  const onStart = (event, groupId) => {
 		event.preventDefault();
-    dispatch(studyingStart({groupName: groupName}))
+    dispatch(studyingStart({groupId: groupId}))
       .then(response => {
         if(response.payload.success) {
           setElapsedTime(response.payload.elapsedTime)
@@ -270,7 +270,7 @@ export default function TimerOverlay() {
                 fontWeight: 'bold',
                 fontSize: '1.5rem',
               }}>
-                {selectedGroup.groupName}
+                {selectedGroup.groupId}
               </Typography>
             </> }
         </Item>
@@ -314,7 +314,7 @@ export default function TimerOverlay() {
               margin: 'auto',
               borderRadius: '8px',
             }}
-            onClick={!Studying ? (e) => {onStart(e, selectedGroup.groupName)} : (Pause ? onResume : onPause)}
+            onClick={!Studying ? (e) => {onStart(e, selectedGroup.groupId)} : (Pause ? onResume : onPause)}
           >
             <Typography>
               {!Studying? '시작하기' : Pause ? '계속하기' : '일시정지'}
