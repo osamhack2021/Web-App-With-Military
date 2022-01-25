@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import Axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { loadBoard, removeBoard } from "../../../../_actions/user_actions";
 import { EditOutlined, CloseOutlined } from "@ant-design/icons";
 import { Row, Col, Button, Popconfirm, message } from "antd";
 import NewBoard from "./NewBoard";
 import Comment from "./Comment";
 import EditBoard from "./EditBoard";
 
-function Board(props) {
-  const user = useSelector((state) => state.user);
-  const groupId = props.groupId;
+function Board({ groupId }) {
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.loginUserData);
+  //const userId = localStorage.getItem('userId')
   const [BoardLists, setBoardLists] = useState([]);
 
   useEffect(() => {
-    Axios.post("/api/board/group", { groupId: groupId }).then((response) => {
-      if (response.data.success) {
-        setBoardLists(response.data.boards);
+    dispatch(loadBoard({ groupId: groupId }))
+    .then((response) => {
+      if (response.payload.success) {
+        setBoardLists(response.payload.boards);
       } else {
         alert("게시글 불러오기를 실패했습니다.");
       }
@@ -23,7 +25,7 @@ function Board(props) {
   }, []);
 
   function onClickEdit(event, board) {
-    if (board.writerId._id === user.userData._id) {
+    if (board.writerId._id === userData._id) {
       setBoardLists((BoardLists) =>
         BoardLists.map((item) => {
           if (item._id === board._id) {
@@ -37,16 +39,15 @@ function Board(props) {
     }
   }
   function confirm(e, board) {
-    if (board.writerId._id === user.userData._id) {
-      Axios.post("/api/board/remove", { boardId: board._id }).then(
-        (response) => {
-          if (response.data.success) {
-            setBoardLists(BoardLists.filter((item) => item._id !== board._id));
-          } else {
-            alert("게시글 삭제에 실패했습니다.");
-          }
+    if (board.writerId._id === userData._id) {
+      dispatch(removeBoard({ boardId: board._id }))
+      .then((response) => {
+        if (response.payload.success) {
+          setBoardLists(BoardLists.filter((item) => item._id !== board._id));
+        } else {
+          alert("게시글 삭제에 실패했습니다.");
         }
-      );
+      });
     } else {
       message.error("작성자가 아닙니다.");
     }
@@ -71,7 +72,6 @@ function Board(props) {
   const refreshFunction = (newBoard) => {
     setBoardLists(BoardLists.concat(newBoard));
   };
-
   return (
     <div>
       {BoardLists && (
@@ -124,7 +124,9 @@ function Board(props) {
           </Row>
         </div>
       )}
-      <NewBoard refreshFunction={refreshFunction} groupId={groupId} />
+      <NewBoard 
+       refreshFunction={refreshFunction}
+       groupId={groupId} />
     </div>
   );
 }

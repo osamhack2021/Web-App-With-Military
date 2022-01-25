@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { editBoard } from "../../../../_actions/user_actions";
 import { Button, Input, Form } from "antd";
 const layout = {
   labelCol: {
@@ -10,9 +11,10 @@ const layout = {
   },
 };
 
-function EditBoard(props) {
-  const [BoardValue, setBoardValue] = useState(props.board.content);
-  const [TitleValue, setTitleValue] = useState(props.board.title);
+function EditBoard({board, editFunction}) {
+  const dispatch = useDispatch();
+  const [BoardValue, setBoardValue] = useState(board.content);
+  const [TitleValue, setTitleValue] = useState(board.title);
 
   const handleContent = (event) => {
     setBoardValue(event.currentTarget.value);
@@ -26,12 +28,13 @@ function EditBoard(props) {
     const variables = {
       title: TitleValue,
       content: BoardValue,
-      boardId: props.board._id,
+      boardId: board._id,
     };
 
-    Axios.post("/api/board/edit", variables).then((response) => {
-      if (response.data.success) {
-        props.editFunction(variables);
+    dispatch(editBoard(variables))
+    .then((response) => {
+      if (response.payload.success) {
+        editFunction(variables);
       } else {
         alert("게시글을 수정하지 못했습니다.");
       }

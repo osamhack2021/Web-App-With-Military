@@ -1,17 +1,24 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { removeComment } from "../../../../_actions/user_actions";
+import { useSelector, useDispatch } from "react-redux";
 import { Comment, Avatar, Popconfirm, message } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import Axios from "axios";
 
-function SingleComment(props) {
-  const user = useSelector((state) => state.user);
+function SingleComment( {
+  refreshFunction,
+  removeFunction,
+  comment,
+  boardId 
+}) {
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.loginUserData);
   function confirm(e) {
-    if (props.comment._id === user.userData._id) {
-      Axios.post("/api/comment/remove", { commentId: props.comment._id }).then(
+    if (comment._id === userData._id) {
+      dispatch(removeComment({ commentId:comment._id }))
+      .then(
         (response) => {
-          if (response.data.success) {
-            props.removeFunction(props.comment._id);
+          if (response.payload.success) {
+            removeFunction(comment._id);
             message.success("삭제되었습니다.");
           } else {
             alert("댓글 삭제에 실패하였습니다.");
@@ -43,9 +50,9 @@ function SingleComment(props) {
     <div>
       <Comment
         actions={actions}
-        author={props.comment.writerId.name}
-        avatar={<Avatar src={props.comment.writerId.image} alt="image" />}
-        content={<p> {props.comment.content}</p>}
+        author={comment.writerId.name}
+        avatar={<Avatar src={comment.writerId.image} alt="image" />}
+        content={<p> {comment.content}</p>}
       />
     </div>
   );

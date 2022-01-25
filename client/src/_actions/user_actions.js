@@ -1,24 +1,19 @@
 import axios from 'axios';
 import {
-    LOGIN_USER,
-    REGISTER_USER,
-    AUTH_USER,
-    LOGOUT_USER,
-    PROFILE_USER,
-    PROFILE_GROUP,
-    RANKING_USER,
-    RANKING_GROUP,
-    STUDYING_STATUS,
-    STUDYING_START,
-    STUDYING_END,
-    STUDYING_PAUSE,
-    STUDYING_RESUME,
+    LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER,
+    PROFILE_USER, PROFILE_GROUP,
+    RANKING_USER, RANKING_GROUP,
+    STUDYING_STATUS, STUDYING_START, STUDYING_END, STUDYING_PAUSE, STUDYING_RESUME,
+    LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
+    LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
 } from './types';
 import {
     USER_SERVER,
     GROUP_SERVER,
     RANKING_SERVER,
     STUDYING_SERVER,
+    COMMENT_SERVER,
+    BOARD_SERVER,
 } from '../components/Config.js';
 
 export function registerUser(dataToSubmit){
@@ -145,3 +140,65 @@ export function studyingResume() {
     }
 }
 
+export function loadComment(dataToSubmit) {
+    const request = axios.post(`${COMMENT_SERVER}`, dataToSubmit)
+    .then(response => response.data);
+    return {
+        type: LOAD_COMMENT,
+        payload: request
+    }
+}
+
+export function saveComment(dataToSubmit) {
+    const request = axios.post(`${COMMENT_SERVER}/save`, dataToSubmit)
+    .then(response => response.data);
+    return {
+        type: SAVE_COMMENT,
+        payload: request
+    }
+}
+
+export function removeComment(dataToSubmit) {
+    const request = axios.post(`${COMMENT_SERVER}/remove`, dataToSubmit)
+    .then(response => response.data);
+    return {
+        type: REMOVE_COMMENT,
+        payload: request
+    }
+}
+
+export function loadBoard(dataToSubmit) {
+    const request = axios.post(`${BOARD_SERVER}/group`, dataToSubmit)
+    .then(response => response.data);
+    return {
+        type: LOAD_BOARD,
+        payload: request
+    }
+}
+
+export function saveBoard(dataToSubmit) {
+    const request = axios.post(`${BOARD_SERVER}/save`, dataToSubmit)
+    .then(response => response.data);
+    return {
+        type: SAVE_BOARD,
+        payload: request
+    }
+}
+
+export function removeBoard(dataToSubmit) {
+    const request = axios.post(`${BOARD_SERVER}/remove`, dataToSubmit)
+    .then(response => response.data);
+    return {
+        type: REMOVE_BOARD,
+        payload: request
+    }
+}
+
+export function editBoard(dataToSubmit) {
+    const request = axios.post(`${BOARD_SERVER}/edit`, dataToSubmit)
+    .then(response => response.data);
+    return {
+        type: EDIT_BOARD,
+        payload: request
+    }
+}
