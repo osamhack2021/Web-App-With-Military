@@ -299,7 +299,8 @@ export default function TimerOverlay() {
           }} />
         </Item>
 
-        <Item sx={{
+			{selectedGroup && 
+			<Item sx={{
           display: 'flex',
           justifyContent: 'center',
           pt: '3rem',
@@ -335,6 +336,8 @@ export default function TimerOverlay() {
             <Typography>기록하기</Typography>
           </Button>
         </Item>
+			}
+        
 
         <Item>
           { makeGroupList(groups) }
