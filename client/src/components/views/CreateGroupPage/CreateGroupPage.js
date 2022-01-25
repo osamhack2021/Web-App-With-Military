@@ -1,9 +1,14 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import Axios from 'axios';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import { Form, Input, Button } from "antd";
 
@@ -36,33 +41,31 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
+
+
+
 function CreateGroup(props) {
-	const [Tags, setTags] = useState([]);
-  const onFinish = (values) => {
-    setTags(values.tags);
+	const [category, setCategory] = useState('');
+
+  const categoryChange = (event) => {
+    setCategory(event.target.value);
   };
+	
   return (
     <Formik
       initialValues={{
         groupName: "",
-        category: "",
-        tags: [],
         info: "",
       }}
       validationSchema={Yup.object().shape({
-        category: Yup.string().required("Category is required"),
         groupName: Yup.string().required("Group Name is required"),
-        tags: Yup.array(),
         info: Yup.string().min(6, "Info must be at least 6 characters"),
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-			if(Tags.length === 0) alert('Tag is required');
-			else {
 				let dataToSubmit = {
             groupName: values.groupName,
-            tags: Tags,
-            category: values.category,
+            category: category,
             info: values.info,
             image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
           };
@@ -74,9 +77,6 @@ function CreateGroup(props) {
               alert(response.data.err.errmsg);
             }
           });
-
-          
-			}
           setSubmitting(false);
         }, 500);
       }}
@@ -93,29 +93,31 @@ function CreateGroup(props) {
         } = props;
         return (
           <div className="app">
-            <h2>Sign up</h2>
+            <h2>스터디 그룹 생성</h2>
             <Form
               style={{ minWidth: "375px" }}
               {...formItemLayout}
               onSubmit={handleSubmit}
             >
-              <Form.Item required label="Category">
-                <Input
-                  id="category"
-                  placeholder="Enter your Category"
-                  type="text"
-                  value={values.category}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.category && touched.category
-                      ? "text-input error"
-                      : "text-input"
-                  }
-                />
-                {errors.category && touched.category && (
-                  <div className="input-feedback">{errors.category}</div>
-                )}
+              <Form.Item required label="카테고리">
+				  <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">카테고리를 선택 해주세요.</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={category}
+          label="카테고리"
+          onChange={categoryChange}
+        >
+          <MenuItem value={"language"}>어학</MenuItem>
+          <MenuItem value={"programming"}>프로그래밍</MenuItem>
+			<MenuItem value={"exam"}>시험대비</MenuItem>
+          <MenuItem value={"activity"}>운동/교양</MenuItem>
+			<MenuItem value={"anything"}>자율</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
               </Form.Item>
 
               <Form.Item
@@ -164,83 +166,6 @@ function CreateGroup(props) {
                   <div className="input-feedback">{errors.info}</div>
                 )}
               </Form.Item>
-              <Form
-                name="dynamic_form_item"
-                {...formItemLayoutWithOutLabel}
-                onFinish={onFinish}
-              >
-                <Form.List
-                  name="tags"
-                  rules={[
-                    {
-                      validator: async (_, tags) => {
-                        if (!tags || tags.length < 1) {
-                          return Promise.reject(
-                            new Error("At least 1 tags")
-                          );
-                        }
-                      },
-                    },
-                  ]}
-                >
-                  {(fields, { add, remove }, { errors }) => (
-                    <>
-                      {fields.map((field, index) => (
-                        <Form.Item
-                          {...(index === 0
-                            ? formItemLayout
-                            : formItemLayoutWithOutLabel)}
-                          label={index === 0 ? "Tags" : ""}
-                          required={false}
-                          key={field.key}
-                        >
-                          <Form.Item
-                            {...field}
-                            validateTrigger={["onChange", "onBlur"]}
-                            rules={[
-                              {
-                                required: true,
-                                whitespace: true,
-                                message:
-                                  "Please input tag's name or delete this field.",
-                              },
-                            ]}
-                            noStyle
-                          >
-                            <Input
-                              placeholder="tag name"
-                              style={{ width: "60%" }}
-                            />
-                          </Form.Item>
-                          {fields.length > 1 ? (
-                            <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              onClick={() => remove(field.name)}
-                            />
-                          ) : null}
-                        </Form.Item>
-                      ))}
-                      <Form.Item>
-                        <Button
-                          type="dashed"
-                          onClick={() => add()}
-                          style={{ width: "60%" }}
-                          icon={<PlusOutlined />}
-                        >
-                          Add Tag
-                        </Button>
-                        <Form.ErrorList errors={errors} />
-                      </Form.Item>
-                    </>
-                  )}
-                </Form.List>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    태그 완료
-                  </Button>
-                </Form.Item>
-              </Form>
-
               <Form.Item {...tailFormItemLayout}>
                 <Button
                   onClick={handleSubmit}

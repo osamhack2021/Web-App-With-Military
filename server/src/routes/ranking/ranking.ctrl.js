@@ -1,6 +1,5 @@
 const { User } = require('../../models/User');
 const { Group } = require('../../models/Group');
-const { Tag } = require('../../models/Tag');
 
 const get = {
   // 전체 유저 랭킹
@@ -85,32 +84,6 @@ const get = {
           rank: {
             $add: ['$rank', 1],
           },
-        },
-      },
-    ]);
-    return res.status(200).json({ success: true, result});
-  },
-
-  // 인기 태그
-  tag: async (req, res) => {
-    const result = await Tag.aggregate([
-      // Project with an array length
-      {
-        $project: {
-          tagName: 1,
-          groupList: 1,
-          length: { $size: '$groupList' },
-        },
-      },
-
-      // Sort on the "length"
-      { $sort: { length: -1 } },
-
-      // Project if you really want
-      {
-        $project: {
-          tagName: 1,
-          length: 1,
         },
       },
     ]);
