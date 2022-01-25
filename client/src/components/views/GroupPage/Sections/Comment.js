@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { loadComment, saveComment } from "../../../../_actions/user_actions";
 import SingleComment from "./SingleComment";
 import { Button, Input } from "antd";
+
+
 const { TextArea } = Input;
 
-function Comment(props) {
-  const boardId = props.boardId;
-  const user = useSelector((state) => state.user);
+function Comment({ boardId }) {
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.loginUserData);
   const [CommentValue, setCommentValue] = useState("");
   const [CommentLists, setCommentLists] = useState([]);
 
   useEffect(() => {
-    Axios.post("/api/comment/", { boardId: boardId }).then((response) => {
-      if (response.data.success) {
-        setCommentLists(response.data.comments);
+    dispatch(loadComment({ boardId: boardId }))
+    .then((response) => {
+      if (response.payload.success) {
+        setCommentLists(response.payload.comments);
       } else {
         alert("코멘트 정보를 가져오는 것을 실패했습니다.");
       }
     });
   }, []);
+
   const refreshFunction = (comment) => {
     setCommentLists(CommentLists.concat(comment));
   };
@@ -35,14 +39,15 @@ function Comment(props) {
 
     const variables = {
       content: CommentValue,
-      writerId: user.userData._id,
+      writerId: userData._id,
       boardId: boardId,
     };
 
-    Axios.post("/api/comment/save", variables).then((response) => {
-      if (response.data.success) {
+    dispatch(saveComment(variables))
+    .then((response) => {
+      if (response.payload.success) {
         setCommentValue("");
-        refreshFunction(response.data.result);
+        refreshFunction(response.payload.result);
       } else {
         alert("코멘트를 저장하지 못했습니다.");
       }
@@ -62,7 +67,7 @@ function Comment(props) {
               refreshFunction={refreshFunction}
               removeFunction={removeFunction}
               comment={comment}
-              boardId={props.boardId}
+              boardId={boardId}
             />
           </React.Fragment>
         ))}

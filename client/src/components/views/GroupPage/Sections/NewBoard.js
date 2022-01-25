@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { saveBoard } from "../../../../_actions/user_actions";
 import { Button, Input, Form } from "antd";
 const layout = {
   labelCol: {
@@ -11,9 +11,12 @@ const layout = {
   },
 };
 
-function NewBoard(props) {
-  const groupId = props.groupId;
-  const user = useSelector((state) => state.user);
+function NewBoard({refreshFunction, groupId}) {
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.loginUserData);
+  if (userData !== undefined) {
+    console.log(userData._id)
+  }
   const [BoardValue, setBoardValue] = useState("");
   const [TitleValue, setTitleValue] = useState("");
 
@@ -29,14 +32,14 @@ function NewBoard(props) {
     const variables = {
       title: TitleValue,
       content: BoardValue,
-      writerId: user.userData._id,
+      writerId: userData._id,
       groupId: groupId,
     };
-
-    Axios.post("/api/board/save", variables).then((response) => {
-      if (response.data.success) {
+    dispatch(saveBoard(variables))
+    .then((response) => {
+      if (response.payload.success) {
         setBoardValue("");
-        props.refreshFunction(response.data.result);
+        refreshFunction(response.payload.result);
       } else {
         alert("게시글을 저장하지 못했습니다.");
       }
