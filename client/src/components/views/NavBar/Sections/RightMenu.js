@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Axios from "axios";
 import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { styled } from '@mui/system';
 //import { createPopper } from '@popperjs/core';
 import TimerOverlay from "./TimerOverlay.js"
 import {Box, Button, Divider, Grow, Paper, Popper, MenuItem, MenuList, IconButton, Stack, Tabs, Tab } from '@mui/material';
@@ -11,8 +12,8 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Link } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
+import './Navbar.css';
 //import './popper.css';
-
 
 function RightMenu(props) {
   const loginUserData = useSelector((state) => state.user.loginUserData);
@@ -138,6 +139,12 @@ function RightMenu(props) {
             indicatorColor="primary"
           >
             <Tab
+              label="Home"
+              component={Link}
+              to={'/main'}
+              sx={{textTransform: "none"}}
+            />
+            <Tab
               label="Ranking"
               sx={{ color: 'white'}}
               ref={anchorRef}
@@ -150,7 +157,7 @@ function RightMenu(props) {
         </Stack>
       );
     } else {
-      console.log(loginUserData);
+      //console.log(loginUserData);
       return (
         <Stack direction="row" spacing={2}>
           <Popper
@@ -214,6 +221,11 @@ function RightMenu(props) {
             indicatorColor="primary"
           >
             <Tab
+              label="Home"
+              component={Link}
+              to={'/main'}
+            />
+            <Tab
               label="Studygroup"
               component={Link}
               to={`/users/${loginUserData._id}/groups`}
@@ -226,23 +238,21 @@ function RightMenu(props) {
               aria-haspopup="true"
               onClick={handleToggle}
             />
+            <Tab
+              label="My Profile"
+              component={Link}
+              to={`/users/${loginUserData._id}`}
+            />
           </Tabs>
           <IconButton
             color="inherit"
-            component={Link}
-            to={`/users/${loginUserData._id}`}
-          >
-            <PersonIcon />
-          </IconButton>
-          <IconButton
-            component="button"
             aria-describedby={id}
             onClick={handleClick}
           >
             <TimerOutlinedIcon />
           </IconButton>
           <Popper id={id} open={openOverlay} anchorEl={anchorEl}>
-            <TimerOverlay groupList={loginUserData.groupList}/>
+            <TimerOverlay />
           </Popper>
         </Stack>
       );

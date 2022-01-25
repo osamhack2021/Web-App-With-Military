@@ -20,7 +20,7 @@ export default function Tier ({point, tier}) {
   });
   
   return (
-    <>
+    <Box>
         <Stack direction="row" spacing={2} >
             <TierBox />
             <Typography
@@ -34,6 +34,6 @@ export default function Tier ({point, tier}) {
             </Typography>
         </Stack>
         <TierBar />
-    </>
+    </Box>
   );
 };

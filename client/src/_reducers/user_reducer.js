@@ -7,6 +7,11 @@ import {
     PROFILE_GROUP,
     RANKING_USER,
     RANKING_GROUP,
+    STUDYING_STATUS,
+    STUDYING_START,
+    STUDYING_END,
+    STUDYING_PAUSE,
+    STUDYING_RESUME,
 } from '../_actions/types';
  
 
@@ -28,6 +33,16 @@ export default function(state={}, action){
             return {...state, userRank: action.payload }
         case RANKING_GROUP:
             return {...state, groupRank: action.payload }
+        case STUDYING_STATUS:
+            return {...state, }
+        case STUDYING_START:
+            return {...state, }
+        case STUDYING_END:
+            return {...state, }
+        case STUDYING_PAUSE:
+            return {...state, }
+        case STUDYING_RESUME:
+            return {...state, }
         default:
             return state;
     }
