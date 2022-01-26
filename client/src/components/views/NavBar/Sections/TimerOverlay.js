@@ -47,22 +47,54 @@ export default function TimerOverlay() {
 
   const groupRef = useRef([]);
   
-  const groups = useSelector((state) => state.profile.userProfile.user.groupList);
-  const userId = useSelector((state) => state.profile.userProfile.user._id);
+  const user_id = localStorage.getItem('userId')
+  const userData = useSelector((state) => state.profile.userProfile);
   
-  const findGroup = (groupArray, groupId) => {
+
+  const findGroup = (groupArray, group_id) => {
     const selectedGroup =
     groupArray.find( (group) => {
-        return group._id === groupId;
+        return group._id === group_id;
     })
     return selectedGroup
   }
-  const handleGroup = (event, groupList, index) => {
-    const myGroup = findGroup(groupList, groupRef.current[index].id)
+  const handleGroup = (event, groupArray, index) => {
+    const myGroup = findGroup(groupArray, groupRef.current[index].id)
     setSelectedGroup(myGroup);
   }
 
-  const makeListItem = (groupList, groupData, index) => {
+  
+  useEffect(() => {
+    dispatch(profileUser({userId : user_id }))
+      .then(response => {
+          if (response.payload.success) {
+              //console.log(response.payload);
+          }
+      });
+  }, [Studying]);
+
+  useEffect(() => {
+    dispatch(studyingStatus())
+      .then( response => {
+        if (response.payload.success) {
+          if(response.payload.isStudyingNow) {
+            setElapsedTime(response.payload.elapsedTime)
+            setPause(response.payload.isPaused)
+          }
+          setStudying(response.payload.isStudyingNow)
+        } else {
+          alert('공부상태 가져오기를 실패했습니다.');
+        }
+      });
+	}, []);
+
+  // 타이머 시간 누적
+	useInterval(
+    () => { setElapsedTime(ElapsedTime+1); },
+    (Studying && !Pause) ? 1000 : null
+  );
+
+  const makeListItem = (groupArray, groupData, index) => {
     return (
       <ListItem
         key={index}
@@ -79,7 +111,7 @@ export default function TimerOverlay() {
         <Grid container>
           <Grid xs={6}>
             <Typography>
-              {groupData.groupId}
+              {groupData.groupName}
             </Typography>
           </Grid>
           <Grid xs={6}>
@@ -119,7 +151,7 @@ export default function TimerOverlay() {
               onClick={
                 (e)=>{
                   //groupRef.current[index].focus();
-                  handleGroup(e, groupList, index);
+                  handleGroup(e, groupArray, index);
                 }
               }
               sx={{ mr:1 }}
@@ -148,11 +180,11 @@ export default function TimerOverlay() {
     );
   } 
 
-  const makeGroupList = (groupList) => groupList.map((groupData, index) => makeListItem(groupList, groupData, index))
+  const makeGroupList = (groupArray) => groupArray.map((groupData, index) => makeListItem(groupArray, groupData, index))
 
-  const onStart = (event, groupId) => {
+  const onStart = (event, group_id) => {
 		event.preventDefault();
-    dispatch(studyingStart({groupId: groupId}))
+    dispatch(studyingStart({groupId: group_id}))
       .then(response => {
         if(response.payload.success) {
           setElapsedTime(response.payload.elapsedTime)
@@ -203,42 +235,13 @@ export default function TimerOverlay() {
 		})
 	}
 
-  useEffect(() => {
-    dispatch(studyingStatus())
-      .then( response => {
-        if (response.payload.success) {
-          if(response.payload.isStudyingNow) {
-            setElapsedTime(response.payload.elapsedTime)
-            setPause(response.payload.isPaused)
-          }
-          setStudying(response.payload.isStudyingNow)
-        } else {
-          alert('공부상태 가져오기를 실패했습니다.');
-        }
-      });
-	}, []);
 
-  useEffect(() => {
-    dispatch(profileUser({userId : userId }))
-      .then(response => {
-            if (response.payload.success) {
-                //console.log(response.payload);
-            }
-        });
-  }, [Studying]);
-
-  // 타이머 시간 누적
-	useInterval(
-    () => { setElapsedTime(ElapsedTime+1); },
-    (Studying && !Pause) ? 1000 : null
-  );
-
-
-  if (groups === undefined) {
+  if (userData === undefined) {
     return (
         <div>유저정보 불러오는 중</div>
     );
   } else {
+    const { groupList } = userData.user;
     return (
       <Stack sx={{
         color: '#e6e1e0',
@@ -270,7 +273,7 @@ export default function TimerOverlay() {
                 fontWeight: 'bold',
                 fontSize: '1.5rem',
               }}>
-                {selectedGroup.groupId}
+                {selectedGroup.groupName}
               </Typography>
             </> }
         </Item>
@@ -300,10 +303,9 @@ export default function TimerOverlay() {
         </Item>
 
 			{selectedGroup && 
-			<Item sx={{
+			  <Item sx={{
           display: 'flex',
           justifyContent: 'center',
-          pt: '3rem',
         }}>
           <Button
             variant="contained"
@@ -315,7 +317,7 @@ export default function TimerOverlay() {
               margin: 'auto',
               borderRadius: '8px',
             }}
-            onClick={!Studying ? (e) => {onStart(e, selectedGroup.groupId)} : (Pause ? onResume : onPause)}
+            onClick={!Studying ? (e) => {onStart(e, selectedGroup._id)} : (Pause ? onResume : onPause)}
           >
             <Typography>
               {!Studying? '시작하기' : Pause ? '계속하기' : '일시정지'}
@@ -340,7 +342,7 @@ export default function TimerOverlay() {
         
 
         <Item>
-          { makeGroupList(groups) }
+          { makeGroupList(groupList) }
         </Item>
       </Stack>
     );
