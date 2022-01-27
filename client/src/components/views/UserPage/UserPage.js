@@ -15,7 +15,7 @@ function UserPage(props) {
 				alert('유저정보 가져오기를 실패했습니다.');
 			}
 		});
-	}, []);
+	}, [userId]);
 
 	return (
 		<div>

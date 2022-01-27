@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import UserTotalTime from './Sections/UserTotalTime';
 
 function RankingPage(props) {
 	const target = props.match.params.target;
