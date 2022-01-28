@@ -339,8 +339,6 @@ export default function TimerOverlay() {
           </Button>
         </Item>
 			}
-        
-
         <Item>
           { makeGroupList(groupList) }
         </Item>

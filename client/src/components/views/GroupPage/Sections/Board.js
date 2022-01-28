@@ -74,12 +74,11 @@ function Board({ groupId }) {
   };
   return (
     <div>
-      {BoardLists && (
+			{/* {BoardLists && (
         <div>
           <Row>
             <Col lg={18} xs={24}>
               <div style={{ width: "100%", padding: "3rem 4rem" }}>
-                {/* Boards */}
                 {BoardLists &&
                   BoardLists.map((board, index) => (
                     <React.Fragment>
@@ -123,7 +122,8 @@ function Board({ groupId }) {
             </Col>
           </Row>
         </div>
-      )}
+      )} 
+			*/}
       <NewBoard 
        refreshFunction={refreshFunction}
        groupId={groupId} />

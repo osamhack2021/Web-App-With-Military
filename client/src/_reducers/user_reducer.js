@@ -52,7 +52,7 @@ export function studying(state={}, action){
         case STUDYING_START:
             return {...state, }
         case STUDYING_END:
-            return {...state, }
+            return {...state, studyingData: action.payload }
         case STUDYING_PAUSE:
             return {...state, }
         case STUDYING_RESUME:

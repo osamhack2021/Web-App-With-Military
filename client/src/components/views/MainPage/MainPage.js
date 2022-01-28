@@ -13,11 +13,13 @@ const GrayBox = styled(Box)({
     padding: '1rem',
 })
 
-const userId = localStorage.getItem('userId')
+//const userId = localStorage.getItem('userId')
+
 
 function MainPage() {
     const dispatch = useDispatch();
 
+    
     const findUser = (userArray, userId) => {
         const me =
         userArray.find( (user) => {
@@ -26,35 +28,21 @@ function MainPage() {
         return me
     }
      
-    useEffect( () => {
-        dispatch(profileUser({userId : userId}))
-        .then(response => {
-            if (response.payload.success) {
-                //console.log(response.payload);
-            }
-        });
-
-        dispatch(rankingUser())
-        .then(response => {
-            if (response.payload.success) {
-                //console.log(response.payload);
-            }
-        });
-
-        dispatch(rankingGroup())
-        .then(response => {
-            if (response.payload.success) {
-                //console.log(response.payload);
-            }
-        });
+		useEffect( () => {
+        dispatch(profileUser({userId : userId}));
+        dispatch(rankingUser());
+        dispatch(rankingGroup());
     }, []);
-
+	
+    const userId = localStorage.getItem('userId')
     const userData = useSelector((state) => state.profile.userProfile);
     const rankData = useSelector((state) => state.ranking);
+		const state = useSelector((state) => state);
 
-    if (userData === undefined || rankData.userRank === undefined || rankData.groupRank === undefined) {
+    
+    if (userData === undefined || rankData === undefined) {
         return (
-            <div>유저정보 불러오는 중</div>
+            <div>데이터 불러오는 중</div>
         );
     }   else {
         const { user } = userData;
@@ -65,6 +53,7 @@ function MainPage() {
         //console.log(user);
         //console.log(userRankArray, groupRankArray);
         //console.log(myData);
+				console.log(state)
         return (
             <Container 
                 component="main"
