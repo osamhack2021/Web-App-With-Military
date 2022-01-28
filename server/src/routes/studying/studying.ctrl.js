@@ -175,7 +175,8 @@ const get = {
 
         let { maxStreak } = USER;
         if (maxStreak < streak) maxStreak = streak;
-
+		let rank = await User.find({ totalTime : { $gt : USER.totalTime + now }}).count();
+		  
         User.findOneAndUpdate(
           { _id: req.user._id },
           {
@@ -188,6 +189,7 @@ const get = {
               totalTime: USER.totalTime + now,
               curStreak: streak,
               maxStreak,
+			  rank: rank+1,
             },
           },
           (err, user) => {
