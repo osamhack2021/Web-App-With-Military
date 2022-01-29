@@ -5,7 +5,7 @@ import { Comment, Popconfirm, message } from "antd";
 import { Avatar, Box, Typography } from '@mui/material';
 import { CloseOutlined } from "@ant-design/icons";
 
-function SingleComment( {
+export default function SingleComment( {
   comment,
   boardId ,
 	updateComment
@@ -58,5 +58,3 @@ function SingleComment( {
     </div>
   );
 }
-
-export default SingleComment;

@@ -8,15 +8,13 @@ import FormOverlay from './Sections/FormOverlay';
 function GroupPage(props) {
   const { groupId } = props.match.params;
   const dispatch = useDispatch();
+	
   const groupData = useSelector((state) => state.profile.groupProfile);
-	const state = useSelector((state) => state);
-
   const [toggleFormOverlay, setToggleFormOverlay] = useState(false);
 
   const onFormOverlayToggle = () => {
     setToggleFormOverlay(prev => !prev);
   };
-
 
   useEffect(() => {
     dispatch(profileGroup({ groupId: groupId }))
@@ -36,8 +34,6 @@ function GroupPage(props) {
     );
   } else {
     const {group} = groupData;
-    console.log(group);
-		console.log(state);
     return (
       <Container 
         component="main"

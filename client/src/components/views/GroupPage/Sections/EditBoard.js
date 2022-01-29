@@ -11,7 +11,7 @@ const layout = {
   },
 };
 
-function EditBoard({board, toggleEditMode}) {
+export default function EditBoard({board, toggleEditMode}) {
   const dispatch = useDispatch();
   const [BoardValue, setBoardValue] = useState(board.content);
   const [TitleValue, setTitleValue] = useState(board.title);
@@ -74,5 +74,3 @@ function EditBoard({board, toggleEditMode}) {
     </Box>
   );
 }
-
-export default EditBoard;
