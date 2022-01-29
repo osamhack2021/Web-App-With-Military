@@ -5,7 +5,6 @@ import { Avatar, Box, Button, Grid, IconButton, Typography } from '@mui/material
 import { styled } from '@mui/material/styles';
 import EditBoard from "./EditBoard";
 import Comment from "./Comment";
-import NewBoard from "./NewBoard";
 import PersonIcon from '@mui/icons-material/Person';
 import PublicIcon from '@mui/icons-material/Public';
 import TimerIcon from '@mui/icons-material/Timer';
@@ -23,10 +22,9 @@ const GrayBox = styled(Box)({
 
 export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayToggle }) {
 	const dispatch = useDispatch();
-	//const [BoardLists, setBoardLists] = useState
-	//const [isSubmitted, setBoardLists] = useState(false);
-	useEffect(() => {
-		dispatch(loadBoard({ groupId: group._id }))
+	
+	const updateBoard = (group_id) => {
+		dispatch(loadBoard({ groupId: group_id }))
 		.then((response) => {
 			if (response.payload.success) {
 				//setBoardLists(response.payload.boards);
@@ -34,21 +32,24 @@ export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayTo
 				alert("게시글 불러오기를 실패했습니다.");
 			}
 		});
-	}, [toggleFormOverlay]);
-	
+	}
+
 	const userData = useSelector((state) => state.auth.loginUserData);
 	const boardData = useSelector((state) => state.board.boardData);
-
+	const [editMode, setEditMode] = useState(false);
+	
+	useEffect(() => {
+		updateBoard(group._id);
+	}, [toggleFormOverlay, editMode]);
+	
+	
+	const toggleEditMode = () => {
+		setEditMode((prev) => !prev);
+	}
+	
   const onClickEdit = (event, board) => {
-    if (board.writerId._id === userData._id) {
-      // setBoardLists((BoardLists) =>
-      //   BoardLists.map((item) => {
-      //     if (item._id === board._id) {
-      //       item.edit = true;
-      //     }
-      //     return item;
-      //   })
-      // );
+		if (board.writerId._id === userData._id) {
+			toggleEditMode();
     } else {
       message.error("작성자가 아닙니다.");
     }
@@ -58,6 +59,8 @@ export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayTo
       dispatch(removeBoard({ boardId: board._id }))
       .then((response) => {
         if (response.payload.success) {
+					console.log(response.payload);
+					updateBoard(group._id);
           //setBoardLists(BoardLists.filter((item) => item._id !== board._id));
         } else {
           alert("게시글 삭제에 실패했습니다.");
@@ -71,18 +74,6 @@ export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayTo
   const cancel = (e) => {
     message.error("취소하였습니다.");
   }
-  // const editFunction = (board) => {
-  //   setBoardLists((BoardLists) =>
-  //     BoardLists.map((item) => {
-  //       if (item._id === board.boardId) {
-  //         item.title = board.title;
-  //         item.content = board.content;
-  //         item.edit = false;
-  //       }
-  //       return item;
-  //     })
-  //   );
-  // };
 
 	if (boardData === undefined) {
 		return <div>데이터 불러오는 중</div>
@@ -215,7 +206,6 @@ export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayTo
 					boardList.map((board, index) => (
 						<React.Fragment>
 							<h2>제목 : {board.title}</h2>
-							<h3>소제목 : {board.subTitle}</h3>
 							<Button
 								onClick={(e) => {
 									onClickEdit(e, board);
@@ -239,12 +229,12 @@ export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayTo
 								작성자 : {board.writerId.name} 작성일 : {board.posted}
 							</h3>
 							<h3>내용 : {board.content}</h3>
-							{board.edit && (
+							{editMode && (
 								<form style={{ display: "flex", marginLeft: "40px" }}>
-									{/* <EditBoard
+									<EditBoard
 										board={board}
-										//editFunction={editFunction}
-									/> */}
+										toggleEditMode={toggleEditMode}
+									/>
 									<br />
 								</form>
 							)}

@@ -1,25 +1,26 @@
 import React from "react";
 import { removeComment } from "../../../../_actions/user_actions";
 import { useSelector, useDispatch } from "react-redux";
-import { Comment, Avatar, Popconfirm, message } from "antd";
+import { Comment, Popconfirm, message } from "antd";
+import { Avatar, Box, Typography } from '@mui/material';
 import { CloseOutlined } from "@ant-design/icons";
 
 function SingleComment( {
-  refreshFunction,
-  removeFunction,
   comment,
-  boardId 
+  boardId ,
+	updateComment
 }) {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.loginUserData);
-  function confirm(e) {
-    if (comment._id === userData._id) {
+	
+  const confirm = (e) => {
+    if (comment.writerId._id === userData._id) {
       dispatch(removeComment({ commentId:comment._id }))
       .then(
         (response) => {
           if (response.payload.success) {
-            removeFunction(comment._id);
             message.success("삭제되었습니다.");
+						updateComment(boardId);
           } else {
             alert("댓글 삭제에 실패하였습니다.");
           }
@@ -30,7 +31,7 @@ function SingleComment( {
     }
   }
 
-  function cancel(e) {
+  const cancel = (e) => {
     message.error("취소하였습니다.");
   }
 

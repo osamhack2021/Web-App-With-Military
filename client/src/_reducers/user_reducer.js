@@ -65,7 +65,7 @@ export function studying(state={}, action){
 export function comment(state={}, action){
     switch(action.type){
         case LOAD_COMMENT:
-            return {...state, commentData: action.payload }
+            return {...state, }
         case SAVE_COMMENT:
             return {...state, }
         case REMOVE_COMMENT:
