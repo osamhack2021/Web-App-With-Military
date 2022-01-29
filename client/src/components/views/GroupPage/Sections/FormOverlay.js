@@ -15,9 +15,9 @@ const StyledToolbar = styled(Toolbar)({
 export default function FormOverlay({ groupId, onFormOverlayToggle }) {
 	const dispatch = useDispatch();
 	const userData = useSelector((state) => state.auth.loginUserData);
-	const studyingData = useSelector((state) => state.studying.studyingData);
-	const state = useSelector((state) => state);
+	const studyingData = JSON.parse(window.localStorage.getItem('studyingData'));
 	
+	console.log(userData);
   const [submitForm, setSubmitForm] = useState({
     title: '',
     subTitle: '',
@@ -44,18 +44,18 @@ export default function FormOverlay({ groupId, onFormOverlayToggle }) {
         alert("게시글을 저장하지 못했습니다.");
       }
 			onFormOverlayToggle();
+			window.localStorage.removeItem('studyingData');
     });
   };
 	
-	if(studyingData === undefined) {
-		console.log(state);
+	if( studyingData === null ) {
 		alert("시간측정을 해주세요!");
 		onFormOverlayToggle();
     return <></>;
 	} else {
-		if (studyingData.success) {
-			console.log(studyingData);
-			if (studyingData.activeGroup !== groupId ) {
+		const { success, elapsedTime, activeGroup } = studyingData;
+		if (success) {
+			if (activeGroup !== groupId ) {
 				alert("최근 측정한 그룹에서 글쓰기를 진행해 주세요!");
 				onFormOverlayToggle();
 				return <></>;
@@ -65,7 +65,7 @@ export default function FormOverlay({ groupId, onFormOverlayToggle }) {
 			onFormOverlayToggle();
 			return <></>;
 		}
-		const { elapsedTime } = studyingData;
+		
 		return (
 			<Box sx={{
 				backgroundColor: '#000F04',

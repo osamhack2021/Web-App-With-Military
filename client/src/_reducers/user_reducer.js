@@ -37,9 +37,9 @@ export function profile(state={}, action){
 export function ranking(state={}, action){
     switch(action.type){
         case RANKING_USER:
-            return {...state, userRank: action.payload }
+            return {...state, }
         case RANKING_GROUP:
-            return {...state, groupRank: action.payload }
+            return {...state, }
         default:
             return state;
     }
@@ -78,7 +78,7 @@ export function comment(state={}, action){
 export function board(state={}, action){
     switch(action.type){
         case LOAD_BOARD:
-            return {...state, boardData: action.payload }
+            return {...state, }
         case SAVE_BOARD:
             return {...state, }
         case REMOVE_BOARD:
