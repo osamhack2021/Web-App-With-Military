@@ -4,21 +4,18 @@ import { loadComment, saveComment } from "../../../../_actions/user_actions";
 import SingleComment from "./SingleComment";
 import { Box, Button, Divider, Input } from '@mui/material';
 
-
-
-function Comment({ boardId }) {
+export default function Comment({ boardId, refreshComment }) {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.loginUserData);
   const [commentValue, setCommentValue] = useState("");
 	const [commentList, setCommentList] = useState([]);
-
 	
 	const updateComment = (board_id) => {
 		dispatch(loadComment({ boardId: board_id }))
 		.then((response) => {
 			if (response.payload.success) {
 				setCommentList(response.payload.comments);
-				console.log(commentList);
+				//console.log(commentList);
 			} else {
 				alert("게시글 불러오기를 실패했습니다.");
 			}
@@ -27,7 +24,7 @@ function Comment({ boardId }) {
 	
   useEffect(() => {
     updateComment(boardId);
-  }, []);
+  }, [refreshComment]);
 
   const handleClick = (event) => {
     setCommentValue(event.currentTarget.value);
@@ -91,5 +88,3 @@ function Comment({ boardId }) {
 		</div>
 	);
 }
-
-export default Comment;
