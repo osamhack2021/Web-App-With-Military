@@ -52,7 +52,7 @@ export function studying(state={}, action){
         case STUDYING_START:
             return {...state, }
         case STUDYING_END:
-            return {...state, }
+            return {...state, studyingData: action.payload }
         case STUDYING_PAUSE:
             return {...state, }
         case STUDYING_RESUME:
@@ -65,7 +65,7 @@ export function studying(state={}, action){
 export function comment(state={}, action){
     switch(action.type){
         case LOAD_COMMENT:
-            return {...state, commentData: action.payload }
+            return {...state, }
         case SAVE_COMMENT:
             return {...state, }
         case REMOVE_COMMENT:

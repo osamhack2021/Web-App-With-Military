@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { editBoard } from "../../../../_actions/user_actions";
-import { Button, Input, Form } from "antd";
+import { editBoard, saveBoard } from "../../../../_actions/user_actions";
+import { Box, Button, Input } from '@mui/material';
 const layout = {
   labelCol: {
     span: 8,
@@ -11,11 +11,11 @@ const layout = {
   },
 };
 
-function EditBoard({board, editFunction}) {
+function EditBoard({board, toggleEditMode}) {
   const dispatch = useDispatch();
   const [BoardValue, setBoardValue] = useState(board.content);
   const [TitleValue, setTitleValue] = useState(board.title);
-
+	
   const handleContent = (event) => {
     setBoardValue(event.currentTarget.value);
   };
@@ -25,63 +25,53 @@ function EditBoard({board, editFunction}) {
   const onSubmit = (event) => {
     event.preventDefault();
 
-    const variables = {
+    const boardToEdit = {
       title: TitleValue,
       content: BoardValue,
-      boardId: board._id,
+      boardId: board._id
     };
 
-    dispatch(editBoard(variables))
+    dispatch(editBoard(boardToEdit))
     .then((response) => {
       if (response.payload.success) {
-        editFunction(variables);
+        //editFunction(variables);
+				console.log(response.payload);
+				toggleEditMode();
       } else {
         alert("게시글을 수정하지 못했습니다.");
       }
     });
   };
   return (
-    <div>
+    <Box>
       <h2>수정하기</h2>
-      <Form>
-        <Form.Item
-          label="title"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input
-            onChange={handleTitle}
-            value={TitleValue}
-            type="text"
-            name="title"
-            placeholder="제목을 입력해 주세요."
-          />
-        </Form.Item>
-        <Form.Item
-          label="content"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input.TextArea
-            style={{ width: "100%", borderRadius: "5px" }}
-            onChange={handleContent}
-            value={BoardValue}
-            placeholder="내용을 입력해 주세요."
-          />
-        </Form.Item>
-        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-          <Button type="primary" onClick={onSubmit}>
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+      <form onSubmit={onSubmit}>
+				<Input
+					onChange={handleTitle}
+					value={TitleValue}
+					type="text"
+					name="title"
+					placeholder="제목을 입력해 주세요."
+					required
+				/>
+				<Input
+					style={{ width: "100%", borderRadius: "5px" }}
+					onChange={handleContent}
+					value={BoardValue}
+					placeholder="내용을 입력해 주세요."
+					multiline
+					rows={3}
+					required
+				/>
+				<Button
+					type="submit"
+					variant="contained"
+					color="primary"
+				>
+					수정
+				</Button>
+      </form>
+    </Box>
   );
 }
 

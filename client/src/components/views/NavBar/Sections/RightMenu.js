@@ -251,7 +251,13 @@ function RightMenu(props) {
           >
             <TimerOutlinedIcon />
           </IconButton>
-          <Popper id={id} open={openOverlay} anchorEl={anchorEl}>
+          <Popper
+						id={id}
+						open={openOverlay}
+						anchorEl={anchorEl}
+            disablePortal
+						placement="bottom-start"
+						>
             <TimerOverlay />
           </Popper>
         </Stack>
