@@ -15,6 +15,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
 
 const drawerWidth = 240;
 
@@ -126,6 +127,17 @@ function NavBar(props) {
 
           <RightMenu mode="horizontal" />
           
+					<IconButton
+            color="inherit"
+						component={Link}
+						to={'/search'}
+						sx={{
+							ml: 2,
+						}}
+          >
+            <SearchIcon />
+          </IconButton>
+					
           <IconButton
             color="inherit"
             aria-label="open drawer"

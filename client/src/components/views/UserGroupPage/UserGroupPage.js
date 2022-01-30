@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Badge, Box, Button, Card, CardActions, Container, Grid, Link, Typography } from '@mui/material';
 import Axios from "axios";
-import StudyGroupCard from './Sections/StudyGroupCard';
+import GroupCardVertical from './Sections/GroupCardVertical';
 import PeopleIcon from '@mui/icons-material/People';
 import { profileUser } from "../../../_actions/user_actions";
 
@@ -28,23 +28,6 @@ export default function UserGroupPage(props) {
         );
     }   else {
         const {user} = userData;
-        const myGroups = 
-            <>
-                { user.groupList.map((group, index) => (
-                    <Grid
-                        item
-                        xs={3}
-                        key={index}
-                    >
-                        <Link
-                            href={`/groups/${group._id}`}
-                            underline="none"
-                        >
-                            <StudyGroupCard group={group}/>
-                        </Link>
-                    </Grid>
-                ))}
-            </>
         return (
             <Container 
                 component="main"
@@ -126,7 +109,20 @@ export default function UserGroupPage(props) {
                                 </Typography>
                             </Card>
                         </Grid>
-                        {myGroups}
+                        { user.groupList.map((group, index) => (
+														<Grid
+																item
+																xs={3}
+																key={index}
+														>
+																<Link
+																		href={`/groups/${group._id}`}
+																		underline="none"
+																>
+																		<GroupCardVertical group={group}/>
+																</Link>
+														</Grid>
+												))}
                     </Grid>
                 </Box>
             </Container>
