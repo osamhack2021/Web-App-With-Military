@@ -32,7 +32,7 @@ function StudyMenu() {
 	const [Studying, setStudying] = useState(false);
 	
 	useEffect(() => {
-		Axios.get('/api/studying')
+		Axios.get('/api/timer')
 			.then((response) => {
 			if (response.data.success) {
 				if(response.data.isStudyingNow) {
@@ -54,7 +54,7 @@ function StudyMenu() {
 	const onStart = (event) => {
 		event.preventDefault();
 		
-		Axios.post('/api/studying/start', {groupName: 'study chinese'})
+		Axios.post('/api/timer/start', {groupName: 'study chinese'})
 			.then(response => {
 			if(response.data.success) {
 				setElapsedTime(response.data.elapsedTime)
@@ -68,7 +68,7 @@ function StudyMenu() {
 	const onStop = (event) => {
 		event.preventDefault();
 		
-		Axios.get('/api/studying/end')
+		Axios.get('/api/timer/end')
 			.then(response => {
 			if(response.data.success) {
 				setElapsedTime(response.data.elapsedTime)
@@ -83,7 +83,7 @@ function StudyMenu() {
 	const onPause = (event) => {
 		event.preventDefault();
 		
-		Axios.get('/api/studying/pause')
+		Axios.get('/api/timer/pause')
 			.then(response => {
 			if(response.data.success) {
 				setElapsedTime(response.data.elapsedTime)
@@ -97,7 +97,7 @@ function StudyMenu() {
 	const onResume = (event) => {
 		event.preventDefault();
 		
-		Axios.get('/api/studying/resume')
+		Axios.get('/api/timer/resume')
 			.then(response => {
 			if(response.data.success) {
 				setElapsedTime(response.data.elapsedTime)

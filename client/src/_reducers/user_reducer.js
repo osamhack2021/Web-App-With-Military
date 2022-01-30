@@ -2,7 +2,7 @@ import {
     LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER,
     PROFILE_USER, PROFILE_GROUP,
     RANKING_USER, RANKING_GROUP,
-    STUDYING_STATUS, STUDYING_START, STUDYING_END, STUDYING_PAUSE, STUDYING_RESUME,
+    TIMER_STATUS, TIMER_START, TIMER_END, TIMER_PAUSE, TIMER_RESUME,
     LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
     LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
 } from '../_actions/types';
@@ -45,17 +45,17 @@ export function ranking(state={}, action){
     }
 }
 
-export function studying(state={}, action){
+export function timer(state={}, action){
     switch(action.type){
-        case STUDYING_STATUS:
+        case TIMER_STATUS:
             return {...state, }
-        case STUDYING_START:
+        case TIMER_START:
             return {...state, }
-        case STUDYING_END:
-            return {...state, studyingData: action.payload }
-        case STUDYING_PAUSE:
+        case TIMER_END:
+            return {...state, timerData: action.payload }
+        case TIMER_PAUSE:
             return {...state, }
-        case STUDYING_RESUME:
+        case TIMER_RESUME:
             return {...state, }
         default:
             return state;
