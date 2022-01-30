@@ -47,7 +47,7 @@ export default function TimerOverlay() {
 
   const groupRef = useRef([]);
   
-  const user_id = localStorage.getItem('userId')
+  const user_id = localStorage.getItem('userId');
   const userData = useSelector((state) => state.profile.userProfile);
   
 
@@ -187,6 +187,7 @@ export default function TimerOverlay() {
     dispatch(studyingStart({groupId: group_id}))
       .then(response => {
         if(response.payload.success) {
+					console.log(response.payload);
           setElapsedTime(response.payload.elapsedTime)
           setStudying(response.payload.isStudyingNow)
         } else {
@@ -200,9 +201,15 @@ export default function TimerOverlay() {
     dispatch(studyingEnd())
       .then(response => {
         if(response.payload.success) {
+					console.log(response.payload);
           setElapsedTime(0)
           setStudying(false)
           setPause(false)
+					window.localStorage.setItem('studyingData', JSON.stringify({
+						success: response.payload.success,
+						activeGroup: response.payload.activeGroup,
+						elapsedTime: response.payload.elapsedTime
+					}));
         } else {
           alert(response.payload.message)
         }
@@ -339,8 +346,6 @@ export default function TimerOverlay() {
           </Button>
         </Item>
 			}
-        
-
         <Item>
           { makeGroupList(groupList) }
         </Item>

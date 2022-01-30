@@ -37,9 +37,9 @@ export function profile(state={}, action){
 export function ranking(state={}, action){
     switch(action.type){
         case RANKING_USER:
-            return {...state, userRank: action.payload }
+            return {...state, }
         case RANKING_GROUP:
-            return {...state, groupRank: action.payload }
+            return {...state, }
         default:
             return state;
     }
@@ -52,7 +52,7 @@ export function studying(state={}, action){
         case STUDYING_START:
             return {...state, }
         case STUDYING_END:
-            return {...state, }
+            return {...state, studyingData: action.payload }
         case STUDYING_PAUSE:
             return {...state, }
         case STUDYING_RESUME:
@@ -65,7 +65,7 @@ export function studying(state={}, action){
 export function comment(state={}, action){
     switch(action.type){
         case LOAD_COMMENT:
-            return {...state, commentData: action.payload }
+            return {...state, }
         case SAVE_COMMENT:
             return {...state, }
         case REMOVE_COMMENT:
@@ -78,7 +78,7 @@ export function comment(state={}, action){
 export function board(state={}, action){
     switch(action.type){
         case LOAD_BOARD:
-            return {...state, boardData: action.payload }
+            return {...state, }
         case SAVE_BOARD:
             return {...state, }
         case REMOVE_BOARD:

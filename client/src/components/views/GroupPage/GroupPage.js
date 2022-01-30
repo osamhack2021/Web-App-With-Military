@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Avatar, Box, Badge, Container, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, Button, Container, IconButton, Typography } from '@mui/material';
 import { profileGroup } from "../../../_actions/user_actions";
-import MyBoard from './Sections/MyBoard';
-import Axios from "axios";
+import CardTemplete from './Sections/CardTemplete';
+import FormOverlay from './Sections/FormOverlay';
 
 function GroupPage(props) {
   const { groupId } = props.match.params;
   const dispatch = useDispatch();
+	
+  const groupData = useSelector((state) => state.profile.groupProfile);
+  const [toggleFormOverlay, setToggleFormOverlay] = useState(false);
+
+  const onFormOverlayToggle = () => {
+    setToggleFormOverlay(prev => !prev);
+  };
+
   useEffect(() => {
     dispatch(profileGroup({ groupId: groupId }))
     .then((response) => {
@@ -18,8 +26,7 @@ function GroupPage(props) {
       }
     });
   }, []);
-
-  const groupData = useSelector((state) => state.profile.groupProfile);
+  
 
   if (groupData === undefined) {
     return (
@@ -27,7 +34,6 @@ function GroupPage(props) {
     );
   } else {
     const {group} = groupData;
-    console.log(group);
     return (
       <Container 
         component="main"
@@ -59,7 +65,11 @@ function GroupPage(props) {
           }}
         >
           {/* 카드 안에 내용이 들어가는 부분 */}
-          <MyBoard group={group}/>
+          <CardTemplete
+						group={group}
+						toggleFormOverlay={toggleFormOverlay}
+						onFormOverlayToggle={onFormOverlayToggle}
+					/>
         </Box>
         <Avatar
           alt="Group Profile Picture"
@@ -75,6 +85,12 @@ function GroupPage(props) {
           src={group.image}
         />
         
+        {toggleFormOverlay && (
+          <FormOverlay
+						groupId={groupId}
+						onFormOverlayToggle={onFormOverlayToggle}
+					/>
+        )}
       </Container>
     );
   }
