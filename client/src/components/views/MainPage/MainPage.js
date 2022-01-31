@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Badge, Box, Button, Container, Divider, Grid, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -18,8 +19,8 @@ const userId = localStorage.getItem('userId');
 export default function MainPage() {
 	const dispatch = useDispatch();
 	const userProfile = useSelector((state) => state.profile.userProfile);
-	const [userRankArray, setUserRankArray] = useState([]);
-	const [groupRankArray, setGroupRankArray] = useState([]);
+	const [userRankArray, setUserRankArray] = useState(0);
+	const [groupRankArray, setGroupRankArray] = useState(0);
 
 	const findUserIndex = (userArray, user_id) => {
 		return userArray.findIndex((user) => user._id === user_id);
@@ -53,22 +54,24 @@ export default function MainPage() {
 			} else {
 				alert("그룹랭킹 불러오기를 실패했습니다.");
 			}
-		});;
+		});
 	}, []);
 	
-	if (userProfile === undefined) {
+	
+	if (userProfile === undefined || !userRankArray || !groupRankArray) {
 		return <div>데이터 불러오는 중</div>
 	} else {
 		const myRank = findUserIndex(userRankArray, userId) + 1;
 		const myData = findUser(userRankArray, userId);
+		
 		console.log(myData);
 		console.log(myRank);
 		console.log(userRankArray);
 		const userData = userProfile.user;
 		return (
 			<Container 
-					component="main"
-					maxWidth="lg"
+				component="main"
+				maxWidth="lg"
 			>
 				<Box sx={{display: 'flex', my: 4}}>
 					<Avatar
@@ -79,8 +82,7 @@ export default function MainPage() {
 							mr: 2,
 						}}
 					/>
-					<Typography variant="h5"
-					>
+					<Typography variant="h5">
 						안녕하세요, {userData.name}님!
 						공부를 시작한지 벌써 000이 지났어요
 					</Typography>
@@ -101,7 +103,7 @@ export default function MainPage() {
 								<EqualizerIcon sx={{color: '#5E5E5E'}}/>
 							</Box>
 							<Box sx={{p:2}}>
-								<Tier point={myData.totalTime} tier="Gold" />
+								<Tier score={myData.totalTime} tier={"Gold"} />
 								<Stack
 									direction="row"
 									spacing={2}
