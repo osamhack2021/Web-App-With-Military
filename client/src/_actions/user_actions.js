@@ -6,6 +6,7 @@ import {
     TIMER_STATUS, TIMER_START, TIMER_END, TIMER_PAUSE, TIMER_RESUME,
     LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
     LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
+		SEARCH_ALL,
 } from './types';
 import {
     USER_SERVER,
@@ -14,6 +15,7 @@ import {
     TIMER_SERVER,
     COMMENT_SERVER,
     BOARD_SERVER,
+		SEARCH_SERVER,
 } from '../components/Config.js';
 
 export function registerUser(dataToSubmit){
@@ -199,6 +201,15 @@ export function editBoard(dataToSubmit) {
     .then(response => response.data);
     return {
         type: EDIT_BOARD,
+        payload: request
+    }
+}
+
+export function searchAll(dataToSubmit) {
+    const request = axios.post(`${SEARCH_SERVER}/all`, dataToSubmit)
+    .then(response => response.data);
+    return {
+        type: SEARCH_ALL,
         payload: request
     }
 }

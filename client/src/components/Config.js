@@ -5,4 +5,5 @@ export const RANKING_SERVER = '/api/ranking';
 export const TIMER_SERVER = '/api/timer';
 export const COMMENT_SERVER = '/api/comment';
 export const BOARD_SERVER = '/api/board';
+export const SEARCH_SERVER = '/api/search';
 

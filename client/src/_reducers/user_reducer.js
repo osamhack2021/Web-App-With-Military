@@ -5,6 +5,7 @@ import {
     TIMER_STATUS, TIMER_START, TIMER_END, TIMER_PAUSE, TIMER_RESUME,
     LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
     LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
+		SEARCH_ALL,
 } from '../_actions/types';
  
 
@@ -84,6 +85,15 @@ export function board(state={}, action){
         case REMOVE_BOARD:
             return {...state, }
         case EDIT_BOARD:
+            return {...state, }
+        default:
+            return state;
+    }
+}
+
+export function search(state={}, action){
+    switch(action.type){
+        case SEARCH_ALL:
             return {...state, }
         default:
             return state;

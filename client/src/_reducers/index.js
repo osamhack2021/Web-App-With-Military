@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
-import { auth, profile, ranking, timer, comment, board } from './user_reducer';
+
+import { auth, profile, ranking, timer, comment, board, search } from './user_reducer';
 
 const rootReducer = combineReducers({
     auth,
@@ -8,6 +9,7 @@ const rootReducer = combineReducers({
     timer,
     comment,
     board,
+		search,
 });
 
 export default rootReducer;
