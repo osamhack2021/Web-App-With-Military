@@ -106,9 +106,9 @@ function RightMenu(props) {
                       <MenuItem
                         onClick={handleClose}
                         component={Link}
-                        to="/ranking/all"
+                        to="/ranking/user"
                       >
-                        All
+                        User
                       </MenuItem>
                       <MenuItem
                         onClick={handleClose}
@@ -116,13 +116,6 @@ function RightMenu(props) {
                         to="/ranking/group"
                       >
                         Group
-                      </MenuItem>
-                      <MenuItem
-                        onClick={handleClose}
-                        component={Link}
-                        to="/ranking/user"
-                      >
-                        User
                       </MenuItem>
                     </MenuList>
                   </ClickAwayListener>
@@ -184,12 +177,12 @@ function RightMenu(props) {
                       aria-labelledby="composition-button"
                       onKeyDown={handleListKeyDown}
                     >
-                      <MenuItem
+											<MenuItem
                         onClick={handleClose}
                         component={Link}
-                        to="/ranking/all"
+                        to="/ranking/user"
                       >
-                        All
+                        User
                       </MenuItem>
                       <MenuItem
                         onClick={handleClose}
@@ -198,13 +191,6 @@ function RightMenu(props) {
                       >
                         Group
                       </MenuItem>
-                      <MenuItem
-                        onClick={handleClose}
-                        component={Link}
-                        to="/ranking/user"
-                      >
-                        User
-                      </MenuItem>
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>
@@ -212,7 +198,6 @@ function RightMenu(props) {
             )}
           </Popper>
           
-
           <Tabs
             value={value}
             onChange={handleChange}
