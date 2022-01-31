@@ -32,6 +32,7 @@ function useInterval(callback, delay) {
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
+	width: 400,
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,

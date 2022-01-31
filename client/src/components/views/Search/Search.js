@@ -1,13 +1,18 @@
 import React from 'react';
+import { Container } from '@mui/material';
+
 import SearchBar from './Sections/SearchBar';
 
 function Search(props) {
 
 	return (
-		<div>
-			<br />
+		<Container
+			component="main"
+			maxWidth="lg"
+		>
+			<br/>
 			<SearchBar />
-		</div>
+		</Container>
 	);
 }
 

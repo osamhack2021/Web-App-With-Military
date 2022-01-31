@@ -23,3 +23,5 @@ export const LOAD_BOARD = 'board_load';
 export const SAVE_BOARD = 'board_save';
 export const REMOVE_BOARD = 'board_remove';
 export const EDIT_BOARD = 'board_edit';
+
+export const SEARCH_ALL = 'search_all';

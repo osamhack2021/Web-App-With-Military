@@ -1,10 +1,11 @@
 import {
-    LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER,
-    PROFILE_USER, PROFILE_GROUP,
-    RANKING_USER, RANKING_GROUP,
-    STUDYING_STATUS, STUDYING_START, STUDYING_END, STUDYING_PAUSE, STUDYING_RESUME,
-    LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
-    LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
+	LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER,
+	PROFILE_USER, PROFILE_GROUP,
+	RANKING_USER, RANKING_GROUP,
+	STUDYING_STATUS, STUDYING_START, STUDYING_END, STUDYING_PAUSE, STUDYING_RESUME,
+	LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
+	LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
+	SEARCH_ALL,
 } from '../_actions/types';
  
 
@@ -84,6 +85,15 @@ export function board(state={}, action){
         case REMOVE_BOARD:
             return {...state, }
         case EDIT_BOARD:
+            return {...state, }
+        default:
+            return state;
+    }
+}
+
+export function search(state={}, action){
+    switch(action.type){
+        case SEARCH_ALL:
             return {...state, }
         default:
             return state;

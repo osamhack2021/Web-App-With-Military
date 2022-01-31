@@ -1,17 +1,17 @@
 import * as React from 'react';
-import {Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, 
+import {Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, 
   Typography} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
-export default function StudyGroupCard({ group }) {
+export default function GroupCardVertical({ group }) {
   return (
     <Card sx={{ minHeight: 400, borderRadius: '1rem' }}>
       <CardMedia
         component="img"
         height="140"
         image={group.image}
-        alt="study group"
+        alt="group card"
       />
       <CardHeader
         action={
@@ -55,13 +55,13 @@ export default function StudyGroupCard({ group }) {
         </Box>
         <Box>
           <Button
-                  variant="contained"
-                  size="small"
-                  color="secondary"
-                  sx={{borderRadius: '1rem'}}
-                >
-                  {group.category}
-                </Button>
+						variant="contained"
+						size="small"
+						color="secondary"
+						sx={{borderRadius: '1rem'}}
+					>
+						{group.category}
+					</Button>
         </Box>
       </CardContent>
     </Card>

@@ -1,19 +1,21 @@
 import axios from 'axios';
 import {
-    LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER,
-    PROFILE_USER, PROFILE_GROUP,
-    RANKING_USER, RANKING_GROUP,
-    STUDYING_STATUS, STUDYING_START, STUDYING_END, STUDYING_PAUSE, STUDYING_RESUME,
-    LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
-    LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
+	LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER,
+	PROFILE_USER, PROFILE_GROUP,
+	RANKING_USER, RANKING_GROUP,
+	STUDYING_STATUS, STUDYING_START, STUDYING_END, STUDYING_PAUSE, STUDYING_RESUME,
+	LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
+	LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
+	SEARCH_ALL,
 } from './types';
 import {
-    USER_SERVER,
-    GROUP_SERVER,
-    RANKING_SERVER,
-    STUDYING_SERVER,
-    COMMENT_SERVER,
-    BOARD_SERVER,
+	USER_SERVER,
+	GROUP_SERVER,
+	RANKING_SERVER,
+	STUDYING_SERVER,
+	COMMENT_SERVER,
+	BOARD_SERVER,
+	SEARCH_SERVER,
 } from '../components/Config.js';
 
 export function registerUser(dataToSubmit){
@@ -199,6 +201,15 @@ export function editBoard(dataToSubmit) {
     .then(response => response.data);
     return {
         type: EDIT_BOARD,
+        payload: request
+    }
+}
+
+export function searchAll(dataToSubmit) {
+    const request = axios.post(`${SEARCH_SERVER}/all`, dataToSubmit)
+    .then(response => response.data);
+    return {
+        type: SEARCH_ALL,
         payload: request
     }
 }

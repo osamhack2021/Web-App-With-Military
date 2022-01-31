@@ -13,8 +13,7 @@ const GrayBox = styled(Box)({
     padding: '1rem',
 })
 
-const userId = localStorage.getItem('userId')
-
+const userId = localStorage.getItem('userId');
 
 export default function MainPage() {
 	const dispatch = useDispatch();
@@ -22,19 +21,19 @@ export default function MainPage() {
 	const [userRankArray, setUserRankArray] = useState([]);
 	const [groupRankArray, setGroupRankArray] = useState([]);
 
+	const findUserIndex = (userArray, user_id) => {
+		return userArray.findIndex((user) => user._id === user_id);
+	}
+	
 	const findUser = (userArray, user_id) => {
-			const me =
-			userArray.find( (user) => {
-					return user._id === user_id;
-			})
-			return me
+		return userArray.find((user) => user._id === user_id);
 	}
 	
 	useEffect( () => {
 		dispatch(profileUser({userId : userId}))
 		.then((response) => {
 			if (response.payload.success) {
-				console.log(response.payload);
+				//console.log(response.payload);
 			} else {
 				alert("유저정보 불러오기를 실패했습니다.");
 			}
@@ -60,7 +59,11 @@ export default function MainPage() {
 	if (userProfile === undefined) {
 		return <div>데이터 불러오는 중</div>
 	} else {
+		const myRank = findUserIndex(userRankArray, userId) + 1;
 		const myData = findUser(userRankArray, userId);
+		console.log(myData);
+		console.log(myRank);
+		console.log(userRankArray);
 		const userData = userProfile.user;
 		return (
 			<Container 
@@ -111,13 +114,13 @@ export default function MainPage() {
 									}}
 								>
 									<Box>
-										<Typography sx={{fontWeight: 'bold'}}>{myData.rank}</Typography>
+										<Typography sx={{fontWeight: 'bold'}}>{ myRank }</Typography>
 										<Typography>위</Typography>
 									</Box>
 									<Box>
 										<Typography>상위</Typography>
 										<Typography sx={{fontWeight: 'bold'}}>
-											{(myData.rank/userRankArray.length * 100).toFixed(0)}
+											{ (myRank/userRankArray.length * 100).toFixed(0) }
 										</Typography>
 										<Typography>%</Typography>
 									</Box>
