@@ -8,58 +8,43 @@ export default function RankingPage(props) {
 	const [Users, setUsers] = useState([]);
 	const [Groups, setGroups] = useState([]);
 	
-	const [value, setValue] = useState( target === 'user' ? 0 : 1 );
+	const [tabValue, setTabValue] = useState( target === 'user' ? 0 : 1 );
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setTabValue(newValue);
   };
 
-	useEffect(() => {
-		Axios.get('/api/ranking/user').then((response) => {
-			if (response.data.success) {
-				setUsers(response.data.result);
-			} else {
-				alert('Failed');
-			}
-		});
-		Axios.get('/api/ranking/group').then((response) => {
-			if (response.data.success) {
-				setGroups(response.data.result);
-			} else {
-				alert('Failed');
-			}
-		});
-	}, []);
-	
 	let result;
 	
-	switch (target) {
-		case "user":
-			result = 
-				<div>
-					<br />
-					{Users.map((user, i) => (
-						<a href={`/users/${user._id}`}>
-							{i+1} 등 - {user.name} : {user.totalTime}
-							<br />
-						</a>
-					))}
-				</div>
-			break;
-		case "group":
-			result = 
-				<div>
-					<br />
-					{Groups.map((group, i) => (
-						<a href={`/groups/${group._id}`}>
-							{i+1} 등 - {group.groupName} : {group.totalTime}
-							<br />
-						</a>
-					))}
-				</div>
-			break;
-		default:
-			result = <div></div>
-	}
+	useEffect(() => {
+		switch (target) {
+			case "user":
+				Axios.get('/api/ranking/user').then((response) => {
+					if (response.data.success) {
+						setUsers(response.data.result);
+						if (tabValue !== 0) {
+							setTabValue(0);
+						}
+					} else {
+						alert('Failed');
+					}
+				});
+				break;
+			case "group":
+				Axios.get('/api/ranking/group').then((response) => {
+					if (response.data.success) {
+						setGroups(response.data.result);
+						if (tabValue !== 1) {
+							setTabValue(1);
+						}
+					} else {
+						alert('Failed');
+					}
+				});
+				break;
+			default:
+				result = <div>로딩중</div>
+		}
+	}, [target]);
 	
 	return (
 		<Container 
@@ -73,7 +58,7 @@ export default function RankingPage(props) {
 		>
 			<br/>
 			<Tabs
-				value={value}
+				value={tabValue}
 				onChange={handleChange}
 				aria-label="basic tabs example"
 				textColor="secondary"
@@ -92,7 +77,26 @@ export default function RankingPage(props) {
 					to={'/ranking/group'}
 				/>
 			</Tabs>
-			{ result }
+			{ tabValue === 0 ? 
+				<div>
+					<br />
+					{Users.map((user, i) => (
+						<a href={`/users/${user._id}`}>
+							{i+1} 등 - {user.name} : {user.totalTime}
+							<br />
+						</a>
+					))}
+				</div>
+				: 
+				<div>
+					<br />
+					{Groups.map((group, i) => (
+						<a href={`/groups/${group._id}`}>
+							{i+1} 등 - {group.groupName} : {group.totalTime}
+							<br />
+						</a>
+					))}
+				</div> }
 		</Container>
 	);
 	
