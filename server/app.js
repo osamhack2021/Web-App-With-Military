@@ -30,4 +30,10 @@ app.use('/api/board', board);
 app.use('/api/comment', comment);
 app.use('/api/search', search);
 
+// 6시간 마다 ranking 업데이트
+const http = require("http");
+setInterval(function () {
+  http.get("http://localhost:5000/api/ranking/update");
+}, 21600000);
+
 module.exports = app;
