@@ -15,7 +15,7 @@ const StyledToolbar = styled(Toolbar)({
 export default function FormOverlay({ groupId, onFormOverlayToggle }) {
 	const dispatch = useDispatch();
 	const userData = useSelector((state) => state.auth.loginUserData);
-	const studyingData = JSON.parse(window.localStorage.getItem('studyingData'));
+	const timerData = JSON.parse(window.localStorage.getItem('timerData'));
 	
 	console.log(userData);
   const [submitForm, setSubmitForm] = useState({
@@ -44,16 +44,16 @@ export default function FormOverlay({ groupId, onFormOverlayToggle }) {
         alert("게시글을 저장하지 못했습니다.");
       }
 			onFormOverlayToggle();
-			window.localStorage.removeItem('studyingData');
+			window.localStorage.removeItem('timerData');
     });
   };
 	
-	if( studyingData === null ) {
+	if( timerData === null ) {
 		alert("시간측정을 해주세요!");
 		onFormOverlayToggle();
     return <></>;
 	} else {
-		const { success, elapsedTime, activeGroup } = studyingData;
+		const { success, elapsedTime, activeGroup } = timerData;
 		if (success) {
 			if (activeGroup !== groupId ) {
 				alert("최근 측정한 그룹에서 글쓰기를 진행해 주세요!");

@@ -19,7 +19,7 @@ const get = {
       return res.status(200).json({ success: false, isStudyingNow: false });
 
     User.findOneAndUpdate(
-      { name: req.user.name },
+      { _id: req.user._id },
       { $set: { pauseTime: now } },
       err => {
         if (err) {
@@ -42,7 +42,7 @@ const get = {
         .json({ success: false, message: '일시정지 상태가 아닙니다.' });
     now = now - req.user.pauseTime + req.user.startTime.valueOf();
     User.findOneAndUpdate(
-      { name: req.user.name },
+      { _id: req.user._id },
       { $set: { pauseTime: null, startTime: now } },
       err => {
         if (err) {
@@ -97,23 +97,12 @@ const get = {
     now = await Math.floor((now - req.user.startTime) / 1000);
     try {
       if (req.user.activeGroup !== null) {
-        Group.findOne(
-          { _id: req.user.activeGroup },
-          async (err, group) => {
-            try {
-              await Group.findOneAndUpdate(
-                { _id: req.user.activeGroup },
-                {
-                  $set: {
-                    totalTime: group.totalTime + now,
-                  },
-                },
-              );
-            } catch (err) {
-              res.status(500).json(err);
-            }
-          },
-        );
+        await Group.findOneAndUpdate(
+			{ _id: req.user.activeGroup },
+			{
+			  $inc: { totalTime: now}
+			},
+		  );
       }
       const today = seoul();
       const year = today.getFullYear();

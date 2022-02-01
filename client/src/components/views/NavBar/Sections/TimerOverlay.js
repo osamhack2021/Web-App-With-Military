@@ -6,7 +6,7 @@ import {
   Link, ListItem, ListItemText, ListItemAvatar, ListItemButton,
   Paper, Stack, Typography
 } from '@mui/material';
-import { profileUser, studyingStatus, studyingStart, studyingEnd, studyingPause, studyingResume } from "../../../../_actions/user_actions";
+import { profileUser, timerStatus, timerStart, timerEnd, timerPause, timerResume } from "../../../../_actions/user_actions";
 import { ReactComponent as Dial } from '../../../../static/imgs/dial.svg';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
@@ -75,7 +75,7 @@ export default function TimerOverlay() {
   }, [Studying]);
 
   useEffect(() => {
-    dispatch(studyingStatus())
+    dispatch(timerStatus())
       .then( response => {
         if (response.payload.success) {
           if(response.payload.isStudyingNow) {
@@ -185,7 +185,7 @@ export default function TimerOverlay() {
 
   const onStart = (event, group_id) => {
 		event.preventDefault();
-    dispatch(studyingStart({groupId: group_id}))
+    dispatch(timerStart({groupId: group_id}))
       .then(response => {
         if(response.payload.success) {
 					console.log(response.payload);
@@ -199,14 +199,14 @@ export default function TimerOverlay() {
 	
 	const onStop = (event) => {
 		event.preventDefault();
-    dispatch(studyingEnd())
+    dispatch(timerEnd())
       .then(response => {
         if(response.payload.success) {
 					console.log(response.payload);
           setElapsedTime(0)
           setStudying(false)
           setPause(false)
-					window.localStorage.setItem('studyingData', JSON.stringify({
+					window.localStorage.setItem('timerData', JSON.stringify({
 						success: response.payload.success,
 						activeGroup: response.payload.activeGroup,
 						elapsedTime: response.payload.elapsedTime
@@ -219,7 +219,7 @@ export default function TimerOverlay() {
 	
 	const onPause = (event) => {
 		event.preventDefault();
-    dispatch(studyingPause())
+    dispatch(timerPause())
 			.then(response => {
 			if(response.payload.success) {
 				setElapsedTime(response.payload.elapsedTime)
@@ -232,7 +232,7 @@ export default function TimerOverlay() {
 	
 	const onResume = (event) => {
 		event.preventDefault();
-    dispatch(studyingResume())
+    dispatch(timerResume())
 			.then(response => {
 			if(response.payload.success) {
 				setElapsedTime(response.payload.elapsedTime)

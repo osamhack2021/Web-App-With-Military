@@ -1,21 +1,21 @@
 import axios from 'axios';
 import {
-	LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER,
-	PROFILE_USER, PROFILE_GROUP,
-	RANKING_USER, RANKING_GROUP,
-	STUDYING_STATUS, STUDYING_START, STUDYING_END, STUDYING_PAUSE, STUDYING_RESUME,
-	LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
-	LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
-	SEARCH_ALL,
+    LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER,
+    PROFILE_USER, PROFILE_GROUP,
+    RANKING_USER, RANKING_GROUP,
+    TIMER_STATUS, TIMER_START, TIMER_END, TIMER_PAUSE, TIMER_RESUME,
+    LOAD_COMMENT, SAVE_COMMENT, REMOVE_COMMENT,
+    LOAD_BOARD, SAVE_BOARD, REMOVE_BOARD, EDIT_BOARD,
+		SEARCH_ALL,
 } from './types';
 import {
-	USER_SERVER,
-	GROUP_SERVER,
-	RANKING_SERVER,
-	STUDYING_SERVER,
-	COMMENT_SERVER,
-	BOARD_SERVER,
-	SEARCH_SERVER,
+    USER_SERVER,
+    GROUP_SERVER,
+    RANKING_SERVER,
+    TIMER_SERVER,
+    COMMENT_SERVER,
+    BOARD_SERVER,
+		SEARCH_SERVER,
 } from '../components/Config.js';
 
 export function registerUser(dataToSubmit){
@@ -97,47 +97,47 @@ export function rankingGroup() {
     }
 }
 
-export function studyingStatus() {
-    const request = axios.get(`${STUDYING_SERVER}`)
+export function timerStatus() {
+    const request = axios.get(`${TIMER_SERVER}`)
     .then(response => response.data);
     return {
-        type: STUDYING_STATUS,
+        type: TIMER_STATUS,
         payload: request
     }
 }
 
-export function studyingStart(dataToSubmit) {
-    const request = axios.post(`${STUDYING_SERVER}/start`, dataToSubmit)
+export function timerStart(dataToSubmit) {
+    const request = axios.post(`${TIMER_SERVER}/start`, dataToSubmit)
     .then(response => response.data);
     return {
-        type: STUDYING_START,
+        type: TIMER_START,
         payload: request
     }
 }
 
-export function studyingEnd() {
-    const request = axios.get(`${STUDYING_SERVER}/end`)
+export function timerEnd() {
+    const request = axios.get(`${TIMER_SERVER}/end`)
     .then(response => response.data);
     return {
-        type: STUDYING_END,
+        type: TIMER_END,
         payload: request
     }
 }
 
-export function studyingPause() {
-    const request = axios.get(`${STUDYING_SERVER}/pause`)
+export function timerPause() {
+    const request = axios.get(`${TIMER_SERVER}/pause`)
     .then(response => response.data);
     return {
-        type: STUDYING_PAUSE,
+        type: TIMER_PAUSE,
         payload: request
     }
 }
 
-export function studyingResume() {
-    const request = axios.get(`${STUDYING_SERVER}/resume`)
+export function timerResume() {
+    const request = axios.get(`${TIMER_SERVER}/resume`)
     .then(response => response.data);
     return {
-        type: STUDYING_RESUME,
+        type: TIMER_RESUME,
         payload: request
     }
 }
