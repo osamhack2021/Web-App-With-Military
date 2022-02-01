@@ -9,11 +9,11 @@ export const PROFILE_GROUP = 'profile_group';
 export const RANKING_USER = 'ranking_user';
 export const RANKING_GROUP = 'ranking_group';
 
-export const STUDYING_STATUS = 'studying_status';
-export const STUDYING_START = 'studying_start';
-export const STUDYING_END = 'studying_end';
-export const STUDYING_PAUSE= 'studying_pause';
-export const STUDYING_RESUME = 'studying_resume';
+export const TIMER_STATUS = 'timer_status';
+export const TIMER_START = 'timer_start';
+export const TIMER_END = 'timer_end';
+export const TIMER_PAUSE= 'timer_pause';
+export const TIMER_RESUME = 'timer_resume';
 
 export const LOAD_COMMENT = 'comment_status';
 export const SAVE_COMMENT = 'comment_save';
