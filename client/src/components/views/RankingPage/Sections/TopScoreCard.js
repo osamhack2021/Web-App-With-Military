@@ -1,9 +1,24 @@
 import React from 'react';
 import {Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, 
   Typography} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+
+const RankNumberBox = styled(Box)({
+  width: 35,
+  height: 35,
+  position: 'absolute',
+  left: 0,
+  backgroundColor: '#c4c4c4',
+  color: 'white',
+  borderRadius: '0 0px 3px 0',
+  fontWeight: 'bold',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+})
 
 export default function TopScoreCard({data}) {
   if (!data) {
@@ -11,10 +26,16 @@ export default function TopScoreCard({data}) {
   } else {
     return (
       <Card
-        sx={{ display: 'flex', width: '70%', height: 150 }}
+        sx={{
+          display: 'flex',
+          position: 'relative',
+          width: '70%',
+          height: 150,
+        }}
         component={Link}
         to={data.link}
       >
+        <RankNumberBox>{data.rank}</RankNumberBox>
         <CardMedia
           component="img"
           sx={{ width: 150 }}
