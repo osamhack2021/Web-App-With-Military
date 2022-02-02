@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export default function Tier ({point, tier}) {
+export default function Tier ({score, tier}) {
   
   const TierBox = styled(Box)({
     background: 'linear-gradient(180deg, rgba(255, 215, 0, 0.8) 0%, rgba(253, 255, 135, 0.8) 100%)',
@@ -30,7 +30,7 @@ export default function Tier ({point, tier}) {
                     color : '#a3971c'
                 }}
             >
-                {point} / {tier}
+                {score} / {tier}
             </Typography>
         </Stack>
         <TierBar />
