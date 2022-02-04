@@ -1,27 +1,24 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { loginUser } from "../../../_actions/user_actions";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Form, Input, Button, Checkbox, Typography } from 'antd';
-import { useDispatch } from "react-redux";
-import Icon from '@ant-design/icons';
-
-const { Title } = Typography;
+import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography } from '@mui/material';
 
 function LoginPage(props) {
   const dispatch = useDispatch();
   const rememberMeChecked = localStorage.getItem("rememberMe") ? true : false;
 
-  const [formErrorMessage, setFormErrorMessage] = useState('')
+  const [formErrorMessage, setFormErrorMessage] = useState("");
   const [rememberMe, setRememberMe] = useState(rememberMeChecked)
 
   const handleRememberMe = () => {
-    setRememberMe(!rememberMe)
+    setRememberMe(!rememberMe);
   };
 
   const initialEmail = localStorage.getItem("rememberMe") ? localStorage.getItem("rememberMe") : '';
-
+  
   return (
     <Formik
       initialValues={{
@@ -48,7 +45,7 @@ function LoginPage(props) {
               if (response.payload.loginSuccess) {
                 window.localStorage.setItem('userId', response.payload.userId);
                 window.localStorage.setItem('image', response.payload.image);
-								if (rememberMe === true) {
+                if (rememberMe === true) {
                   window.localStorage.setItem('rememberMe', values.email);
                 } else {
                   localStorage.removeItem('rememberMe');
@@ -75,67 +72,67 @@ function LoginPage(props) {
           errors,
           isSubmitting,
           handleChange,
-          handleBlur,
           handleSubmit,
         } = props;
+        console.log(errors);
         return (
           <div className="app">
+            <Typography variant="h5">Log In</Typography>
+            <form onSubmit={handleSubmit} style={{ width: 500 }}>
+              <TextField
+                type="email"
+                name="email"
+                label="EMAIL"
+                variant="outlined"
+                placeholder="Enter your email"
+                fullWidth
+                sx={{ my: 1 }}
+                value={values.email}
+                onChange={handleChange}
+                error={!!errors.email && !!touched.email}
+                helperText={!!errors.email && !!touched.email ? errors.email : false}
+                //autoFocus={!!((errors.email || !(errors.email && errors.password)))}
+              />
+              <TextField
+                type="password"
+                name="password"
+                label="PASSWORD"
+                variant="outlined"
+                placeholder="Enter your password"
+                fullWidth
+                sx={{ my: 1 }}
+                value={values.password}
+                onChange={handleChange}
+                error={!!errors.password && !!touched.password}
+                helperText={!!formErrorMessage ? formErrorMessage : (!!errors.password && !!touched.password ? errors.password : false)}
+                //autoFocus={!!errors.password || !!formErrorMessage}
+              />
 
-            <Title level={2}>Log In</Title>
-            <form onSubmit={handleSubmit} style={{ width: '350px' }}>
-
-              <Form.Item required>
-                <Input
-                  id="email"
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Enter your email"
-                  type="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.email && touched.email ? 'text-input error' : 'text-input'
-                  }
-                />
-                {errors.email && touched.email && (
-                  <div className="input-feedback">{errors.email}</div>
-                )}
-              </Form.Item>
-
-              <Form.Item required>
-                <Input
-                  id="password"
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Enter your password"
-                  type="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.password && touched.password ? 'text-input error' : 'text-input'
-                  }
-                />
-                {errors.password && touched.password && (
-                  <div className="input-feedback">{errors.password}</div>
-                )}
-              </Form.Item>
-
-              {formErrorMessage && (
-                <label ><p style={{ color: '#ff0000bf', fontSize: '0.7rem', border: '1px solid', padding: '1rem', borderRadius: '10px' }}>{formErrorMessage}</p></label>
-              )}
-
-              <Form.Item>
-                <Checkbox id="rememberMe" onChange={handleRememberMe} checked={rememberMe} >Remember me</Checkbox>
-                <a className="login-form-forgot" href="/reset_user" style={{ float: 'right' }}>
-                  forgot password
-                  </a>
-                <div>
-                  <Button type="primary" htmlType="submit" className="login-form-button" style={{ minWidth: '100%' }} disabled={isSubmitting} onSubmit={handleSubmit}>
-                    Log in
-                </Button>
-                </div>
-                Or <a href="/register">register now!</a>
-              </Form.Item>
+              <FormControlLabel
+                label="자동 로그인"
+                control={
+                  <Checkbox
+                    value="remember"
+                    color="primary"
+                    onChange={handleRememberMe}
+                    checked={rememberMe} 
+                  />
+                }
+                sx={{ my: 1 }}
+              />
+              <a href="/reset_user" style={{ float: 'right' }}>
+                forgot password
+              </a>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 1, mb: 2 }}
+                disabled={isSubmitting}
+              >
+                Sign In
+              </Button>
+              Or <a href="/register">register now!</a>
             </form>
           </div>
         );
@@ -145,5 +142,3 @@ function LoginPage(props) {
 };
 
 export default withRouter(LoginPage);
-
-

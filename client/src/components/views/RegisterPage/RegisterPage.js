@@ -1,41 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import moment from "moment";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from "../../../_actions/user_actions";
 import { useDispatch } from "react-redux";
-
-import {
-  Form,
-  Input,
-  Button,
-} from 'antd';
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography } from '@mui/material';
+import axios from 'axios';
 
 function RegisterPage(props) {
   const dispatch = useDispatch();
+  
+  const [formErrorMessage, setFormErrorMessage] = useState("");
   return (
 
     <Formik
@@ -59,25 +34,28 @@ function RegisterPage(props) {
           .required('Confirm Password is required')
       })}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-
-          let dataToSubmit = {
-            email: values.email,
-            password: values.password,
-            name: values.name,
-            image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
-          };
-
+        let dataToSubmit = {
+          email: values.email,
+          password: values.password,
+          name: values.name,
+          image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
+        };
+        try {
           dispatch(registerUser(dataToSubmit)).then(response => {
+            console.log(response);
             if (response.payload.success) {
               props.history.push("/login");
             } else {
-              alert(response.payload.err.errmsg)
+
+              // setFormErrorMessage(response.payload.err.errmsg);
+               console.log(response.payload.err.errmsg);
+              // alert(response.payload.err.errmsg)
             }
           })
-
           setSubmitting(false);
-        }, 500);
+        } catch(e) {
+          console.log(e);
+        }
       }}
     >
       {props => {
@@ -87,88 +65,84 @@ function RegisterPage(props) {
           errors,
           isSubmitting,
           handleChange,
-          handleBlur,
           handleSubmit,
         } = props;
+        
+        console.log(errors);
+        
         return (
           <div className="app">
-            <h2>Sign up</h2>
-            <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
-
-              <Form.Item required label="User Name">
-                <Input
-                  id="name"
-                  placeholder="Enter your User Name"
-                  type="text"
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.name && touched.name ? 'text-input error' : 'text-input'
-                  }
-                />
-                {errors.name && touched.name && (
-                  <div className="input-feedback">{errors.name}</div>
-                )}
-              </Form.Item>
-
-              <Form.Item required label="Email" hasFeedback validateStatus={errors.email && touched.email ? "error" : 'success'}>
-                <Input
-                  id="email"
-                  placeholder="Enter your Email"
-                  type="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.email && touched.email ? 'text-input error' : 'text-input'
-                  }
-                />
-                {errors.email && touched.email && (
-                  <div className="input-feedback">{errors.email}</div>
-                )}
-              </Form.Item>
-
-              <Form.Item required label="Password" hasFeedback validateStatus={errors.password && touched.password ? "error" : 'success'}>
-                <Input
-                  id="password"
-                  placeholder="Enter your password"
-                  type="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.password && touched.password ? 'text-input error' : 'text-input'
-                  }
-                />
-                {errors.password && touched.password && (
-                  <div className="input-feedback">{errors.password}</div>
-                )}
-              </Form.Item>
-
-              <Form.Item required label="Confirm" hasFeedback>
-                <Input
-                  id="confirmPassword"
-                  placeholder="Enter your confirmPassword"
-                  type="password"
-                  value={values.confirmPassword}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.confirmPassword && touched.confirmPassword ? 'text-input error' : 'text-input'
-                  }
-                />
-                {errors.confirmPassword && touched.confirmPassword && (
-                  <div className="input-feedback">{errors.confirmPassword}</div>
-                )}
-              </Form.Item>
-
-              <Form.Item {...tailFormItemLayout}>
-                <Button onClick={handleSubmit} type="primary" disabled={isSubmitting}>
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
+            <Typography variant="h5">Sign up</Typography>
+            <form onSubmit={handleSubmit} style={{ width: 500 }}>
+              <TextField
+                type="text"
+                name="name"
+                label="User Name"
+                variant="outlined"
+                placeholder="Enter your User Name"
+                fullWidth
+                required
+                sx={{ my: 1 }}
+                value={values.name}
+                onChange={handleChange}
+                error={!!errors.name && !!touched.name}
+                helperText={!!errors.name && !!touched.name ? !!errors.name : false}
+              />
+              <TextField
+                type="email"
+                name="email"
+                label="Email"
+                variant="outlined"
+                placeholder="Enter your email"
+                fullWidth
+                required
+                sx={{ my: 1 }}
+                value={values.email}
+                onChange={handleChange}
+                size="normal"
+                error={!!errors.email && !!touched.email}
+                helperText={!!errors.email && !!touched.email ? errors.email : false}
+              />
+              <TextField
+                type="password"
+                name="password"
+                label="Password"
+                variant="outlined"
+                placeholder="Enter your password"
+                fullWidth
+                required
+                sx={{ my: 1 }}
+                value={values.password}
+                onChange={handleChange}
+                error={!!errors.password && !!touched.password}
+                helperText={!!errors.password && !!touched.password ? errors.password : false}
+                //autoFocus={!!errors.password || !!formErrorMessage}
+              />
+              <TextField
+                type="password"
+                name="confirmPassword"
+                label="Comfirm"
+                variant="outlined"
+                placeholder="Confirm your password"
+                fullWidth
+                required
+                sx={{ my: 1 }}
+                value={values.confirmPassword}
+                onChange={handleChange}
+                error={!!errors.confirmPassword && !!touched.confirmPassword}
+                helperText={!!errors.confirmPassword && !!touched.confirmPassword? errors.confirmPassword : false}
+                //autoFocus={!!errors.password || !!formErrorMessage}
+              /> 
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 1, mb: 2 }}
+                disabled={isSubmitting}
+              >
+                회원가입
+              </Button>
+            </form>
           </div>
         );
       }}

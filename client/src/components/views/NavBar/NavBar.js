@@ -2,15 +2,13 @@ import React, { useState, forwardRef } from 'react';
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { USER_SERVER } from "../../Config";
-import RightMenu from './Sections/RightMenu';
-import {
-  AppBar, Box, Toolbar, Drawer, Divider, IconButton, List, ListItem,
+import { AppBar, Box, Toolbar, Drawer, Divider, IconButton, List, ListItem,
   ListItemIcon, ListItemText, Typography
 } from '@mui/material';
 import { withRouter, Link } from 'react-router-dom';
-
 import { ReactComponent as WhiteLogo } from '../../../static/imgs/logo_white.svg';
 import { styled, useTheme } from '@mui/material/styles';
+import RightMenu from './Sections/RightMenu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -125,19 +123,19 @@ function NavBar(props) {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
 
-          <RightMenu mode="horizontal" />
+          <RightMenu />
           
-					<IconButton
+          <IconButton
             color="inherit"
-						component={Link}
-						to={'/search'}
-						sx={{
-							ml: 2,
-						}}
+            component={Link}
+            to={'/search'}
+            sx={{
+              ml: 2,
+            }}
           >
             <SearchIcon />
           </IconButton>
-					
+          
           <IconButton
             color="inherit"
             aria-label="open drawer"
