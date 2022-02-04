@@ -72,7 +72,6 @@ function LoginPage(props) {
           errors,
           isSubmitting,
           handleChange,
-          handleBlur,
           handleSubmit,
         } = props;
         console.log(errors);
@@ -90,8 +89,8 @@ function LoginPage(props) {
                 sx={{ my: 1 }}
                 value={values.email}
                 onChange={handleChange}
-                error={!!formErrorMessage}
-                helperText={!!errors.email ? errors.email : false}
+                error={!!errors.email && !!touched.email}
+                helperText={!!errors.email && !!touched.email ? errors.email : false}
                 //autoFocus={!!((errors.email || !(errors.email && errors.password)))}
               />
               <TextField
@@ -104,8 +103,8 @@ function LoginPage(props) {
                 sx={{ my: 1 }}
                 value={values.password}
                 onChange={handleChange}
-                error={!!formErrorMessage}
-                helperText={!!formErrorMessage ? formErrorMessage : (!!errors.password ? errors.password : false)}
+                error={!!errors.password && !!touched.password}
+                helperText={!!formErrorMessage ? formErrorMessage : (!!errors.password && !!touched.password ? errors.password : false)}
                 //autoFocus={!!errors.password || !!formErrorMessage}
               />
 
