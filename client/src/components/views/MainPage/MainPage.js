@@ -94,7 +94,7 @@ export default function MainPage() {
 				<Grid container spacing={4}>
 					<Grid item xs={3}>
 						<GrayBox sx={{display: 'flex'}}>
-							<Typography sx={{mr: 1}}>전역률</Typography>
+							<Typography sx={{mr: 1}}>남은 군생활</Typography>
 							<HomeIcon sx={{color: '#5E5E5E'}}/>
 						</GrayBox>
 					</Grid>
@@ -157,7 +157,7 @@ export default function MainPage() {
 					</Grid>
 
 					<Grid item xs={3}>
-						<GrayBox>일주일간 활동 비율</GrayBox>
+						<GrayBox>일주일간 활동한 카테고리</GrayBox>
 					</Grid>
 
 					<Grid item xs={3}>
