@@ -8,6 +8,7 @@ import { profileUser } from "../../../_actions/user_actions";
 
 export default function UserGroupPage(props) {
     const { userId } = props.match.params;
+    const userProfile = useSelector((state) => state.profile.userProfile);
     const dispatch = useDispatch();
 
     useEffect( () => {
@@ -19,7 +20,6 @@ export default function UserGroupPage(props) {
         });
 
     }, []);
-    
     const userData = useSelector((state) => state.profile.userProfile);
 
     if (userData === undefined) {
@@ -28,6 +28,7 @@ export default function UserGroupPage(props) {
         );
     }   else {
         const {user} = userData;
+        const myElapsedDays = Math.floor((new Date().getTime() - new Date(user.created).getTime()) / 1000 / 60 / 60 / 24);
         return (
             <Container 
                 component="main"
@@ -45,7 +46,7 @@ export default function UserGroupPage(props) {
                     <Typography variant="h5"
                     >
                         안녕하세요, {user.name}님!
-                        공부를 시작한지 벌써 000이 지났어요
+                        공부를 시작한지 벌써 {myElapsedDays}일이 지났어요
                     </Typography>
                 </Box>
     
