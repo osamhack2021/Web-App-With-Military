@@ -127,7 +127,7 @@ function RightMenu(props) {
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
-            textColor="primary.contrastText"
+            textColor="inherit"
             indicatorColor="primary"
           >
             <Tab
@@ -201,7 +201,7 @@ function RightMenu(props) {
             value={value}
             onChange={handleChange}
             aria-label="navigation tabs"
-            textColor="primary.contrastText"
+            textColor="inherit"
             indicatorColor="primary"
           >
             <Tab
