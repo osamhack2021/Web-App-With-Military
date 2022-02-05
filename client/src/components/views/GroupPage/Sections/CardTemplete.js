@@ -12,6 +12,9 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import CreateIcon from '@mui/icons-material/Create';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import PanToolIcon from '@mui/icons-material/PanTool';
+import Axios from 'axios';
+
 import { Popconfirm, message } from "antd";
 
 const GrayBox = styled(Box)({
@@ -20,14 +23,18 @@ const GrayBox = styled(Box)({
   padding: '1rem',
 })
 
-export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayToggle }) {
+export default function CardTemplete({
+  groupInfo,
+  toggleFormOverlay,
+  onFormOverlayToggle,
+  handleSnackOpen,
+}) {
 	const dispatch = useDispatch();
 	
-	const userData = useSelector((state) => state.auth.loginUserData);
+	const loginData = useSelector((state) => state.auth.loginUserData);
 	const [boardList, setBoardList] = useState([]);
 	const [editMode, setEditMode] = useState(false);
 	const [refreshComment, setRefreshComment] = useState(false);
-	
 	
 	const toggleRefreshComment = () => {
 		setRefreshComment((prev) => !prev);
@@ -37,33 +44,32 @@ export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayTo
 		setEditMode((prev) => !prev);
 	}
 	
-	const updateBoard = (group_id) => {
-		dispatch(loadBoard({ groupId: group_id }))
-		.then((response) => {
-			if (response.payload.success) {
-				setBoardList(response.payload.boards);
-				toggleRefreshComment();
-			} else {
-				alert("게시글 불러오기를 실패했습니다.");
-			}
-		});
-	}
+  const updateBoard = (group_id) => {
+    dispatch(loadBoard({ groupId: group_id }))
+    .then((response) => {
+      if (response.payload.success) {
+        setBoardList(response.payload.boards);
+        toggleRefreshComment();
+      } else {
+        alert("게시글 불러오기를 실패했습니다.");
+      }
+    });
+  }
 
   const onClickEdit = (event, board) => {
-		if (board.writerId._id === userData._id) {
+		if (board.writerId._id === loginData._id) {
 			toggleEditMode();
     } else {
       message.error("작성자가 아닙니다.");
     }
   }
   const confirm = (e, board) => {
-    if (board.writerId._id === userData._id) {
+    if (board.writerId._id === loginData._id) {
       dispatch(removeBoard({ boardId: board._id }))
       .then((response) => {
         if (response.payload.success) {
-					console.log(response.payload);
-					updateBoard(group._id);
-          //setBoardLists(BoardLists.filter((item) => item._id !== board._id));
+          console.log(response.payload);
+          updateBoard(groupInfo._id);
         } else {
           alert("게시글 삭제에 실패했습니다.");
         }
@@ -72,6 +78,18 @@ export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayTo
       message.error("작성자가 아닙니다.");
     }
   }
+  
+  const joinGroup = () => {
+    Axios.post('/api/groups/join', {groupId: groupInfo._id, userId: loginData._id})
+    .then((response) => {
+      if (response.data.success) {  
+        handleSnackOpen("success");
+      } else {
+        handleSnackOpen("error");
+      }
+    })
+  }
+  
 
   const cancel = (e) => {
     message.error("취소하였습니다.");
@@ -81,175 +99,202 @@ export default function CardTemplete({ group, toggleFormOverlay, onFormOverlayTo
 	//console.log(boardList);
 	
 	useEffect(() => {
-		updateBoard(group._id);
+		updateBoard(groupInfo._id);
 	}, [toggleFormOverlay, editMode]);
 	
-	
-	return (
-		<>
-			<Button
-				variant="contained"
-				onClick={onFormOverlayToggle}
-				color="secondary"
-				style={{
-					borderRadius: '0.5rem',
-					width: '11rem',
-					height: '2.5rem',
-					textTransform: 'none',
-					marginTop: '1rem',
-					position: 'absolute',
-					right: '7%',
-				}}  
-			>
-				<Typography sx={{
-					mr: 1,
-					fontSize: '1rem',
-				}}>
-					게시글작성
-				</Typography>
-				<CreateIcon />
-			</Button>
-			<Box sx={{
-				ml: '20%',
-				mr: '30%',
-			}}>
-				<Typography
-					sx={{
-						fontSize: '2rem',
-						fontWeight: 'bold',
-					}}
-				>
-					{group.groupName}
-				</Typography>
+  if(loginData === undefined) {
+    return <div>데이터 불러오는 중</div>
+  } else {
+    return (
+      <>
+        {/*admins에 본인이 포함되지않으면 가입신청 버튼을 생성*/}
+        { groupInfo.admins.indexOf(loginData._id) === -1 &&
+        <Button
+          variant="contained"
+          onClick={joinGroup}
+          color="secondary"
+          sx={{
+            borderRadius: '0.5rem',
+            width: '11rem',
+            height: '2.5rem',
+            textTransform: 'none',
+            mt: 3,
+            position: 'absolute',
+            right: '25%',
+          }}  
+        >
+          <Typography sx={{
+            mr: 1,
+            fontSize: '1rem',
+          }}>
+            가입신청하기
+          </Typography>
+          <PanToolIcon />
+        </Button> }
 
-				<Box
-					sx={{
-						color: '#5E5E5E',
-						display: 'flex',
-					}}
-				>
-					<PersonIcon width="1rem" height="1rem" sx={{ mr: 0.5 }} />
-					<Typography
-						component={Box}
-						sx={{
-							fontWeight: 'bold',
-							py: '2px',
-						}}
-					>
-						{group.members.length}
-						/30
-					</Typography>
-				</Box>
-			</Box>
+        <Button
+          variant="contained"
+          onClick={onFormOverlayToggle}
+          color="secondary"
+          sx={{
+            borderRadius: '0.5rem',
+            width: '11rem',
+            height: '2.5rem',
+            textTransform: 'none',
+            mt: 3,
+            position: 'absolute',
+            right: '7%',
+          }}  
+        >
+          <Typography sx={{
+            mr: 1,
+            fontSize: '1rem',
+          }}>
+            게시글작성
+          </Typography>
+          <CreateIcon />
+        </Button>
+        <Box sx={{
+          ml: '20%',
+          mr: '30%',
+        }}>
+          <Typography
+            sx={{
+              fontSize: '2rem',
+              fontWeight: 'bold',
+            }}
+          >
+            {groupInfo.groupName}
+          </Typography>
 
-			<Box
-				sx={{
-					mt: 2,
-					mx: 6,
-					p: 4,
-					borderTop: '1px solid #5E5E5E',
-				}}
-			>
-				<Grid container spacing={4}
-					sx={{
-						'& .MuiGrid-root': {
-							p: 2,
-						},
-					}}
-				>
-					<Grid item xs={5}>
-						<GrayBox sx={{display: 'flex'}}>
-							<Typography sx={{
-								mr: 1,
-								fontSize: '1.2rem',
-								fontWeight: 'bold',
-							}}>
-								그룹 전체 랭킹
-							</Typography>
-							<EqualizerIcon sx={{color: '#5E5E5E'}}/>
-						</GrayBox>
-					</Grid>
+          <Box
+            sx={{
+              color: '#5E5E5E',
+              display: 'flex',
+            }}
+          >
+            <PersonIcon width="1rem" height="1rem" sx={{ mr: 0.5 }} />
+            <Typography
+              component={Box}
+              sx={{
+                fontWeight: 'bold',
+                py: '2px',
+              }}
+            >
+              {groupInfo.members.length}
+              /30
+            </Typography>
+          </Box>
+        </Box>
 
-					<Grid item xs={7}>
-						<GrayBox >
-							<Avatar
-								alt="Group Profile Picture"
-								sx={{
-									width: '3.5rem',
-									height: '3.5rem',
-								}}
-								src={localStorage.getItem('image')}
-							/>
-							<Typography>유저 이름</Typography>
-							<Box
-								sx={{
-									display: 'flex',
-								}}
-							>
-								<Typography>5시간</Typography>
-								<PublicIcon />
-							</Box>
-						</GrayBox>
-					</Grid>
+        <Box
+          sx={{
+            mt: 2,
+            mx: 6,
+            p: 4,
+            borderTop: '1px solid #5E5E5E',
+          }}
+        >
+          <Grid container spacing={4}
+            sx={{
+              '& .MuiGrid-root': {
+                p: 2,
+              },
+            }}
+          >
+            <Grid item xs={5}>
+              <GrayBox sx={{display: 'flex'}}>
+                <Typography sx={{
+                  mr: 1,
+                  fontSize: '1.2rem',
+                  fontWeight: 'bold',
+                }}>
+                  그룹 전체 랭킹
+                </Typography>
+                <EqualizerIcon sx={{color: '#5E5E5E'}}/>
+              </GrayBox>
+            </Grid>
 
-					<Grid item xs={5}>
-						<GrayBox sx={{display: 'flex'}}>
-							<Typography sx={{
-								mr: 1,
-								fontSize: '1.2rem', 
-								fontWeight: 'bold',
-							}}>
-								정보
-							</Typography>
-							<PersonIcon sx={{color: '#5E5E5E'}}/>
-						</GrayBox>
-					</Grid>
-				</Grid>
-			</Box>
+            <Grid item xs={7}>
+              <GrayBox >
+                <Avatar
+                  alt="Group Profile Picture"
+                  sx={{
+                    width: '3.5rem',
+                    height: '3.5rem',
+                  }}
+                  src={localStorage.getItem('image')}
+                />
+                <Typography>유저 이름</Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                  }}
+                >
+                  <Typography>5시간</Typography>
+                  <PublicIcon />
+                </Box>
+              </GrayBox>
+            </Grid>
 
-			{	boardList &&
-				boardList.map((board, index) => (
-					<React.Fragment>
-						<h2>제목 : {board.title}</h2>
-						<Button
-							onClick={(e) => {
-								onClickEdit(e, board);
-							}}
-						>
-							<EditOutlinedIcon />
-							수정하기
-						</Button>
-						<Popconfirm
-							title="게시글을 정말로 삭제 하시겠습니까?"
-							onConfirm={(e) => {
-								confirm(e, board);
-							}}
-							onCancel={cancel}
-							okText="Yes"
-							cancelText="No"
-						>
-							<CloseOutlinedIcon /> 삭제하기
-						</Popconfirm>
-						<h3>
-							작성자 : {board.writerId.name} 작성일 : {board.posted}
-						</h3>
-						<h3>내용 : {board.content}</h3>
-						{editMode && (
-							<form style={{ display: "flex", marginLeft: "40px" }}>
-								<EditBoard
-									board={board}
-									toggleEditMode={toggleEditMode}
-								/>
-								<br />
-							</form>
-						)}
-						<Comment
-							boardId={board._id}
-							refreshComment={refreshComment}
-						/>
-					</React.Fragment>
-			))}
-		</>
-	);
-  
+            <Grid item xs={5}>
+              <GrayBox sx={{display: 'flex'}}>
+                <Typography sx={{
+                  mr: 1,
+                  fontSize: '1.2rem', 
+                  fontWeight: 'bold',
+                }}>
+                  정보
+                </Typography>
+                <PersonIcon sx={{color: '#5E5E5E'}}/>
+              </GrayBox>
+            </Grid>
+          </Grid>
+        </Box>
+
+        {	boardList &&
+          boardList.map((board, index) => (
+            <React.Fragment>
+              <h2>제목 : {board.title}</h2>
+              <Button
+                onClick={(e) => {
+                  onClickEdit(e, board);
+                }}
+              >
+                <EditOutlinedIcon />
+                수정하기
+              </Button>
+              <Popconfirm
+                title="게시글을 정말로 삭제 하시겠습니까?"
+                onConfirm={(e) => {
+                  confirm(e, board);
+                }}
+                onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+              >
+                <CloseOutlinedIcon /> 삭제하기
+              </Popconfirm>
+              <h3>
+                작성자 : {board.writerId.name} 작성일 : {board.posted}
+              </h3>
+              <h3>내용 : {board.content}</h3>
+              {editMode && (
+                <form style={{ display: "flex", marginLeft: "40px" }}>
+                  <EditBoard
+                    board={board}
+                    toggleEditMode={toggleEditMode}
+                  />
+                  <br />
+                </form>
+              )}
+              <Comment
+                boardId={board._id}
+                refreshComment={refreshComment}
+              />
+            </React.Fragment>
+        ))}
+      </>
+    );
+  }
 }

@@ -176,7 +176,7 @@ function RightMenu(props) {
                       aria-labelledby="composition-button"
                       onKeyDown={handleListKeyDown}
                     >
-											<MenuItem
+                      <MenuItem
                         onClick={handleClose}
                         component={Link}
                         to="/ranking/user"
@@ -212,7 +212,7 @@ function RightMenu(props) {
             <Tab
               label="Studygroup"
               component={Link}
-              to={`/users/${loginUserData._id}/groups`}
+              to={`/users/${loginUserData._id}/mygroups`}
             />
             <Tab
               label="Ranking"
@@ -236,12 +236,12 @@ function RightMenu(props) {
             <TimerOutlinedIcon />
           </IconButton>
           <Popper
-						id={id}
-						open={openOverlay}
-						anchorEl={anchorEl}
+            id={id}
+            open={openOverlay}
+            anchorEl={anchorEl}
             disablePortal
-						placement="bottom-start"
-						>
+            placement="bottom-start"
+            >
             <TimerOverlay />
           </Popper>
         </Stack>
