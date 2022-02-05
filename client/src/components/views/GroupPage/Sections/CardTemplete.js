@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { loadBoard, removeBoard } from "../../../../_actions/user_actions";
-import { Avatar, Box, Button, Grid, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, IconButton, Paper, Popper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import EditBoard from "./EditBoard";
 import Comment from "./Comment";
@@ -35,7 +35,19 @@ export default function CardTemplete({
 	const [boardList, setBoardList] = useState([]);
 	const [editMode, setEditMode] = useState(false);
 	const [refreshComment, setRefreshComment] = useState(false);
-	
+  const [waitingList, setWaitingList] = useState([]);
+  
+  
+  //popper code
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popper' : undefined;
+	//
+  
+  
 	const toggleRefreshComment = () => {
 		setRefreshComment((prev) => !prev);
 	}
@@ -79,28 +91,52 @@ export default function CardTemplete({
     }
   }
   
-  const joinGroup = () => {
-    Axios.post('/api/groups/join', {groupId: groupInfo._id, userId: loginData._id})
+  const getUserName = (user_id) => {
+    Axios.post('/api/users/profile', {userId: user_id})
     .then((response) => {
-      if (response.data.success) {  
-        handleSnackOpen("success");
+      if (response.data.success) {
+        setWaitingList([...waitingList, { name: response.data.user.name, id : user_id }]);
+        return response.data.user.name;
       } else {
-        handleSnackOpen("error");
+        return "대기유저정보 불러오기 실패";
       }
-    })
+    });
   }
   
-
+  
   const cancel = (e) => {
     message.error("취소하였습니다.");
   }
 
-	//const boardList = boardData.boards;
-	//console.log(boardList);
-	
+  const join = () => {
+    Axios.post('/api/groups/join', {groupId: groupInfo._id})
+    .then((response) => {
+      if (response.data.success) {  
+        handleSnackOpen("success", response.data.message);
+      } else {
+        handleSnackOpen("error", response.data.message);
+      }
+    });
+  }
+  
+  const approve = (user_id) => {
+    Axios.post('/api/groups/approve', {groupId: groupInfo._id, userId: user_id})
+    .then((response) => {
+      if (response.data.success) {  
+        handleSnackOpen("success", response.data.message);
+      } else {
+        handleSnackOpen("error", response.data.message);
+      }
+    });
+  }
+  
 	useEffect(() => {
-		updateBoard(groupInfo._id);
-	}, [toggleFormOverlay, editMode]);
+    groupInfo.waiting.map((userId) => { getUserName(userId) }
+  )}, []);
+  
+	useEffect(() => {
+    updateBoard(groupInfo._id)
+  }, [toggleFormOverlay, editMode]);
 	
   if(loginData === undefined) {
     return <div>데이터 불러오는 중</div>
@@ -111,7 +147,7 @@ export default function CardTemplete({
         { groupInfo.admins.indexOf(loginData._id) === -1 &&
         <Button
           variant="contained"
-          onClick={joinGroup}
+          onClick={join}
           color="secondary"
           sx={{
             borderRadius: '0.5rem',
@@ -167,23 +203,63 @@ export default function CardTemplete({
             {groupInfo.groupName}
           </Typography>
 
-          <Box
-            sx={{
-              color: '#5E5E5E',
-              display: 'flex',
-            }}
-          >
+          <Box sx={{
+            color: '#5E5E5E',
+            display: 'flex',
+          }}>
             <PersonIcon width="1rem" height="1rem" sx={{ mr: 0.5 }} />
-            <Typography
-              component={Box}
-              sx={{
-                fontWeight: 'bold',
-                py: '2px',
-              }}
-            >
+            <Typography sx={{
+              fontWeight: 'bold',
+              py: '2px',
+            }} >
               {groupInfo.members.length}
               /30
             </Typography>
+            
+            <Typography sx={{
+              ml: 2,
+              py: '2px',
+            }}>
+              대기인원: <strong>{ groupInfo.waiting.length }</strong>명
+            </Typography>
+            {/* waitingList가 없거나 admins에 자신이 없으면 승인영역을 생성하지 않음*/}
+            { groupInfo.waiting && groupInfo.admins.indexOf(loginData._id) !== -1 && (
+              <Box sx={{display: 'flex', ml: 2}}>
+                <Button
+                  aria-describedby={id}
+                  type="button"
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleClick}
+                  sx={{ml : 2}}
+                >
+                  대기목록
+                </Button>
+                <Popper id={id} open={open} anchorEl={anchorEl} disablePortal>
+                  <Paper sx={{
+                    width: 150,
+                    p: 2,
+                    textAlign: 'center',
+                    color: 'text.secondary',
+                  }}>
+                    { waitingList.map((item) => 
+                      <Box
+                        sx={{display: 'flex'}}
+                        key={item.id}
+                      >
+                        <Typography sx={{mr: 2}}>{ item.name }</Typography>
+                        <button
+                          type="button"
+                          onClick={() => { approve(item.id) } }
+                        >
+                          승인
+                        </button>
+                      </Box>
+                    )}
+                  </Paper>
+                </Popper>
+              </Box>
+            )}
           </Box>
         </Box>
 
@@ -253,8 +329,8 @@ export default function CardTemplete({
         </Box>
 
         {	boardList &&
-          boardList.map((board, index) => (
-            <React.Fragment>
+          boardList.map((board) => (
+            <Box key={board._id}>
               <h2>제목 : {board.title}</h2>
               <Button
                 onClick={(e) => {
@@ -292,7 +368,7 @@ export default function CardTemplete({
                 boardId={board._id}
                 refreshComment={refreshComment}
               />
-            </React.Fragment>
+            </Box>
         ))}
       </>
     );

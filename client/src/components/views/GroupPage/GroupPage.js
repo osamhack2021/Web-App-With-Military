@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Avatar, Box, Button, Container, IconButton, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Button, Container, IconButton, Snackbar, Typography, Popper } from '@mui/material';
 import { profileGroup } from "../../../_actions/user_actions";
 import CardTemplete from './Sections/CardTemplete';
 import FormOverlay from './Sections/FormOverlay';
@@ -11,7 +11,28 @@ function GroupPage(props) {
 	
   const groupData = useSelector((state) => state.profile.groupProfile);
   const [toggleFormOverlay, setToggleFormOverlay] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [snackVariant, setSnackVariant] = useState("success");
+  const [snackMessage, setSnackMessage] = useState("");
 
+  
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popper' : undefined;
+  
+  const handleSnackOpen = (variant, message) => {
+    setSnackVariant(variant);
+    setSnackMessage(message);
+    setOpenSnack(true);
+  };
+
+  const handleSnackClose = () => {
+    setOpenSnack(false);
+  };
+  
   const onFormOverlayToggle = () => {
     setToggleFormOverlay(prev => !prev);
   };
@@ -43,6 +64,16 @@ function GroupPage(props) {
           height: '100vh',
         }}
       >
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={openSnack}
+          onClose={handleSnackClose}
+          autoHideDuration={6000}
+        >
+          <Alert onClose={handleSnackClose} severity={snackVariant} sx={{ width: '100%' }}>
+            { snackMessage }
+          </Alert>
+        </Snackbar>
         <Box
           sx={{
             width: '100%',
@@ -64,12 +95,13 @@ function GroupPage(props) {
             borderRadius: '40px 40px 0px 0px',
           }}
         >
-          {/* 카드 안에 내용이 들어가는 부분 */}
+          {/* 템플릿 안에 내용이 들어가는 부분 */}
           <CardTemplete
-						group={group}
-						toggleFormOverlay={toggleFormOverlay}
-						onFormOverlayToggle={onFormOverlayToggle}
-					/>
+            groupInfo={group}
+            toggleFormOverlay={toggleFormOverlay}
+            onFormOverlayToggle={onFormOverlayToggle}
+            handleSnackOpen={handleSnackOpen}
+          />
         </Box>
         <Avatar
           alt="Group Profile Picture"
@@ -85,12 +117,27 @@ function GroupPage(props) {
           src={group.image}
         />
         
-        {toggleFormOverlay && (
-          <FormOverlay
-						groupId={groupId}
-						onFormOverlayToggle={onFormOverlayToggle}
-					/>
-        )}
+        { toggleFormOverlay && (
+        <FormOverlay
+          groupId={groupId}
+          onFormOverlayToggle={onFormOverlayToggle}
+        /> )}
+        
+        <Box>
+          <button aria-describedby={id} type="button" onClick={handleClick}>
+            Toggle Popper
+          </button>
+          <Popper
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            disablePortal
+            placement="bottom-start">
+            <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper', }}>
+              The content of the Popper.
+            </Box>
+          </Popper>
+        </Box>
       </Container>
     );
   }
