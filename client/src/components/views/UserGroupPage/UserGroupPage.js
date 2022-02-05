@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Badge, Box, Button, Card, CardActions, Container, Grid, Link, Typography } from '@mui/material';
+import { profileUser } from "../../../_actions/user_actions";
 import Axios from "axios";
 import GroupCardVertical from './Sections/GroupCardVertical';
 import PeopleIcon from '@mui/icons-material/People';
-import { profileUser } from "../../../_actions/user_actions";
+
 
 export default function UserGroupPage(props) {
+    const dispatch = useDispatch();
     const { userId } = props.match.params;
     const userProfile = useSelector((state) => state.profile.userProfile);
-    const dispatch = useDispatch();
 
     useEffect( () => {
         dispatch(profileUser({userId : userId}))
@@ -20,14 +21,12 @@ export default function UserGroupPage(props) {
         });
 
     }, []);
-    const userData = useSelector((state) => state.profile.userProfile);
+    const userInfo= useSelector((state) => state.profile.userProfile);
 
-    if (userData === undefined) {
-        return (
-            <div>유저정보 불러오는 중</div>
-        );
+    if (userInfo === undefined) {
+        return <div>유저정보 불러오는 중</div>;
     }   else {
-        const {user} = userData;
+        const {user} = userInfo;
         const myElapsedDays = Math.floor((new Date().getTime() - new Date(user.created).getTime()) / 1000 / 60 / 60 / 24);
         return (
             <Container 
@@ -111,19 +110,19 @@ export default function UserGroupPage(props) {
                             </Card>
                         </Grid>
                         { user.groupList.map((group, index) => (
-														<Grid
-																item
-																xs={3}
-																key={index}
-														>
-																<Link
-																		href={`/groups/${group._id}`}
-																		underline="none"
-																>
-																		<GroupCardVertical group={group}/>
-																</Link>
-														</Grid>
-												))}
+                            <Grid
+                                item
+                                xs={3}
+                                key={index}
+                            >
+                                <Link
+                                    href={`/groups/${group._id}`}
+                                    underline="none"
+                                >
+                                    <GroupCardVertical group={group}/>
+                                </Link>
+                            </Grid>
+                        ))}
                     </Grid>
                 </Box>
             </Container>
