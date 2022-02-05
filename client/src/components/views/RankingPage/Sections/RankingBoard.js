@@ -35,6 +35,7 @@ export default function RankingBoard({rankData, tabIndex}) {
       ? processUserRankData(rankData)
       : processGroupRankData(rankData);
   
+  console.log(rankList);
   return (
     <>
       <TopScoreCard data={rankList[0]}/>

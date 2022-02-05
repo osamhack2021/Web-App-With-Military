@@ -188,7 +188,7 @@ export default function TimerOverlay() {
     dispatch(timerStart({groupId: group_id}))
       .then(response => {
         if(response.payload.success) {
-					console.log(response.payload);
+          console.log(response.payload);
           setElapsedTime(response.payload.elapsedTime)
           setStudying(response.payload.isStudyingNow)
         } else {
@@ -202,19 +202,19 @@ export default function TimerOverlay() {
     dispatch(timerEnd())
       .then(response => {
         if(response.payload.success) {
-					console.log(response.payload);
+          console.log(response.payload);
           setElapsedTime(0)
           setStudying(false)
           setPause(false)
-					window.localStorage.setItem('timerData', JSON.stringify({
-						success: response.payload.success,
-						activeGroup: response.payload.activeGroup,
-						elapsedTime: response.payload.elapsedTime
-					}));
+          window.localStorage.setItem('timerData', JSON.stringify({
+            success: response.payload.success,
+            activeGroup: response.payload.activeGroup,
+            elapsedTime: response.payload.elapsedTime
+          }));
         } else {
           alert(response.payload.message)
         }
-		  })
+      })
 	}
 	
 	const onPause = (event) => {
@@ -231,16 +231,16 @@ export default function TimerOverlay() {
 	}
 	
 	const onResume = (event) => {
-		event.preventDefault();
+    event.preventDefault();
     dispatch(timerResume())
-			.then(response => {
-			if(response.payload.success) {
-				setElapsedTime(response.payload.elapsedTime)
-				setPause(false)
-			} else {
-				alert(response.payload.message)
-			}
-		})
+      .then(response => {
+      if(response.payload.success) {
+        setElapsedTime(response.payload.elapsedTime)
+        setPause(false)
+      } else {
+        alert(response.payload.message)
+      }
+    })
 	}
 
 
@@ -310,8 +310,8 @@ export default function TimerOverlay() {
           }} />
         </Item>
 
-			{selectedGroup && 
-			  <Item sx={{
+      {selectedGroup && 
+        <Item sx={{
           display: 'flex',
           justifyContent: 'center',
         }}>
@@ -346,7 +346,7 @@ export default function TimerOverlay() {
             <Typography>기록하기</Typography>
           </Button>
         </Item>
-			}
+      }
         <Item>
           { makeGroupList(groupList) }
         </Item>

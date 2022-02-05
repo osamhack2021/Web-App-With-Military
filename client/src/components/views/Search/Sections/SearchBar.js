@@ -27,51 +27,50 @@ function SearchBar(props) {
 	}
 	
 	const onKeyPress = (e) => {
-		if( e.key === 'Enter' ) {
-			onSearch();
-			setSearchData('');
-		}
+    if( e.key === 'Enter' ) {
+      onSearch();
+      setSearchData('');
+    }
 	}
-
-	return (
-		<>
-			<Box
-				sx={{
-					display: 'flex',
-					justifyContent: 'center',
-					borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
-					height: '4rem',
-					'& input': {
-						color: '#5E5E5E',
-					},
-					mt: 10,
-				}}
-			>
-				<StyledInputBase
-					placeholder="찾고 싶은 그룹을 검색해보세요."
-					onChange={onChange}
-					onKeyPress={onKeyPress}
-					value={searchData}
-					endAdornment={
-						<InputAdornment
-							onClick={onSearch}
-							position="start"
-						>
-							<SearchIcon
-								sx={{
-									color: '#073113',
-									width: '2.5rem',
-									height: '2.5rem',
-									pl: 1,
-									borderLeft:'2px solid #073113',
-									cursor: 'pointer',
-								}}
-							/>
-						</InputAdornment>
-					}
-				/>
-			</Box>
-		</>
+  return (
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+          height: '4rem',
+          '& input': {
+            color: '#5E5E5E',
+          },
+          mt: 10,
+        }}
+      >
+        <StyledInputBase
+          placeholder="찾고 싶은 그룹을 검색해보세요."
+          onChange={onChange}
+          onKeyPress={onKeyPress}
+          value={searchData}
+          endAdornment={
+            <InputAdornment
+              onClick={onSearch}
+              position="start"
+            >
+              <SearchIcon
+                sx={{
+                  color: '#073113',
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  pl: 1,
+                  borderLeft:'2px solid #073113',
+                  cursor: 'pointer',
+                }}
+              />
+            </InputAdornment>
+          }
+        />
+      </Box>
+    </>
 	);
 }
 

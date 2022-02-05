@@ -55,13 +55,13 @@ export default function GroupCardVertical({ group }) {
         </Box>
         <Box>
           <Button
-						variant="contained"
-						size="small"
-						color="secondary"
-						sx={{borderRadius: '1rem'}}
-					>
-						{group.category}
-					</Button>
+            variant="contained"
+            size="small"
+            color="secondary"
+            sx={{borderRadius: '1rem'}}
+          >
+            {group.category}
+          </Button>
         </Box>
       </CardContent>
     </Card>

@@ -118,9 +118,9 @@ const post = {
     Group.findOne({ _id: req.body.groupId }, (err, group) => {
       // 존재하는 그룹인지 확인
       if (!group) {
-        return res.status(400).json({
+        return res.status(200).json({
           success: false,
-          message: '존재하지 않는 그룹에 접근하였습니다.',
+          message: '요청한 그룹을 찾을 수 없습니다.',
         });
       }
       // 관리자 권한 확인
@@ -151,26 +151,29 @@ const post = {
                 { $addToSet: { groupList: req.body.groupId } },
                 err => {
                   if (err) res.status(500).json({ success: false, err });
-                  return res.status(200).json({ success: true });
+                  return res.status(200).json({
+                    success: true,
+                    message: '가입승인이 완료되었습니다.'
+                  });
                 },
               );
             },
           );
         } else {
-          return res.status(403).json({
+          return res.status(200).json({
             success: false,
             message: '해당 유저는 참가신청을 하지 않았습니다.',
           });
         }
       } else {
         return res
-          .status(403)
+          .status(200)
           .json({ success: false, message: '관리자가 아닙니다.' });
       }
       // 가입 신청 한 그룹인지 확인
       for (let i = 0; i < group.waiting.length; i++) {
         if (String(group.waiting[i]) === String(req.user._id))
-          return res.status(409).json({
+          return res.status(200).json({
             success: false,
             message: '이미 해당 그룹에 가입 신청 하였습니다.',
           });
@@ -223,7 +226,10 @@ const post = {
           if (err) {
             return res.status(500).json({ success: false, err });
           }
-          return res.status(200).json({ success: true });
+          return res.status(200).json({
+            success: true,
+            message: "가입 신청이 완료되었습니다"
+          });
         },
       );
     });

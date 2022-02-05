@@ -7,16 +7,16 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 export default function GroupCardHorizon({group}) {
   return (
     <Card sx={{ display: 'flex', width: '100%', height: 150 }}>
-			<CardMedia
-				component="img"
-				sx={{ width: 150 }}
-				image={group.image}
-				alt="group card"
-			/>
-			<CardContent>
-				<Typography component={Box} variant="h5">
-					{group.groupName}
-				</Typography>
+      <CardMedia
+        component="img"
+        sx={{ width: 150 }}
+        image={group.image}
+        alt="group card"
+      />
+      <CardContent>
+        <Typography component={Box} variant="h5">
+          {group.groupName}
+        </Typography>
         <Typography
           component={Box}
           style={{
@@ -49,13 +49,13 @@ export default function GroupCardHorizon({group}) {
         </Box>
         <Box>
           <Button
-						variant="contained"
-						size="small"
-						color="secondary"
-						sx={{borderRadius: '1rem'}}
-					>
-						{group.category}
-					</Button>
+            variant="contained"
+            size="small"
+            color="secondary"
+            sx={{borderRadius: '1rem'}}
+          >
+            {group.category}
+          </Button>
         </Box>
       </CardContent>
     </Card>

@@ -34,7 +34,7 @@ function App() {
         <Route exact path="/search/:searchData" component={NavBar} />
         <Route exact path="/ranking/:target" component={NavBar} />
         <Route exact path="/group/create" component={NavBar} />
-        <Route exact path="/users/:userId/groups" component={NavBar} />
+        <Route exact path="/users/:userId/mygroups" component={NavBar} />
       </Switch>
       
       <Switch>
@@ -48,7 +48,7 @@ function App() {
         <Route exact path="/search/:searchData" component={Auth(SearchResult, null)} />
         <Route exact path="/ranking/:target" component={Auth(RankingPage, null)} />
         <Route exact path="/group/create" component={Auth(CreateGroupPage, true)} />
-        <Route exact path="/users/:userId/groups" component={Auth(UserGroupPage, true)} />
+        <Route exact path="/users/:userId/mygroups" component={Auth(UserGroupPage, true)} />
       </Switch>
 
       <Footer />

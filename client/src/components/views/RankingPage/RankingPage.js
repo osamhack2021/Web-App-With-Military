@@ -14,32 +14,32 @@ export default function RankingPage(props) {
   };
 	
 	useEffect(() => {
-		switch (target) {
-			case "user":
-				Axios.get('/api/ranking/user').then((response) => {
-					if (response.data.success) {
-						setRankList(response.data.result);
-						if (tabIndex !== 0)
-							setTabIndex(0);
-					} else {
-						alert('Failed');
-					}
-				});
-				break;
-			case "group":
-				Axios.get('/api/ranking/group').then((response) => {
-					if (response.data.success) {
-						setRankList(response.data.result);
-						if (tabIndex !== 1)
-							setTabIndex(1);
-					} else {
-						alert('Failed');
-					}
-				});
-				break;
-			default:
-				//
-		}
+    switch (target) {
+      case "user":
+        Axios.get('/api/ranking/user').then((response) => {
+          if (response.data.success) {
+            setRankList(response.data.result);
+            if (tabIndex !== 0)
+              setTabIndex(0);
+          } else {
+            alert('Failed');
+          }
+        });
+        break;
+      case "group":
+        Axios.get('/api/ranking/group').then((response) => {
+          if (response.data.success) {
+            setRankList(response.data.result);
+            if (tabIndex !== 1)
+              setTabIndex(1);
+          } else {
+            alert('Failed');
+          }
+        });
+        break;
+      default:
+        //
+    }
 	}, [target]);
   return (
     <Container

@@ -4,8 +4,8 @@ import { ResponsiveCalendar } from "@nivo/calendar"
 function GrassChart(props) {
 	props.data && props.data.reverse(); 
 	return (
-		<div className="" style={{ height: 1000 }}>
-			{props.data &&  <ResponsiveCalendar
+    <div className="" style={{ height: 300 }}>
+      {props.data &&  <ResponsiveCalendar
       data={props.data}
       from="2022-01-01"
       to="2022-12-31"
