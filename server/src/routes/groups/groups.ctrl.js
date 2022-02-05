@@ -180,48 +180,53 @@ const post = {
 
   // 그룹 참가 신청
   join: (req, res) => {
-    Group.findOne({ _id: req.body.groupId }, (err, group) => {
+    Group.findOne({ _id: req.body.groupId }, async (err, group) => {
+      if (err) {
+        return res.status(500).json({ success: false, err });
+      }
       // 존재하는 그룹인지 확인
       if (!group) {
-        return res.status(400).json({
+        return res.status(200).json({
           success: false,
-          message: '존재하지 않는 그룹에 접근하였습니다.',
+          message: '요청한 그룹을 찾을 수 없습니다.',
         });
       }
       // 가입한 그룹인지 확인
-      if (String(group.admins[0]) === String(req.user._id))
-        return res.status(409).json({
+      if (String(group.admins[0]) === String(req.user._id)) {
+        return res.status(200).json({
           success: false,
-          message: '이미 해당 그룹에 가입하였습니다.',
+          message: '이미 해당 그룹에 관리자 입니다.',
         });
+      }
       for (let i = 0; i < group.members.length; i++) {
         if (String(group.members[i]) === String(req.user._id))
-          return res.status(409).json({
+          return res.status(200).json({
             success: false,
             message: '이미 해당 그룹에 가입 하였습니다.',
           });
       }
+
       // 가입 신청 한 그룹인지 확인
       for (let i = 0; i < group.waiting.length; i++) {
         if (String(group.waiting[i]) === String(req.user._id))
-          return res.status(409).json({
+          return res.status(200).json({
             success: false,
             message: '이미 해당 그룹에 가입 신청 하였습니다.',
           });
       }
-    });
 
-    // 유저 참가 대기열에 추가
-    Group.findOneAndUpdate(
-      { _id: req.body.groupId },
-      { $addToSet: { waiting: req.user._id } },
-      err => {
-        if (err) {
-          return res.status(500).json({ success: false, err });
-        }
-        return res.status(200).json({ success: true });
-      },
-    );
+      // 그룹 참가 대기열에 유저 추가
+      await Group.findOneAndUpdate(
+        { _id: req.body.groupId },
+        { $addToSet: { waiting: req.user._id } },
+        err => {
+          if (err) {
+            return res.status(500).json({ success: false, err });
+          }
+          return res.status(200).json({ success: true });
+        },
+      );
+    });
   },
 
   // 특정 그룹 정보 조회
