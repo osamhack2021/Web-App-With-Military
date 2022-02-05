@@ -27,10 +27,10 @@ function SearchBar(props) {
 	}
 	
 	const onKeyPress = (e) => {
-		if( e.key === 'Enter' ) {
-			onSearch();
-			setSearchData('');
-		}
+    if( e.key === 'Enter' ) {
+      onSearch();
+      setSearchData('');
+    }
 	}
   return (
     <>
