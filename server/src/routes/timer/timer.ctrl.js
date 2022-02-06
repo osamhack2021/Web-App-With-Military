@@ -98,11 +98,11 @@ const get = {
     try {
       if (req.user.activeGroup !== null) {
         await Group.findOneAndUpdate(
-			{ _id: req.user.activeGroup },
-			{
-			  $inc: { totalTime: now}
-			},
-		  );
+          { _id: req.user.activeGroup },
+          {
+            $inc: { totalTime: now },
+          },
+        );
       }
       const today = seoul();
       const year = today.getFullYear();
@@ -164,7 +164,7 @@ const get = {
 
         let { maxStreak } = USER;
         if (maxStreak < streak) maxStreak = streak;
-		  
+
         User.findOneAndUpdate(
           { _id: req.user._id },
           {

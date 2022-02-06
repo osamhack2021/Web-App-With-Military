@@ -70,7 +70,8 @@ const userSchema = mongoose.Schema({
   },
   // 현재 자기개발 중인 그룹
   activeGroup: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
   },
   // 현재 자기개발 중인 카테고리
   activeCategory: {
@@ -142,6 +143,7 @@ userSchema.statics.findByToken = function (token, cb) {
     user
       .findOne({ _id: decoded, token })
       .populate('groupList')
+      .populate('activeGroup')
       .exec((err, user) => {
         if (err) return cb(err);
         return cb(null, user);
