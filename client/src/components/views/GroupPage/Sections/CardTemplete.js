@@ -37,7 +37,6 @@ export default function CardTemplete({
 	const [refreshComment, setRefreshComment] = useState(false);
   const [waitingList, setWaitingList] = useState([]);
   
-  
   //popper code
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
@@ -49,7 +48,7 @@ export default function CardTemplete({
   
   
 	const toggleRefreshComment = () => {
-		setRefreshComment((prev) => !prev);
+    setRefreshComment((prev) => !prev);
 	}
 	
 	const toggleEditMode = () => {
@@ -69,8 +68,8 @@ export default function CardTemplete({
   }
 
   const onClickEdit = (event, board) => {
-		if (board.writerId._id === loginData._id) {
-			toggleEditMode();
+    if (board.writerId._id === loginData._id) {
+      toggleEditMode();
     } else {
       message.error("작성자가 아닙니다.");
     }
@@ -90,19 +89,6 @@ export default function CardTemplete({
       message.error("작성자가 아닙니다.");
     }
   }
-  
-  const getUserName = (user_id) => {
-    Axios.post('/api/users/profile', {userId: user_id})
-    .then((response) => {
-      if (response.data.success) {
-        setWaitingList([...waitingList, { name: response.data.user.name, id : user_id }]);
-        return response.data.user.name;
-      } else {
-        return "대기유저정보 불러오기 실패";
-      }
-    });
-  }
-  
   
   const cancel = (e) => {
     message.error("취소하였습니다.");
@@ -126,6 +112,18 @@ export default function CardTemplete({
         handleSnackOpen("success", response.data.message);
       } else {
         handleSnackOpen("error", response.data.message);
+      }
+    });
+  }
+  
+  const getUserName = (user_id) => {
+    Axios.post('/api/users/profile', {userId: user_id})
+    .then((response) => {
+      if (response.data.success) {
+        setWaitingList((waitingList) => [...waitingList, { name: response.data.user.name, id : user_id }]);
+        return response.data.user.name;
+      } else {
+        return "대기유저정보 불러오기 실패";
       }
     });
   }
@@ -244,8 +242,12 @@ export default function CardTemplete({
                   }}>
                     { waitingList.map((item) => 
                       <Box
-                        sx={{display: 'flex'}}
                         key={item.id}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          my: 1
+                        }}
                       >
                         <Typography sx={{mr: 2}}>{ item.name }</Typography>
                         <button
@@ -293,14 +295,6 @@ export default function CardTemplete({
 
             <Grid item xs={7}>
               <GrayBox >
-                <Avatar
-                  alt="Group Profile Picture"
-                  sx={{
-                    width: '3.5rem',
-                    height: '3.5rem',
-                  }}
-                  src={localStorage.getItem('image')}
-                />
                 <Typography>유저 이름</Typography>
                 <Box
                   sx={{
