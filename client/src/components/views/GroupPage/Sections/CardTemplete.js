@@ -1,8 +1,10 @@
+import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { loadBoard, removeBoard } from "../../../../_actions/user_actions";
 import { Avatar, Box, Button, Grid, IconButton, Paper, Popper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useConfirmDialog } from "react-mui-confirm";
 import EditBoard from "./EditBoard";
 import Comment from "./Comment";
 import PersonIcon from '@mui/icons-material/Person';
@@ -13,9 +15,6 @@ import CreateIcon from '@mui/icons-material/Create';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import PanToolIcon from '@mui/icons-material/PanTool';
-import Axios from 'axios';
-
-import { Popconfirm, message } from "antd";
 
 const GrayBox = styled(Box)({
   backgroundColor: '#E8E8E8',
@@ -30,6 +29,7 @@ export default function CardTemplete({
   handleSnackOpen,
 }) {
 	const dispatch = useDispatch();
+  const confirm = useConfirmDialog();
 	
 	const loginData = useSelector((state) => state.auth.loginUserData);
 	const [boardList, setBoardList] = useState([]);
@@ -44,15 +44,14 @@ export default function CardTemplete({
   };
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popper' : undefined;
-	//
-  
+  //
   
 	const toggleRefreshComment = () => {
     setRefreshComment((prev) => !prev);
 	}
 	
 	const toggleEditMode = () => {
-		setEditMode((prev) => !prev);
+    setEditMode((prev) => !prev);
 	}
 	
   const updateBoard = (group_id) => {
@@ -71,10 +70,10 @@ export default function CardTemplete({
     if (board.writerId._id === loginData._id) {
       toggleEditMode();
     } else {
-      message.error("작성자가 아닙니다.");
+      alert("작성자가 아닙니다.");
     }
   }
-  const confirm = (e, board) => {
+  const remove = (board) => {
     if (board.writerId._id === loginData._id) {
       dispatch(removeBoard({ boardId: board._id }))
       .then((response) => {
@@ -86,13 +85,23 @@ export default function CardTemplete({
         }
       });
     } else {
-      message.error("작성자가 아닙니다.");
+      alert("작성자가 아닙니다.");
     }
   }
   
-  const cancel = (e) => {
-    message.error("취소하였습니다.");
-  }
+  const removeBoardOnConfirm = (e, board) =>
+    confirm({
+      title: "게시글을 정말로 삭제 하시겠습니까?",
+      onConfirm: async () => {
+        await remove(board);
+      },
+      confirmButtonProps: {
+        color: "success"
+      },
+      cancelButtonProps: {
+        color: "error"
+      }
+    });
 
   const join = () => {
     Axios.post('/api/groups/join', {groupId: groupInfo._id})
@@ -326,25 +335,15 @@ export default function CardTemplete({
           boardList.map((board) => (
             <Box key={board._id}>
               <h2>제목 : {board.title}</h2>
-              <Button
-                onClick={(e) => {
-                  onClickEdit(e, board);
-                }}
-              >
+              <Button onClick={(e) => { onClickEdit(e, board) }}>
                 <EditOutlinedIcon />
                 수정하기
               </Button>
-              <Popconfirm
-                title="게시글을 정말로 삭제 하시겠습니까?"
-                onConfirm={(e) => {
-                  confirm(e, board);
-                }}
-                onCancel={cancel}
-                okText="Yes"
-                cancelText="No"
-              >
-                <CloseOutlinedIcon /> 삭제하기
-              </Popconfirm>
+              <Button onClick={(e) => { removeBoardOnConfirm(e, board) }} >
+                <CloseOutlinedIcon />
+                삭제하기
+              </Button>
+            
               <h3>
                 작성자 : {board.writerId.name} 작성일 : {board.posted}
               </h3>
