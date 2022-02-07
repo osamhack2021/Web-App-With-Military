@@ -9,7 +9,7 @@ const post = {
     Group.findOne({ groupName: req.body.groupName }, (err, exist) => {
       if (err) return res.status(500).json({ success: false, err });
       if (exist !== null)
-        return res.status(409).json({
+        return res.status(200).json({
           success: false,
           message: '이미 사용중인 그룹 이름입니다.',
         });
@@ -54,7 +54,7 @@ const post = {
     Group.findOne({ _id: req.body.groupId }, (err, group) => {
       // 존재하는 그룹인지 확인
       if (!group) {
-        return res.status(400).json({
+        return res.status(200).json({
           success: false,
           message: '존재하지 않는 그룹에 접근하였습니다.',
         });
@@ -90,7 +90,7 @@ const post = {
     Group.findOne({ _id: req.body.groupId }, (err, group) => {
       // 존재하는 그룹인지 확인
       if (!group) {
-        return res.status(400).json({
+        return res.status(200).json({
           success: false,
           message: '존재하지 않는 그룹에 접근하였습니다.',
         });
@@ -153,7 +153,7 @@ const post = {
                   if (err) res.status(500).json({ success: false, err });
                   return res.status(200).json({
                     success: true,
-                    message: '가입승인이 완료되었습니다.'
+                    message: '가입승인이 완료되었습니다.',
                   });
                 },
               );
@@ -228,7 +228,7 @@ const post = {
           }
           return res.status(200).json({
             success: true,
-            message: "가입 신청이 완료되었습니다"
+            message: '가입 신청이 완료되었습니다',
           });
         },
       );
@@ -240,7 +240,7 @@ const post = {
     Group.findOne({ _id: req.body.groupId }).exec((err, group) => {
       // 존재하는 그룹인지 확인
       if (!group) {
-        return res.status(404).json({
+        return res.status(200).json({
           success: false,
           message: '존재하지 않는 그룹입니다.',
         });
