@@ -35,8 +35,8 @@ export default function EditBoard({board, toggleEditMode}) {
     .then((response) => {
       if (response.payload.success) {
         //editFunction(variables);
-				console.log(response.payload);
-				toggleEditMode();
+        console.log(response.payload);
+        toggleEditMode();
       } else {
         alert("게시글을 수정하지 못했습니다.");
       }
@@ -46,30 +46,30 @@ export default function EditBoard({board, toggleEditMode}) {
     <Box>
       <h2>수정하기</h2>
       <form onSubmit={onSubmit}>
-				<Input
-					onChange={handleTitle}
-					value={TitleValue}
-					type="text"
-					name="title"
-					placeholder="제목을 입력해 주세요."
-					required
-				/>
-				<Input
-					style={{ width: "100%", borderRadius: "5px" }}
-					onChange={handleContent}
-					value={BoardValue}
-					placeholder="내용을 입력해 주세요."
-					multiline
-					rows={3}
-					required
-				/>
-				<Button
-					type="submit"
-					variant="contained"
-					color="primary"
-				>
-					수정
-				</Button>
+        <Input
+          onChange={handleTitle}
+          value={TitleValue}
+          type="text"
+          name="title"
+          placeholder="제목을 입력해 주세요."
+          required
+        />
+        <Input
+          style={{ width: "100%", borderRadius: "5px" }}
+          onChange={handleContent}
+          value={BoardValue}
+          placeholder="내용을 입력해 주세요."
+          multiline
+          rows={3}
+          required
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+        >
+          수정
+        </Button>
       </form>
     </Box>
   );
