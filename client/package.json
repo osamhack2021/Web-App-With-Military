@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "^4.7.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.1",
@@ -12,7 +11,6 @@
     "@nivo/calendar": "^0.74.0",
     "@nivo/core": "^0.74.0",
     "@popperjs/core": "^2.11.2",
-    "antd": "^4.17.2",
     "axios": "^0.24.0",
     "core-js": "^3.6.4",
     "formik": "^1.5.8",

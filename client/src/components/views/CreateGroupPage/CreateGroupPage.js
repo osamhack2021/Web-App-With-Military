@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import Axios from 'axios';
 import { Box, Button, Checkbox, Container, FormControlLabel, FormControl, 
         TextField, Typography, InputLabel, MenuItem, Select } from '@mui/material';
+//import AddIcon from '@mui/icons-material/Add';
 
-function CreateGroup(props) {
+export default function CreateGroup(props) {
 	const [category, setCategory] = useState('');
 
   const categoryChange = (event) => {
@@ -26,7 +26,7 @@ function CreateGroup(props) {
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-				let dataToSubmit = {
+          let dataToSubmit = {
             groupName: values.groupName,
             category: category,
             info: values.info,
@@ -120,5 +120,3 @@ function CreateGroup(props) {
     </Formik>
   );
 }
-
-export default CreateGroup;
