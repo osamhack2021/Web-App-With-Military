@@ -11,15 +11,15 @@ export default function Comment({ boardId, refreshComment }) {
 	const [commentList, setCommentList] = useState([]);
 	
 	const updateComment = (board_id) => {
-		dispatch(loadComment({ boardId: board_id }))
-		.then((response) => {
-			if (response.payload.success) {
-				setCommentList(response.payload.comments);
-				//console.log(commentList);
-			} else {
-				alert("게시글 불러오기를 실패했습니다.");
-			}
-		});
+    dispatch(loadComment({ boardId: board_id }))
+    .then((response) => {
+      if (response.payload.success) {
+        setCommentList(response.payload.comments);
+        //console.log(commentList);
+      } else {
+        alert("게시글 불러오기를 실패했습니다.");
+      }
+    });
 	}
 	
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function Comment({ boardId, refreshComment }) {
     .then((response) => {
       if (response.payload.success) {
         setCommentValue("");
-				updateComment(boardId);
+        updateComment(boardId);
       } else {
         alert("코멘트를 저장하지 못했습니다.");
       }
@@ -48,43 +48,43 @@ export default function Comment({ boardId, refreshComment }) {
   };
 	
 	return (
-		<div>
-			<p>Replies</p>
-			<Divider />
-			{commentList &&
-				commentList.map((comment) => {
-					if (comment.boardId === boardId) {
-						return (
-							<SingleComment
-								key={comment._id}
-								comment={comment}
-								boardId={boardId}
-								updateComment={updateComment}
-							/>
-						);
-					}
-				})
-			}
+    <div>
+      <p>Replies</p>
+      <Divider />
+      {commentList &&
+        commentList.map((comment) => {
+          if (comment.boardId === boardId) {
+            return (
+              <SingleComment
+                key={comment._id}
+                commentInfo={comment}
+                boardId={boardId}
+                updateComment={updateComment}
+              />
+            );
+          }
+        })
+      }
 
-			<form style={{ display: "flex" }} onSubmit={onSubmit}>
-				<Input
-					style={{ width: "100%", borderRadius: "5px" }}
-					onChange={handleClick}
-					value={commentValue}
-					placeholder="코멘트를 작성해 주세요"
-					multiline
-					rows={2}
-				/>
-				<br />
-				<Button
-					size="medium"
-					onClick={onSubmit}
-					variant="contained"
-					color="primary"
-				>
-					입력
-				</Button>
-			</form>
-		</div>
+      <form style={{ display: "flex" }} onSubmit={onSubmit}>
+        <Input
+          style={{ width: "100%", borderRadius: "5px" }}
+          onChange={handleClick}
+          value={commentValue}
+          placeholder="코멘트를 작성해 주세요"
+          multiline
+          rows={2}
+        />
+        <br />
+        <Button
+          size="medium"
+          onClick={onSubmit}
+          variant="contained"
+          color="primary"
+        >
+          입력
+        </Button>
+      </form>
+    </div>
 	);
 }

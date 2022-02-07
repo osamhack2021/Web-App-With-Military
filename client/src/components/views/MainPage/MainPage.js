@@ -7,7 +7,6 @@ import { profileUser, rankingUser, rankingGroup } from "../../../_actions/user_a
 import HomeIcon from '@mui/icons-material/Home';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import Tier from './Sections/Tier';
-import { UserAddOutlined } from "@ant-design/icons";
 
 const GrayBox = styled(Box)({
     backgroundColor: '#E8E8E8',

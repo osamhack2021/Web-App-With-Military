@@ -4,18 +4,18 @@ import 'core-js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from "react-router-dom";
-
 import Reducer from './_reducers';
+import ReduxThunk from 'redux-thunk';
+import promiseMiddleware from 'redux-promise';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import promiseMiddleware from 'redux-promise';
-import ReduxThunk from 'redux-thunk';
+import { BrowserRouter } from "react-router-dom";
+import { ConfirmDialogProvider } from "react-mui-confirm";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/theme';
+import './index.css';
 
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
@@ -29,7 +29,9 @@ ReactDOM.render(
   >
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <App />
+        <ConfirmDialogProvider>
+          <App />
+        </ConfirmDialogProvider>
       </ThemeProvider>
     </BrowserRouter>
   </Provider>
