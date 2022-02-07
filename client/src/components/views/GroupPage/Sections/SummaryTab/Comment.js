@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { loadComment, saveComment } from "../../../../_actions/user_actions";
+import { loadComment, saveComment } from "../../../../../_actions/user_actions";
 import SingleComment from "./SingleComment";
 import { Box, Button, Divider, Input } from '@mui/material';
 

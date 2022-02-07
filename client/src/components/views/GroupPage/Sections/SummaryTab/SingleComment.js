@@ -1,5 +1,5 @@
 import React from "react";
-import { removeComment } from "../../../../_actions/user_actions";
+import { removeComment } from "../../../../../_actions/user_actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { useConfirmDialog } from "react-mui-confirm";

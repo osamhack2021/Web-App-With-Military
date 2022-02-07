@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { editBoard, saveBoard } from "../../../../_actions/user_actions";
+import { editBoard, saveBoard } from "../../../../../_actions/user_actions";
 import { Box, Button, Input } from '@mui/material';
 const layout = {
   labelCol: {
