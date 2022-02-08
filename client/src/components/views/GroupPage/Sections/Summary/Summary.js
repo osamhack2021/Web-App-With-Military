@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
-import EditBoard from "./EditBoard";
-import Comment from "./Comment";
+import EditBoard from './EditBoard';
+import Comment from './Comment';
 import PersonIcon from '@mui/icons-material/Person';
 import PublicIcon from '@mui/icons-material/Public';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
@@ -15,7 +15,7 @@ const GrayBox = styled(Box)({
   padding: '1rem',
 })
 
-export default function SummaryTab ({
+export default function Summary ({
   boardList,
   onClickEdit,
   removeBoardOnConfirm,

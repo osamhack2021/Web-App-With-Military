@@ -1,11 +1,13 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { loadBoard, removeBoard } from "../../../../_actions/user_actions";
+import { useSelector, useDispatch } from 'react-redux';
+import { loadBoard, removeBoard } from '../../../../_actions/user_actions';
 import { Avatar, Box, Button, Grid, IconButton, Paper, Popper, Tab, Typography } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { useConfirmDialog } from "react-mui-confirm";
-import SummaryTab from "./SummaryTab/SummaryTab";
+import { useConfirmDialog } from 'react-mui-confirm';
+import Summary from './Summary/Summary';
+import Ranking from './Ranking/Ranking';
+import Achievement from './Achievement/Achievement';
 import TimerIcon from '@mui/icons-material/Timer';
 import CreateIcon from '@mui/icons-material/Create';
 import PanToolIcon from '@mui/icons-material/PanTool';
@@ -281,7 +283,7 @@ export default function CardTemplete({
               </TabList>
             </Box>
             <TabPanel value="1">
-              <SummaryTab 
+              <Summary
                 boardList={boardList}
                 onClickEdit={onClickEdit}
                 removeBoardOnConfirm={removeBoardOnConfirm}
@@ -290,8 +292,16 @@ export default function CardTemplete({
                 refreshComment={refreshComment}
               />
             </TabPanel>
-            <TabPanel value="2">랭킹</TabPanel>
-            <TabPanel value="3">업적</TabPanel>
+            <TabPanel value="2">
+              <Ranking
+                
+              />
+            </TabPanel>
+            <TabPanel value="3">
+              <Achievement
+                
+              />
+            </TabPanel>
           </TabContext>
         </Box>
       </>
