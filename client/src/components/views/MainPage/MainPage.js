@@ -23,11 +23,11 @@ export default function MainPage() {
 	const [groupRankArray, setGroupRankArray] = useState(0);
 
 	const findUserIndex = (userArray, user_id) => {
-		return userArray.findIndex((user) => user._id === user_id);
+    return userArray.findIndex((user) => user._id === user_id);
 	}
 	
 	const findUser = (userArray, user_id) => {
-		return userArray.find((user) => user._id === user_id);
+    return userArray.find((user) => user._id === user_id);
 	}
 	
 	useEffect( () => {
@@ -124,7 +124,7 @@ export default function MainPage() {
                   <Box>
                     <Typography>상위</Typography>
                     <Typography sx={{fontWeight: 'bold'}}>
-                      { (myRank/userRankArray.length * 100).toFixed(0) }
+                      { ((myRank - 1)/userRankArray.length * 100).toFixed(0) }
                     </Typography>
                     <Typography>%</Typography>
                   </Box>

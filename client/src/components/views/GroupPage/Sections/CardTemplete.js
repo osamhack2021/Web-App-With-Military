@@ -284,6 +284,7 @@ export default function CardTemplete({
             </Box>
             <TabPanel value="1">
               <Summary
+                groupInfo={groupInfo}
                 boardList={boardList}
                 onClickEdit={onClickEdit}
                 removeBoardOnConfirm={removeBoardOnConfirm}
