@@ -31,7 +31,7 @@ const post = {
       if (err) return res.status(500).json({ success: false });
       if (String(comment.writerId) !== String(req.user._id))
         return res
-          .status(500)
+          .status(200)
           .json({ success: false, message: '작성자가 아닙니다.' });
       Comment.deleteOne({ _id: req.body.commentId }, err => {
         if (err) return res.status(500).json({ success: false });

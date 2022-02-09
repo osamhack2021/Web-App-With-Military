@@ -29,7 +29,7 @@ const post = {
     User.findOne({ email: req.body.email }, (err, user) => {
       if (err) res.status(500).json({ loginSuccess: false, err });
       if (!user) {
-        return res.status(403).json({
+        return res.status(200).json({
           loginSuccess: false,
           message: '존재하지 않는 이메일 입니다.',
         });
@@ -38,7 +38,7 @@ const post = {
       user.comparePassword(req.body.password, (err, isMatch) => {
         if (err) return res.status(500).json({ loginSuccess: false, err });
         if (!isMatch) {
-          return res.status(403).json({
+          return res.status(200).json({
             loginSuccess: false,
             message: '비밀번호가 틀렸습니다.',
           });
@@ -67,7 +67,7 @@ const post = {
         return res.status(500).json({ success: false, err });
       }
       if (email) {
-        return res.status(409).json({
+        return res.status(200).json({
           success: false,
           message: '이미 사용중인 이메일 입니다.',
         });
@@ -75,7 +75,7 @@ const post = {
       // name 중복 확인
       User.findOne({ name: user.name }, (err, name) => {
         if (name) {
-          return res.status(409).json({
+          return res.status(200).json({
             success: false,
             message: '이미 사용중인 유저 이름 입니다.',
           });
@@ -99,7 +99,7 @@ const post = {
       { $set: { info: req.body.info } },
       (err, user) => {
         if (!user) {
-          return res.status(400).json({
+          return res.status(200).json({
             success: false,
             message: '존재하지 않는 유저에 접근하였습니다.',
           });
@@ -115,7 +115,7 @@ const post = {
       .exec((err, user) => {
         if (!user) {
           return res
-            .status(404)
+            .status(200)
             .json({ success: false, message: '존재하지 않는 유저 입니다.' });
         }
         if (err) return res.status(500).json({ success: false, err });
