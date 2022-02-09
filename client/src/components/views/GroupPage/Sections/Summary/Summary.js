@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
 import EditBoard from './EditBoard';
 import Comment from './Comment';
 import PersonIcon from '@mui/icons-material/Person';
@@ -10,6 +10,7 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 
 
 const GrayBox = styled(Box)({
@@ -87,14 +88,55 @@ export default function Summary ({
           </Typography>
         </GrayBox>
       </Grid>
-
       <Grid item xs={7}>
-        <GrayBox >
-          <Typography>유저 이름</Typography>
-          <Box sx={{ display: 'flex' }}>
-            <Typography>5시간</Typography>
-            <PublicIcon />
-          </Box>
+        <GrayBox>
+          {	boardList &&
+            boardList.map((board) => {
+              const creationDate = new Date(board.posted);
+              creationDate.setHours(creationDate.getHours() - 9);
+              const now = new Date();
+              const timeDiff = Math.floor(now.getTime()/1000 - creationDate.getTime()/1000);
+              
+              return (
+                <Box key={board._id}>
+                  <Box sx={{ display: 'flex' }}>
+                    <Typography variant="h5">{board.title}</Typography>
+                    <Box sx={{flexGrow: 1}}/>
+                    <IconButton onClick={(e) => { onClickEdit(e, board) }}>
+                      <EditOutlinedIcon />
+                    </IconButton>
+                    <IconButton onClick={(e) => { removeBoardOnConfirm(e, board) }} >
+                      <CloseOutlinedIcon />
+                    </IconButton>
+                  </Box>
+                  <Box sx={{ display: 'flex' }}>
+                    <Avatar src={board.writerId.image} sx={{mr: 1}}/>
+                    <Typography sx={{mr: 1}}>{board.writerId.name}</Typography>
+                    <Box sx={{flexGrow: 1}}/>
+                    { parseInt(timeDiff/3600/24/365) ? <Typography>{parseInt(timeDiff/3600/24/365)} 년</Typography> :
+                      parseInt(timeDiff/3600/24/30)  ? <Typography>{parseInt(timeDiff/3600/24/30)} 달</Typography>  :
+                      parseInt(timeDiff/3600/24)     ? <Typography>{parseInt(timeDiff/3600/24)} 일</Typography>     :
+                      parseInt(timeDiff/3600)        ? <Typography>{parseInt(timeDiff/3600)} 시간</Typography>      :
+                      parseInt(timeDiff%3600/60)     ? <Typography>{parseInt(timeDiff%3600/60)} 분</Typography>     :
+                                                       <Typography>{timeDiff%60} 초</Typography>                     }
+                    <PublicIcon sx={{color: '#5E5E5E'}}/>
+                  </Box>
+                  <Typography>{board.content}</Typography>
+                  {editMode && (
+                    <EditBoard
+                      board={board}
+                      toggleEditMode={toggleEditMode}
+                    />
+                  )}
+                  <Comment
+                    boardId={board._id}
+                    refreshComment={refreshComment}
+                  />
+                </Box>
+              );
+            }
+          )
+        }
         </GrayBox>
       </Grid>
 
@@ -110,46 +152,31 @@ export default function Summary ({
             </Typography>
             <PersonIcon sx={{color: '#5E5E5E'}}/>
           </Box>
+          <Divider />
           <Typography>
             {groupInfo.info}
           </Typography>
         </GrayBox>
       </Grid>
 
-      <Grid item xs={7}>
+      
+      
+      <Grid item xs={5}>
         <GrayBox>
-          {	boardList &&
-            boardList.map((board) => (
-              <Box key={board._id}>
-                <h2>제목 : {board.title}</h2>
-                <Button onClick={(e) => { onClickEdit(e, board) }}>
-                  <EditOutlinedIcon />
-                  수정하기
-                </Button>
-                <Button onClick={(e) => { removeBoardOnConfirm(e, board) }} >
-                  <CloseOutlinedIcon />
-                  삭제하기
-                </Button>
-
-                <h3>
-                  작성자 : {board.writerId.name} 작성일 : {board.posted}
-                </h3>
-                <h3>내용 : {board.content}</h3>
-                {editMode && (
-                  <form style={{ display: "flex", marginLeft: "40px" }}>
-                    <EditBoard
-                      board={board}
-                      toggleEditMode={toggleEditMode}
-                    />
-                    <br />
-                  </form>
-                )}
-                <Comment
-                  boardId={board._id}
-                  refreshComment={refreshComment}
-                />
-              </Box>
-          ))}
+          <Box sx={{display: 'flex' }}>
+            <Typography sx={{
+              mr: 1,
+              fontSize: '1.2rem', 
+              fontWeight: 'bold',
+            }}>
+              집중중인 멤버
+            </Typography>
+            <TimerOutlinedIcon sx={{color: '#5E5E5E'}}/>
+          </Box>
+          <Divider />
+          <Typography>
+            {groupInfo.info}
+          </Typography>
         </GrayBox>
       </Grid>
     </Grid>
