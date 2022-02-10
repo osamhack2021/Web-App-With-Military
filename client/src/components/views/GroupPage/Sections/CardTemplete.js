@@ -1,26 +1,18 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { loadBoard, removeBoard } from "../../../../_actions/user_actions";
-import { Avatar, Box, Button, Grid, IconButton, Paper, Popper, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useConfirmDialog } from "react-mui-confirm";
-import EditBoard from "./EditBoard";
-import Comment from "./Comment";
-import PersonIcon from '@mui/icons-material/Person';
-import PublicIcon from '@mui/icons-material/Public';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadBoard } from '../../../../_actions/user_actions';
+import { Avatar, Box, Button, Grid, IconButton, Paper, Popper, Tab, Typography } from '@mui/material';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { useConfirmDialog } from 'react-mui-confirm';
+import Summary from './Summary/Summary';
+import Ranking from './Ranking/Ranking';
+import Achievement from './Achievement/Achievement';
 import TimerIcon from '@mui/icons-material/Timer';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
 import CreateIcon from '@mui/icons-material/Create';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import PanToolIcon from '@mui/icons-material/PanTool';
+import PersonIcon from '@mui/icons-material/Person';
 
-const GrayBox = styled(Box)({
-  backgroundColor: '#E8E8E8',
-  borderRadius: '2.5rem',
-  padding: '1rem',
-})
 
 export default function CardTemplete({
   groupInfo,
@@ -33,26 +25,27 @@ export default function CardTemplete({
 	
 	const loginData = useSelector((state) => state.auth.loginUserData);
 	const [boardList, setBoardList] = useState([]);
-	const [editMode, setEditMode] = useState(false);
 	const [refreshComment, setRefreshComment] = useState(false);
   const [waitingList, setWaitingList] = useState([]);
   
   //popper code
   const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popper' : undefined;
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
-  //
+  //tab code
+  const [tabValue, setTabValue] = useState('1');
+
+  const handleTabChange = (event, newTabValue) => {
+    setTabValue(newTabValue);
+  };
   
 	const toggleRefreshComment = () => {
     setRefreshComment((prev) => !prev);
 	}
 	
-	const toggleEditMode = () => {
-    setEditMode((prev) => !prev);
-	}
 	
   const updateBoard = (group_id) => {
     dispatch(loadBoard({ groupId: group_id }))
@@ -65,43 +58,6 @@ export default function CardTemplete({
       }
     });
   }
-
-  const onClickEdit = (event, board) => {
-    if (board.writerId._id === loginData._id) {
-      toggleEditMode();
-    } else {
-      alert("작성자가 아닙니다.");
-    }
-  }
-  const remove = (board) => {
-    if (board.writerId._id === loginData._id) {
-      dispatch(removeBoard({ boardId: board._id }))
-      .then((response) => {
-        if (response.payload.success) {
-          console.log(response.payload);
-          updateBoard(groupInfo._id);
-        } else {
-          alert("게시글 삭제에 실패했습니다.");
-        }
-      });
-    } else {
-      alert("작성자가 아닙니다.");
-    }
-  }
-  
-  const removeBoardOnConfirm = (e, board) =>
-    confirm({
-      title: "게시글을 정말로 삭제 하시겠습니까?",
-      onConfirm: async () => {
-        await remove(board);
-      },
-      confirmButtonProps: {
-        color: "success"
-      },
-      cancelButtonProps: {
-        color: "error"
-      }
-    });
 
   const join = () => {
     Axios.post('/api/groups/join', {groupId: groupInfo._id})
@@ -143,7 +99,7 @@ export default function CardTemplete({
   
 	useEffect(() => {
     updateBoard(groupInfo._id)
-  }, [toggleFormOverlay, editMode]);
+  }, [toggleFormOverlay]);
 	
   if(loginData === undefined) {
     return <div>데이터 불러오는 중</div>
@@ -201,12 +157,10 @@ export default function CardTemplete({
           ml: '20%',
           mr: '30%',
         }}>
-          <Typography
-            sx={{
-              fontSize: '2rem',
-              fontWeight: 'bold',
-            }}
-          >
+          <Typography sx={{
+            fontSize: '2rem',
+            fontWeight: 'bold',
+          }}>
             {groupInfo.groupName}
           </Typography>
 
@@ -274,95 +228,39 @@ export default function CardTemplete({
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            mt: 2,
-            mx: 6,
-            p: 4,
-            borderTop: '1px solid #5E5E5E',
-          }}
-        >
-          <Grid container spacing={4}
-            sx={{
-              '& .MuiGrid-root': {
-                p: 2,
-              },
-            }}
-          >
-            <Grid item xs={5}>
-              <GrayBox sx={{display: 'flex'}}>
-                <Typography sx={{
-                  mr: 1,
-                  fontSize: '1.2rem',
-                  fontWeight: 'bold',
-                }}>
-                  그룹 전체 랭킹
-                </Typography>
-                <EqualizerIcon sx={{color: '#5E5E5E'}}/>
-              </GrayBox>
-            </Grid>
-
-            <Grid item xs={7}>
-              <GrayBox >
-                <Typography>유저 이름</Typography>
-                <Box
-                  sx={{
-                    display: 'flex',
-                  }}
-                >
-                  <Typography>5시간</Typography>
-                  <PublicIcon />
-                </Box>
-              </GrayBox>
-            </Grid>
-
-            <Grid item xs={5}>
-              <GrayBox sx={{display: 'flex'}}>
-                <Typography sx={{
-                  mr: 1,
-                  fontSize: '1.2rem', 
-                  fontWeight: 'bold',
-                }}>
-                  정보
-                </Typography>
-                <PersonIcon sx={{color: '#5E5E5E'}}/>
-              </GrayBox>
-            </Grid>
-          </Grid>
-        </Box>
-
-        {	boardList &&
-          boardList.map((board) => (
-            <Box key={board._id}>
-              <h2>제목 : {board.title}</h2>
-              <Button onClick={(e) => { onClickEdit(e, board) }}>
-                <EditOutlinedIcon />
-                수정하기
-              </Button>
-              <Button onClick={(e) => { removeBoardOnConfirm(e, board) }} >
-                <CloseOutlinedIcon />
-                삭제하기
-              </Button>
-            
-              <h3>
-                작성자 : {board.writerId.name} 작성일 : {board.posted}
-              </h3>
-              <h3>내용 : {board.content}</h3>
-              {editMode && (
-                <form style={{ display: "flex", marginLeft: "40px" }}>
-                  <EditBoard
-                    board={board}
-                    toggleEditMode={toggleEditMode}
-                  />
-                  <br />
-                </form>
-              )}
-              <Comment
-                boardId={board._id}
-                refreshComment={refreshComment}
-              />
+        <Box sx={{
+          mt: 2,
+          mx: 6,
+          p: 4,
+        }}>
+          <TabContext value={tabValue}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+                <Tab label="개요" value="1" />
+                <Tab label="랭킹" value="2" />
+                <Tab label="업적" value="3" />
+              </TabList>
             </Box>
-        ))}
+            <TabPanel value="1">
+              <Summary
+                groupInfo={groupInfo}
+                boardList={boardList}
+                refreshComment={refreshComment}
+                updateBoard={updateBoard}
+              />
+            </TabPanel>
+            <TabPanel value="2">
+              <Ranking
+                
+              />
+            </TabPanel>
+            <TabPanel value="3">
+              <Achievement
+                
+              />
+            </TabPanel>
+          </TabContext>
+        </Box>
       </>
     );
   }

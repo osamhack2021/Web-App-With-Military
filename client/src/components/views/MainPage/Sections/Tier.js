@@ -6,10 +6,10 @@ export default function Tier ({score, tier}) {
   
   const TierBox = styled(Box)({
     background: 'linear-gradient(180deg, rgba(255, 215, 0, 0.8) 0%, rgba(253, 255, 135, 0.8) 100%)',
-      transform: 'rotate(-45deg)',
-      width: '1rem',
-      height: '1rem',
-      margin: 'auto 0.2rem auto 0.2rem',
+    transform: 'rotate(-45deg)',
+    width: '1rem',
+    height: '1rem',
+    margin: 'auto 0.2rem auto 0.2rem',
   });
 
   const TierBar = styled(Box)({
@@ -21,19 +21,19 @@ export default function Tier ({score, tier}) {
   
   return (
     <Box>
-        <Stack direction="row" spacing={2} >
-            <TierBox />
-            <Typography
-                align="right"
-                sx={{
-                    fontSize: '1rem',
-                    color : '#a3971c'
-                }}
-            >
-                {score} / {tier}
-            </Typography>
-        </Stack>
-        <TierBar />
+      <Stack direction="row" spacing={2} >
+        <TierBox />
+        <Typography
+          align="right"
+          sx={{
+            fontSize: '1rem',
+            color : '#a3971c'
+          }}
+        >
+          {score} / {tier}
+        </Typography>
+      </Stack>
+      <TierBar />
     </Box>
   );
 };

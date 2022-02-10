@@ -143,7 +143,7 @@ export default function TimerOverlay() {
               justifyContent: "center",
             }}
           >
-            {Studying === true ? (
+            {Studying ? (
               <Button disabled></Button>
             ) : (
               <Button

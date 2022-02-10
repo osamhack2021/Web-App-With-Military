@@ -6,6 +6,7 @@
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.1",
+    "@mui/lab": "^5.0.0-alpha.67",
     "@mui/material": "^5.0.2",
     "@mui/styles": "^5.3.0",
     "@nivo/calendar": "^0.74.0",

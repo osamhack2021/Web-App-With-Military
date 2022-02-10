@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { loadComment, saveComment } from "../../../../_actions/user_actions";
-import SingleComment from "./SingleComment";
+import { removeBoard, loadComment, saveComment } from "../../../../../_actions/user_actions";
 import { Box, Button, Divider, Input } from '@mui/material';
+import SingleComment from "./SingleComment";
+import EditBoard from './EditBoard';
 
-export default function Comment({ boardId, refreshComment }) {
+export default function Comment({
+  boardInfo,
+  refreshComment,
+  editMode,
+  toggleEditMode
+}) {
+  
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.auth.loginUserData);
+  const loginData = useSelector((state) => state.auth.loginUserData);
+  
   const [commentValue, setCommentValue] = useState("");
 	const [commentList, setCommentList] = useState([]);
-	
+  
+  
 	const updateComment = (board_id) => {
     dispatch(loadComment({ boardId: board_id }))
     .then((response) => {
@@ -21,44 +30,46 @@ export default function Comment({ boardId, refreshComment }) {
       }
     });
 	}
-	
-  useEffect(() => {
-    updateComment(boardId);
-  }, [refreshComment]);
 
-  const handleClick = (event) => {
+  const OnChange = (event) => {
     setCommentValue(event.currentTarget.value);
   };
+  
   const onSubmit = (event) => {
     event.preventDefault();
     const variables = {
       content: commentValue,
-      writerId: userData._id,
-      boardId: boardId,
+      writerId: loginData._id,
+      boardId: boardInfo._id,
     };
     dispatch(saveComment(variables))
     .then((response) => {
       if (response.payload.success) {
         setCommentValue("");
-        updateComment(boardId);
+        updateComment(boardInfo._id);
       } else {
         alert("코멘트를 저장하지 못했습니다.");
       }
     });
   };
+  
+  
+  useEffect(() => {
+    updateComment(boardInfo._id);
+  }, [refreshComment]);
 	
 	return (
-    <div>
-      <p>Replies</p>
+    <Box>
+      <p>댓글</p>
       <Divider />
       {commentList &&
         commentList.map((comment) => {
-          if (comment.boardId === boardId) {
+          if (comment.boardId === boardInfo._id) {
             return (
               <SingleComment
                 key={comment._id}
                 commentInfo={comment}
-                boardId={boardId}
+                boardId={boardInfo._id}
                 updateComment={updateComment}
               />
             );
@@ -69,7 +80,7 @@ export default function Comment({ boardId, refreshComment }) {
       <form style={{ display: "flex" }} onSubmit={onSubmit}>
         <Input
           style={{ width: "100%", borderRadius: "5px" }}
-          onChange={handleClick}
+          onChange={OnChange}
           value={commentValue}
           placeholder="코멘트를 작성해 주세요"
           multiline
@@ -85,6 +96,13 @@ export default function Comment({ boardId, refreshComment }) {
           입력
         </Button>
       </form>
-    </div>
+      
+      {editMode && (
+        <EditBoard
+          boardInfo={boardInfo}
+          toggleEditMode={toggleEditMode}
+        />
+      )}
+    </Box>
 	);
 }
