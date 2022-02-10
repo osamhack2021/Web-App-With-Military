@@ -91,12 +91,12 @@ export default function Board({
         <Avatar src={boardInfo.writerId.image} sx={{mr: 1}}/>
         <Typography sx={{mr: 1}}>{boardInfo.writerId.name}</Typography>
         <Box sx={{flexGrow: 1}}/>
-        { parseInt(timeDiff/3600/24/365) ? <Typography>{parseInt(timeDiff/3600/24/365)} 년</Typography> :
-          parseInt(timeDiff/3600/24/30)  ? <Typography>{parseInt(timeDiff/3600/24/30)} 달</Typography>  :
-          parseInt(timeDiff/3600/24)     ? <Typography>{parseInt(timeDiff/3600/24)} 일</Typography>     :
-          parseInt(timeDiff/3600)        ? <Typography>{parseInt(timeDiff/3600)} 시간</Typography>      :
-          parseInt(timeDiff%3600/60)     ? <Typography>{parseInt(timeDiff%3600/60)} 분</Typography>     :
-                                           <Typography>{timeDiff%60} 초</Typography>                     }
+        { parseInt(timeDiff/3600/24/365) ? <Typography>{parseInt(timeDiff/3600/24/365)}년 전</Typography> :
+          parseInt(timeDiff/3600/24/30)  ? <Typography>{parseInt(timeDiff/3600/24/30)}달 전</Typography>  :
+          parseInt(timeDiff/3600/24)     ? <Typography>{parseInt(timeDiff/3600/24)}일 전</Typography>     :
+          parseInt(timeDiff/3600)        ? <Typography>{parseInt(timeDiff/3600)}시간 전</Typography>      :
+          parseInt(timeDiff%3600/60)     ? <Typography>{parseInt(timeDiff%3600/60)}분 전</Typography>     :
+                                           <Typography>방금 전</Typography>                     }
         <PublicIcon sx={{color: '#5E5E5E'}}/>
       </Box>
       

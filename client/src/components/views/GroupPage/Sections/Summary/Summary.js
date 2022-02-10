@@ -48,6 +48,8 @@ export default function Summary ({
   return (
     <Grid container spacing={4}>
       <Grid item xs={5}>
+        
+        {/*그룹 랭킹*/}
         <GrayBox>
           <Box sx={{
               display: 'flex',
@@ -89,6 +91,7 @@ export default function Summary ({
         </GrayBox>
       </Grid>
       
+      {/*게시판*/}
       <Grid item xs={7}>
         <GrayBox>
           {	boardList && boardList.map((board) =>
@@ -101,7 +104,8 @@ export default function Summary ({
           )}
         </GrayBox>
       </Grid>
-
+      
+      {/*그룹 정보*/}
       <Grid item xs={5}>
         <GrayBox>
           <Box sx={{display: 'flex' }}>
@@ -120,7 +124,8 @@ export default function Summary ({
           </Typography>
         </GrayBox>
       </Grid>
-
+      
+      {/*집중중인 멤버*/}
       <Grid item xs={5}>
         <GrayBox>
           <Box sx={{display: 'flex' }}>
