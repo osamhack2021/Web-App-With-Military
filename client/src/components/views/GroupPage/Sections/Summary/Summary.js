@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Avatar, Box, Button, Divider, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Comment from './Comment';
+
+import Board from './Board';
 import PersonIcon from '@mui/icons-material/Person';
-import PublicIcon from '@mui/icons-material/Public';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
@@ -88,43 +88,17 @@ export default function Summary ({
           </Typography>
         </GrayBox>
       </Grid>
+      
       <Grid item xs={7}>
         <GrayBox>
-          {	boardList &&
-            boardList.map((board) => {
-              const creationDate = new Date(board.posted);
-              creationDate.setHours(creationDate.getHours() - 9);
-              const now = new Date();
-              const timeDiff = Math.floor((now.getTime() - creationDate.getTime())/1000);
-              console.log(now.toString(), creationDate.toString());
-              console.log(timeDiff);    
-              return (
-                <Box key={board._id}>
-                  <Typography variant="h5">{board.title}</Typography>
-                  <Box sx={{ display: 'flex' }}>
-                    <Avatar src={board.writerId.image} sx={{mr: 1}}/>
-                    <Typography sx={{mr: 1}}>{board.writerId.name}</Typography>
-                    <Box sx={{flexGrow: 1}}/>
-                    { parseInt(timeDiff/3600/24/365) ? <Typography>{parseInt(timeDiff/3600/24/365)} 년</Typography> :
-                      parseInt(timeDiff/3600/24/30)  ? <Typography>{parseInt(timeDiff/3600/24/30)} 달</Typography>  :
-                      parseInt(timeDiff/3600/24)     ? <Typography>{parseInt(timeDiff/3600/24)} 일</Typography>     :
-                      parseInt(timeDiff/3600)        ? <Typography>{parseInt(timeDiff/3600)} 시간</Typography>      :
-                      parseInt(timeDiff%3600/60)     ? <Typography>{parseInt(timeDiff%3600/60)} 분</Typography>     :
-                                                       <Typography>{timeDiff%60} 초</Typography>                     }
-                    <PublicIcon sx={{color: '#5E5E5E'}}/>
-                  </Box>
-                  <Typography>{board.content}</Typography>
-                  <Comment
-                    groupInfo={groupInfo}
-                    boardInfo={board}
-                    refreshComment={refreshComment}
-                    updateBoard={updateBoard}
-                  />
-                </Box>
-              );
-            }
-          )
-        }
+          {	boardList && boardList.map((board) =>
+            <Board 
+              groupInfo={groupInfo}
+              boardInfo={board}
+              refreshComment={refreshComment}
+              updateBoard={updateBoard}
+            />
+          )}
         </GrayBox>
       </Grid>
 
