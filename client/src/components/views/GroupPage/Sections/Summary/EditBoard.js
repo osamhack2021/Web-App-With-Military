@@ -3,10 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { editBoard, saveBoard } from "../../../../../_actions/user_actions";
 import { Box, Button, Input } from '@mui/material';
 
-export default function EditBoard({board, toggleEditMode}) {
+export default function EditBoard({
+  boardInfo,
+  toggleEditMode
+}) {
   const dispatch = useDispatch();
-  const [BoardValue, setBoardValue] = useState(board.content);
-  const [TitleValue, setTitleValue] = useState(board.title);
+  const [BoardValue, setBoardValue] = useState(boardInfo.content);
+  const [TitleValue, setTitleValue] = useState(boardInfo.title);
 	
   const handleContent = (event) => {
     setBoardValue(event.currentTarget.value);
@@ -20,7 +23,7 @@ export default function EditBoard({board, toggleEditMode}) {
     const boardToEdit = {
       title: TitleValue,
       content: BoardValue,
-      boardId: board._id
+      boardId: boardInfo._id
     };
 
     dispatch(editBoard(boardToEdit))
@@ -35,7 +38,7 @@ export default function EditBoard({board, toggleEditMode}) {
     });
   };
   
-  console.log(board);
+  console.log(boardInfo);
   return (
     <Box>
       <h2>수정하기</h2>

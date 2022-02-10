@@ -1,14 +1,12 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
-import EditBoard from './EditBoard';
+import { Avatar, Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import Comment from './Comment';
 import PersonIcon from '@mui/icons-material/Person';
 import PublicIcon from '@mui/icons-material/Public';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 
@@ -22,11 +20,8 @@ const GrayBox = styled(Box)({
 export default function Summary ({
   groupInfo,
   boardList,
-  onClickEdit,
-  removeBoardOnConfirm,
-  editMode,
-  toggleEditMode,
   refreshComment,
+  updateBoard
 }) {
   
   const [groupRankArray, setGroupRankArray] = useState([]);
@@ -38,15 +33,17 @@ export default function Summary ({
   useEffect(() => {
     Axios.get('/api/ranking/group').then((response) => {
       if (response.data.success) {
+        console.log(response.data.result);
         setGroupRankArray(response.data.result);
       } else {
         alert('Failed');
       }
     });
 	}, []);
-  
-  console.log(groupInfo);
+
   const myGroupRank = findGroupIndex(groupRankArray, groupInfo._id) + 1;
+  
+  console.log(boardList);
   
   return (
     <Grid container spacing={4}>
@@ -69,7 +66,10 @@ export default function Summary ({
             }}>
               랭킹 자세히 보기
             </Typography>
-            <ChevronRightIcon />
+            <ChevronRightIcon 
+              component={Link}
+              to="/ranking/group"  
+            />
           </Box>
           <Divider />
           {groupInfo.totalTime}
@@ -95,20 +95,12 @@ export default function Summary ({
               const creationDate = new Date(board.posted);
               creationDate.setHours(creationDate.getHours() - 9);
               const now = new Date();
-              const timeDiff = Math.floor(now.getTime()/1000 - creationDate.getTime()/1000);
-              
+              const timeDiff = Math.floor((now.getTime() - creationDate.getTime())/1000);
+              console.log(now.toString(), creationDate.toString());
+              console.log(timeDiff);    
               return (
                 <Box key={board._id}>
-                  <Box sx={{ display: 'flex' }}>
-                    <Typography variant="h5">{board.title}</Typography>
-                    <Box sx={{flexGrow: 1}}/>
-                    <IconButton onClick={(e) => { onClickEdit(e, board) }}>
-                      <EditOutlinedIcon />
-                    </IconButton>
-                    <IconButton onClick={(e) => { removeBoardOnConfirm(e, board) }} >
-                      <CloseOutlinedIcon />
-                    </IconButton>
-                  </Box>
+                  <Typography variant="h5">{board.title}</Typography>
                   <Box sx={{ display: 'flex' }}>
                     <Avatar src={board.writerId.image} sx={{mr: 1}}/>
                     <Typography sx={{mr: 1}}>{board.writerId.name}</Typography>
@@ -122,15 +114,11 @@ export default function Summary ({
                     <PublicIcon sx={{color: '#5E5E5E'}}/>
                   </Box>
                   <Typography>{board.content}</Typography>
-                  {editMode && (
-                    <EditBoard
-                      board={board}
-                      toggleEditMode={toggleEditMode}
-                    />
-                  )}
                   <Comment
-                    boardId={board._id}
+                    groupInfo={groupInfo}
+                    boardInfo={board}
                     refreshComment={refreshComment}
+                    updateBoard={updateBoard}
                   />
                 </Box>
               );
@@ -159,8 +147,6 @@ export default function Summary ({
         </GrayBox>
       </Grid>
 
-      
-      
       <Grid item xs={5}>
         <GrayBox>
           <Box sx={{display: 'flex' }}>

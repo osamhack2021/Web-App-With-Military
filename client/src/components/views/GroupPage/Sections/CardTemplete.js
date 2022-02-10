@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadBoard, removeBoard } from '../../../../_actions/user_actions';
+import { loadBoard } from '../../../../_actions/user_actions';
 import { Avatar, Box, Button, Grid, IconButton, Paper, Popper, Tab, Typography } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useConfirmDialog } from 'react-mui-confirm';
@@ -25,7 +25,6 @@ export default function CardTemplete({
 	
 	const loginData = useSelector((state) => state.auth.loginUserData);
 	const [boardList, setBoardList] = useState([]);
-	const [editMode, setEditMode] = useState(false);
 	const [refreshComment, setRefreshComment] = useState(false);
   const [waitingList, setWaitingList] = useState([]);
   
@@ -47,9 +46,6 @@ export default function CardTemplete({
     setRefreshComment((prev) => !prev);
 	}
 	
-	const toggleEditMode = () => {
-    setEditMode((prev) => !prev);
-	}
 	
   const updateBoard = (group_id) => {
     dispatch(loadBoard({ groupId: group_id }))
@@ -62,43 +58,6 @@ export default function CardTemplete({
       }
     });
   }
-
-  const onClickEdit = (event, board) => {
-    if (board.writerId._id === loginData._id) {
-      toggleEditMode();
-    } else {
-      alert("작성자가 아닙니다.");
-    }
-  }
-  const remove = (board) => {
-    if (board.writerId._id === loginData._id) {
-      dispatch(removeBoard({ boardId: board._id }))
-      .then((response) => {
-        if (response.payload.success) {
-          console.log(response.payload);
-          updateBoard(groupInfo._id);
-        } else {
-          alert("게시글 삭제에 실패했습니다.");
-        }
-      });
-    } else {
-      alert("작성자가 아닙니다.");
-    }
-  }
-  
-  const removeBoardOnConfirm = (e, board) =>
-    confirm({
-      title: "게시글을 정말로 삭제 하시겠습니까?",
-      onConfirm: async () => {
-        await remove(board);
-      },
-      confirmButtonProps: {
-        color: "success"
-      },
-      cancelButtonProps: {
-        color: "error"
-      }
-    });
 
   const join = () => {
     Axios.post('/api/groups/join', {groupId: groupInfo._id})
@@ -140,7 +99,7 @@ export default function CardTemplete({
   
 	useEffect(() => {
     updateBoard(groupInfo._id)
-  }, [toggleFormOverlay, editMode]);
+  }, [toggleFormOverlay]);
 	
   if(loginData === undefined) {
     return <div>데이터 불러오는 중</div>
@@ -286,11 +245,8 @@ export default function CardTemplete({
               <Summary
                 groupInfo={groupInfo}
                 boardList={boardList}
-                onClickEdit={onClickEdit}
-                removeBoardOnConfirm={removeBoardOnConfirm}
-                editMode={editMode}
-                toggleEditMode={toggleEditMode}
                 refreshComment={refreshComment}
+                updateBoard={updateBoard}
               />
             </TabPanel>
             <TabPanel value="2">
