@@ -4,7 +4,8 @@ const { Category } = require('../../models/Category');
 
 const post = {
   // 그룹 만들기
-  create: (req, res) => {
+  create: async (req, res) => {
+    req.body.created = await new Date().setHours(new Date().getHours() + 9);
     // 그룹이름 중복 여부 확인
     Group.findOne({ groupName: req.body.groupName }, (err, exist) => {
       if (err) return res.status(500).json({ success: false, err });
@@ -153,7 +154,7 @@ const post = {
                   if (err) res.status(500).json({ success: false, err });
                   return res.status(200).json({
                     success: true,
-                    message: '가입승인이 완료되었습니다.'
+                    message: '가입승인이 완료되었습니다.',
                   });
                 },
               );
@@ -228,7 +229,7 @@ const post = {
           }
           return res.status(200).json({
             success: true,
-            message: "가입 신청이 완료되었습니다"
+            message: '가입 신청이 완료되었습니다',
           });
         },
       );

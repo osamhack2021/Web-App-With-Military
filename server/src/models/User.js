@@ -4,11 +4,6 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 
-function seoul() {
-  const temp = new Date();
-  temp.setHours(temp.getHours() + 9);
-  return temp;
-}
 const userSchema = mongoose.Schema({
   email: {
     type: String,
@@ -34,7 +29,6 @@ const userSchema = mongoose.Schema({
   },
   created: {
     type: Date,
-    default: seoul(),
   },
   groupList: [
     {

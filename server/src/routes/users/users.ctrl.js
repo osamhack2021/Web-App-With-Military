@@ -60,6 +60,7 @@ const post = {
     });
   },
   register: async (req, res) => {
+    req.body.created = await new Date().setHours(new Date().getHours() + 9);
     const user = await new User(req.body);
     // email 중복 확인
     User.findOne({ email: user.email }, (err, email) => {
