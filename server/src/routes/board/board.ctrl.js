@@ -2,11 +2,12 @@ const { Board } = require('../../models/Board');
 
 const post = {
   // 게시글 쓰기
-  saveBoard: (req, res) => {
-    const board = new Board(req.body);
-    board.save((err, board) => {
+  saveBoard: async (req, res) => {
+    req.body.posted = await new Date().setHours(new Date().getHours() + 9);
+    const board = await new Board(req.body);
+    board.save((err, boardData) => {
       if (err) return res.status(400).json({ success: false, err });
-      Board.find({ _id: board._id })
+      Board.find({ _id: boardData._id })
         .populate('writerId')
         .exec((err, result) => {
           if (err) return res.status(400).json({ success: false, err });

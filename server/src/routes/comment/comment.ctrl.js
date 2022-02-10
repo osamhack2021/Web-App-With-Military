@@ -2,11 +2,12 @@ const { Comment } = require('../../models/Comment');
 
 const post = {
   // 댓글 쓰기
-  saveComment: (req, res) => {
-    const comment = new Comment(req.body);
-    comment.save((err, comment) => {
+  saveComment: async (req, res) => {
+    req.body.posted = await new Date().setHours(new Date().getHours() + 9);
+    const comment = await new Comment(req.body);
+    comment.save((err, commentData) => {
       if (err) return res.status(400).json({ success: false, err });
-      Comment.find({ _id: comment._id })
+      Comment.find({ _id: commentData._id })
         .populate('writerId')
         .exec((err, result) => {
           if (err) return res.status(400).json({ success: false, err });

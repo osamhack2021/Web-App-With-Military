@@ -4,7 +4,8 @@ const { Category } = require('../../models/Category');
 
 const post = {
   // 그룹 만들기
-  create: (req, res) => {
+  create: async (req, res) => {
+    req.body.created = await new Date().setHours(new Date().getHours() + 9);
     // 그룹이름 중복 여부 확인
     Group.findOne({ groupName: req.body.groupName }, (err, exist) => {
       if (err) return res.status(500).json({ success: false, err });

@@ -1,11 +1,5 @@
 const mongoose = require('mongoose');
 
-function seoul() {
-  const temp = new Date();
-  temp.setHours(temp.getHours() + 9);
-  return temp;
-}
-
 const groupSchema = mongoose.Schema({
   groupName: {
     type: String,
@@ -51,7 +45,6 @@ const groupSchema = mongoose.Schema({
   },
   created: {
     type: Date,
-    default: seoul(),
   },
   image: String,
 });
