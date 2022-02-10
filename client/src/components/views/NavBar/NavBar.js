@@ -1,19 +1,31 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef } from "react";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { USER_SERVER } from "../../Config";
-import { AppBar, Box, Toolbar, Drawer, Divider, IconButton, List, ListItem,
-  ListItemIcon, ListItemText, Typography
-} from '@mui/material';
-import { withRouter, Link } from 'react-router-dom';
-import { ReactComponent as WhiteLogo } from '../../../static/imgs/logo_white.svg';
-import { styled, useTheme } from '@mui/material/styles';
-import RightMenu from './Sections/RightMenu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Drawer,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import { withRouter, Link } from "react-router-dom";
+import { ReactComponent as WhiteLogo } from "../../../static/imgs/logo_white.svg";
+import { styled, useTheme } from "@mui/material/styles";
+import RightMenu from "./Sections/RightMenu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
 
 const drawerWidth = 240;
 
@@ -32,13 +44,13 @@ function NavBar(props) {
     setOpen(false);
   };
 
-  const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
+  const DrawerHeader = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
   }));
 
   const logoutHandler = () => {
@@ -52,70 +64,63 @@ function NavBar(props) {
     });
   };
 
-  const list =
-  <>
-    { loginUserData === undefined || !loginUserData.isAuth ? 
-      <List>
-        <ListItem
-          button
-          component="a"
-          href="/login"
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Signin"} />
-        </ListItem>
-        <ListItem
-          button
-          component="a"
-          href="/register"
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Signup"} />
-        </ListItem>
-      </List> :
-      <List>
-      <ListItem
-        button
-        onClick={logoutHandler}
-      >
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary={"Logout"} />
-      </ListItem>
-    </List> }
-  </>
-    
+  const list = (
+    <>
+      {loginUserData === undefined || !loginUserData.isAuth ? (
+        <List>
+          <ListItem button component="a" href="/login">
+            <ListItemIcon>
+              <LoginIcon />
+            </ListItemIcon>
+            <ListItemText primary={"로그인"} />
+          </ListItem>
+          <ListItem button component="a" href="/register">
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={"회원가입"} />
+          </ListItem>
+        </List>
+      ) : (
+        <List>
+          <ListItem button onClick={logoutHandler}>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary={"로그아웃"} />
+          </ListItem>
+        </List>
+      )}
+    </>
+  );
+
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <AppBar
         color="secondary"
         sx={{
-          borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
-          color: '#e6e1e0',
-          position: 'static',
+          borderBottom: "1px solid rgba(255, 255, 255, 0.15)",
+          color: "#e6e1e0",
+          position: "static",
         }}
       >
-        <Toolbar sx={{ my: 'auto' }}>
+        <Toolbar sx={{ my: "auto" }}>
           <Link to="/main">
             <WhiteLogo
               width="2rem"
               height="2rem"
-              style={{ color: '#e6e1e0' }} />
+              style={{ color: "#e6e1e0" }}
+            />
           </Link>
           <Box
             sx={{
-              mt: '4px',
-              ml: '12px',
+              mt: "4px",
+              ml: "12px",
             }}
           >
             <Typography
               style={{
-                fontSize: '1.2rem',
+                fontSize: "1.2rem",
               }}
             >
               위드밀리터리
@@ -124,25 +129,24 @@ function NavBar(props) {
           <Box sx={{ flexGrow: 1 }} />
 
           <RightMenu />
-          
+
           <IconButton
             color="inherit"
             component={Link}
-            to={'/search'}
+            to={"/search"}
             sx={{
               ml: 2,
             }}
           >
             <SearchIcon />
           </IconButton>
-          
+
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="end"
             onClick={handleDrawerOpen}
             sx={{
-              ...(open && { display: 'none' }),
               ml: 2,
             }}
           >
@@ -154,7 +158,7 @@ function NavBar(props) {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          '& .MuiDrawer-paper': {
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
           },
         }}
@@ -164,14 +168,18 @@ function NavBar(props) {
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === "rtl" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
         {list}
       </Drawer>
     </Box>
-  )
+  );
 }
 
 export default withRouter(NavBar);
