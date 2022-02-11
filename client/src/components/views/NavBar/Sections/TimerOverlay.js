@@ -253,7 +253,7 @@ export default function TimerOverlay() {
   };
 
   if (userData === undefined) {
-    return <div>유저정보 불러오는 중</div>;
+    return <div>정보 불러오는 중</div>;
   } else {
     const { groupList } = userData.user;
     return (

@@ -144,7 +144,7 @@ function RightMenu(props) {
             open={openOverlay}
             anchorEl={anchorEl}
             disablePortal
-            placement="bottom-start"
+            placement="bottom-end"
           >
             <TimerOverlay />
           </Popper>

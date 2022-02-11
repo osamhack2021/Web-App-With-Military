@@ -112,12 +112,10 @@ function NavBar(props) {
               style={{ color: "#e6e1e0" }}
             />
           </Link>
-          <Box
-            sx={{
-              mt: "4px",
-              ml: "12px",
-            }}
-          >
+          <Box sx={{
+            mt: "4px",
+            ml: "12px",
+          }}>
             <Typography
               style={{
                 fontSize: "1.2rem",
@@ -146,9 +144,7 @@ function NavBar(props) {
             aria-label="open drawer"
             edge="end"
             onClick={handleDrawerOpen}
-            sx={{
-              ml: 2,
-            }}
+            sx={{ ml: 2 }}
           >
             <MenuIcon />
           </IconButton>
