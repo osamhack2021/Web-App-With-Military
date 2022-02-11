@@ -1,8 +1,8 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Button, Divider, Grid, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Avatar, Box, Button, Divider, Link, Grid, Typography } from '@mui/material';
+
 
 import Board from './Board';
 import PersonIcon from '@mui/icons-material/Person';
@@ -47,13 +47,11 @@ export default function Summary ({
   
   return (
     <Grid container spacing={4}>
-      <Grid item xs={5}>
-        
+      <Grid item xs={5} 
+        sx={{ '& > .MuiBox-root': {mb: 4} }}>
         {/*그룹 랭킹*/}
         <GrayBox>
-          <Box sx={{
-              display: 'flex',
-          }}>
+          <Box sx={{ display: 'flex' }}>
             <Typography sx={{
               mr: 1,
               fontSize: '1.2rem',
@@ -63,22 +61,48 @@ export default function Summary ({
             </Typography>
             <EqualizerIcon sx={{color: '#5E5E5E'}}/>
             <Box sx={{ flexGrow: 1 }} />
-            <Typography sx={{
-              //color: 'text.subtitle1',
-            }}>
-              랭킹 자세히 보기
-            </Typography>
-            <ChevronRightIcon 
-              component={Link}
-              to="/ranking/group"  
-            />
+            <Link
+              href={'/ranking/group'}
+              underline="none"
+              sx={{
+                display: 'flex',
+                color: '#5E5E5E',
+                  fontSize: '0.9rem'
+              }}
+            >
+              <Typography>랭킹 자세히 보기</Typography>
+              <ChevronRightIcon />
+            </Link>  
           </Box>
           <Divider />
-          {groupInfo.totalTime}
+          {/* Tier-bar */}
           <Box sx={{
-            display: 'flex',
+            backgroundColor: '#C4C4C4',
+            width: '100%',
+            height: '2rem',
+            borderRadius: '0.4rem',
+            mt: 2
           }}>
-            <Typography>Gold</Typography>
+            <Box sx={{
+              backgroundColor: '#ECD351',
+              width: `${groupInfo.totalTime < 100 ? groupInfo.totalTime : 100}%`,
+              textAlign: 'center',
+              color: 'white',
+              fontSize: '1.2rem',
+              fontWeight: 'bold',
+              borderRadius: '0.4rem',
+              padding: '0.1rem 0'  
+            }}>
+              {groupInfo.totalTime}
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex' }}>
+            <Typography 
+              sx={{color: '#ECD351', fontWeight: 'bold'
+            }}>
+              {groupInfo.totalTime}점 Gold
+            </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Typography>
               <strong>상위 {((myGroupRank - 1)/groupRankArray.length * 100).toFixed(1)}%</strong>
@@ -89,24 +113,7 @@ export default function Summary ({
             <strong> {myGroupRank}위</strong>입니다.
           </Typography>
         </GrayBox>
-      </Grid>
-      
-      {/*게시판*/}
-      <Grid item xs={7}>
-        <GrayBox>
-          {	boardList && boardList.map((board) =>
-            <Board 
-              groupInfo={groupInfo}
-              boardInfo={board}
-              refreshComment={refreshComment}
-              updateBoard={updateBoard}
-            />
-          )}
-        </GrayBox>
-      </Grid>
-      
-      {/*그룹 정보*/}
-      <Grid item xs={5}>
+        {/*그룹 정보*/}
         <GrayBox>
           <Box sx={{display: 'flex' }}>
             <Typography sx={{
@@ -123,10 +130,7 @@ export default function Summary ({
             {groupInfo.info}
           </Typography>
         </GrayBox>
-      </Grid>
-      
-      {/*집중중인 멤버*/}
-      <Grid item xs={5}>
+         {/*집중중인 멤버*/}
         <GrayBox>
           <Box sx={{display: 'flex' }}>
             <Typography sx={{
@@ -140,10 +144,28 @@ export default function Summary ({
           </Box>
           <Divider />
           <Typography>
-            {groupInfo.info}
+            {/*현재 참여하고 있는 인원*/}
           </Typography>
         </GrayBox>
       </Grid>
+      
+      {/*게시판*/}
+      <Grid item xs={7}>
+        <GrayBox>
+          {	boardList && boardList.map((board) =>
+            <>
+              <Board 
+                groupInfo={groupInfo}
+                boardInfo={board}
+                refreshComment={refreshComment}
+                updateBoard={updateBoard}
+              />
+              <Divider sx={{my: 3}} />
+            </>            
+          )}
+        </GrayBox>
+      </Grid>
+        
     </Grid>
   );
 }

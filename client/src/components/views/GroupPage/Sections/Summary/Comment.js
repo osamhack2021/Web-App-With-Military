@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeBoard, loadComment, saveComment } from "../../../../../_actions/user_actions";
-import { Box, Button, Divider, Input } from '@mui/material';
+import { Box, Button, Divider, Input, Typography } from '@mui/material';
 import SingleComment from "./SingleComment";
-import EditBoard from './EditBoard';
+
 
 export default function Comment({
   boardInfo,
-  refreshComment,
-  editMode,
-  toggleEditMode
+  refreshComment
 }) {
   
   const dispatch = useDispatch();
@@ -59,9 +57,9 @@ export default function Comment({
   }, [refreshComment]);
 	
 	return (
-    <Box>
-      <p>댓글</p>
-      <Divider />
+    <Box sx={{ '& > .MuiBox-root': {mt: 2} }}>
+      <Typography sx={{mb: 1}}>댓글</Typography>
+      <Divider sx={{borderColor: 'rgba(0, 0, 0, 0.7)'}}/>
       {commentList &&
         commentList.map((comment) => {
           if (comment.boardId === boardInfo._id) {
@@ -77,18 +75,18 @@ export default function Comment({
         })
       }
 
-      <form style={{ display: "flex" }} onSubmit={onSubmit}>
+      <form style={{ display: "flex", height: '3rem', marginTop: '2rem' }} onSubmit={onSubmit}>
         <Input
-          style={{ width: "100%", borderRadius: "5px" }}
+          sx={{ width: "100%", borderRadius: "5px" }}
           onChange={OnChange}
           value={commentValue}
           placeholder="코멘트를 작성해 주세요"
+          required
           multiline
           rows={2}
         />
         <br />
         <Button
-          size="medium"
           onClick={onSubmit}
           variant="contained"
           color="primary"
@@ -97,12 +95,7 @@ export default function Comment({
         </Button>
       </form>
       
-      {editMode && (
-        <EditBoard
-          boardInfo={boardInfo}
-          toggleEditMode={toggleEditMode}
-        />
-      )}
+      
     </Box>
 	);
 }

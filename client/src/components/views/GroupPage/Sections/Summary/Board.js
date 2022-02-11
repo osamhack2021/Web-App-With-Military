@@ -4,6 +4,7 @@ import { useConfirmDialog } from 'react-mui-confirm';
 import { removeBoard } from "../../../../../_actions/user_actions";
 import { Avatar, Box, Divider, IconButton, Typography } from '@mui/material';
 import Comment from './Comment';
+import EditBoard from './EditBoard';
 import PublicIcon from '@mui/icons-material/Public';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -90,7 +91,6 @@ export default function Board({
       <Box sx={{ display: 'flex' }}>
         <Avatar src={boardInfo.writerId.image} sx={{mr: 1}}/>
         <Typography sx={{mr: 1}}>{boardInfo.writerId.name}</Typography>
-        <Box sx={{flexGrow: 1}}/>
         { parseInt(timeDiff/3600/24/365) ? <Typography>{parseInt(timeDiff/3600/24/365)}년 전</Typography> :
           parseInt(timeDiff/3600/24/30)  ? <Typography>{parseInt(timeDiff/3600/24/30)}달 전</Typography>  :
           parseInt(timeDiff/3600/24)     ? <Typography>{parseInt(timeDiff/3600/24)}일 전</Typography>     :
@@ -100,14 +100,21 @@ export default function Board({
         <PublicIcon sx={{color: '#5E5E5E'}}/>
       </Box>
       
-      <Typography>{boardInfo.content}</Typography>
+      <Box sx={{ p: 2 }}>
+        <Typography>{boardInfo.content}</Typography>
+      </Box>
       
       <Comment
         boardInfo={boardInfo}
         refreshComment={refreshComment}
-        editMode={editMode}
-        toggleEditMode={toggleEditMode}
       />
+      
+      {editMode && (
+        <EditBoard
+          boardInfo={boardInfo}
+          toggleEditMode={toggleEditMode}
+        />
+      )}
     </Box>
   );
 }
