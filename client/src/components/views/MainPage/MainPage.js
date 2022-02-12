@@ -112,7 +112,7 @@ export default function MainPage() {
                   divider={<Divider orientation="vertical" flexItem />}
                   sx={{
                     py: 1,
-                    '& .MuiBox-root': {
+                    '& > .MuiBox-root': {
                       display: 'flex',
                     },
                   }}

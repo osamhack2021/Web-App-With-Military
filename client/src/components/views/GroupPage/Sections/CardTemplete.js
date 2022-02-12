@@ -153,10 +153,7 @@ export default function CardTemplete({
           </Typography>
           <CreateIcon />
         </Button>
-        <Box sx={{
-          ml: '20%',
-          mr: '30%',
-        }}>
+        <Box sx={{ml: '20%', mr: '30%' }}>
           <Typography sx={{
             fontSize: '2rem',
             fontWeight: 'bold',
