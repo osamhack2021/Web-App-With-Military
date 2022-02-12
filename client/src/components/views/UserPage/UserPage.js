@@ -4,7 +4,7 @@ import { Avatar, Box, Container, Typography } from '@mui/material';
 import { profileUser } from "../../../_actions/user_actions";
 import CardTemplete from './Sections/CardTemplete';
 
-function UserPage(props) {
+export default function UserPage(props) {
   const dispatch = useDispatch();
 	const { userId } = props.match.params;
   const userInfo = useSelector((state) => state.profile.userProfile);
@@ -74,5 +74,3 @@ function UserPage(props) {
     );
   }
 }
-
-export default UserPage;

@@ -1,9 +1,8 @@
 import React from 'react';
 import { Container } from '@mui/material';
-
 import SearchBar from './Sections/SearchBar';
 
-function Search(props) {
+export default function Search(props) {
 
 	return (
     <Container
@@ -15,5 +14,3 @@ function Search(props) {
     </Container>
 	);
 }
-
-export default Search;

@@ -6,7 +6,6 @@ import Axios from "axios";
 import GroupCardVertical from './Sections/GroupCardVertical';
 import PeopleIcon from '@mui/icons-material/People';
 
-
 export default function UserGroupPage(props) {
   const dispatch = useDispatch();
   const { userId } = props.match.params;

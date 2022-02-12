@@ -58,26 +58,16 @@ function RightMenu(props) {
     setOpen(false);
   };
 
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === "Escape") {
-      setOpen(false);
-    }
-  }
-
   //timeoverlay
   const [anchorEl, setAnchorEl] = useState(null);
-
   const handleClick = (event) =>
     setAnchorEl(anchorEl ? null : event.currentTarget);
-
+  
   const openOverlay = Boolean(anchorEl);
   const id = openOverlay ? "timer-popper" : undefined;
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(openOverlay);
-  //timeoverlay
+  //
 
   useEffect(() => {
     if (prevOpen.current === true && open === false) {
