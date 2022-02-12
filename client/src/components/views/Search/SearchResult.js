@@ -1,10 +1,9 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Container, Divider, Grid, Link, Typography, Stack } from '@mui/material';
+import { Box, Container, Divider, Grid, Link, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import GroupCardHorizon from './Sections/GroupCardHorizon';
 import SearchBar from './Sections/SearchBar';
-import NavBar from '../NavBar/NavBar'
 
 const GrayBox = styled(Box)({
 	backgroundColor: '#E8E8E8',

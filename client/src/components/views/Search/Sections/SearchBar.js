@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { styled, alpha } from '@mui/material/styles';
-import { Box, InputAdornment, InputBase, TextField, } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box, InputAdornment, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({

@@ -6,10 +6,6 @@ import {
   Drawer,
   Divider,
   IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";

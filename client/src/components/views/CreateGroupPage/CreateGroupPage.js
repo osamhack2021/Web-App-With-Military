@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, Checkbox, Container, FormControlLabel, FormControl, 
+import { Button, FormControl, 
         TextField, Typography, InputLabel, MenuItem, Select } from '@mui/material';
 
 export default function CreateGroup(props) {
@@ -50,7 +50,6 @@ export default function CreateGroup(props) {
           errors,
           isSubmitting,
           handleChange,
-          handleBlur,
           handleSubmit,
         } = props;
         return (

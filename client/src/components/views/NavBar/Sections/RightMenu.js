@@ -1,43 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect, useRef } from "react";
-import Axios from "axios";
-import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { styled } from "@mui/system";
 //import { createPopper } from '@popperjs/core';
 import TimerOverlay from "./TimerOverlay.js";
 import {
-  Box,
-  Button,
-  Divider,
-  Grow,
-  Paper,
   Popper,
-  MenuItem,
-  MenuList,
   IconButton,
   Stack,
   Tabs,
   Tab,
 } from "@mui/material";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
 import { Link } from "react-router-dom";
-import PersonIcon from "@mui/icons-material/Person";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 //import './popper.css';
 
 function RightMenu(props) {
   const loginUserData = useSelector((state) => state.auth.loginUserData);
-  const logoutHandler = () => {
-    Axios.get(`${USER_SERVER}/logout`).then((response) => {
-      if (response.status === 200) {
-        props.history.push("/login");
-      } else {
-        alert("Log Out Failed");
-      }
-    });
-  };
 
   const [value, setValue] = useState(0);
 
@@ -46,17 +25,6 @@ function RightMenu(props) {
   };
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setOpen(false);
-  };
 
   //timeoverlay
   const [anchorEl, setAnchorEl] = useState(null);
@@ -73,7 +41,6 @@ function RightMenu(props) {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus();
     }
-
     prevOpen.current = open;
   }, [open]);
 

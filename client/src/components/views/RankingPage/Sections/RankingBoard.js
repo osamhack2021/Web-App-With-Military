@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Grid } from '@mui/material';
 import TopScoreCard from './TopScoreCard';
 import WithIn5thScoreCard from './WithIn5thScoreCard';
 import ScoreTable from './ScoreTable';

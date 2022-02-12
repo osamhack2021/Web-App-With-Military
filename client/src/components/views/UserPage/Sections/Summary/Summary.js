@@ -1,8 +1,7 @@
-import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Button, Divider, Link, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { rankingUser } from "../../../../../_actions/user_actions";
 import GrassChart from './GrassChart';
 import AllLineChart from './AllLineChart';

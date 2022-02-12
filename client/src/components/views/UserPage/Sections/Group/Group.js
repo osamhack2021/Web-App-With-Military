@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { Box, /*Button, Typography*/ } from '@mui/material';
 
 
 const GrayBox = styled(Box)({
@@ -13,11 +12,6 @@ const GrayBox = styled(Box)({
 export default function Group ({
   
 }) {
-  const [tabValue, setTabValue] = useState(0);
-
-  const handleTabChange = (event, newTabValue) => {
-    setTabValue(newTabValue);
-  };
   
   return (
     <GrayBox sx={{

@@ -1,9 +1,6 @@
-import Axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, Box, Button, Grid, IconButton, Paper, Tab, Typography } from '@mui/material';
+import React, {useState} from 'react';
+import { Box, Tab, Typography } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { useConfirmDialog } from 'react-mui-confirm';
 import Summary from './Summary/Summary';
 import Ranking from './Ranking/Ranking';
 import Post from './Post/Post';
@@ -13,8 +10,6 @@ import Achievement from './Achievement/Achievement';
 export default function CardTemplete({
   userInfo
 }) {
-  const dispatch = useDispatch();
-  
   const [tabValue, setTabValue] = useState('1');
 
   const handleTabChange = (event, newTabValue) => {

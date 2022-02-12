@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, Box, Container, Typography } from '@mui/material';
+import { Avatar, Box, Container } from '@mui/material';
 import { profileUser } from "../../../_actions/user_actions";
 import CardTemplete from './Sections/CardTemplete';
 

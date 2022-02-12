@@ -5,12 +5,10 @@ import { useHistory } from "react-router-dom"
 import { USER_SERVER } from "../../../Config";
 
 import {
-  Box,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";

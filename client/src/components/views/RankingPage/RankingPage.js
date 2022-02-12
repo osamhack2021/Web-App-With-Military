@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Box, Container, Grid, Typography, Tab, Tabs } from '@mui/material';
+import { Container, Tab, Tabs } from '@mui/material';
 import { Link } from 'react-router-dom';
 import RankingBoard from './Sections/RankingBoard'
 
