@@ -1,7 +1,7 @@
 import React from "react";
 import { removeComment } from "../../../../../_actions/user_actions";
 import { useSelector, useDispatch } from "react-redux";
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import { useConfirmDialog } from "react-mui-confirm";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
@@ -12,7 +12,7 @@ export default function SingleComment( {
 }) {
   const confirm = useConfirmDialog();
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.auth.loginUserData);
+  const loginData = useSelector((state) => state.auth.loginUserData);
 	
   const remove = () => {
     dispatch(removeComment({ commentId: commentInfo._id }))
@@ -26,7 +26,7 @@ export default function SingleComment( {
   }
   
   const removeCommentOnConfirm = () => {
-  if (commentInfo.writerId._id === userData._id) {
+  if (commentInfo.writerId._id === loginData._id) {
     return (
       confirm({
         title: "댓글을 정말로 삭제 하시겠습니까?",
@@ -47,16 +47,44 @@ export default function SingleComment( {
   }
 
   return (
-    <Box>
-      <Typography>{commentInfo.writerId.name}</Typography>
-      <Box sx={{display: 'flex'}}>
-        <Avatar src={commentInfo.writerId.image} alt="image" />
-        <Typography> {commentInfo.content}</Typography>
-        <Button onClick={removeCommentOnConfirm} >
-          <CloseOutlinedIcon />
-          삭제하기
-        </Button>
+    //본인이 아닌 댓글은 좌측으로 배치
+    loginData._id === commentInfo.writerId._id
+    ? <Box sx={{display: 'flex'}}>
+        <Box sx={{flexGrow: 1}}/>
+        <Box sx={{
+          padding: '1rem 2rem 1rem 1rem',
+          borderRadius: '1rem',
+          backgroundColor: 'white',
+          position: 'relative'
+        }}>
+          <Typography sx={{fontWeight: 'bold'}}>{commentInfo.writerId.name}</Typography>
+          <Typography>{commentInfo.content}</Typography>
+          <IconButton
+            onClick={removeCommentOnConfirm}
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              p: 0.5
+            }}>
+           <CloseOutlinedIcon />
+          </IconButton>
+        </Box>
+        <Avatar src={commentInfo.writerId.image} alt="image" sx={{ml: 1}}/>
       </Box>
-    </Box>
+
+    : <Box sx={{display: 'flex' }}>
+        <Avatar src={commentInfo.writerId.image} alt="image" sx={{mr: 1}}/>
+        <Box sx={{
+          p: 2,
+          borderRadius: '1rem',
+          backgroundColor: 'white',
+          position: 'relative'
+        }}>
+          <Typography sx={{fontWeight: 'bold'}}>{commentInfo.writerId.name}</Typography>
+          <Typography>{commentInfo.content}</Typography>
+        </Box>
+        <Box sx={{flexGrow: 1}}/>
+      </Box>
   );
 }
