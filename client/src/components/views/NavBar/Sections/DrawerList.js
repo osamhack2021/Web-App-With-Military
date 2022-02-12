@@ -1,13 +1,11 @@
 import Axios from "axios";
 import React from "react";
 import { useSelector } from "react-redux";
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import { USER_SERVER } from "../../../Config";
 
 import {
   Box,
-  Divider,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -20,7 +18,6 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 
 
 export default function DrawrList( {handleDrawerClose} ) {
-  
   let history = useHistory();
   const loginUserData = useSelector((state) => state.auth.loginUserData);
   
