@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Avatar, Badge, Box, Button, Card, CardActions, Container, Grid, Link, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, Container, Grid, Link, Typography } from '@mui/material';
 import { profileUser } from "../../../_actions/user_actions";
-import Axios from "axios";
 import GroupCardVertical from './Sections/GroupCardVertical';
 import PeopleIcon from '@mui/icons-material/People';
-
 
 export default function UserGroupPage(props) {
   const dispatch = useDispatch();
   const { userId } = props.match.params;
-  const userProfile = useSelector((state) => state.profile.userProfile);
 
   useEffect( () => {
     dispatch(profileUser({userId : userId}))

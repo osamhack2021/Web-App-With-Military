@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Container, Grid, Typography, Tab, Tabs } from '@mui/material';
-import { Link } from 'react-router-dom';
 import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Container, Tab, Tabs } from '@mui/material';
+import { Link } from 'react-router-dom';
 import RankingBoard from './Sections/RankingBoard'
 
 export default function RankingPage(props) {
@@ -79,7 +79,4 @@ export default function RankingPage(props) {
       />
     </Container>
   );
-  
-	
-	
 }

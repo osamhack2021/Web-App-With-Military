@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Box, Button, IconButton, Paper, Typography} from '@mui/material';
+import {Avatar, Box, Paper, Typography} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 

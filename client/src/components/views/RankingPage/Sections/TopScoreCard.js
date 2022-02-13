@@ -1,10 +1,7 @@
 import React from 'react';
-import {Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, 
-  Typography} from '@mui/material';
+import {Box, Card, CardContent, CardMedia, Typography} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import PersonIcon from '@mui/icons-material/Person';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 const RankNumberBox = styled(Box)({
   width: 35,

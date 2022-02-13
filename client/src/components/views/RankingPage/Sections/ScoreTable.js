@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
-import {Avatar, Box, Button, Divider, IconButton, List, Typography,
+import {Avatar, Box,
       Paper, Table, TableBody, TableCell, TableContainer, TableHead,
        TablePagination, TableRow} from '@mui/material';
-import CommentIcon from '@mui/icons-material/Comment';
 import { Link } from 'react-router-dom';
-
-
-function createData(rank, name, tier, score) {
-  return { rank, name, tier, score };
-}
-
 
 const columns = [
   { id: 'rank', label: '랭킹', minWidth: 50 },

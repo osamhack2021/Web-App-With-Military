@@ -1,18 +1,15 @@
-import React, {useState} from "react";
+import React from "react";
 import moment from "moment";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from "../../../_actions/user_actions";
 import { useDispatch } from "react-redux";
-import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography } from '@mui/material';
-import axios from 'axios';
+import { Button, TextField, Typography } from '@mui/material';
 
-function RegisterPage(props) {
+export default function RegisterPage(props) {
   const dispatch = useDispatch();
   
-  const [formErrorMessage, setFormErrorMessage] = useState("");
   return (
-
     <Formik
       initialValues={{
         email: '',
@@ -46,10 +43,7 @@ function RegisterPage(props) {
             if (response.payload.success) {
               props.history.push("/login");
             } else {
-
-              // setFormErrorMessage(response.payload.err.errmsg);
                console.log(response.payload.err.errmsg);
-              // alert(response.payload.err.errmsg)
             }
           })
           setSubmitting(false);
@@ -67,9 +61,9 @@ function RegisterPage(props) {
           handleChange,
           handleSubmit,
         } = props;
-        
+
         console.log(errors);
-        
+
         return (
           <div className="app">
             <Typography variant="h5">Sign up</Typography>
@@ -149,6 +143,3 @@ function RegisterPage(props) {
     </Formik>
   );
 };
-
-
-export default RegisterPage

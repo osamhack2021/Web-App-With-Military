@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, /*Button, Typography*/ } from '@mui/material';
+import { Box,/* Button, Typography */ } from '@mui/material';
 
 
 const GrayBox = styled(Box)({
@@ -9,13 +9,8 @@ const GrayBox = styled(Box)({
   padding: '1rem',
 })
 
-export default function Ranking ({
-  boardList,
-  onClickEdit,
-  removeBoardOnConfirm,
-  editMode,
-  toggleEditMode,
-  refreshComment,
+export default function Post({
+  
 }) {
   
   return (
@@ -23,7 +18,7 @@ export default function Ranking ({
       m: 2,
       width: '100%',
     }}>
-      업적
+      게시글
     </GrayBox>
   );
 }

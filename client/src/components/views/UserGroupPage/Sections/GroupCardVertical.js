@@ -1,6 +1,5 @@
 import * as React from 'react';
-import {Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, 
-  Typography} from '@mui/material';
+import {Box, Button, Card, CardContent, CardHeader, CardMedia, IconButton, Typography} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 

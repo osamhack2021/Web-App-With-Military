@@ -2,13 +2,11 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadBoard } from '../../../../_actions/user_actions';
-import { Avatar, Box, Button, Grid, IconButton, Paper, Popper, Tab, Typography } from '@mui/material';
+import { Box, Button, Paper, Popper, Tab, Typography } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { useConfirmDialog } from 'react-mui-confirm';
 import Summary from './Summary/Summary';
 import Ranking from './Ranking/Ranking';
 import Achievement from './Achievement/Achievement';
-import TimerIcon from '@mui/icons-material/Timer';
 import CreateIcon from '@mui/icons-material/Create';
 import PanToolIcon from '@mui/icons-material/PanTool';
 import PersonIcon from '@mui/icons-material/Person';
@@ -21,7 +19,6 @@ export default function CardTemplete({
   handleSnackOpen,
 }) {
 	const dispatch = useDispatch();
-  const confirm = useConfirmDialog();
 	
 	const loginData = useSelector((state) => state.auth.loginUserData);
 	const [boardList, setBoardList] = useState([]);
@@ -153,10 +150,7 @@ export default function CardTemplete({
           </Typography>
           <CreateIcon />
         </Button>
-        <Box sx={{
-          ml: '20%',
-          mr: '30%',
-        }}>
+        <Box sx={{ml: '20%', mr: '30%' }}>
           <Typography sx={{
             fontSize: '2rem',
             fontWeight: 'bold',

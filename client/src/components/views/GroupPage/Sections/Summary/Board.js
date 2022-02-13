@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useConfirmDialog } from 'react-mui-confirm';
 import { removeBoard } from "../../../../../_actions/user_actions";
-import { Avatar, Box, Divider, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import Comment from './Comment';
 import EditBoard from './EditBoard';
 import PublicIcon from '@mui/icons-material/Public';

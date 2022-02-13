@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, Box, Container, Typography } from '@mui/material';
+import { Avatar, Box, Container } from '@mui/material';
 import { profileUser } from "../../../_actions/user_actions";
-import GrassChart from './Sections/GrassChart';
-import AllLineChart from './Sections/AllLineChart';
+import CardTemplete from './Sections/CardTemplete';
 
-function UserPage(props) {
+export default function UserPage(props) {
   const dispatch = useDispatch();
 	const { userId } = props.match.params;
   const userInfo = useSelector((state) => state.profile.userProfile);
@@ -54,17 +53,9 @@ function UserPage(props) {
           }}
         >
           {/* 카드 안에 내용이 들어가는 부분 */}
-          {userInfo && (
-            <div>
-              <br/>
-              <br/>
-              <h1> 유저 이름 : {user.name}</h1>
-              <h2> 전체 공부 시간 : {user.totalTime}</h2>
-              <h2> 최장 스트릭 : {user.maxStreak} 현재 스트릭 : {user.curStreak}</h2>
-              <GrassChart data={user.history} />
-              <AllLineChart data={user.history} />
-            </div>
-          )}
+          <CardTemplete
+            userInfo={user}  
+          />
         </Box>
         <Avatar
           alt="Group Profile Picture"
@@ -83,5 +74,3 @@ function UserPage(props) {
     );
   }
 }
-
-export default UserPage;

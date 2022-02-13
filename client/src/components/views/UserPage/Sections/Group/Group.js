@@ -9,13 +9,8 @@ const GrayBox = styled(Box)({
   padding: '1rem',
 })
 
-export default function Ranking ({
-  boardList,
-  onClickEdit,
-  removeBoardOnConfirm,
-  editMode,
-  toggleEditMode,
-  refreshComment,
+export default function Group ({
+  
 }) {
   
   return (
@@ -23,7 +18,7 @@ export default function Ranking ({
       m: 2,
       width: '100%',
     }}>
-      업적
+      그룹
     </GrayBox>
   );
 }

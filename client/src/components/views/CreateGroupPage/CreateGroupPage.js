@@ -1,11 +1,10 @@
+import Axios from 'axios';
 import React, { useState } from "react";
 import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import Axios from 'axios';
-import { Box, Button, Checkbox, Container, FormControlLabel, FormControl, 
+import { Button, FormControl, 
         TextField, Typography, InputLabel, MenuItem, Select } from '@mui/material';
-//import AddIcon from '@mui/icons-material/Add';
 
 export default function CreateGroup(props) {
 	const [category, setCategory] = useState('');
@@ -51,7 +50,6 @@ export default function CreateGroup(props) {
           errors,
           isSubmitting,
           handleChange,
-          handleBlur,
           handleSubmit,
         } = props;
         return (
@@ -103,7 +101,7 @@ export default function CreateGroup(props) {
                 error={!!errors.info && touched.info}
                 helperText={!!errors.info ? errors.info : false}
               />
-              
+
               <Button
                 type="submit"
                 sx={{ my: 1 }}

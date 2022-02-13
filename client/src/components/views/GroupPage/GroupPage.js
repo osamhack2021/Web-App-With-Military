@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, Avatar, Box, Button, Container, IconButton, Snackbar, Typography, Popper } from '@mui/material';
+import { Alert, Avatar, Box, Container, Snackbar, Popper } from '@mui/material';
 import { profileGroup } from "../../../_actions/user_actions";
 import CardTemplete from './Sections/CardTemplete';
 import FormOverlay from './Sections/FormOverlay';
 
-function GroupPage(props) {
+export default function GroupPage(props) {
   const { groupId } = props.match.params;
   const dispatch = useDispatch();
 	
@@ -116,13 +116,13 @@ function GroupPage(props) {
           }}
           src={group.image}
         />
-        
+
         { toggleFormOverlay && (
         <FormOverlay
           groupId={groupId}
           onFormOverlayToggle={onFormOverlayToggle}
         /> )}
-        
+
         <Box>
           <button aria-describedby={id} type="button" onClick={handleClick}>
             Toggle Popper
@@ -141,7 +141,4 @@ function GroupPage(props) {
       </Container>
     );
   }
-
 }
-
-export default GroupPage;

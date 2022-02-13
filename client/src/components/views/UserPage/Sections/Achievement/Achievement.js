@@ -9,13 +9,8 @@ const GrayBox = styled(Box)({
   padding: '1rem',
 })
 
-export default function Ranking ({
-  boardList,
-  onClickEdit,
-  removeBoardOnConfirm,
-  editMode,
-  toggleEditMode,
-  refreshComment,
+export default function Achievement({
+  
 }) {
   
   return (

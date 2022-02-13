@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { withRouter } from "react-router-dom";
 import { loginUser } from "../../../_actions/user_actions";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 
-function LoginPage(props) {
+export default function LoginPage(props) {
   const dispatch = useDispatch();
   const rememberMeChecked = localStorage.getItem("rememberMe") ? true : false;
 
@@ -140,5 +139,3 @@ function LoginPage(props) {
     </Formik>
   );
 };
-
-export default withRouter(LoginPage);

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { Avatar, Badge, Box, Button, Container, Divider, Grid, Typography, Stack } from '@mui/material';
+import { Avatar, Box, Container, Divider, Grid, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { profileUser, rankingUser, rankingGroup } from "../../../_actions/user_actions";
 import HomeIcon from '@mui/icons-material/Home';
@@ -112,7 +111,7 @@ export default function MainPage() {
                   divider={<Divider orientation="vertical" flexItem />}
                   sx={{
                     py: 1,
-                    '& .MuiBox-root': {
+                    '& > .MuiBox-root': {
                       display: 'flex',
                     },
                   }}

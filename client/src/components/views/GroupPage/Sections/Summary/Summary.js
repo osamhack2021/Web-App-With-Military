@@ -1,9 +1,7 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import { Avatar, Box, Button, Divider, Link, Grid, Typography } from '@mui/material';
-
-
+import { Box, Divider, Link, Grid, Typography } from '@mui/material';
 import Board from './Board';
 import PersonIcon from '@mui/icons-material/Person';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
