@@ -61,11 +61,11 @@ export default function NavBar(props) {
   return (
     <AppBar
       color="secondary"
+      open={open}
       sx={{
         borderBottom: "1px solid rgba(255, 255, 255, 0.15)",
-        position: "static",
+        position: "relative",
       }}
-      open={open}
     >
       <Toolbar sx={{ my: "auto" }}>
         <Link to="/main">

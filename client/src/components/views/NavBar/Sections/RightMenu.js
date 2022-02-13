@@ -102,6 +102,7 @@ function RightMenu(props) {
             anchorEl={anchorEl}
             disablePortal
             placement="bottom-end"
+            sx={{ zIndex : 10000 }}
           >
             <TimerOverlay />
           </Popper>
