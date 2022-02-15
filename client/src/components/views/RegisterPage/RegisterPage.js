@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from "../../../_actions/user_actions";
 import { useDispatch } from "react-redux";
-import { Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 export default function RegisterPage(props) {
   const dispatch = useDispatch();
@@ -65,7 +65,13 @@ export default function RegisterPage(props) {
         console.log(errors);
 
         return (
-          <div className="app">
+          <Box sx={{
+            flexDirection: 'column',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: 'calc(100vh - 9rem - 1px)',
+          }}>
             <Typography variant="h5">Sign up</Typography>
             <form onSubmit={handleSubmit} style={{ width: 500 }}>
               <TextField
@@ -137,7 +143,7 @@ export default function RegisterPage(props) {
                 회원가입
               </Button>
             </form>
-          </div>
+          </Box>
         );
       }}
     </Formik>

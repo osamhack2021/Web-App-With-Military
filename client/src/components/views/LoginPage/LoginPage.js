@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_actions";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 
 export default function LoginPage(props) {
   const dispatch = useDispatch();
@@ -75,7 +75,13 @@ export default function LoginPage(props) {
         } = props;
         console.log(errors);
         return (
-          <div className="app">
+          <Box sx={{
+            flexDirection: 'column',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: 'calc(100vh - 9rem - 1px)',
+          }}>
             <Typography variant="h5">Log In</Typography>
             <form onSubmit={handleSubmit} style={{ width: 500 }}>
               <TextField
@@ -133,7 +139,7 @@ export default function LoginPage(props) {
               </Button>
               Or <a href="/register">register now!</a>
             </form>
-          </div>
+          </Box>
         );
       }}
     </Formik>

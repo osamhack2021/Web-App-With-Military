@@ -16,13 +16,6 @@ export default function GroupPage(props) {
   const [snackMessage, setSnackMessage] = useState("");
 
   
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleClick = (event) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-  };
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
-  
   const handleSnackOpen = (variant, message) => {
     setSnackVariant(variant);
     setSnackMessage(message);
@@ -61,7 +54,7 @@ export default function GroupPage(props) {
         maxWidth="lg"
         sx={{
           position: 'relative',
-          height: '100vh',
+          minHeight: 'calc(100vh - 9rem - 1px)',
         }}
       >
         <Snackbar
@@ -77,7 +70,8 @@ export default function GroupPage(props) {
         <Box
           sx={{
             width: '100%',
-            height: '25%',
+            height: '20%',
+            top: 0,
             backgroundImage:
               'url("https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=850&q=80 850w")',
             position: 'absolute',
@@ -87,11 +81,11 @@ export default function GroupPage(props) {
         <Box
           sx={{
             width: '100%',
-            height: '80%',
+            height: '85%',
             position: 'absolute',
-            backgroundColor: '#f1f8ff',
-            zIndex: 2,
             bottom: 0,
+            backgroundColor: '#f1f8ff',
+            zIndex: 2,  
             borderRadius: '40px 40px 0px 0px',
           }}
         >
@@ -110,7 +104,7 @@ export default function GroupPage(props) {
             height: '9rem',
             position: 'absolute',
             zIndex: 3,
-            top: '20%',
+            top: '15%',
             left: '15%',
             transform: 'translate(-50%, -50%)',
           }}
@@ -123,21 +117,6 @@ export default function GroupPage(props) {
           onFormOverlayToggle={onFormOverlayToggle}
         /> )}
 
-        <Box>
-          <button aria-describedby={id} type="button" onClick={handleClick}>
-            Toggle Popper
-          </button>
-          <Popper
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            disablePortal
-            placement="bottom-start">
-            <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper', }}>
-              The content of the Popper.
-            </Box>
-          </Popper>
-        </Box>
       </Container>
     );
   }

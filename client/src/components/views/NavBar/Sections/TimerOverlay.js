@@ -324,9 +324,7 @@ export default function TimerOverlay() {
           </Box>
           <Dial
             style={{
-            // background: 'radial-gradient(116.7% 116.7% at 127.95% -2.95%, #FFFFFF 0%, #073113 100%)',
-            // borderRadius: '24px',
-            // transform: 'rotate(-90deg)'
+              borderRadius: '1.5rem'
             }}
           />
         </Item>

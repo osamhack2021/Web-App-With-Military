@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Button, FormControl, 
+import { Box, Button, FormControl, 
         TextField, Typography, InputLabel, MenuItem, Select } from '@mui/material';
 
 export default function CreateGroup(props) {
@@ -53,7 +53,13 @@ export default function CreateGroup(props) {
           handleSubmit,
         } = props;
         return (
-          <div className="app">
+          <Box sx={{
+            flexDirection: 'column',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: 'calc(100vh - 9rem - 1px)',
+          }}>
             <Typography variant="h5">스터디 그룹 생성</Typography>
             <form onSubmit={handleSubmit} style={{ width: 500 }}>
               <FormControl fullWidth>
@@ -112,7 +118,7 @@ export default function CreateGroup(props) {
                 그룹 생성
               </Button>
             </form>
-          </div>
+          </Box>
         );
       }}
     </Formik>

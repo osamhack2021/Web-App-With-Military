@@ -35,6 +35,10 @@ export default function SearchResult(props) {
     <Container 
       component="main"
       maxWidth="lg"
+      sx={{
+        minHeight: 'calc(100vh - 9rem - 1px)',
+        overflow: 'hidden'
+      }}
     >
       <br/>
       <SearchBar />
