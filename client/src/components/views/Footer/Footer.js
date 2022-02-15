@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material';
 
-function Footer() {
+export default function Footer() {
     return (
       <Box component="footer" sx={{
         height: '5rem',
@@ -14,5 +14,3 @@ function Footer() {
       </Box>
     )
 }
-
-export default Footer

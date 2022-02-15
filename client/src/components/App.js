@@ -70,6 +70,7 @@ function App() {
           component={Auth(UserGroupPage, true)}
         />
       </Switch>
+      <Footer />
     </Suspense>
   );
 }
