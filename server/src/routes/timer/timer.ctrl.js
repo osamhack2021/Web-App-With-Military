@@ -101,6 +101,7 @@ const get = {
           { _id: req.user.activeGroup },
           {
             $inc: { totalTime: now },
+            $pull: { activeUsers: req.user._id },
           },
         );
       }
@@ -215,8 +216,14 @@ const post = {
     const now = seoul();
 
     try {
+      await Group.findOneAndUpdate(
+        { _id: req.body.groupId },
+        {
+          $addToSet: { activeUsers: req.user._id },
+        },
+      );
       await User.findOneAndUpdate(
-        { name: req.user.name },
+        { _id: req.user._id },
         {
           $set: {
             startTime: now,
