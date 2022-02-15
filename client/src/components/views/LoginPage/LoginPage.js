@@ -57,7 +57,7 @@ export default function LoginPage(props) {
                 } else {
                   localStorage.removeItem("rememberMe");
                 }
-                props.history.push("/");
+                props.history.push("/main");
               } else {
                 setFormErrorMessage("Check out your Account or Password again");
               }
