@@ -27,6 +27,12 @@ const groupSchema = mongoose.Schema({
       ref: 'User',
     },
   ],
+  activeUsers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
   category: {
     type: String,
     require: true,

@@ -1,70 +1,79 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_actions";
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Formik } from "formik";
+import * as Yup from "yup";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 export default function LoginPage(props) {
   const dispatch = useDispatch();
   const rememberMeChecked = localStorage.getItem("rememberMe") ? true : false;
 
   const [formErrorMessage, setFormErrorMessage] = useState("");
-  const [rememberMe, setRememberMe] = useState(rememberMeChecked)
+  const [rememberMe, setRememberMe] = useState(rememberMeChecked);
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
   };
 
-  const initialEmail = localStorage.getItem("rememberMe") ? localStorage.getItem("rememberMe") : '';
-  
+  const initialEmail = localStorage.getItem("rememberMe")
+    ? localStorage.getItem("rememberMe")
+    : "";
+
   return (
     <Formik
       initialValues={{
         email: initialEmail,
-        password: '',
+        password: "",
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string()
-          .email('Email is invalid')
-          .required('Email is required'),
+          .email("Email is invalid")
+          .required("Email is required"),
         password: Yup.string()
-          .min(6, 'Password must be at least 6 characters')
-          .required('Password is required'),
+          .min(6, "Password must be at least 6 characters")
+          .required("Password is required"),
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           let dataToSubmit = {
             email: values.email,
-            password: values.password
+            password: values.password,
           };
 
           dispatch(loginUser(dataToSubmit))
-            .then(response => {
+            .then((response) => {
               if (response.payload.loginSuccess) {
-                window.localStorage.setItem('userId', response.payload.userId);
-                window.localStorage.setItem('image', response.payload.image);
+                window.localStorage.setItem("userId", response.payload.userId);
+                window.localStorage.setItem("image", response.payload.image);
                 if (rememberMe === true) {
-                  window.localStorage.setItem('rememberMe', values.email);
+                  window.localStorage.setItem("rememberMe", values.email);
                 } else {
-                  localStorage.removeItem('rememberMe');
+                  localStorage.removeItem("rememberMe");
                 }
-                props.history.push("/");
+                props.history.push("/main");
               } else {
-                setFormErrorMessage('Check out your Account or Password again')
+                setFormErrorMessage("Check out your Account or Password again");
               }
             })
-            .catch(err => {
-              setFormErrorMessage('Check out your Account or Password again')
+            .catch((err) => {
+              setFormErrorMessage("Check out your Account or Password again");
               setTimeout(() => {
-                setFormErrorMessage("")
+                setFormErrorMessage("");
               }, 3000);
             });
           setSubmitting(false);
         }, 500);
       }}
     >
-      {props => {
+      {(props) => {
         const {
           values,
           touched,
@@ -82,37 +91,42 @@ export default function LoginPage(props) {
             alignItems: 'center',
             minHeight: 'calc(100vh - 9rem - 1px)',
           }}>
-            <Typography variant="h5">Log In</Typography>
+            <Typography variant="h5">로그인</Typography>
             <form onSubmit={handleSubmit} style={{ width: 500 }}>
               <TextField
                 type="email"
                 name="email"
-                label="EMAIL"
+                label="이메일"
                 variant="outlined"
-                placeholder="Enter your email"
                 fullWidth
                 sx={{ my: 1 }}
                 value={values.email}
                 onChange={handleChange}
                 error={!!errors.email && !!touched.email}
-                helperText={!!errors.email && !!touched.email ? errors.email : false}
+                helperText={
+                  !!errors.email && !!touched.email ? errors.email : false
+                }
                 //autoFocus={!!((errors.email || !(errors.email && errors.password)))}
               />
               <TextField
                 type="password"
                 name="password"
-                label="PASSWORD"
+                label="비밀번호"
                 variant="outlined"
-                placeholder="Enter your password"
                 fullWidth
                 sx={{ my: 1 }}
                 value={values.password}
                 onChange={handleChange}
                 error={!!errors.password && !!touched.password}
-                helperText={!!formErrorMessage ? formErrorMessage : (!!errors.password && !!touched.password ? errors.password : false)}
+                helperText={
+                  !!formErrorMessage
+                    ? formErrorMessage
+                    : !!errors.password && !!touched.password
+                    ? errors.password
+                    : false
+                }
                 //autoFocus={!!errors.password || !!formErrorMessage}
               />
-
               <FormControlLabel
                 label="자동 로그인"
                 control={
@@ -120,13 +134,13 @@ export default function LoginPage(props) {
                     value="remember"
                     color="primary"
                     onChange={handleRememberMe}
-                    checked={rememberMe} 
+                    checked={rememberMe}
                   />
                 }
                 sx={{ my: 1 }}
               />
-              <a href="/reset_user" style={{ float: 'right' }}>
-                forgot password
+              <a href="/reset_user" style={{ float: "right" }}>
+                비밀번호를 잊으셨나요?
               </a>
               <Button
                 type="submit"
@@ -135,13 +149,13 @@ export default function LoginPage(props) {
                 sx={{ mt: 1, mb: 2 }}
                 disabled={isSubmitting}
               >
-                Sign In
+                로그인
               </Button>
-              Or <a href="/register">register now!</a>
+              계정이 없으신가요? <a href="/register"> 가입하기</a>
             </form>
           </Box>
         );
       }}
     </Formik>
   );
-};
+}
