@@ -55,7 +55,9 @@ export default function GroupPage(props) {
         sx={{
           position: 'relative',
           minHeight: 'calc(100vh - 9rem - 1px)',
+          overflow: 'hidden',
         }}
+        disableGutters //If true, the left and right padding is removed.
       >
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -70,22 +72,21 @@ export default function GroupPage(props) {
         <Box
           sx={{
             width: '100%',
-            height: '20%',
+            height: '15rem',
             top: 0,
+            zIndex: 1,
             backgroundImage:
               'url("https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=850&q=80 850w")',
             position: 'absolute',
-            zIndex: 1,
           }}
         />
         <Box
           sx={{
             width: '100%',
-            height: '85%',
-            position: 'absolute',
-            bottom: 0,
-            backgroundColor: '#f1f8ff',
+            position: 'relative',
+            mt: '10rem',
             zIndex: 2,  
+            backgroundColor: '#f1f8ff',
             borderRadius: '40px 40px 0px 0px',
           }}
         >
@@ -104,8 +105,8 @@ export default function GroupPage(props) {
             height: '9rem',
             position: 'absolute',
             zIndex: 3,
-            top: '15%',
-            left: '15%',
+            top: '10rem',
+            left: '12%',
             transform: 'translate(-50%, -50%)',
           }}
           src={group.image}

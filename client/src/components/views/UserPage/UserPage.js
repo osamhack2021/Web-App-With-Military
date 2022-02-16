@@ -29,30 +29,32 @@ export default function UserPage(props) {
         sx={{
           position: 'relative',
           minHeight: 'calc(100vh - 9rem - 1px)',
+           overflow: 'hidden',
         }}
+        disableGutters
       >
         <Box
           sx={{
             width: '100%',
-            height: '20%',
+            height: '15rem',
+            position: 'absolute',
+            top: 0,
+            zIndex: 1,
             backgroundImage:
               'url("https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=850&q=80 850w")',
-            position: 'absolute',
-            zIndex: 1,
           }}
         />
         <Box
           sx={{
             width: '100%',
-            height: '85%',
-            position: 'absolute',
-            backgroundColor: '#f1f8ff',
+            position: 'relative',
+            mt: '10rem',
             zIndex: 2,
-            bottom: 0,
+            backgroundColor: '#f1f8ff',
             borderRadius: '40px 40px 0px 0px',
           }}
         >
-          {/* 카드 안에 내용이 들어가는 부분 */}
+          {/* 템플릿 안에 내용이 들어가는 부분 */}
           <CardTemplete
             userInfo={user}  
           />
@@ -64,7 +66,7 @@ export default function UserPage(props) {
             height: '9rem',
             position: 'absolute',
             zIndex: 3,
-            top: '15%',
+            top: '10rem',
             left: '15%',
             transform: 'translate(-50%, -50%)',
           }}
