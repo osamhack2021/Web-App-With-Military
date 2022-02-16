@@ -53,6 +53,9 @@ const groupSchema = mongoose.Schema({
     type: Date,
   },
   image: String,
+  background: {
+    img: Buffer,
+  },
 });
 
 const Group = mongoose.model('Group', groupSchema);
