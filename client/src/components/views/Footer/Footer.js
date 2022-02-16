@@ -1,15 +1,16 @@
 import React from 'react'
+import { Box } from '@mui/material';
 
-function Footer() {
+export default function Footer() {
     return (
-        <div style={{
-            height: '80px', display: 'flex',
-            flexDirection: 'column', alignItems: 'center',
-            justifyContent: 'center', fontSize:'1rem'
-        }}>
-           <p> © 2021 temp </p>
-        </div>
+      <Box component="footer" sx={{
+        height: '5rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize:'1rem',
+      }}>
+         <p> © 2021 temp </p>
+      </Box>
     )
 }
-
-export default Footer

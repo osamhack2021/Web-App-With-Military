@@ -73,6 +73,12 @@ export default function MainPage() {
       <Container 
         component="main"
         maxWidth="lg"
+        sx={{
+          //NavBar와 Footer의 높이를 뺀 값
+          //1px 더 빼서 화면 스크롤 방지
+          minHeight: 'calc(100vh - 9rem - 1px)',
+          overflow: 'hidden'
+        }}
       >
         <Box sx={{display: 'flex', my: 4}}>
           <Avatar

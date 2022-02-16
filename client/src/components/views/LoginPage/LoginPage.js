@@ -4,6 +4,7 @@ import { loginUser } from "../../../_actions/user_actions";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import {
+  Box,
   Button,
   Checkbox,
   FormControlLabel,
@@ -83,7 +84,13 @@ export default function LoginPage(props) {
         } = props;
         console.log(errors);
         return (
-          <div className="app">
+          <Box sx={{
+            flexDirection: 'column',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: 'calc(100vh - 9rem - 1px)',
+          }}>
             <Typography variant="h5">로그인</Typography>
             <form onSubmit={handleSubmit} style={{ width: 500 }}>
               <TextField
@@ -146,7 +153,7 @@ export default function LoginPage(props) {
               </Button>
               계정이 없으신가요? <a href="/register"> 가입하기</a>
             </form>
-          </div>
+          </Box>
         );
       }}
     </Formik>

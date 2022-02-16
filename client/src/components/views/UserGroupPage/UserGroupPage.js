@@ -28,8 +28,12 @@ export default function UserGroupPage(props) {
       <Container 
         component="main"
         maxWidth="lg"
+        sx={{
+          minHeight: 'calc(100vh - 9rem - 1px)',
+          overflow: 'hidden'
+        }}
       >
-        <Box sx={{display: 'flex'}}>
+        <Box sx={{display: 'flex', my: 4 }}>
           <Avatar
             size="large"
             src={localStorage.getItem("image")}
@@ -38,7 +42,7 @@ export default function UserGroupPage(props) {
               position: "flex",
             }}
           />
-          <Typography variant="h5">
+          <Typography variant="h5" >
             안녕하세요, {user.name}님!
             공부를 시작한지 벌써 {myElapsedDays}일이 지났어요
           </Typography>
