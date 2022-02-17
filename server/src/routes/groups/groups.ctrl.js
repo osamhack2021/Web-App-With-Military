@@ -1,6 +1,7 @@
 const { Group } = require('../../models/Group');
 const { User } = require('../../models/User');
 const { Category } = require('../../models/Category');
+const { Background } = require('../../models/Background');
 
 const post = {
   // 그룹 만들기
@@ -246,33 +247,30 @@ const post = {
           message: '존재하지 않는 그룹입니다.',
         });
       }
-      if (err) return res.status(400).json({ success: false, err });
+      if (err) return res.status(500).json({ success: false, err });
       return res.status(200).send({ success: true, group });
     });
   },
 
   // 그룹 배경 업로드
   background: async (req, res) => {
-    const strArray = req.headers.referer.split('/');
-    const grouopId = strArray[4];
-    const img = req.file.buffer;
-    if (img.truncated)
-      return res.status(200).jsono({
-        success: false,
-        message: '이미지 용량이 제한을 초과하였습니다.',
-      });
-    Group.findOneAndUpdate(
-      { _id: grouopId },
-      {
-        $set: {
-          background: img,
-        },
-      },
-      err => {
-        if (err) return res.status(500).json({ success: false, err });
-        return res.status(200).json({ success: true });
-      },
-    );
+    try {
+      const strArray = req.headers.referer.split('/');
+      const groupId = strArray[4];
+      const img = req.file.buffer;
+      const background = new Background({ groupId, img });
+      await background.save();
+      if (img.truncated)
+        return res.status(200).jsono({
+          success: false,
+          message: '이미지 용량이 제한을 초과하였습니다.',
+        });
+      return res
+        .status(200)
+        .send({ success: true, backgroundId: background._id });
+    } catch (e) {
+      return res.status(500).json({ success: false, err });
+    }
   },
 };
 
