@@ -29,42 +29,36 @@ export default function Summary({
   
   const getGroupRank = () => {
     Axios.get('/api/ranking/group').then((response) => {
-      if (response.data.success) {
+      if (response.data.success)
         setGroupRankList(response.data.result);
-  }
-  
-  const getUserName = (user_id) => {
-    Axios.post('/api/users/profile', {userId: user_id})
-    .then((response) => {
-      if (response.data.success) {
-        return response.data.user.name;
-      } else {
-        return "유저정보 불러오기 실패";
-      }
     });
   }
   
-  const getUserNameList = async (userIdList) => {
-    const userNameList = await new Promise((resolve, reject) => {
-      userIdList.map((userId) => 
-        getUserName(userId)
-      )
-      resolve(userIdList)
-    })
-    console.log(userNameList);
-    setActiveUserList(userNameList);
+  const getUser = (user_id) => {
+    return Axios.post('/api/users/profile', {userId: user_id});
   }
   
+  const getUserNameList = (userIdArray) => {
+    const userArray = userIdArray.map((userId, index) =>
+      new Promise((resolve, reject) => {
+        const userData = getUser(userId);
+        resolve(userData);
+      })
+    );
+    Promise.all(userArray).then((users) => {
+      const userNameArray = users.map((user) => user.data.user.name);
+      setActiveUserList(userNameArray);
+    })
+  }
+
   useEffect(() => {
     getGroupRank();
     const fetchList = groupInfo.activeUsers.slice();
-    console.log(fetchList);
     getUserNameList(fetchList);
-    
-    
   }, [groupInfo]);
-
+  
   const myGroupRank = findGroupIndex(groupRankList, groupInfo._id) + 1;
+      
   return (
     <Grid container spacing={4}>
       <Grid item xs={5} sx={{ "& > .MuiBox-root": { mb: 4 } }}>
@@ -97,29 +91,25 @@ export default function Summary({
           </Box>
           <Divider />
           {/* Tier-bar */}
-          <Box
-            sx={{
-              backgroundColor: "#C4C4C4",
-              width: "100%",
-              height: "2rem",
+          <Box sx={{
+            backgroundColor: "#C4C4C4",
+            width: "100%",
+            height: "2rem",
+            borderRadius: "0.4rem",
+            mt: 2,
+          }}>
+            <Box sx={{
+              backgroundColor: "#ECD351",
+              width: `${
+                groupInfo.totalTime < 100 ? groupInfo.totalTime : 100
+              }%`,
+              textAlign: "center",
+              color: "white",
+              fontSize: "1.2rem",
+              fontWeight: "bold",
               borderRadius: "0.4rem",
-              mt: 2,
-            }}
-          >
-            <Box
-              sx={{
-                backgroundColor: "#ECD351",
-                width: `${
-                  groupInfo.totalTime < 100 ? groupInfo.totalTime : 100
-                }%`,
-                textAlign: "center",
-                color: "white",
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-                borderRadius: "0.4rem",
-                padding: "0.1rem 0",
-              }}
-            >
+              padding: "0.1rem 0",
+            }}>
               {groupInfo.totalTime}
             </Box>
           </Box>
@@ -132,7 +122,7 @@ export default function Summary({
             <Typography>
               <strong>
                 상위{" "}
-                {(((myGroupRank - 1) / groupRankArray.length) * 100).toFixed(1)}
+                {(((myGroupRank - 1) / groupRankList.length) * 100).toFixed(1)}
                 %
               </strong>
             </Typography>
@@ -145,13 +135,11 @@ export default function Summary({
         {/*그룹 정보*/}
         <GrayBox>
           <Box sx={{ display: "flex" }}>
-            <Typography
-              sx={{
-                mr: 1,
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-              }}
-            >
+            <Typography sx={{
+              mr: 1,
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+            }}>
               정보
             </Typography>
             <PersonIcon sx={{ color: "#5E5E5E" }} />
@@ -162,13 +150,11 @@ export default function Summary({
         {/*집중중인 멤버*/}
         <GrayBox>
           <Box sx={{ display: "flex" }}>
-            <Typography
-              sx={{
-                mr: 1,
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-              }}
-            >
+            <Typography  sx={{
+              mr: 1,
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+            }}>
               집중중인 멤버
             </Typography>
             <TimerOutlinedIcon sx={{ color: "#5E5E5E" }} />
@@ -189,8 +175,9 @@ export default function Summary({
             boardList.map((board) => (
               <>
                 <Board
-                  groupInfo={groupInfo}
+                  key={board._id}
                   boardInfo={board}
+                  groupInfo={groupInfo}
                   refreshComment={refreshComment}
                   updateBoard={updateBoard}
                 />

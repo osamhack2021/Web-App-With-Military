@@ -53,7 +53,6 @@ export default function GroupPage(props) {
   const onBackground = (e) => {
     props.history.push(`/groups/${groupId}/background`);
   };
-
   if (groupData === undefined) {
     return <div>그룹정보 불러오는 중</div>;
   } else {

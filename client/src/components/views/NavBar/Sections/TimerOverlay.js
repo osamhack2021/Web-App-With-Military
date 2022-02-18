@@ -76,6 +76,17 @@ export default function TimerOverlay() {
     setSelectedGroup(myGroup);
   };
 
+  const updateGroupData = (group_id) => {
+    dispatch(profileGroup({ groupId: group_id }))
+    .then((response) => {
+      if (response.payload.success) {
+        //console.log(response.payload);
+      } else {
+        alert("Fail to dispatch group data.");
+      }
+    });
+  }
+  
   useEffect(() => {
     dispatch(profileUser({ userId: user_id })).then((response) => {
       if (response.payload.success) {
@@ -198,18 +209,10 @@ export default function TimerOverlay() {
         //console.log(response.payload);
         setElapsedTime(response.payload.elapsedTime);
         setStudying(response.payload.isStudyingNow);
-      } else {
-        alert(response.payload.message);
+        updateGroupData(group_id);
       }
     });
-    dispatch(profileGroup({ groupId: group_id }))
-    .then((response) => {
-      if (response.payload.success) {
-        //console.log(response.payload);
-      } else {
-        alert("Fail to dispatch group data.");
-      }
-    });
+    
   };
 
   const onStop = (event, group_id) => {
@@ -227,15 +230,9 @@ export default function TimerOverlay() {
             elapsedTime: response.payload.elapsedTime,
           })
         );
+        updateGroupData(group_id);
       } else {
         alert(response.payload.message);
-      }
-    });
-    dispatch(profileGroup({ groupId: group_id }))
-    .then((response) => {
-      if (response.payload.success) {
-      } else {
-        alert("Fail to dispatch group data.");
       }
     });
   };
