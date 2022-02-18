@@ -30,6 +30,7 @@ export default function GroupPage(props) {
     setToggleFormOverlay(prev => !prev);
   };
 
+  //just for test <--
   useEffect(() => {
     dispatch(profileGroup({ groupId: groupId }))
     .then((response) => {
@@ -40,7 +41,7 @@ export default function GroupPage(props) {
       }
     });
   }, []);
-  
+  // -->
 
   if (groupData === undefined) {
     return (
@@ -48,6 +49,7 @@ export default function GroupPage(props) {
     );
   } else {
     const {group} = groupData;
+    console.log(group);
     return (
       <Container 
         component="main"

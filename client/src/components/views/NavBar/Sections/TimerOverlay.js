@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import {
   profileUser,
+  profileGroup,
   timerStatus,
   timerStart,
   timerEnd,
@@ -194,20 +195,27 @@ export default function TimerOverlay() {
     event.preventDefault();
     dispatch(timerStart({ groupId: group_id })).then((response) => {
       if (response.payload.success) {
-        console.log(response.payload);
+        //console.log(response.payload);
         setElapsedTime(response.payload.elapsedTime);
         setStudying(response.payload.isStudyingNow);
       } else {
         alert(response.payload.message);
       }
     });
+    dispatch(profileGroup({ groupId: group_id }))
+    .then((response) => {
+      if (response.payload.success) {
+        //console.log(response.payload);
+      } else {
+        alert("Fail to dispatch group data.");
+      }
+    });
   };
 
-  const onStop = (event) => {
+  const onStop = (event, group_id) => {
     event.preventDefault();
     dispatch(timerEnd()).then((response) => {
       if (response.payload.success) {
-        console.log(response.payload);
         setElapsedTime(0);
         setStudying(false);
         setPause(false);
@@ -221,6 +229,13 @@ export default function TimerOverlay() {
         );
       } else {
         alert(response.payload.message);
+      }
+    });
+    dispatch(profileGroup({ groupId: group_id }))
+    .then((response) => {
+      if (response.payload.success) {
+      } else {
+        alert("Fail to dispatch group data.");
       }
     });
   };
@@ -363,14 +378,14 @@ export default function TimerOverlay() {
             <Button
               variant="contained"
               size="small"
-              style={{
+              sx={{
                 backgroundColor: "#5ED0A7",
                 width: "156px",
                 height: "42px",
                 margin: "auto",
                 borderRadius: "8px",
               }}
-              onClick={onStop}
+              onClick={(e) => {onStop(e, selectedGroup._id)}}
             >
               <Typography>기록하기</Typography>
             </Button>

@@ -83,9 +83,8 @@ export default function CardTemplete({
     .then((response) => {
       if (response.data.success) {
         setWaitingList((waitingList) => [...waitingList, { name: response.data.user.name, id : user_id }]);
-        return response.data.user.name;
       } else {
-        return "대기유저정보 불러오기 실패";
+        return "유저정보 불러오기 실패";
       }
     });
   }

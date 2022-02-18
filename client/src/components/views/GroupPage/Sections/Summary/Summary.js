@@ -22,26 +22,55 @@ export default function Summary ({
   updateBoard
 }) {
   
-  const [groupRankArray, setGroupRankArray] = useState([]);
+  const [groupRankList, setGroupRankList] = useState([]);
+  const [activeUserList, setActiveUserList] = useState([]);
   
   const findGroupIndex = (groupArray, group_id) => {
     return groupArray.findIndex((group) => group._id === group_id);
 	}
   
-  useEffect(() => {
+  const getGroupRank = () => {
     Axios.get('/api/ranking/group').then((response) => {
       if (response.data.success) {
-        console.log(response.data.result);
-        setGroupRankArray(response.data.result);
+        setGroupRankList(response.data.result);
       } else {
         alert('Failed');
       }
     });
-	}, []);
-
-  const myGroupRank = findGroupIndex(groupRankArray, groupInfo._id) + 1;
+  }
   
-  console.log(boardList);
+  const getUserName = (user_id) => {
+    Axios.post('/api/users/profile', {userId: user_id})
+    .then((response) => {
+      if (response.data.success) {
+        return response.data.user.name;
+      } else {
+        return "유저정보 불러오기 실패";
+      }
+    });
+  }
+  
+  const getUserNameList = async (userIdList) => {
+    const userNameList = await new Promise((resolve, reject) => {
+      userIdList.map((userId) => 
+        getUserName(userId)
+      )
+      resolve(userIdList)
+    })
+    console.log(userNameList);
+    setActiveUserList(userNameList);
+  }
+  
+  useEffect(() => {
+    getGroupRank();
+    const fetchList = groupInfo.activeUsers.slice();
+    console.log(fetchList);
+    getUserNameList(fetchList);
+    
+    
+  }, [groupInfo]);
+
+  const myGroupRank = findGroupIndex(groupRankList, groupInfo._id) + 1;
   
   return (
     <Grid container spacing={4}>
@@ -103,11 +132,11 @@ export default function Summary ({
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Typography>
-              <strong>상위 {((myGroupRank - 1)/groupRankArray.length * 100).toFixed(1)}%</strong>
+              <strong>상위 {((myGroupRank - 1)/groupRankList.length * 100).toFixed(1)}%</strong>
             </Typography>
           </Box>
           <Typography>
-            이 그룹은 총 <strong>{groupRankArray.length}</strong>개의 그룹 중
+            이 그룹은 총 <strong>{groupRankList.length}</strong>개의 그룹 중
             <strong> {myGroupRank}위</strong>입니다.
           </Typography>
         </GrayBox>
@@ -141,9 +170,11 @@ export default function Summary ({
             <TimerOutlinedIcon sx={{color: '#5E5E5E'}}/>
           </Box>
           <Divider />
-          <Typography>
-            {/*현재 참여하고 있는 인원*/}
-          </Typography>
+          {activeUserList.map((userName, index) => 
+            <Box key={index}>
+              <Typography>{userName}</Typography>
+            </Box>
+          )}
         </GrayBox>
       </Grid>
       
