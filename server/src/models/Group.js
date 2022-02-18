@@ -54,7 +54,8 @@ const groupSchema = mongoose.Schema({
   },
   image: String,
   background: {
-    img: Buffer,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Background',
   },
 });
 

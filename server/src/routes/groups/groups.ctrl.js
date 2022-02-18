@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { Group } = require('../../models/Group');
 const { User } = require('../../models/User');
 const { Category } = require('../../models/Category');
@@ -265,15 +266,43 @@ const post = {
           success: false,
           message: '이미지 용량이 제한을 초과하였습니다.',
         });
+      const groupData = await Group.findOneAndUpdate(
+        { _id: groupId },
+        {
+          $set: {
+            background: background._id,
+          },
+        },
+      );
+      if (groupData.background)
+        await Background.findOneAndDelete({ _id: groupData.background });
       return res
         .status(200)
         .send({ success: true, backgroundId: background._id });
-    } catch (e) {
+    } catch (err) {
       return res.status(500).json({ success: false, err });
     }
   },
 };
 
+const get = {
+  background: async (req, res) => {
+    const { id } = req.params;
+    const imageData = await Background.findById(id).exec();
+    if (!imageData) return res.status(404).json();
+    const imageURL = imageData.img;
+    fs.writeFile(`./uploads/${id}.png`, imageURL, err => {
+      fs.readFile(`./uploads/${id}.png`, (err, data) => {
+        if (err) return res.status(500).json({ success: false, err });
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.write(data);
+        res.end();
+      });
+    });
+  },
+};
+
 module.exports = {
   post,
+  get,
 };
