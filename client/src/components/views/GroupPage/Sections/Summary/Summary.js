@@ -28,17 +28,17 @@ export default function Summary({
 	}
   
   const getGroupRank = () => {
-    Axios.get('/api/ranking/group').then((response) => {
+    Axios.get("/api/ranking/group").then((response) => {
       if (response.data.success)
         setGroupRankList(response.data.result);
     });
   }
   
   const getUser = (user_id) => {
-    return Axios.post('/api/users/profile', {userId: user_id});
+    return Axios.post("/api/users/profile", {userId: user_id});
   }
   
-  const getUserNameList = (userIdArray) => {
+  const getUserName = (userIdArray) => {
     const userArray = userIdArray.map((userId, index) =>
       new Promise((resolve, reject) => {
         const userData = getUser(userId);
@@ -53,8 +53,8 @@ export default function Summary({
 
   useEffect(() => {
     getGroupRank();
-    const fetchList = groupInfo.activeUsers.slice();
-    getUserNameList(fetchList);
+    const fetchedList = groupInfo.activeUsers.slice();
+    getUserName(fetchedList);
   }, [groupInfo]);
   
   const myGroupRank = findGroupIndex(groupRankList, groupInfo._id) + 1;

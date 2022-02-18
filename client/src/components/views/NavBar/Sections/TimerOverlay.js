@@ -76,7 +76,7 @@ export default function TimerOverlay() {
     setSelectedGroup(myGroup);
   };
 
-  const updateGroupData = (group_id) => {
+  const updateGroup = (group_id) => {
     dispatch(profileGroup({ groupId: group_id }))
     .then((response) => {
       if (response.payload.success) {
@@ -209,7 +209,7 @@ export default function TimerOverlay() {
         //console.log(response.payload);
         setElapsedTime(response.payload.elapsedTime);
         setStudying(response.payload.isStudyingNow);
-        updateGroupData(group_id);
+        updateGroup(group_id);
       }
     });
     
@@ -230,7 +230,7 @@ export default function TimerOverlay() {
             elapsedTime: response.payload.elapsedTime,
           })
         );
-        updateGroupData(group_id);
+        updateGroup(group_id);
       } else {
         alert(response.payload.message);
       }

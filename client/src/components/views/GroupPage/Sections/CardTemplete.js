@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { loadBoard } from "../../../../_actions/user_actions";
+import { loadBoard, profileGroup } from "../../../../_actions/user_actions";
 import { Box, Button, Paper, Popper, Tab, Typography } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Summary from "./Summary/Summary";
@@ -22,7 +22,7 @@ export default function CardTemplete({
   const loginData = useSelector((state) => state.auth.loginUserData);
   const [boardList, setBoardList] = useState([]);
   const [refreshComment, setRefreshComment] = useState(false);
-  const [waitingList, setWaitingList] = useState([]);
+  const [waitingUsers, setWaitingUsers] = useState([]);
 
   //popper code
   const [anchorEl, setAnchorEl] = useState(null);
@@ -52,12 +52,24 @@ export default function CardTemplete({
       }
     });
   };
+  
+  const updateGroup = (group_id) => {
+    dispatch(profileGroup({ groupId: group_id }))
+    .then((response) => {
+      if (response.payload.success) {
+        //console.log(response.payload);
+      } else {
+        alert("Fail to dispatch group data.");
+      }
+    });
+  }
 
   const join = () => {
     Axios.post("/api/groups/join", { groupId: groupInfo._id }).then(
       (response) => {
         if (response.data.success) {
           handleSnackOpen("success", response.data.message);
+          updateGroup(groupInfo._id);
         } else {
           handleSnackOpen("error", response.data.message);
         }
@@ -65,38 +77,43 @@ export default function CardTemplete({
     );
   };
 
-  const approve = (user_id) => {
+  const approve = (event, user_id) => {
     Axios.post("/api/groups/approve", {
       groupId: groupInfo._id,
       userId: user_id,
     }).then((response) => {
       if (response.data.success) {
         handleSnackOpen("success", response.data.message);
+        updateGroup(groupInfo._id);
       } else {
         handleSnackOpen("error", response.data.message);
       }
     });
   };
-
-  const getUserName = (user_id) => {
-    Axios.post("/api/users/profile", { userId: user_id }).then((response) => {
-      if (response.data.success) {
-        setWaitingList((waitingList) => [
-          ...waitingList,
-          { name: response.data.user.name, id: user_id },
-        ]);
-        return response.data.user.name;
-      } else {
-        return "유저정보 불러오기 실패";
-      }
-    });
+  
+  const getUser = (user_id) => {
+    return Axios.post("/api/users/profile", { userId: user_id })
   };
 
+  const getUserName = (userIdArray) => {
+    const userArray = userIdArray.map((userId, index) =>
+      new Promise((resolve, reject) => {
+        const userData = getUser(userId);
+        resolve(userData);
+      })
+    );
+    Promise.all(userArray).then((users) => {
+      const userNameArray = users.map((user) => {
+        return { name: user.data.user.name, id: user.data.user._id };
+      });
+      setWaitingUsers(userNameArray);
+    })
+  }
+  
   useEffect(() => {
-    groupInfo.waiting.map((userId) => {
-      getUserName(userId);
-    });
-  }, []);
+    const fetchedList = groupInfo.waiting.slice();
+    getUserName(fetchedList);
+  }, [groupInfo]);
 
   useEffect(() => {
     updateBoard(groupInfo._id);
@@ -123,12 +140,10 @@ export default function CardTemplete({
               right: "25%",
             }}
           >
-            <Typography
-              sx={{
-                mr: 1,
-                fontSize: "1rem",
-              }}
-            >
+            <Typography sx={{
+              mr: 1,
+              fontSize: "1rem",
+            }}>
               가입신청하기
             </Typography>
             <PanToolIcon />
@@ -149,49 +164,39 @@ export default function CardTemplete({
             right: "7%",
           }}
         >
-          <Typography
-            sx={{
-              mr: 1,
-              fontSize: "1rem",
-            }}
-          >
+          <Typography sx={{
+            mr: 1,
+            fontSize: "1rem",
+          }}>
             게시글작성
           </Typography>
           <CreateIcon />
         </Button>
         <Box sx={{ ml: "20%", mr: "30%" }}>
-          <Typography
-            sx={{
-              fontSize: "2rem",
-              fontWeight: "bold",
-            }}
-          >
+          <Typography sx={{
+            fontSize: "2rem",
+            fontWeight: "bold",
+          }}>
             {groupInfo.groupName}
           </Typography>
 
-          <Box
-            sx={{
-              color: "#5E5E5E",
-              display: "flex",
-            }}
-          >
+          <Box sx={{
+            color: "#5E5E5E",
+            display: "flex",
+          }}>
             <PersonIcon width="1rem" height="1rem" sx={{ mr: 0.5 }} />
-            <Typography
-              sx={{
-                fontWeight: "bold",
-                py: "2px",
-              }}
-            >
+            <Typography sx={{
+              fontWeight: "bold",
+              py: "2px",
+            }}>
               {groupInfo.members.length}
               /30
             </Typography>
 
-            <Typography
-              sx={{
-                ml: 2,
-                py: "2px",
-              }}
-            >
+            <Typography sx={{
+              ml: 2,
+              py: "2px",
+            }}>
               대기인원: <strong>{groupInfo.waiting.length}</strong>명
             </Typography>
             {/* waitingList가 없거나 admins에 자신이 없으면 승인영역을 생성하지 않음*/}
@@ -209,15 +214,13 @@ export default function CardTemplete({
                     대기목록
                   </Button>
                   <Popper id={id} open={open} anchorEl={anchorEl} disablePortal>
-                    <Paper
-                      sx={{
-                        width: 150,
-                        p: 2,
-                        textAlign: "center",
-                        color: "text.secondary",
-                      }}
-                    >
-                      {waitingList.map((item) => (
+                    <Paper sx={{
+                      width: 150,
+                      p: 2,
+                      textAlign: "center",
+                      color: "text.secondary",
+                    }}>
+                      {waitingUsers.map((item) => (
                         <Box
                           key={item.id}
                           sx={{
@@ -229,8 +232,8 @@ export default function CardTemplete({
                           <Typography sx={{ mr: 2 }}>{item.name}</Typography>
                           <button
                             type="button"
-                            onClick={() => {
-                              approve(item.id);
+                            onClick={(e) => {
+                              approve(e, item.id);
                             }}
                           >
                             승인
@@ -244,13 +247,7 @@ export default function CardTemplete({
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            mt: 2,
-            mx: 6,
-            p: 4,
-          }}
-        >
+        <Box sx={{ mt: 2, mx: 6, p: 4 }}>
           <TabContext value={tabValue}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList
