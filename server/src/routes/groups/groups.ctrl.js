@@ -1,6 +1,8 @@
+const fs = require('fs');
 const { Group } = require('../../models/Group');
 const { User } = require('../../models/User');
 const { Category } = require('../../models/Category');
+const { Background } = require('../../models/Background');
 
 const post = {
   // 그룹 만들기
@@ -246,12 +248,61 @@ const post = {
           message: '존재하지 않는 그룹입니다.',
         });
       }
-      if (err) return res.status(400).json({ success: false, err });
+      if (err) return res.status(500).json({ success: false, err });
       return res.status(200).send({ success: true, group });
+    });
+  },
+
+  // 그룹 배경 업로드
+  background: async (req, res) => {
+    try {
+      const strArray = req.headers.referer.split('/');
+      const groupId = strArray[4];
+      const img = req.file.buffer;
+      const background = new Background({ groupId, img });
+      await background.save();
+      if (img.truncated)
+        return res.status(200).jsono({
+          success: false,
+          message: '이미지 용량이 제한을 초과하였습니다.',
+        });
+      const groupData = await Group.findOneAndUpdate(
+        { _id: groupId },
+        {
+          $set: {
+            background: background._id,
+          },
+        },
+      );
+      if (groupData.background)
+        await Background.findOneAndDelete({ _id: groupData.background });
+      return res
+        .status(200)
+        .send({ success: true, backgroundId: background._id });
+    } catch (err) {
+      return res.status(500).json({ success: false, err });
+    }
+  },
+};
+
+const get = {
+  background: async (req, res) => {
+    const { id } = req.params;
+    const imageData = await Background.findById(id).exec();
+    if (!imageData) return res.status(404).json();
+    const imageURL = imageData.img;
+    fs.writeFile(`./uploads/${id}.png`, imageURL, err => {
+      fs.readFile(`./uploads/${id}.png`, (err, data) => {
+        if (err) return res.status(500).json({ success: false, err });
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.write(data);
+        res.end();
+      });
     });
   },
 };
 
 module.exports = {
   post,
+  get,
 };

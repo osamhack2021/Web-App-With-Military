@@ -16,6 +16,7 @@ import Search from "./views/Search/Search";
 import RankingPage from "./views/RankingPage/RankingPage";
 import CreateGroupPage from "./views/CreateGroupPage/CreateGroupPage";
 import UserGroupPage from "./views/UserGroupPage/UserGroupPage";
+import EditGroupBackgroundPage from "./views/EditGroupBackgroundPage/EditGroupBackgroundPage";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -29,12 +30,13 @@ function App() {
         <Route exact path="/login" component={NavBar} />
         <Route exact path="/register" component={NavBar} />
         <Route exact path="/users/:userId" component={NavBar} />
+        <Route exact path="/users/:userId/mygroups" component={NavBar} />
         <Route exact path="/groups/:groupId" component={NavBar} />
+        <Route exact path="/groups/:groupId/background" component={NavBar} />
+        <Route exact path="/group/create" component={NavBar} />
         <Route exact path="/search/" component={NavBar} />
         <Route exact path="/search/:searchData" component={NavBar} />
         <Route exact path="/ranking/:target" component={NavBar} />
-        <Route exact path="/group/create" component={NavBar} />
-        <Route exact path="/users/:userId/mygroups" component={NavBar} />
       </Switch>
 
       <Switch>
@@ -45,8 +47,23 @@ function App() {
         <Route exact path="/users/:userId" component={Auth(UserPage, null)} />
         <Route
           exact
+          path="/users/:userId/mygroups"
+          component={Auth(UserGroupPage, true)}
+        />
+        <Route
+          exact
           path="/groups/:groupId"
           component={Auth(GroupPage, null)}
+        />
+        <Route
+          exact
+          path="/groups/:groupId/background"
+          component={Auth(EditGroupBackgroundPage, true)}
+        />
+        <Route
+          exact
+          path="/group/create"
+          component={Auth(CreateGroupPage, true)}
         />
         <Route exact path="/search/" component={Auth(Search, null)} />
         <Route
@@ -58,16 +75,6 @@ function App() {
           exact
           path="/ranking/:target"
           component={Auth(RankingPage, null)}
-        />
-        <Route
-          exact
-          path="/group/create"
-          component={Auth(CreateGroupPage, true)}
-        />
-        <Route
-          exact
-          path="/users/:userId/mygroups"
-          component={Auth(UserGroupPage, true)}
         />
       </Switch>
       <Footer />
