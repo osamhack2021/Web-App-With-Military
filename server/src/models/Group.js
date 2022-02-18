@@ -53,6 +53,10 @@ const groupSchema = mongoose.Schema({
     type: Date,
   },
   image: String,
+  background: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Background',
+  },
 });
 
 const Group = mongoose.model('Group', groupSchema);
