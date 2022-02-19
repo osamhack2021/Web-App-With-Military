@@ -49,7 +49,7 @@ export default function RankingPage(props) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        height: 'calc(100vh - 9rem - 1px)',
+        minHeight: 'calc(100vh - 9rem - 1px)',
         overflow: 'hidden'
       }}
     >

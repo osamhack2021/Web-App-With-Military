@@ -37,6 +37,8 @@ export default function GroupPage(props) {
     setToggleFormOverlay((prev) => !prev);
   };
 
+  //just for test
+  //<--
   useEffect(() => {
     dispatch(profileGroup({ groupId: groupId })).then((response) => {
       if (response.payload.success) {
@@ -46,11 +48,11 @@ export default function GroupPage(props) {
       }
     });
   }, []);
+  // -->
 
   const onBackground = (e) => {
     props.history.push(`/groups/${groupId}/background`);
   };
-
   if (groupData === undefined) {
     return <div>그룹정보 불러오는 중</div>;
   } else {
