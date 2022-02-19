@@ -86,7 +86,7 @@ export default function GroupPage(props) {
             top: 0,
             zIndex: 1,
             backgroundImage:
-              'url("https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=850&q=80 850w")',
+              "url("+`/api/groups/download/${group.background}`+")",
             position: "absolute",
           }}
         />

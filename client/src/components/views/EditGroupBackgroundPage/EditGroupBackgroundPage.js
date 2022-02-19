@@ -91,7 +91,7 @@ export default function EditGroupBackgroundGroup(props) {
           </Dropzone>
           {Background && (
             <img
-              src={`http://localhost:3000/api/groups/download/${Background}`}
+              src={`/api/groups/download/${Background}`}
               alt="background"
             />
           )}
