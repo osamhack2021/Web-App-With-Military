@@ -13,11 +13,12 @@ const GrayBox = styled(Box)({
     padding: '1rem',
 })
 
-const userId = localStorage.getItem('userId');
 
 export default function MainPage() {
 	const dispatch = useDispatch();
 	const userProfile = useSelector((state) => state.profile.userProfile);
+  const userId = localStorage.getItem('userId');
+  
 	const [userRankArray, setUserRankArray] = useState(0);
 	const [groupRankArray, setGroupRankArray] = useState(0);
 
@@ -29,7 +30,7 @@ export default function MainPage() {
     return userArray.find((user) => user._id === user_id);
 	}
 	
-	useEffect( () => {
+	useEffect(() => {
     dispatch(profileUser({userId : userId}))
     .then((response) => {
       if (response.payload.success) {
@@ -63,12 +64,9 @@ export default function MainPage() {
     const myRank = findUserIndex(userRankArray, userId) + 1;
     const myData = findUser(userRankArray, userId);
 
-    // console.log(myData);
-    // console.log(myRank);
-    // console.log(userRankArray);
-
-    const userData = userProfile.user;
-    const myElapsedDays = Math.floor((new Date().getTime() - new Date(userData.created).getTime()) / 1000 / 60 / 60 / 24);
+    const userInfo = userProfile.user;
+    console.log(userInfo);
+    const myElapsedDays = Math.floor((new Date().getTime() - new Date(userInfo.created).getTime()) / 1000 / 60 / 60 / 24);
     return (
       <Container 
         component="main"
@@ -83,14 +81,14 @@ export default function MainPage() {
         <Box sx={{display: 'flex', my: 4}}>
           <Avatar
             size="large"
-            src={userData.image}
+            src={userInfo.image}
             sx={{
               fontSize: "32px",
               mr: 2,
             }}
           />
           <Typography variant="h5">
-            안녕하세요, {userData.name}님!
+            안녕하세요, {userInfo.name}님!
             공부를 시작한지 벌써 {myElapsedDays}일이 지났어요
           </Typography>
         </Box>
@@ -109,46 +107,48 @@ export default function MainPage() {
                 <Typography sx={{mr: 1}}>내 랭킹</Typography>
                 <EqualizerIcon sx={{color: '#5E5E5E'}}/>
               </Box>
-              <Box sx={{p:2}}>
-                <Tier score={myData.totalTime} tier={"Gold"} />
-                <Stack
-                  direction="row"
-                  spacing={2}
-                  divider={<Divider orientation="vertical" flexItem />}
-                  sx={{
-                    py: 1,
-                    '& > .MuiBox-root': {
-                      display: 'flex',
-                    },
-                  }}
-                >
-                  <Box>
-                    <Typography sx={{fontWeight: 'bold'}}>{ myRank }</Typography>
-                    <Typography>위</Typography>
-                  </Box>
-                  <Box>
-                    <Typography>상위</Typography>
-                    <Typography sx={{fontWeight: 'bold'}}>
-                      { ((myRank - 1)/userRankArray.length * 100).toFixed(0) }
-                    </Typography>
-                    <Typography>%</Typography>
-                  </Box>
-                  <Box>
-                    <Typography sx={{fontWeight: 'bold'}}>
-                      { parseInt(myData.totalTime/3600) }
-                    </Typography>
-                    <Typography sx={{mr: 1}}>시간</Typography>
-                    <Typography sx={{fontWeight: 'bold'}}>
-                      { parseInt((myData.totalTime%3600)/60) }
-                    </Typography>
-                    <Typography sx={{mr: 1}}>분</Typography>
-                    <Typography sx={{fontWeight: 'bold'}}>
-                      { myData.totalTime%60 }
-                    </Typography>
-                    <Typography>초</Typography>
-                  </Box>
-                </Stack>
-              </Box>
+              <Tier score={myData.totalTime} tier={"Gold"} />
+              <Stack
+                direction="row"
+                spacing={2}
+                divider={<Divider orientation="vertical" flexItem />}
+                sx={{
+                  py: 1,
+                  textAlign: "center",
+                  "& > .MuiBox-root": {
+                    display: "flex",
+                  },
+                }}
+              >
+                <Box>
+                  <Typography>
+                    <strong>{ myRank }</strong>
+                    위
+                  </Typography>
+                  <Typography></Typography>
+                </Box>
+                <Box>
+                  <Typography>
+                    상위&nbsp;
+                    <strong>{ ((myRank - 1)/userRankArray.length * 100).toFixed(0) }</strong>
+                    %
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography>
+                    <strong>{ parseInt(myData.totalTime/3600) }</strong>
+                    시간&nbsp;
+                  </Typography>
+                  <Typography>
+                    <strong>{ parseInt((myData.totalTime%3600)/60) }</strong>
+                    분&nbsp;
+                  </Typography>
+                  <Typography>
+                    <strong>{ myData.totalTime%60 }</strong>
+                    초&nbsp;
+                  </Typography>
+                </Box>
+              </Stack>
             </GrayBox>
           </Grid>
 
