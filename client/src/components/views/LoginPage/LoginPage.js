@@ -42,35 +42,29 @@ export default function LoginPage(props) {
           .required("Password is required"),
       })}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          let dataToSubmit = {
-            email: values.email,
-            password: values.password,
-          };
-
-          dispatch(loginUser(dataToSubmit))
-            .then((response) => {
-              if (response.payload.loginSuccess) {
-                window.localStorage.setItem("userId", response.payload.userId);
-                window.localStorage.setItem("image", response.payload.image);
-                if (rememberMe === true) {
-                  window.localStorage.setItem("rememberMe", values.email);
-                } else {
-                  localStorage.removeItem("rememberMe");
-                }
-                props.history.push("/main");
-              } else {
-                setFormErrorMessage("Check out your Account or Password again");
-              }
-            })
-            .catch((err) => {
-              setFormErrorMessage("Check out your Account or Password again");
-              setTimeout(() => {
-                setFormErrorMessage("");
-              }, 3000);
-            });
-          setSubmitting(false);
-        }, 500);
+        let dataToSubmit = {
+          email: values.email,
+          password: values.password,
+        };
+        setSubmitting(true);
+        dispatch(loginUser(dataToSubmit))
+        .then((response) => {
+          if (response.payload.loginSuccess) {
+            localStorage.setItem("userId", response.payload.userId);
+            if (rememberMe) {
+              localStorage.setItem("rememberMe", values.email);
+            } else {
+              localStorage.removeItem("rememberMe");
+            }
+            props.history.push("/main");
+          } else {
+            setFormErrorMessage("Check out your Account or Password again");
+          }
+        })
+        .catch((err) => {
+          setFormErrorMessage("Check out your Account or Password again");
+        });
+        setSubmitting(false);
       }}
     >
       {(props) => {
@@ -82,7 +76,6 @@ export default function LoginPage(props) {
           handleChange,
           handleSubmit,
         } = props;
-        console.log(errors);
         return (
           <Box sx={{
             flexDirection: 'column',
