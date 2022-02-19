@@ -108,7 +108,7 @@ const get = {
       const today = seoul();
       const year = today.getFullYear();
       const month = `0${today.getMonth() + 1}`.slice(-2);
-      const day = `0${today.getDate()}`.slice(-2);
+      const day = `0${today.getDate() - 1}`.slice(-2);
       const dateString = `${year}-${month}-${day}`;
 
       User.findOne({ _id: req.user._id }, async (err, USER) => {
