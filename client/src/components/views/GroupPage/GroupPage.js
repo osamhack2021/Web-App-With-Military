@@ -83,11 +83,15 @@ export default function GroupPage(props) {
           sx={{
             width: "100%",
             height: "15rem",
+            position: "absolute",
             top: 0,
             zIndex: 1,
             backgroundImage:
               "url("+`/api/groups/download/${group.background}`+")",
-            position: "absolute",
+            backgroundRepeat : "no-repeat",
+            backgroundSize : "cover",
+            backgroundPosition: "center"
+            
           }}
         />
         <Box
