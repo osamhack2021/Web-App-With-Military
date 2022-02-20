@@ -54,6 +54,7 @@ export default function GroupPage(props) {
     return <div>그룹정보 불러오는 중</div>;
   } else {
     const { group } = groupData;
+    console.log(group);
     return (
       <Container
         component="main"
@@ -86,12 +87,14 @@ export default function GroupPage(props) {
             position: "absolute",
             top: 0,
             zIndex: 1,
-            backgroundImage:
-              "url("+`/api/groups/download/${group.background}`+")",
+            backgroundImage: `${group.background !== undefined
+              ? `url(/api/groups/download/${group.background})`
+              //기본 이미지
+              : "url(https://cdn.pixabay.com/photo/2016/11/29/12/50/bookcases-1869616_960_720.jpg)"
+          }`,
             backgroundRepeat : "no-repeat",
             backgroundSize : "cover",
             backgroundPosition: "center"
-            
           }}
         />
         <Box
