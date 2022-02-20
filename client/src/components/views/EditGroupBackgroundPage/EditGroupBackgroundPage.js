@@ -23,20 +23,24 @@ import {
 export default function EditGroupBackgroundGroup(props) {
   const { groupId } = props.match.params;
   const dispatch = useDispatch();
-  const [Background, setBackground] = useState(null);
-  
+  const [bgImage, setBgImage] = useState(null);
+
   const groupData = useSelector((state) => state.profile.groupProfile);
 
   useEffect(() => {
-    dispatch(profileGroup({ groupId: groupId })).then((response) => {
-      if (response.payload.success) {
-        if (response.payload.group.background)
-          setBackground(response.payload.group.background);
+    Axios.get(`/api/groups/download/background`, {
+      params: {
+        id: groupId
+      }
+    })
+    .then((response) => {
+      if (response.data.success) {
+        setBgImage(response.data.backgroundId);
       } else {
-        alert("그룹정보 가져오기를 실패했습니다.");
+        alert(response.data);
       }
     });
-  }, [Background]);
+  }, [bgImage]);
 
   const onDrop = (files) => {
     let formData = new FormData();
@@ -45,7 +49,7 @@ export default function EditGroupBackgroundGroup(props) {
       withCredentials: true,
     }).then((response) => {
       if (response.data.success) {
-        setBackground(response.data.backgroundId);
+        setBgImage(response.data.backgroundId);
       } else {
         alert(response.data);
       }
@@ -57,12 +61,12 @@ export default function EditGroupBackgroundGroup(props) {
   } else {
     const { group } = groupData;
 
-    const onEXIT = (e) => {
+    const onExit = (e) => {
       props.history.push(`/groups/${groupId}`);
     };
 
-      return (
-        <Container
+    return (
+      <Container
         component="main"
         maxWidth="sm"
         sx={{
@@ -93,8 +97,8 @@ export default function EditGroupBackgroundGroup(props) {
             )}
           </Dropzone>
         </form>
-        <Typography variant="h5">	&#60;미리보기&#62;</Typography>
-        {Background && (
+        <Typography variant="h5"> &#60;미리보기&#62;</Typography>
+        {bgImage && (
           <>
             <Box sx={{
               width: "100%",
@@ -104,17 +108,18 @@ export default function EditGroupBackgroundGroup(props) {
               backgroundSize : "cover",
               backgroundPosition: "center"
             }} />
-
-            <Box sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-end"
-            }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
               <Button
                 type="submit"
                 sx={{ my: 1 }}
                 variant="contained"
-                onClick={onEXIT}
+                onClick={onExit}
               >
                 완료
               </Button>

@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -22,6 +23,7 @@ export default function GroupPage(props) {
   const [openSnack, setOpenSnack] = useState(false);
   const [snackVariant, setSnackVariant] = useState("success");
   const [snackMessage, setSnackMessage] = useState("");
+  const [bgImage, setBgImage] = useState(null);
 
   const handleSnackOpen = (variant, message) => {
     setSnackVariant(variant);
@@ -47,14 +49,30 @@ export default function GroupPage(props) {
         alert("그룹정보 가져오기를 실패했습니다.");
       }
     });
+    Axios.get(`/api/groups/download/background`, {
+      params: {
+        id: groupId
+      }
+    })
+    .then((response) => {
+      console.log(response.data)
+      if (response.data.success) {
+        
+        console.log(response.data);
+        //setBgImage(response.data.backgroundId);
+      } else {
+        alert(response.data);
+      }
+    });
   }, []);
   // -->
-  
+
   if (groupData === undefined) {
     return <div>그룹정보 불러오는 중</div>;
   } else {
     const { group } = groupData;
     console.log(group);
+    console.log(bgImage);
     return (
       <Container
         component="main"
@@ -87,11 +105,10 @@ export default function GroupPage(props) {
             position: "absolute",
             top: 0,
             zIndex: 1,
-            backgroundImage: `${group.background !== undefined
-              ? `url(/api/groups/download/${group.background})`
-              //기본 이미지
-              : "url(https://cdn.pixabay.com/photo/2016/11/29/12/50/bookcases-1869616_960_720.jpg)"
-          }`,
+            backgroundImage: `${bgImage
+              ? `url(${bgImage})`
+              : `url(${group.image})`
+            }`,
             backgroundRepeat : "no-repeat",
             backgroundSize : "cover",
             backgroundPosition: "center"

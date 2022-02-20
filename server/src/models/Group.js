@@ -52,10 +52,14 @@ const groupSchema = mongoose.Schema({
   created: {
     type: Date,
   },
-  image: String,
+  defaultImage: String,
+  image: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'GroupImage',
+  },
   background: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Background',
+    ref: 'GroupBackground',
   },
 });
 

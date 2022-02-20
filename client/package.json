@@ -9,6 +9,7 @@
     "@mui/lab": "^5.0.0-alpha.67",
     "@mui/material": "^5.0.2",
     "@mui/styles": "^5.3.0",
+    "@nivo/bar": "^0.79.1",
     "@nivo/calendar": "^0.74.0",
     "@nivo/core": "^0.74.0",
     "@popperjs/core": "^2.11.2",
