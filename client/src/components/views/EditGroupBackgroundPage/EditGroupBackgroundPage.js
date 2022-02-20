@@ -36,7 +36,7 @@ export default function EditGroupBackgroundGroup(props) {
         alert("그룹정보 가져오기를 실패했습니다.");
       }
     });
-  }, []);
+  }, [Background]);
 
   const onDrop = (files) => {
     let formData = new FormData();
