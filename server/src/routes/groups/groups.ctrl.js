@@ -3,6 +3,7 @@ const { Group } = require('../../models/Group');
 const { User } = require('../../models/User');
 const { Category } = require('../../models/Category');
 const { GroupBackground } = require('../../models/GroupBackground');
+const { GroupImage } = require('../../models/GroupImage');
 
 const post = {
   // 그룹 만들기
@@ -253,7 +254,7 @@ const post = {
     });
   },
 
-  // 그룹 배경 업로드
+  // 배경 업로드
   background: async (req, res) => {
     try {
       const strArray = req.headers.referer.split('/');
@@ -262,7 +263,7 @@ const post = {
       const background = new GroupBackground({ groupId, img });
       await background.save();
       if (img.truncated)
-        return res.status(200).jsono({
+        return res.status(200).json({
           success: false,
           message: '이미지 용량이 제한을 초과하였습니다.',
         });
@@ -275,8 +276,13 @@ const post = {
         },
       );
       if (groupData.background) {
+        await fs.unlink(
+          `./uploads/groups/backgrounds/${groupData.background}.png`,
+          err => {
+            if (err) console.log(err);
+          },
+        );
         await GroupBackground.findOneAndDelete({ _id: groupData.background });
-        fs.unlink(`./uploads/${groupData.background}.png`);
       }
       return res
         .status(200)
@@ -285,16 +291,67 @@ const post = {
       return res.status(500).json({ success: false, err });
     }
   },
+  // 이미지 업로드
+  image: async (req, res) => {
+    try {
+      const strArray = req.headers.referer.split('/');
+      const groupId = strArray[4];
+      const img = req.file.buffer;
+      const image = new GroupImage({ groupId, img });
+      await image.save();
+      if (img.truncated)
+        return res.status(200).json({
+          success: false,
+          message: '이미지 용량이 제한을 초과하였습니다.',
+        });
+      const groupData = await Group.findOneAndUpdate(
+        { _id: groupId },
+        {
+          $set: {
+            image: image._id,
+          },
+        },
+      );
+      if (groupData.image) {
+        await fs.unlink(
+          `./uploads/groups/images/${groupData.image}.png`,
+          err => {
+            if (err) console.log(err);
+          },
+        );
+        await GroupImage.findOneAndDelete({ _id: groupData.image });
+      }
+      return res.status(200).send({ success: true, imageId: image._id });
+    } catch (err) {
+      return res.status(500).json({ success: false, err });
+    }
+  },
 };
 
 const get = {
+  // 배경 받아오기
   background: async (req, res) => {
     const { id } = req.params;
     const imageData = await GroupBackground.findById(id).exec();
     if (!imageData) return res.status(404).json();
     const imageURL = imageData.img;
-    fs.writeFile(`./uploads/${id}.png`, imageURL, err => {
-      fs.readFile(`./uploads/${id}.png`, (err, data) => {
+    fs.writeFile(`./uploads/groups/backgrounds/${id}.png`, imageURL, err => {
+      fs.readFile(`./uploads/groups/backgrounds/${id}.png`, (err, data) => {
+        if (err) return res.status(500).json({ success: false, err });
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.write(data);
+        res.end();
+      });
+    });
+  },
+  // 이미지 받아오기
+  image: async (req, res) => {
+    const { id } = req.params;
+    const imageData = await GroupImage.findById(id).exec();
+    if (!imageData) return res.status(404).json();
+    const imageURL = imageData.img;
+    fs.writeFile(`./uploads/groups/images/${id}.png`, imageURL, err => {
+      fs.readFile(`./uploads/groups/images/${id}.png`, (err, data) => {
         if (err) return res.status(500).json({ success: false, err });
         res.writeHead(200, { 'Content-Type': 'image/png' });
         res.write(data);
