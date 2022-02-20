@@ -2,7 +2,7 @@ const fs = require('fs');
 const { Group } = require('../../models/Group');
 const { User } = require('../../models/User');
 const { Category } = require('../../models/Category');
-const { Background } = require('../../models/Background');
+const { GroupBackground } = require('../../models/GroupBackground');
 
 const post = {
   // 그룹 만들기
@@ -259,7 +259,7 @@ const post = {
       const strArray = req.headers.referer.split('/');
       const groupId = strArray[4];
       const img = req.file.buffer;
-      const background = new Background({ groupId, img });
+      const background = new GroupBackground({ groupId, img });
       await background.save();
       if (img.truncated)
         return res.status(200).jsono({
@@ -274,8 +274,10 @@ const post = {
           },
         },
       );
-      if (groupData.background)
-        await Background.findOneAndDelete({ _id: groupData.background });
+      if (groupData.background) {
+        await GroupBackground.findOneAndDelete({ _id: groupData.background });
+        fs.unlink(`./uploads/${groupData.background}.png`);
+      }
       return res
         .status(200)
         .send({ success: true, backgroundId: background._id });
@@ -288,7 +290,7 @@ const post = {
 const get = {
   background: async (req, res) => {
     const { id } = req.params;
-    const imageData = await Background.findById(id).exec();
+    const imageData = await GroupBackground.findById(id).exec();
     if (!imageData) return res.status(404).json();
     const imageURL = imageData.img;
     fs.writeFile(`./uploads/${id}.png`, imageURL, err => {

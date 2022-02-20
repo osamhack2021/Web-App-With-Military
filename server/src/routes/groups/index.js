@@ -10,7 +10,8 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-router.get('/download/:id', ctrl.get.background);
+router.get('/download/image/:id', ctrl.get.background);
+router.get('/download/background/:id', ctrl.get.background);
 
 router.post('/upload/background', upload.single('image'), ctrl.post.background);
 router.post('/create', auth, ctrl.post.create);
