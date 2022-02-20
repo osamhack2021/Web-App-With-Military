@@ -90,6 +90,7 @@ export default function Summary({
             </Link>
           </Box>
           <Divider />
+          
           {/* Tier-bar */}
           <Box sx={{
             backgroundColor: "#C4C4C4",
@@ -100,6 +101,7 @@ export default function Summary({
           }}>
             <Box sx={{
               backgroundColor: "#ECD351",
+              height: "2rem",
               width: `${
                 groupInfo.totalTime < 100 ? groupInfo.totalTime : 100
               }%`,
