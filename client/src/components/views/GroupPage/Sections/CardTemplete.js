@@ -1,8 +1,9 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { loadBoard, profileGroup } from "../../../../_actions/user_actions";
-import { Box, Button, Paper, Popper, Tab, Typography } from "@mui/material";
+import { Box, Button, IconButton, Paper, Popper, Tab, Typography } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Summary from "./Summary/Summary";
 import Ranking from "./Ranking/Ranking";
@@ -10,6 +11,7 @@ import Achievement from "./Achievement/Achievement";
 import CreateIcon from "@mui/icons-material/Create";
 import PanToolIcon from "@mui/icons-material/PanTool";
 import PersonIcon from "@mui/icons-material/Person";
+import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 
 export default function CardTemplete({
   groupInfo,
@@ -18,12 +20,16 @@ export default function CardTemplete({
   handleSnackOpen,
 }) {
   const dispatch = useDispatch();
-
   const loginData = useSelector((state) => state.auth.loginUserData);
   const [boardList, setBoardList] = useState([]);
   const [refreshComment, setRefreshComment] = useState(false);
   const [waitingUsers, setWaitingUsers] = useState([]);
 
+  let history = useHistory();
+  const changeBgImage = (e, group_id) => {
+    history.push(`/groups/${group_id}/background`);
+  };
+  
   //popper code
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -33,7 +39,6 @@ export default function CardTemplete({
   };
   //tab code
   const [tabValue, setTabValue] = useState("1");
-
   const handleTabChange = (event, newTabValue) => {
     setTabValue(newTabValue);
   };
@@ -122,56 +127,50 @@ export default function CardTemplete({
   if (loginData === undefined) {
     return <div>데이터 불러오는 중</div>;
   } else {
+    console.log(groupInfo);
     return (
       <>
-        {/*admins에 본인이 포함되지않으면 가입신청 버튼을 생성*/}
-        {groupInfo.admins.indexOf(loginData._id) === -1 && (
-          <Button
-            variant="contained"
-            onClick={join}
-            color="secondary"
-            sx={{
-              borderRadius: "0.5rem",
-              width: "11rem",
-              height: "2.5rem",
-              textTransform: "none",
-              mt: 3,
-              position: "absolute",
-              right: "25%",
-            }}
-          >
-            <Typography sx={{
-              mr: 1,
-              fontSize: "1rem",
-            }}>
-              가입신청하기
-            </Typography>
-            <PanToolIcon />
-          </Button>
-        )}
-
-        <Button
-          variant="contained"
-          onClick={onFormOverlayToggle}
-          color="secondary"
-          sx={{
-            borderRadius: "0.5rem",
-            width: "11rem",
-            height: "2.5rem",
-            textTransform: "none",
-            mt: 3,
-            position: "absolute",
-            right: "7%",
-          }}
-        >
-          <Typography sx={{
-            mr: 1,
-            fontSize: "1rem",
-          }}>
-            게시글작성
-          </Typography>
-          <CreateIcon />
-        </Button>
+        {/*기능 버튼*/}
+        <Box sx={{
+          position: "absolute",
+          top: "3%",
+          right: "3%"
+        }}>
+          {/*admins에 본인이 포함되면 배경수정 아이콘을 생성*/}
+          {groupInfo.admins.indexOf(loginData._id) !== -1 && (
+            <IconButton
+              type="button"
+              variant="contained"
+              onClick={(e) => { changeBgImage(e, groupInfo._id) }}
+              sx={{ mr: 2 }}
+            >
+              <AddPhotoAlternateOutlinedIcon sx={{
+                fontSize: "2rem",
+                color: "#5E5E5E",
+                my: "auto"
+              }} />
+            </IconButton>
+          )}
+          <IconButton onClick={onFormOverlayToggle}>
+            <CreateIcon sx={{
+              fontSize: "2rem",
+              color: "#5E5E5E",
+              my: "auto"
+            }} />
+          </IconButton>  
+          {/*admins에 본인이 포함되지않으면 가입신청 버튼을 생성*/}
+          {groupInfo.admins.indexOf(loginData._id) === -1 && (
+            <IconButton onClick={join}>
+              <PanToolIcon sx={{
+                fontSize: "2rem",
+                color: "#5E5E5E",
+                my: "auto"
+              }}/>
+            </IconButton>
+          )}
+        </Box>
+  
+        {/*그룹 이름과 멤버인원수, 대기인원*/}
         <Box sx={{ ml: "20%", mr: "30%" }}>
           <Typography sx={{
             fontSize: "2rem",
@@ -246,8 +245,9 @@ export default function CardTemplete({
               )}
           </Box>
         </Box>
-
-        <Box sx={{ mt: 2, mx: 6, p: 4 }}>
+        
+        {/*탭 페이지*/}
+        <Box sx={{ mx: 6, p: 2 }}>
           <TabContext value={tabValue}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList

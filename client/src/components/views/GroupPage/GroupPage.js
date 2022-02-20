@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  Button,
   Alert,
   Avatar,
   Box,
+  Button,
   Container,
   Snackbar,
   Popper,
@@ -49,10 +49,7 @@ export default function GroupPage(props) {
     });
   }, []);
   // -->
-
-  const onBackground = (e) => {
-    props.history.push(`/groups/${groupId}/background`);
-  };
+  
   if (groupData === undefined) {
     return <div>그룹정보 불러오는 중</div>;
   } else {
@@ -61,12 +58,12 @@ export default function GroupPage(props) {
       <Container
         component="main"
         maxWidth="lg"
+        disableGutters //If true, the left and right padding is removed.
         sx={{
           position: "relative",
           minHeight: "calc(100vh - 9rem - 1px)",
           overflow: "hidden",
         }}
-        disableGutters //If true, the left and right padding is removed.
       >
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -86,11 +83,15 @@ export default function GroupPage(props) {
           sx={{
             width: "100%",
             height: "15rem",
+            position: "absolute",
             top: 0,
             zIndex: 1,
             backgroundImage:
-              'url("https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=850&q=80 850w")',
-            position: "absolute",
+              "url("+`/api/groups/download/${group.background}`+")",
+            backgroundRepeat : "no-repeat",
+            backgroundSize : "cover",
+            backgroundPosition: "center"
+            
           }}
         />
         <Box
@@ -103,14 +104,6 @@ export default function GroupPage(props) {
             borderRadius: "40px 40px 0px 0px",
           }}
         >
-          <Button
-            type="button"
-            sx={{ my: 1 }}
-            variant="contained"
-            onClick={onBackground}
-          >
-            배경 변경
-          </Button>
           {/* 템플릿 안에 내용이 들어가는 부분 */}
           <CardTemplete
             groupInfo={group}
@@ -121,6 +114,7 @@ export default function GroupPage(props) {
         </Box>
         <Avatar
           alt="Group Profile Picture"
+          src={group.image}
           sx={{
             width: "9rem",
             height: "9rem",
@@ -130,12 +124,11 @@ export default function GroupPage(props) {
             left: "12%",
             transform: "translate(-50%, -50%)",
           }}
-          src={group.image}
         />
 
         {toggleFormOverlay && (
           <FormOverlay
-            groupId={groupId}
+            groupId={group._id}
             onFormOverlayToggle={onFormOverlayToggle}
           />
         )}

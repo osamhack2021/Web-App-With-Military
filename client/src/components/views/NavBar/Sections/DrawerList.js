@@ -24,6 +24,7 @@ export default function DrawrList( {handleDrawerClose} ) {
       if (response.status === 200) {
         history.push("/login");
         handleDrawerClose();
+        localStorage.removeItem("userId");
       } else {
         alert("Log Out Failed");
       }
