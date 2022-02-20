@@ -49,7 +49,7 @@ export default function GroupPage(props) {
     });
   }, []);
   // -->
-  
+
   if (groupData === undefined) {
     return <div>그룹정보 불러오는 중</div>;
   } else {
@@ -87,11 +87,12 @@ export default function GroupPage(props) {
             top: 0,
             zIndex: 1,
             backgroundImage:
-              "url("+`/api/groups/download/${group.background}`+")",
-            backgroundRepeat : "no-repeat",
-            backgroundSize : "cover",
-            backgroundPosition: "center"
-            
+              "url(" +
+              `/api/groups/download/background/${group.background}` +
+              ")",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         />
         <Box

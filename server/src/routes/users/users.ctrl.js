@@ -1,4 +1,7 @@
+const fs = require('fs');
 const { User } = require('../../models/User');
+const { UserBackground } = require('../../models/UserBackground');
+const { UserImage } = require('../../models/UserImage');
 
 const get = {
   auth: (req, res) => {
@@ -21,9 +24,110 @@ const get = {
       },
     );
   },
+  // 배경 받아오기
+  background: async (req, res) => {
+    const { id } = req.params;
+    const imageData = await UserBackground.findById(id).exec();
+    if (!imageData) return res.status(404).json();
+    const imageURL = imageData.img;
+    fs.writeFile(`./uploads/users/backgrounds/${id}.png`, imageURL, err => {
+      if (err) return res.status(500).json({ success: false, err });
+      fs.readFile(`./uploads/users/backgrounds/${id}.png`, (err, data) => {
+        if (err) return res.status(500).json({ success: false, err });
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.write(data);
+        res.end();
+      });
+    });
+  },
+  // 이미지 받아오기
+  image: async (req, res) => {
+    const { id } = req.params;
+    const imageData = await UserImage.findById(id).exec();
+    if (!imageData) return res.status(404).json();
+    const imageURL = imageData.img;
+    fs.writeFile(`./uploads/users/images/${id}.png`, imageURL, err => {
+      if (err) return res.status(500).json({ success: false, err });
+      fs.readFile(`./uploads/users/images/${id}.png`, (err, data) => {
+        if (err) return res.status(500).json({ success: false, err });
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.write(data);
+        res.end();
+      });
+    });
+  },
 };
 
 const post = {
+  // 배경 업로드
+  background: async (req, res) => {
+    try {
+      const strArray = req.headers.referer.split('/');
+      const userId = strArray[4];
+      const img = req.file.buffer;
+      const background = new UserBackground({ userId, img });
+      await background.save();
+      if (img.truncated)
+        return res.status(200).json({
+          success: false,
+          message: '이미지 용량이 제한을 초과하였습니다.',
+        });
+      const userData = await User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $set: {
+            background: background._id,
+          },
+        },
+      );
+      if (userData.background) {
+        await fs.unlink(
+          `./uploads/users/backgrounds/${userData.background}.png`,
+          err => {
+            if (err) console.log(err);
+          },
+        );
+        await UserBackground.findOneAndDelete({ _id: userData.background });
+      }
+      return res
+        .status(200)
+        .send({ success: true, backgroundId: background._id });
+    } catch (err) {
+      return res.status(500).json({ success: false, err });
+    }
+  },
+  // 이미지 업로드
+  image: async (req, res) => {
+    try {
+      const strArray = req.headers.referer.split('/');
+      const userId = strArray[4];
+      const img = req.file.buffer;
+      const image = new UserImage({ userId, img });
+      await image.save();
+      if (img.truncated)
+        return res.status(200).json({
+          success: false,
+          message: '이미지 용량이 제한을 초과하였습니다.',
+        });
+      const userData = await User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $set: {
+            image: image._id,
+          },
+        },
+      );
+      if (userData.image) {
+        await fs.unlink(`./uploads/users/images/${userData.image}.png`, err => {
+          if (err) console.log(err);
+        });
+        await UserImage.findOneAndDelete({ _id: userData.image });
+      }
+      return res.status(200).send({ success: true, imageId: image._id });
+    } catch (err) {
+      return res.status(500).json({ success: false, err });
+    }
+  },
   login: (req, res) => {
     // 이메일 존재 여부 확인
     User.findOne({ email: req.body.email }, (err, user) => {

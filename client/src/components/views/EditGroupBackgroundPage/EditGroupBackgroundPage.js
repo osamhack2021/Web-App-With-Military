@@ -24,7 +24,7 @@ export default function EditGroupBackgroundGroup(props) {
   const { groupId } = props.match.params;
   const dispatch = useDispatch();
   const [Background, setBackground] = useState(null);
-  
+
   const groupData = useSelector((state) => state.profile.groupProfile);
 
   useEffect(() => {
@@ -61,8 +61,8 @@ export default function EditGroupBackgroundGroup(props) {
       props.history.push(`/groups/${groupId}`);
     };
 
-      return (
-        <Container
+    return (
+      <Container
         component="main"
         maxWidth="sm"
         sx={{
@@ -93,24 +93,30 @@ export default function EditGroupBackgroundGroup(props) {
             )}
           </Dropzone>
         </form>
-        <Typography variant="h5">	&#60;미리보기&#62;</Typography>
+        <Typography variant="h5"> &#60;미리보기&#62;</Typography>
         {Background && (
           <>
-            <Box sx={{
-              width: "100%",
-              height: "15rem",
-              backgroundImage:
-                "url("+`/api/groups/download/${group.background}`+")",
-              backgroundRepeat : "no-repeat",
-              backgroundSize : "cover",
-              backgroundPosition: "center"
-            }} />
+            <Box
+              sx={{
+                width: "100%",
+                height: "15rem",
+                backgroundImage:
+                  "url(" +
+                  `/api/groups/download/background/${group.background}` +
+                  ")",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
 
-            <Box sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-end"
-            }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
               <Button
                 type="submit"
                 sx={{ my: 1 }}
