@@ -11,6 +11,7 @@ import { profileGroup } from "../../../_actions/user_actions";
 import {
   Box,
   Button,
+  Container,
   FormControl,
   TextField,
   Typography,
@@ -21,9 +22,9 @@ import {
 
 export default function EditGroupBackgroundGroup(props) {
   const { groupId } = props.match.params;
-  const [Background, setBackground] = useState(null);
   const dispatch = useDispatch();
-
+  const [Background, setBackground] = useState(null);
+  
   const groupData = useSelector((state) => state.profile.groupProfile);
 
   useEffect(() => {
@@ -60,11 +61,13 @@ export default function EditGroupBackgroundGroup(props) {
       props.history.push(`/groups/${groupId}`);
     };
 
-    return (
-      <Box
+      return (
+        <Container
+        component="main"
+        maxWidth="sm"
         sx={{
-          flexDirection: "column",
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           minHeight: "calc(100vh - 9rem - 1px)",
@@ -89,22 +92,37 @@ export default function EditGroupBackgroundGroup(props) {
               </div>
             )}
           </Dropzone>
-          {Background && (
-            <img
-              src={`/api/groups/download/${Background}`}
-              alt="background"
-            />
-          )}
-          <Button
-            type="button"
-            sx={{ my: 1 }}
-            variant="contained"
-            onClick={onEXIT}
-          >
-            완료
-          </Button>
         </form>
-      </Box>
+        <Typography variant="h5">	&#60;미리보기&#62;</Typography>
+        {Background && (
+          <>
+            <Box sx={{
+              width: "100%",
+              height: "15rem",
+              backgroundImage:
+                "url("+`/api/groups/download/${group.background}`+")",
+              backgroundRepeat : "no-repeat",
+              backgroundSize : "cover",
+              backgroundPosition: "center"
+            }} />
+
+            <Box sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end"
+            }}>
+              <Button
+                type="submit"
+                sx={{ my: 1 }}
+                variant="contained"
+                onClick={onEXIT}
+              >
+                완료
+              </Button>
+            </Box>
+          </>
+        )}
+      </Container>
     );
   }
 }
