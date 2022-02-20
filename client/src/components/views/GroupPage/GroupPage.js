@@ -23,7 +23,7 @@ export default function GroupPage(props) {
   const [openSnack, setOpenSnack] = useState(false);
   const [snackVariant, setSnackVariant] = useState("success");
   const [snackMessage, setSnackMessage] = useState("");
-  const [bgImage, setBgImage] = useState(null);
+  const [bgImageId, setBgImageId] = useState(null);
 
   const handleSnackOpen = (variant, message) => {
     setSnackVariant(variant);
@@ -38,32 +38,22 @@ export default function GroupPage(props) {
   const onFormOverlayToggle = () => {
     setToggleFormOverlay((prev) => !prev);
   };
-
+  
+  const getBgImageId = (group_id) => {
+    dispatch(profileGroup({ groupId: group_id })).then((response) => {
+      if (response.payload.success) {
+        console.log(response.payload.group.background);
+        const bgImageId = response.payload.group.background;
+        setBgImageId(bgImageId);
+      } else {
+        alert("그룹정보 가져오기 실패");
+      }
+    });
+  }
   //just for test
   //<--
   useEffect(() => {
-    dispatch(profileGroup({ groupId: groupId })).then((response) => {
-      if (response.payload.success) {
-        //console.log(response.payload);
-      } else {
-        alert("그룹정보 가져오기를 실패했습니다.");
-      }
-    });
-    Axios.get(`/api/groups/download/background`, {
-      params: {
-        id: groupId
-      }
-    })
-    .then((response) => {
-      console.log(response.data)
-      if (response.data.success) {
-        
-        console.log(response.data);
-        //setBgImage(response.data.backgroundId);
-      } else {
-        alert(response.data);
-      }
-    });
+    getBgImageId(groupId);
   }, []);
   // -->
 
@@ -72,7 +62,7 @@ export default function GroupPage(props) {
   } else {
     const { group } = groupData;
     console.log(group);
-    console.log(bgImage);
+    console.log(bgImageId);
     return (
       <Container
         component="main"
@@ -105,8 +95,9 @@ export default function GroupPage(props) {
             position: "absolute",
             top: 0,
             zIndex: 1,
-            backgroundImage: `${bgImage
-              ? `url(${bgImage})`
+            backgroundImage:
+            `${ bgImageId
+              ? `url(/api/groups/download/background/${bgImageId})`
               : `url(${group.image})`
             }`,
             backgroundRepeat : "no-repeat",
@@ -118,7 +109,7 @@ export default function GroupPage(props) {
           sx={{
             width: "100%",
             position: "relative",
-            mt: "10rem",
+            mt: "13rem",
             zIndex: 2,
             backgroundColor: "#f1f8ff",
             borderRadius: "40px 40px 0px 0px",
@@ -140,7 +131,7 @@ export default function GroupPage(props) {
             height: "9rem",
             position: "absolute",
             zIndex: 3,
-            top: "10rem",
+            top: "13rem",
             left: "12%",
             transform: "translate(-50%, -50%)",
           }}
