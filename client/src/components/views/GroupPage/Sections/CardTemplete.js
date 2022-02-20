@@ -133,8 +133,8 @@ export default function CardTemplete({
         {/*기능 버튼*/}
         <Box sx={{
           position: "absolute",
-          top: "3%",
-          right: "3%"
+          top: 10,
+          right: 20
         }}>
           {/*admins에 본인이 포함되면 배경수정 아이콘을 생성*/}
           {groupInfo.admins.indexOf(loginData._id) !== -1 && (
@@ -171,7 +171,7 @@ export default function CardTemplete({
         </Box>
   
         {/*그룹 이름과 멤버인원수, 대기인원*/}
-        <Box sx={{ ml: "20%", mr: "30%" }}>
+        <Box sx={{ ml: "20%", mr: "30%", }}>
           <Typography sx={{
             fontSize: "2rem",
             fontWeight: "bold",
