@@ -127,7 +127,6 @@ export default function CardTemplete({
   if (loginData === undefined) {
     return <div>데이터 불러오는 중</div>;
   } else {
-    console.log(groupInfo);
     return (
       <>
         {/*기능 버튼*/}

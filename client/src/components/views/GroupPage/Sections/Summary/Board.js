@@ -76,7 +76,7 @@ export default function Board({
   const timeDiff = Math.floor((now.getTime() - creationDate.getTime())/1000);
   
   return (
-    <Box key={boardInfo._id}>
+    <Box sx={{ py: 3, borderBottom: '1px solid rgba(0, 0, 0, 0.3)'}}>
       <Box sx={{display: 'flex'}}>
         <Typography variant="h5">{boardInfo.title}</Typography>
         <Box sx={{flexGrow: 1}}/>

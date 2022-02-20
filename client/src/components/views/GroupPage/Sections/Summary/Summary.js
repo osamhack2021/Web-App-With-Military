@@ -173,16 +173,13 @@ export default function Summary({
         <GrayBox>
           {boardList &&
             boardList.map((board) => (
-              <>
-                <Board
-                  key={board._id}
-                  boardInfo={board}
-                  groupInfo={groupInfo}
-                  refreshComment={refreshComment}
-                  updateBoard={updateBoard}
-                />
-                <Divider sx={{ my: 3 }} />
-              </>
+              <Board
+                key={board._id}
+                boardInfo={board}
+                groupInfo={groupInfo}
+                refreshComment={refreshComment}
+                updateBoard={updateBoard}
+              />
             ))}
         </GrayBox>
       </Grid>

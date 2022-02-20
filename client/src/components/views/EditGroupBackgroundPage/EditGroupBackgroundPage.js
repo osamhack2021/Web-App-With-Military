@@ -99,8 +99,7 @@ export default function EditGroupBackgroundGroup(props) {
             <Box sx={{
               width: "100%",
               height: "15rem",
-              backgroundImage:
-                "url("+`/api/groups/download/${group.background}`+")",
+              backgroundImage: `url(/api/groups/download/${group.background})`,
               backgroundRepeat : "no-repeat",
               backgroundSize : "cover",
               backgroundPosition: "center"
