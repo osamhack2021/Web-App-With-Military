@@ -31,6 +31,7 @@ const get = {
     if (!imageData) return res.status(404).json();
     const imageURL = imageData.img;
     fs.writeFile(`./uploads/users/backgrounds/${id}.png`, imageURL, err => {
+      if (err) return res.status(500).json({ success: false, err });
       fs.readFile(`./uploads/users/backgrounds/${id}.png`, (err, data) => {
         if (err) return res.status(500).json({ success: false, err });
         res.writeHead(200, { 'Content-Type': 'image/png' });
@@ -46,6 +47,7 @@ const get = {
     if (!imageData) return res.status(404).json();
     const imageURL = imageData.img;
     fs.writeFile(`./uploads/users/images/${id}.png`, imageURL, err => {
+      if (err) return res.status(500).json({ success: false, err });
       fs.readFile(`./uploads/users/images/${id}.png`, (err, data) => {
         if (err) return res.status(500).json({ success: false, err });
         res.writeHead(200, { 'Content-Type': 'image/png' });

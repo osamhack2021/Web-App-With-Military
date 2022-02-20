@@ -336,6 +336,7 @@ const get = {
     if (!imageData) return res.status(404).json();
     const imageURL = imageData.img;
     fs.writeFile(`./uploads/groups/backgrounds/${id}.png`, imageURL, err => {
+      if (err) return res.status(500).json({ success: false, err });
       fs.readFile(`./uploads/groups/backgrounds/${id}.png`, (err, data) => {
         if (err) return res.status(500).json({ success: false, err });
         res.writeHead(200, { 'Content-Type': 'image/png' });
@@ -351,6 +352,7 @@ const get = {
     if (!imageData) return res.status(404).json();
     const imageURL = imageData.img;
     fs.writeFile(`./uploads/groups/images/${id}.png`, imageURL, err => {
+      if (err) return res.status(500).json({ success: false, err });
       fs.readFile(`./uploads/groups/images/${id}.png`, (err, data) => {
         if (err) return res.status(500).json({ success: false, err });
         res.writeHead(200, { 'Content-Type': 'image/png' });
