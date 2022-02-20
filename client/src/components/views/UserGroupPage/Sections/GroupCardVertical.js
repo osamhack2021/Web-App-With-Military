@@ -27,7 +27,7 @@ export default function GroupCardVertical({ group }) {
           style={{
             background:
             '-webkit-linear-gradient(180deg, #66CFA3 0%, rgba(123, 235, 188, 0.8) 100%)',
-            webkitBackgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             fontWeight: 'bold',
             fontSize: '1.5rem',
