@@ -42,6 +42,7 @@ build/Release
 **frontend/
 jspm_packages/
 wimilKeyPair.pem
+uploads
 
 # TypeScript v1 declaration files
 typings/
