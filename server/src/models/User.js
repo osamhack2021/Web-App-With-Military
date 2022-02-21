@@ -80,6 +80,9 @@ const userSchema = mongoose.Schema({
   rank: {
     type: Number,
   },
+  tier: {
+    type: String,
+  },
   // 전역일
   dischargeDate: {
     type: Date,
