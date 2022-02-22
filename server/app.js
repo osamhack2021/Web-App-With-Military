@@ -14,6 +14,7 @@ mongoose
   .then(() => console.log('DB 연결 성공'))
   .catch(e => console.log('MongoDB error: ', e));
 
+const http = require('http');
 const users = require('./src/routes/users');
 const groups = require('./src/routes/groups');
 const ranking = require('./src/routes/ranking');
@@ -31,9 +32,9 @@ app.use('/api/comment', comment);
 app.use('/api/search', search);
 
 // 6시간 마다 ranking 업데이트
-const http = require("http");
 setInterval(function () {
-  http.get("http://localhost:5000/api/ranking/update");
+  http.get('http://localhost:5000/api/ranking/user/update');
+  http.get('http://localhost:5000/api/ranking/group/update');
 }, 21600000);
 
 module.exports = app;

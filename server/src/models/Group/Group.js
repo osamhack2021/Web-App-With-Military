@@ -49,6 +49,9 @@ const groupSchema = mongoose.Schema({
   rank: {
     type: Number,
   },
+  tier: {
+    type: String,
+  },
   created: {
     type: Date,
   },
