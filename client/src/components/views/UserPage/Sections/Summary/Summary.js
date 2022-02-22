@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import { rankingUser } from "../../../../../_actions/user_actions";
 import GrassChart from "./GrassChart";
-import AllLineChart from "./WeekBarChart";
+import WeekBarChart from "./WeekBarChart";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
@@ -167,7 +167,7 @@ export default function Summary({ userInfo }) {
           </Typography>
           <ShowChartIcon sx={{ color: "#5E5E5E" }} />
         </Box>
-        <AllLineChart data={userInfo.history} />
+        <WeekBarChart data={userInfo.history} />
       </GrayBox>
     </Box>
   );

@@ -1,4 +1,4 @@
-const { Board } = require('../../models/Board');
+const { Board } = require('../../models/Board/Board');
 
 const post = {
   // 게시글 쓰기

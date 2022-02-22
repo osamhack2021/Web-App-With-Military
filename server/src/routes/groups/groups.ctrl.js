@@ -1,9 +1,9 @@
 const fs = require('fs');
-const { Group } = require('../../models/Group');
-const { User } = require('../../models/User');
-const { Category } = require('../../models/Category');
-const { GroupBackground } = require('../../models/GroupBackground');
-const { GroupImage } = require('../../models/GroupImage');
+const { Group } = require('../../models/Group/Group');
+const { User } = require('../../models/User/User');
+const { Category } = require('../../models/Category/Category');
+const { GroupBackground } = require('../../models/Group/GroupBackground');
+const { GroupImage } = require('../../models/Group/GroupImage');
 
 const post = {
   // 그룹 만들기

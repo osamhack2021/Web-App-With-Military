@@ -1,7 +1,7 @@
 const fs = require('fs');
-const { User } = require('../../models/User');
-const { UserBackground } = require('../../models/UserBackground');
-const { UserImage } = require('../../models/UserImage');
+const { User } = require('../../models/User/User');
+const { UserBackground } = require('../../models/User/UserBackground');
+const { UserImage } = require('../../models/User/UserImage');
 
 const get = {
   auth: (req, res) => {
