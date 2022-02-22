@@ -187,10 +187,11 @@ const post = {
         }
       });
       // 데이터베이스 저장
-      user.save((err, user) => {
+      user.save(async (err, user) => {
         if (err) {
           return res.status(500).json({ success: false, err });
         }
+
         return res.status(200).json({
           success: true,
           user: user.serialize(),

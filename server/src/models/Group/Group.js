@@ -52,7 +52,6 @@ const groupSchema = mongoose.Schema({
   created: {
     type: Date,
   },
-  defaultImage: String,
   image: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'GroupImage',
