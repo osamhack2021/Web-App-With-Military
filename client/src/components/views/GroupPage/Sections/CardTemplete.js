@@ -267,7 +267,7 @@ export default function CardTemplete({
               />
             </TabPanel>
             <TabPanel value="2">
-              <Ranking />
+              <Ranking groupInfo={groupInfo}/>
             </TabPanel>
             <TabPanel value="3">
               <Achievement />

@@ -6,42 +6,65 @@ import RankingBoard from './Sections/RankingBoard'
 
 export default function RankingPage(props) {
 	const target = props.match.params.target;
-	const [rankList, setRankList] = useState([]);
+	const [rankData, setRankData] = useState([]);
 	
 	const [tabIndex, setTabIndex] = useState(0);
   const handleChange = (event, newIndex) => {
     setTabIndex(newIndex);
   };
+  
+  const getUserRank = () => {
+    return Axios.get('/api/ranking/user')
+  }
+  
+  const getGroupRank = () => {
+    return Axios.get('/api/ranking/group')
+  }
+  
+  const getUserRankData = () => {
+    const userRankArray = 
+      new Promise((resolve, reject) => {
+        const userRankData = getUserRank();
+        resolve(userRankData);
+      })
+    userRankArray.then((response) => {
+      const userRankData = response.data.result;
+      console.log(userRankData);
+      setRankData(userRankData);
+    })
+  }
+  
+  const getGroupRankData = () => {
+    const groupRankArray = 
+      new Promise((resolve, reject) => {
+        const groupRankData = getGroupRank();
+        resolve(groupRankData);
+      })
+    groupRankArray.then((response) => {
+      const groupRankData = response.data.result;
+      console.log(groupRankData);
+      setRankData(groupRankData);
+    })
+  }
 	
 	useEffect(() => {
     switch (target) {
       case "user":
-        Axios.get('/api/ranking/user').then((response) => {
-          if (response.data.success) {
-            setRankList(response.data.result);
-            if (tabIndex !== 0)
-              setTabIndex(0);
-          } else {
-            alert('Failed');
-          }
-        });
+         getUserRankData();
         break;
       case "group":
-        Axios.get('/api/ranking/group').then((response) => {
-          if (response.data.success) {
-            setRankList(response.data.result);
-            if (tabIndex !== 1)
-              setTabIndex(1);
-          } else {
-            alert('Failed');
-          }
-        });
+        getGroupRankData();
         break;
       default:
         //
     }
 	}, [target]);
-  return (
+
+  if(rankData.length === 0){
+    console.log(rankData)
+    return <></>
+  } else {
+    return (
     <Container
       component="main"
       maxWidth="lg"
@@ -76,9 +99,11 @@ export default function RankingPage(props) {
       </Tabs>
 
       <RankingBoard
-        rankData={rankList}
+        rankData={rankData}
         tabIndex={tabIndex}
       />
     </Container>
   );
+  }
+  
 }

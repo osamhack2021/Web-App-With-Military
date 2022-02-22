@@ -42,7 +42,6 @@ export default function GroupPage(props) {
   const getBgImageId = (group_id) => {
     dispatch(profileGroup({ groupId: group_id })).then((response) => {
       if (response.payload.success) {
-        console.log(response.payload.group.background);
         const bgImageId = response.payload.group.background;
         setBgImageId(bgImageId);
       } else {
@@ -61,8 +60,6 @@ export default function GroupPage(props) {
     return <div>그룹정보 불러오는 중</div>;
   } else {
     const { group } = groupData;
-    console.log(group);
-    console.log(bgImageId);
     return (
       <Container
         component="main"

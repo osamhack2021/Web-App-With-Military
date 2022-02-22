@@ -12,9 +12,10 @@ const columns = [
 ];
 
 export default function ScoreTable({ rows }) {
+  console.log(rows.length);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
+  const [rowsPerPage, setRowsPerPage] = useState(rows.length >= 10 ? 10 : rows.length);
+  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -90,3 +91,4 @@ export default function ScoreTable({ rows }) {
     </Paper>
   );
 }
+  
