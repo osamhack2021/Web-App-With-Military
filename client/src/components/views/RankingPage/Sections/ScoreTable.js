@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Avatar, Box,
       Paper, Table, TableBody, TableCell, TableContainer, TableHead,
        TablePagination, TableRow} from '@mui/material';
@@ -14,7 +14,7 @@ const columns = [
 export default function ScoreTable({ rows }) {
   console.log(rows.length);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(rows.length >= 10 ? 10 : rows.length);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

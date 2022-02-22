@@ -29,7 +29,7 @@ export default function RankingPage(props) {
       })
     userRankArray.then((response) => {
       const userRankData = response.data.result;
-      console.log(userRankData);
+      //console.log(userRankData);
       setRankData(userRankData);
     })
   }
@@ -61,49 +61,47 @@ export default function RankingPage(props) {
 	}, [target]);
 
   if(rankData.length === 0){
-    console.log(rankData)
     return <></>
   } else {
     return (
-    <Container
-      component="main"
-      maxWidth="lg"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        minHeight: 'calc(100vh - 9rem - 1px)',
-        overflow: 'hidden'
-      }}
-    >
-      <br/>
-      <Tabs
-        value={tabIndex}
-        onChange={handleChange}
-        aria-label="basic tabs example"
-        textColor="secondary"
-        indicatorColor="secondary"
+      <Container
+        component="main"
+        maxWidth="lg"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          minHeight: 'calc(100vh - 9rem - 1px)',
+          overflow: 'hidden'
+        }}
       >
-        <Tab
-          label="유저 랭킹"
-          sx={{ fontSize: '2rem', fontWeight: 'bold' }}
-          component={Link}
-          to={'/ranking/user'}
-        />
-        <Tab
-          label="그룹 랭킹"
-          sx={{ fontSize: '2rem', fontWeight: 'bold' }}
-          component={Link}
-          to={'/ranking/group'}
-        />
-      </Tabs>
+        <br/>
+        <Tabs
+          value={tabIndex}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+          textColor="secondary"
+          indicatorColor="secondary"
+        >
+          <Tab
+            label="유저 랭킹"
+            sx={{ fontSize: '2rem', fontWeight: 'bold' }}
+            component={Link}
+            to={'/ranking/user'}
+          />
+          <Tab
+            label="그룹 랭킹"
+            sx={{ fontSize: '2rem', fontWeight: 'bold' }}
+            component={Link}
+            to={'/ranking/group'}
+          />
+        </Tabs>
 
-      <RankingBoard
-        rankData={rankData}
-        tabIndex={tabIndex}
-      />
-    </Container>
-  );
+        <RankingBoard
+          rankData={rankData}
+          tabIndex={tabIndex}
+        />
+      </Container>
+    );
   }
-  
 }

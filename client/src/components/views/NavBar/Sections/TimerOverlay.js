@@ -113,7 +113,7 @@ export default function TimerOverlay() {
   // 타이머 시간 누적
   useInterval(
     () => {
-      setElapsedTime(ElapsedTime + 1);
+      setElapsedTime((prev) => prev + 1);
     },
     Studying && !Pause ? 1000 : null
   );

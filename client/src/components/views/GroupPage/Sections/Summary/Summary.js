@@ -38,23 +38,24 @@ export default function Summary({
     return Axios.post("/api/users/profile", {userId: user_id});
   }
   
-  const getUserName = (userIdArray) => {
-    const userArray = userIdArray.map((userId, index) =>
+  const getActiveUserList = (userIdArray) => {
+    const activeUsers = userIdArray.map((userId, index) =>
       new Promise((resolve, reject) => {
         const userData = getUser(userId);
         resolve(userData);
       })
     );
-    Promise.all(userArray).then((users) => {
-      const userNameArray = users.map((user) => user.data.user.name);
-      setActiveUserList(userNameArray);
+    Promise.all(activeUsers).then((users) => {
+      const userDataArray = users.map((user) => user.data.user);
+      //console.log(userDataArray);
+      setActiveUserList(userDataArray);
     })
   }
 
   useEffect(() => {
     getGroupRank();
-    const fetchedList = groupInfo.activeUsers.slice();
-    getUserName(fetchedList);
+    //const fetchedList = groupInfo.activeUsers.slice();
+    getActiveUserList(groupInfo.activeUsers);
   }, [groupInfo]);
   
   const myGroupRank = findGroupIndex(groupRankList, groupInfo._id) + 1;
@@ -123,7 +124,7 @@ export default function Summary({
             <Box sx={{ flexGrow: 1 }} />
             <Typography>
               <strong>
-                상위{" "}
+                상위&nbsp;
                 {(((myGroupRank - 1) / groupRankList.length) * 100).toFixed(1)}
                 %
               </strong>
@@ -162,9 +163,16 @@ export default function Summary({
             <TimerOutlinedIcon sx={{ color: "#5E5E5E" }} />
           </Box>
           <Divider />
-          {activeUserList.map((userName, index) => 
-            <Box key={index}>
-              <Typography>{userName}</Typography>
+          {activeUserList.map((userData, index) => 
+            <Box key={index} sx={{display: "flex"}}>
+              <Typography>{userData.name}</Typography>
+              <Box sx={{flexGrow: 1}}/>
+              <Typography sx={{
+                color: "#4DBA58",
+                fontWeight: "bold"
+              }}>
+                {/*{userData}: : :*/}
+              </Typography>
             </Box>
           )}
         </GrayBox>

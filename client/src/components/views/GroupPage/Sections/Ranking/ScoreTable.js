@@ -28,7 +28,7 @@ const columns = [
 
 export default function ScoreTable({ rows }) {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(rows.length >= 10 ? 10 : rows.length);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rankList, setRankList] = useState([]);
   
   const handleChangePage = (event, newPage) => {
