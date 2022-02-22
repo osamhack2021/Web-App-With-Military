@@ -36,7 +36,7 @@ export default function UserGroupPage(props) {
         <Box sx={{display: 'flex', my: 4 }}>
           <Avatar
             size="large"
-            src={localStorage.getItem("image")}
+            src={user.image}
             style={{
               fontSize: "32px",
               position: "flex",
