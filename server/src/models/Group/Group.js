@@ -49,10 +49,12 @@ const groupSchema = mongoose.Schema({
   rank: {
     type: Number,
   },
+  tier: {
+    type: String,
+  },
   created: {
     type: Date,
   },
-  defaultImage: String,
   image: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'GroupImage',

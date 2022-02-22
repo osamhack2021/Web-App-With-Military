@@ -80,11 +80,13 @@ const userSchema = mongoose.Schema({
   rank: {
     type: Number,
   },
+  tier: {
+    type: String,
+  },
   // 전역일
   dischargeDate: {
     type: Date,
   },
-  defaultImage: String,
   image: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserImage',

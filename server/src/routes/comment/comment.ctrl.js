@@ -1,4 +1,4 @@
-const { Comment } = require('../../models/Comment');
+const { Comment } = require('../../models/Comment/Comment');
 
 const post = {
   // 댓글 쓰기

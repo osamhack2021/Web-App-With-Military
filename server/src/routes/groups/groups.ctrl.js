@@ -1,9 +1,9 @@
 const fs = require('fs');
-const { Group } = require('../../models/Group');
-const { User } = require('../../models/User');
-const { Category } = require('../../models/Category');
-const { GroupBackground } = require('../../models/GroupBackground');
-const { GroupImage } = require('../../models/GroupImage');
+const { Group } = require('../../models/Group/Group');
+const { User } = require('../../models/User/User');
+const { Category } = require('../../models/Category/Category');
+const { GroupBackground } = require('../../models/Group/GroupBackground');
+const { GroupImage } = require('../../models/Group/GroupImage');
 
 const post = {
   // 그룹 만들기
@@ -240,18 +240,20 @@ const post = {
   },
 
   // 특정 그룹 정보 조회
-  profile: async (req, res) => {
-    Group.findOne({ _id: req.body.groupId }).exec((err, group) => {
-      // 존재하는 그룹인지 확인
-      if (!group) {
-        return res.status(200).json({
-          success: false,
-          message: '존재하지 않는 그룹입니다.',
-        });
-      }
-      if (err) return res.status(500).json({ success: false, err });
-      return res.status(200).send({ success: true, group });
-    });
+  profile: (req, res) => {
+    Group.findOne({ _id: req.body.groupId })
+      .populate('activeUsers', 'name image startTime')
+      .exec((err, group) => {
+        if (err) return res.status(500).json({ success: false, err });
+        // 존재하는 그룹인지 확인
+        if (!group) {
+          return res.status(200).json({
+            success: false,
+            message: '존재하지 않는 그룹입니다.',
+          });
+        }
+        return res.status(200).send({ success: true, group });
+      });
   },
 
   // 배경 업로드
