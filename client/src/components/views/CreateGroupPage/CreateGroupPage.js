@@ -1,18 +1,25 @@
-import Axios from 'axios';
+import Axios from "axios";
 import React, { useState } from "react";
-import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, FormControl, 
-        TextField, Typography, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  TextField,
+  Typography,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
 export default function CreateGroup(props) {
-	const [category, setCategory] = useState('');
+  const [category, setCategory] = useState("");
 
   const categoryChange = (event) => {
     setCategory(event.target.value);
   };
-	
+
   return (
     <Formik
       initialValues={{
@@ -29,10 +36,9 @@ export default function CreateGroup(props) {
             groupName: values.groupName,
             category: category,
             info: values.info,
-            image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
           };
 
-          Axios.post('/api/groups/create', dataToSubmit).then((response) => {
+          Axios.post("/api/groups/create", dataToSubmit).then((response) => {
             if (response.data.success) {
               props.history.push(`/groups/${response.data.group._id}`);
             } else {
@@ -53,17 +59,21 @@ export default function CreateGroup(props) {
           handleSubmit,
         } = props;
         return (
-          <Box sx={{
-            flexDirection: 'column',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: 'calc(100vh - 9rem - 1px)',
-          }}>
+          <Box
+            sx={{
+              flexDirection: "column",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "calc(100vh - 9rem - 1px)",
+            }}
+          >
             <Typography variant="h5">스터디 그룹 생성</Typography>
             <form onSubmit={handleSubmit} style={{ width: 500 }}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">카테고리 선택</InputLabel>
+                <InputLabel id="demo-simple-select-label">
+                  카테고리 선택
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"

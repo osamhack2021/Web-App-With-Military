@@ -1,5 +1,5 @@
-const { User } = require('../../models/User');
-const { Group } = require('../../models/Group');
+const { User } = require('../../models/User/User');
+const { Group } = require('../../models/Group/Group');
 
 const get = {
   // 전체 유저 랭킹

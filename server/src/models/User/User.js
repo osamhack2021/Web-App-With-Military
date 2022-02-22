@@ -87,7 +87,6 @@ const userSchema = mongoose.Schema({
   dischargeDate: {
     type: Date,
   },
-  defaultImage: String,
   image: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserImage',

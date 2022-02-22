@@ -1,7 +1,7 @@
 const fs = require('fs');
-const { User } = require('../../models/User');
-const { UserBackground } = require('../../models/UserBackground');
-const { UserImage } = require('../../models/UserImage');
+const { User } = require('../../models/User/User');
+const { UserBackground } = require('../../models/User/UserBackground');
+const { UserImage } = require('../../models/User/UserImage');
 
 const get = {
   auth: (req, res) => {
@@ -187,10 +187,11 @@ const post = {
         }
       });
       // 데이터베이스 저장
-      user.save((err, user) => {
+      user.save(async (err, user) => {
         if (err) {
           return res.status(500).json({ success: false, err });
         }
+
         return res.status(200).json({
           success: true,
           user: user.serialize(),

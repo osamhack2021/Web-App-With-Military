@@ -1,5 +1,5 @@
-const { User } = require('../../models/User');
-const { Group } = require('../../models/Group');
+const { User } = require('../../models/User/User');
+const { Group } = require('../../models/Group/Group');
 
 function seoul() {
   const temp = new Date();
