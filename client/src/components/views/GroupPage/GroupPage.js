@@ -13,6 +13,8 @@ import {
 import { profileGroup } from "../../../_actions/user_actions";
 import CardTemplete from "./Sections/CardTemplete";
 import FormOverlay from "./Sections/FormOverlay";
+import defaultGroupProfile from "../../../static/imgs/group_profile.png";
+import defaultGroupBackground from "../../../static/imgs/group_background.png";
 
 export default function GroupPage(props) {
   const { groupId } = props.match.params;
@@ -95,7 +97,7 @@ export default function GroupPage(props) {
             backgroundImage:
             `${ bgImageId
               ? `url(/api/groups/download/background/${bgImageId})`
-              : `url(${group.image})`
+              : `url(${defaultGroupBackground})`
             }`,
             backgroundRepeat : "no-repeat",
             backgroundSize : "cover",
@@ -122,7 +124,7 @@ export default function GroupPage(props) {
         </Box>
         <Avatar
           alt="Group Profile Picture"
-          src={group.image}
+          src={group.image ? group.image : defaultGroupProfile}
           sx={{
             width: "9rem",
             height: "9rem",

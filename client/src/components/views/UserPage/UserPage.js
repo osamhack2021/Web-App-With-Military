@@ -1,21 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Box, Container } from '@mui/material';
 import { profileUser } from "../../../_actions/user_actions";
 import CardTemplete from './Sections/CardTemplete';
+import defaultUserProfile from "../../../static/imgs/user_profile.png";
+import defaultUserBackground from "../../../static/imgs/user_background.png";
 
 export default function UserPage(props) {
   const dispatch = useDispatch();
 	const { userId } = props.match.params;
   const userInfo = useSelector((state) => state.profile.userProfile);
+  const [bgImageId, setBgImageId] = useState(null);
   
-  useEffect( () => {
-    dispatch(profileUser({userId : userId}))
-    .then(response => {
+  const getBgImageId = (user_id) => {
+    dispatch(profileUser({ userId: user_id })).then((response) => {
       if (response.payload.success) {
-          //console.log(response.payload);
+        const bgImageId = response.payload.user.background;
+        setBgImageId(bgImageId);
+      } else {
+        alert("그룹정보 가져오기 실패");
       }
     });
+  }
+  
+  useEffect( () => {
+    getBgImageId(userId);
   }, []);
 
   if (userInfo === undefined) {
@@ -41,7 +50,10 @@ export default function UserPage(props) {
             top: 0,
             zIndex: 1,
             backgroundImage:
-              'url("https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=850&q=80 850w")',
+            `${ bgImageId
+              ? `url(/api/users/download/background/${bgImageId})`
+              : `url(${defaultUserBackground})`
+            }`,
           }}
         />
         <Box
@@ -61,6 +73,7 @@ export default function UserPage(props) {
         </Box>
         <Avatar
           alt="Group Profile Picture"
+          src={user.image ? user.image : defaultUserProfile}
           sx={{
             width: '9rem',
             height: '9rem',
@@ -70,7 +83,6 @@ export default function UserPage(props) {
             left: '15%',
             transform: 'translate(-50%, -50%)',
           }}
-          src={user.image}
         />
       </Container>
     );

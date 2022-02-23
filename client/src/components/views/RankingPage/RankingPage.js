@@ -61,6 +61,7 @@ export default function RankingPage(props) {
 	}, [target]);
 
   if(rankData.length === 0){
+    console.log(rankData);
     return <></>
   } else {
     return (

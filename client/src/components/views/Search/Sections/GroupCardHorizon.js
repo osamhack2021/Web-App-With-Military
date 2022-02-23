@@ -1,6 +1,7 @@
 import React from 'react';
 import {Box, Button, Card, CardContent, CardMedia, Typography} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
+import defaultGroupProfile from "../../../../static/imgs/group_profile.png";
 
 export default function GroupCardHorizon({group}) {
   return (
@@ -8,7 +9,7 @@ export default function GroupCardHorizon({group}) {
       <CardMedia
         component="img"
         sx={{ width: 150 }}
-        image={group.image}
+        image={group.image ? group.image : defaultGroupProfile}
         alt="group card"
       />
       <CardContent>

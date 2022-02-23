@@ -3,12 +3,13 @@ import { Grid } from '@mui/material';
 import TopScoreCard from './TopScoreCard';
 import WithIn5thScoreCard from './WithIn5thScoreCard';
 import ScoreTable from './ScoreTable';
-
+import defaultUserProfile from "../../../../static/imgs/user_profile.png";
+import defaultGroupProfile from "../../../../static/imgs/group_profile.png";
 
 function processUserRankData(userRankArray) {
   const processedArray = userRankArray.map((user, index) => {
     return { rank: index + 1,
-             image: user.image,
+             image: user.image ? user.image : defaultUserProfile,
              name: user.name,
              tier: '플레티넘',
              score: user.totalTime,
@@ -20,7 +21,7 @@ function processUserRankData(userRankArray) {
 function processGroupRankData(groupRankArray) {
   const processedArray = groupRankArray.map((group, index) => {
     return { rank: index + 1,
-             image: group.image,
+             image: group.image ? group.image : defaultGroupProfile,
              name: group.groupName,
              tier: '플레티넘',
              score: group.totalTime,

@@ -6,6 +6,7 @@ import { profileUser, rankingUser, rankingGroup } from "../../../_actions/user_a
 import HomeIcon from '@mui/icons-material/Home';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import Tier from './Sections/Tier';
+import defaultUserProfile from "../../../static/imgs/user_profile.png";
 
 const GrayBox = styled(Box)({
     backgroundColor: '#E8E8E8',
@@ -81,9 +82,10 @@ export default function MainPage() {
         <Box sx={{display: 'flex', my: 4}}>
           <Avatar
             size="large"
-            src={userInfo.image}
+            src={userInfo.image ? userInfo.image : defaultUserProfile}
             sx={{
-              fontSize: "32px",
+              width: "3rem",
+              height: "3rem",
               mr: 2,
             }}
           />

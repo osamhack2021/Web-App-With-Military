@@ -2,14 +2,15 @@ import * as React from 'react';
 import {Box, Button, Card, CardContent, CardHeader, CardMedia, IconButton, Typography} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import defaultGroupBackground from "../../../../static/imgs/group_background.png";
 
 export default function GroupCardVertical({ group }) {
   return (
     <Card sx={{ minHeight: 400, borderRadius: '1rem' }}>
       <CardMedia
         component="img"
-        height="140"
-        image={group.image}
+        height={140}
+        image={group.image? group.image : defaultGroupBackground}
         alt="group card"
       />
       <CardHeader
