@@ -17,20 +17,20 @@ const RankNumberBox = styled(Box)({
   alignItems: 'center'
 })
 
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  //width: 200,
+  height: 180,
+  display: 'flex',
+  position: 'relative',
+  flexDirection: 'column',
+  alignItems: 'center',
+}));
+
+
 export default function TopScoreCard({data}) {
   return (
-    <Paper
-      sx={{
-        //width: 200,
-        height: 180,
-        //padding: theme.spacing(1),
-        //color: theme.palette.text.secondary,
-        //textAlign: 'center',
-        display: 'flex',
-        position: 'relative',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
+    <StyledPaper
       component={Link}
       to={data.link}
     >
@@ -41,6 +41,6 @@ export default function TopScoreCard({data}) {
       <Typography>{data.name}</Typography>
       <Typography>{data.tier}</Typography>
       <Typography>{data.score}</Typography>
-    </Paper>
+    </StyledPaper>
   );
 }

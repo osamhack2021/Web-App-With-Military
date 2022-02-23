@@ -182,7 +182,7 @@ export default function CardTemplete({
             color: "#5E5E5E",
             display: "flex",
           }}>
-            <PersonIcon width="1rem" height="1rem" sx={{ mr: 0.5 }} />
+            <PersonIcon sx={{ mr: 0.5 }} />
             <Typography sx={{
               fontWeight: "bold",
               py: "2px",

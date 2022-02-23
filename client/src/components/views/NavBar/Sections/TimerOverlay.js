@@ -6,10 +6,10 @@ import {
   Box,
   Button,
   Grid,
+  IconButton,
   ListItem,
   ListItemAvatar,
   Paper,
-  Stack,
   Typography,
 } from "@mui/material";
 import {
@@ -23,6 +23,9 @@ import {
 } from "../../../../_actions/user_actions";
 import { ReactComponent as Dial } from "../../../../static/imgs/dial.svg";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import StopCircleIcon from '@mui/icons-material/StopCircle';
 import defaultGroupProfile from "../../../../static/imgs/group_profile.png";
 
 function useInterval(callback, delay) {
@@ -47,16 +50,17 @@ function useInterval(callback, delay) {
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  width: 400,
+  width: 300,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.background.paper
 }));
 
 export default function TimerOverlay() {
   const dispatch = useDispatch();
 
-  const [ElapsedTime, setElapsedTime] = useState(0);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const [Pause, setPause] = useState(false);
   const [Studying, setStudying] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -106,7 +110,7 @@ export default function TimerOverlay() {
         }
         setStudying(response.payload.isStudyingNow);
       } else {
-        alert("공부상태 가져오기를 실패했습니다.");
+        alert("공부상태 가져오기 실패");
       }
     });
   }, []);
@@ -140,9 +144,9 @@ export default function TimerOverlay() {
                 fontWeight: "medium",
               }}
             >
-              {parseInt(groupData.totalTime / 3600)}:
-              {parseInt((groupData.totalTime % 3600) / 60)}:
-              {groupData.totalTime % 60}
+              {parseInt(elapsedTime / 3600)}:
+              {parseInt((elapsedTime % 3600) / 60)}:
+              {elapsedTime % 60}
             </Typography>
           </Grid>
           <Grid xs={6} sx={{ display: "flex" }}>
@@ -162,20 +166,22 @@ export default function TimerOverlay() {
               <Button
                 variant="contained"
                 color="secondary"
-                size="small"
                 id={groupData._id}
                 ref={(el) => (groupRef.current[index] = el)}
                 onClick={(e) => {
                   //groupRef.current[index].focus();
                   handleGroup(e, groupArray, index);
                 }}
-                sx={{ mr: 1 }}
+                sx={{
+                  mr: 1,
+                  width: "4.5rem",
+                  height: "1.5rem"
+                }}
               >
-                <Typography
-                  sx={{
-                    whiteSpace: "nowrap",
-                  }}
-                >
+                <Typography sx={{
+                  whiteSpace: "nowrap",
+                  fontSize: "0.75rem"
+                }}>
                   그룹 선택
                 </Typography>
               </Button>
@@ -184,14 +190,16 @@ export default function TimerOverlay() {
             <Button
               variant="contained"
               color="secondary"
-              size="small"
               href={`/groups/${groupData._id}`}
+              sx={{
+                width: "4.5rem",
+                height: "1.5rem"
+              }}
             >
-              <Typography
-                sx={{
-                  whiteSpace: "nowrap",
-                }}
-              >
+              <Typography sx={{
+                whiteSpace: "nowrap",
+                fontSize: "0.75rem"
+              }}>
                 그룹 이동
               </Typography>
             </Button>
@@ -270,32 +278,23 @@ export default function TimerOverlay() {
   } else {
     const { groupList } = userData.user;
     return (
-      <Stack
-        sx={{
-          color: "#e6e1e0",
-          margin: "auto",
-        }}
-      >
-        <Item
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+      <Item>
+        <Box sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}>
           {selectedGroup === null ? (
-            <Typography
-              sx={{
-                fontWeight: "bold",
-                fontSize: "1.5rem",
-              }}
-            >
+            <Typography sx={{
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+            }}>
               그룹을 선택해주세요
             </Typography>
           ) : (
             <>
               <Avatar
                 alt="Group Profile Image"
-                src={selectedGroup.image}
+                src={selectedGroup.image ? selectedGroup.image : defaultGroupProfile}
                 sx={{
                   width: "2.5rem",
                   height: "2.5rem",
@@ -303,65 +302,44 @@ export default function TimerOverlay() {
                   mr: "0.5rem",
                 }}
               />
-              <Typography
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "1.5rem",
-                }}
-              >
+              <Typography sx={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+              }}>
                 {selectedGroup.groupName}
               </Typography>
             </>
           )}
-        </Item>
+        </Box>
 
-        <Item
-          sx={{
-            textAlign: "center",
-            position: "relative",
-          }}
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "1rem",
-                fontWeight: "500",
-              }}
-            >
-              {ElapsedTime}초
+        <Box sx={{
+          textAlign: "center",
+          position: "relative",
+        }}>
+          <Box sx={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+          }}>
+            <Typography sx={{
+              fontSize: "1rem",
+              fontWeight: "500",
+            }}>
+              {elapsedTime}초
             </Typography>
           </Box>
-          <Dial
-            style={{
-              borderRadius: '1.5rem'
-            }}
-          />
-        </Item>
+          <Dial style={{
+            borderRadius: '1.5rem'
+          }} />
+        </Box>
 
         {selectedGroup && (
-          <Item
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              variant="contained"
-              size="small"
-              style={{
-                backgroundColor: "#FF4545",
-                width: "156px",
-                height: "42px",
-                margin: "auto",
-                borderRadius: "8px",
-              }}
+          <Box sx={{
+            display: "flex",
+            justifyContent: "space-evenly",
+          }}>
+            <IconButton
               onClick={
                 !Studying
                   ? (e) => {
@@ -371,29 +349,27 @@ export default function TimerOverlay() {
                   ? onResume
                   : onPause
               }
+              sx={{p: 0}}
             >
-              <Typography>
-                {!Studying ? "시작하기" : Pause ? "계속하기" : "일시정지"}
-              </Typography>
-            </Button>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{
-                backgroundColor: "#5ED0A7",
-                width: "156px",
-                height: "42px",
-                margin: "auto",
-                borderRadius: "8px",
-              }}
+              {!Studying 
+                ? <PlayCircleFilledWhiteIcon sx={{fontSize: "3rem"}}/>
+                : Pause
+                ? <PlayCircleFilledWhiteIcon sx={{fontSize: "3rem"}}/>
+                : <PauseCircleIcon sx={{fontSize: "3rem"}}/>}
+            </IconButton>
+            <IconButton
               onClick={(e) => {onStop(e, selectedGroup._id)}}
+              sx={{p: 0,}}
             >
-              <Typography>기록하기</Typography>
-            </Button>
-          </Item>
+              <StopCircleIcon sx={{fontSize: "3rem"}}/>
+            </IconButton>
+          </Box>
         )}
-        <Item>{makeGroupList(groupList)}</Item>
-      </Stack>
+        
+        <Box>
+          {makeGroupList(groupList)}
+        </Box>
+      </Item>
     );
   }
 }
