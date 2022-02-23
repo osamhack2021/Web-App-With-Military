@@ -51,7 +51,6 @@ export default function Comment({
     });
   };
   
-  
   useEffect(() => {
     updateComment(boardInfo._id);
   }, [refreshComment]);
@@ -59,7 +58,7 @@ export default function Comment({
 	return (
     <Box sx={{ '& > .MuiBox-root': {mt: 2} }}>
       <Typography sx={{mb: 1}}>댓글</Typography>
-      <Divider sx={{borderColor: 'rgba(0, 0, 0, 0.7)'}}/>
+      <Divider sx={{borderColor: 'rgba(0, 0, 0, 0.5)'}}/>
       {commentList &&
         commentList.map((comment) => {
           if (comment.boardId === boardInfo._id) {
@@ -75,7 +74,7 @@ export default function Comment({
         })
       }
 
-      <form style={{ display: "flex", height: '3rem', marginTop: '2rem' }} onSubmit={onSubmit}>
+      <form style={{ display: "flex", height: "3rem", marginTop: "1rem"}} onSubmit={onSubmit}>
         <Input
           sx={{ width: "100%", borderRadius: "5px" }}
           onChange={OnChange}
@@ -94,8 +93,6 @@ export default function Comment({
           입력
         </Button>
       </form>
-      
-      
     </Box>
 	);
 }

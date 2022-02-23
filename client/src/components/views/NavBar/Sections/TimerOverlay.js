@@ -23,6 +23,7 @@ import {
 } from "../../../../_actions/user_actions";
 import { ReactComponent as Dial } from "../../../../static/imgs/dial.svg";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import defaultGroupProfile from "../../../../static/imgs/group_profile.png";
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -113,16 +114,19 @@ export default function TimerOverlay() {
   // 타이머 시간 누적
   useInterval(
     () => {
-      setElapsedTime(ElapsedTime + 1);
+      setElapsedTime((prev) => prev + 1);
     },
     Studying && !Pause ? 1000 : null
   );
 
   const makeListItem = (groupArray, groupData, index) => {
     return (
-      <ListItem key={index} sx={{}} disablePadding>
+      <ListItem key={index} disablePadding>
         <ListItemAvatar>
-          <Avatar alt="Group Profile Avatar" src={groupData.image} sx={{}} />
+          <Avatar
+            alt="Group Profile Avatar"
+            src={groupData.image ? groupData.image : defaultGroupProfile}
+          />
         </ListItemAvatar>
         <Grid container>
           <Grid xs={6}>

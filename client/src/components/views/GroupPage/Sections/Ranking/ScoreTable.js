@@ -1,20 +1,35 @@
+import Axios from "axios";
 import React, { useState, useEffect } from 'react';
 import {Avatar, Box,
       Paper, Table, TableBody, TableCell, TableContainer, TableHead,
        TablePagination, TableRow} from '@mui/material';
 import { Link } from 'react-router-dom';
 
+
+function processUserRankData(userRankArray) {
+  const processedArray = userRankArray.map((user, index) => {
+    return { rank: index + 1,
+             image: user.image,
+             name: user.name,
+             score: user.totalTime,
+             link: `/users/${user._id}`,
+             //change: "up" 
+            }
+  });
+  return processedArray;
+}
+
 const columns = [
-  { id: 'rank', label: '랭킹', minWidth: 50 },
-  { id: 'name', label: '이름', minWidth: 100, imageRequired: true},
-  { id: 'tier', label: '티어', minWidth: 50 },
-  { id: 'score',label: '총점', minWidth: 200, align: 'right' },
+  { id: 'change', label: '변화', minWidth: 50 },
+  { id: 'rank', label: '순위', minWidth: 50,},
+  { id: 'name', label: '이름', minWidth: 100, imageRequired: true, align: 'left'},
+  { id: 'score',label: '그룹 내 점수', minWidth: 200, align: 'right' },
 ];
 
 export default function ScoreTable({ rows }) {
-  console.log(rows.length);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rankList, setRankList] = useState([]);
   
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -24,7 +39,29 @@ export default function ScoreTable({ rows }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  
+  const getUser = (user_id) => {
+    return Axios.post("/api/users/profile", { userId: user_id })
+  };
 
+  const getUsers = (userIdArray) => {
+    const userArray = userIdArray.map((userId, index) =>
+      new Promise((resolve, reject) => {
+        const userData = getUser(userId);
+        resolve(userData);
+      })
+    );
+    Promise.all(userArray).then((users) => {
+      const members = users.map((user) => user.data.user);
+      setRankList(processUserRankData(members));
+      console.log(processUserRankData(members));
+    })
+  }
+  
+  useEffect(() => {
+    getUsers(rows);
+  }, []);
+  
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -43,7 +80,7 @@ export default function ScoreTable({ rows }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {rankList
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
@@ -82,7 +119,7 @@ export default function ScoreTable({ rows }) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={rankList.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -90,5 +127,6 @@ export default function ScoreTable({ rows }) {
       />
     </Paper>
   );
+  
 }
   

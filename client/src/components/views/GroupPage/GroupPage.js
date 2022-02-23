@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -12,6 +13,8 @@ import {
 import { profileGroup } from "../../../_actions/user_actions";
 import CardTemplete from "./Sections/CardTemplete";
 import FormOverlay from "./Sections/FormOverlay";
+import defaultGroupProfile from "../../../static/imgs/group_profile.png";
+import defaultGroupBackground from "../../../static/imgs/group_background.png";
 
 export default function GroupPage(props) {
   const { groupId } = props.match.params;
@@ -22,6 +25,7 @@ export default function GroupPage(props) {
   const [openSnack, setOpenSnack] = useState(false);
   const [snackVariant, setSnackVariant] = useState("success");
   const [snackMessage, setSnackMessage] = useState("");
+  const [bgImageId, setBgImageId] = useState(null);
 
   const handleSnackOpen = (variant, message) => {
     setSnackVariant(variant);
@@ -36,17 +40,21 @@ export default function GroupPage(props) {
   const onFormOverlayToggle = () => {
     setToggleFormOverlay((prev) => !prev);
   };
-
+  
+  const getBgImageId = (group_id) => {
+    dispatch(profileGroup({ groupId: group_id })).then((response) => {
+      if (response.payload.success) {
+        const bgImageId = response.payload.group.background;
+        setBgImageId(bgImageId);
+      } else {
+        alert("그룹정보 가져오기 실패");
+      }
+    });
+  }
   //just for test
   //<--
   useEffect(() => {
-    dispatch(profileGroup({ groupId: groupId })).then((response) => {
-      if (response.payload.success) {
-        //console.log(response.payload);
-      } else {
-        alert("그룹정보 가져오기를 실패했습니다.");
-      }
-    });
+    getBgImageId(groupId);
   }, []);
   // -->
 
@@ -87,19 +95,20 @@ export default function GroupPage(props) {
             top: 0,
             zIndex: 1,
             backgroundImage:
-              "url(" +
-              `/api/groups/download/background/${group.background}` +
-              ")",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            `${ bgImageId
+              ? `url(/api/groups/download/background/${bgImageId})`
+              : `url(${defaultGroupBackground})`
+            }`,
+            backgroundRepeat : "no-repeat",
+            backgroundSize : "cover",
+            backgroundPosition: "center"
           }}
         />
         <Box
           sx={{
             width: "100%",
             position: "relative",
-            mt: "10rem",
+            mt: "13rem",
             zIndex: 2,
             backgroundColor: "#f1f8ff",
             borderRadius: "40px 40px 0px 0px",
@@ -115,13 +124,13 @@ export default function GroupPage(props) {
         </Box>
         <Avatar
           alt="Group Profile Picture"
-          src={group.image}
+          src={group.image ? group.image : defaultGroupProfile}
           sx={{
             width: "9rem",
             height: "9rem",
             position: "absolute",
             zIndex: 3,
-            top: "10rem",
+            top: "13rem",
             left: "12%",
             transform: "translate(-50%, -50%)",
           }}

@@ -4,6 +4,7 @@ import { Avatar, Box, Button, Card, Container, Grid, Link, Typography } from '@m
 import { profileUser } from "../../../_actions/user_actions";
 import GroupCardVertical from './Sections/GroupCardVertical';
 import PeopleIcon from '@mui/icons-material/People';
+import defaultUserProfile from "../../../static/imgs/user_profile.png";
 
 export default function UserGroupPage(props) {
   const dispatch = useDispatch();
@@ -36,10 +37,11 @@ export default function UserGroupPage(props) {
         <Box sx={{display: 'flex', my: 4 }}>
           <Avatar
             size="large"
-            src={localStorage.getItem("image")}
-            style={{
-              fontSize: "32px",
-              position: "flex",
+            src={user.image ? user.image : defaultUserProfile}
+            sx={{
+              width: "3rem",
+              height: "3rem",
+              mr: 2,
             }}
           />
           <Typography variant="h5" >

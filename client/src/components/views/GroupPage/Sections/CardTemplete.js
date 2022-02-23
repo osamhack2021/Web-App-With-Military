@@ -127,14 +127,13 @@ export default function CardTemplete({
   if (loginData === undefined) {
     return <div>데이터 불러오는 중</div>;
   } else {
-    console.log(groupInfo);
     return (
       <>
         {/*기능 버튼*/}
         <Box sx={{
           position: "absolute",
-          top: "3%",
-          right: "3%"
+          top: 10,
+          right: 20
         }}>
           {/*admins에 본인이 포함되면 배경수정 아이콘을 생성*/}
           {groupInfo.admins.indexOf(loginData._id) !== -1 && (
@@ -171,7 +170,7 @@ export default function CardTemplete({
         </Box>
   
         {/*그룹 이름과 멤버인원수, 대기인원*/}
-        <Box sx={{ ml: "20%", mr: "30%" }}>
+        <Box sx={{ ml: "20%", mr: "30%", }}>
           <Typography sx={{
             fontSize: "2rem",
             fontWeight: "bold",
@@ -268,7 +267,7 @@ export default function CardTemplete({
               />
             </TabPanel>
             <TabPanel value="2">
-              <Ranking />
+              <Ranking groupInfo={groupInfo}/>
             </TabPanel>
             <TabPanel value="3">
               <Achievement />

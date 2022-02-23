@@ -23,21 +23,22 @@ import {
 export default function EditGroupBackgroundGroup(props) {
   const { groupId } = props.match.params;
   const dispatch = useDispatch();
-  const [Background, setBackground] = useState(null);
+  const [bgImageId, setBgImageId] = useState(null);
 
   const groupData = useSelector((state) => state.profile.groupProfile);
-
-  useEffect(() => {
-    dispatch(profileGroup({ groupId: groupId })).then((response) => {
+  
+  const getBgImageId = (group_id) => {
+    dispatch(profileGroup({ groupId: group_id })).then((response) => {
       if (response.payload.success) {
-        if (response.payload.group.background)
-          setBackground(response.payload.group.background);
+        console.log(response.payload.group.background);
+        const bgImageId = response.payload.group.background;
+        setBgImageId(bgImageId);
       } else {
-        alert("그룹정보 가져오기를 실패했습니다.");
+        alert("그룹정보 가져오기 실패");
       }
     });
-  }, []);
-
+  }
+  
   const onDrop = (files) => {
     let formData = new FormData();
     formData.append("image", files[0]);
@@ -45,19 +46,23 @@ export default function EditGroupBackgroundGroup(props) {
       withCredentials: true,
     }).then((response) => {
       if (response.data.success) {
-        setBackground(response.data.backgroundId);
+        setBgImageId(response.data.backgroundId);
       } else {
-        alert(response.data);
+        alert("배경이미지 업로드 실패");
       }
     });
   };
+  
+  useEffect(() => {
+    getBgImageId(groupId);
+  }, []);
 
   if (groupData === undefined) {
     return <div>그룹정보 불러오는 중</div>;
   } else {
     const { group } = groupData;
 
-    const onEXIT = (e) => {
+    const onExit = (e) => {
       props.history.push(`/groups/${groupId}`);
     };
 
@@ -94,34 +99,27 @@ export default function EditGroupBackgroundGroup(props) {
           </Dropzone>
         </form>
         <Typography variant="h5"> &#60;미리보기&#62;</Typography>
-        {Background && (
+        {bgImageId && (
           <>
-            <Box
-              sx={{
-                width: "100%",
-                height: "15rem",
-                backgroundImage:
-                  "url(" +
-                  `/api/groups/download/background/${group.background}` +
-                  ")",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
+            <Box sx={{
+              width: "100%",
+              height: "15rem",
+              backgroundImage:
+                `url(/api/groups/download/background/${bgImageId})`,
+              backgroundRepeat : "no-repeat",
+              backgroundSize : "cover",
+              backgroundPosition: "center"
+            }} />
+            <Box sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}>
               <Button
                 type="submit"
                 sx={{ my: 1 }}
                 variant="contained"
-                onClick={onEXIT}
+                onClick={onExit}
               >
                 완료
               </Button>
