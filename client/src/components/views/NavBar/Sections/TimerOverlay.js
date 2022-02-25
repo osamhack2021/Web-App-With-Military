@@ -50,7 +50,7 @@ function useInterval(callback, delay) {
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  width: 300,
+  width: 320,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
@@ -187,7 +187,7 @@ export default function TimerOverlay() {
             ) : (
               <Button
                 variant="contained"
-                color="secondary"
+                color="gray"
                 id={groupData._id}
                 ref={(el) => (groupRef.current[index] = el)}
                 onClick={(e) => {
@@ -200,10 +200,11 @@ export default function TimerOverlay() {
                   height: "1.5rem"
                 }}
               >
-                <Typography sx={{
-                  whiteSpace: "nowrap",
-                  fontSize: "0.75rem"
-                }}>
+                <Typography
+                  color="primary.contrastText"
+                  whiteSpace="nowrap"
+                  fontSize="0.75rem"
+                >
                   그룹 선택
                 </Typography>
               </Button>
@@ -211,17 +212,18 @@ export default function TimerOverlay() {
 
             <Button
               variant="contained"
-              color="secondary"
+              color="gray"
               href={`/groups/${groupData._id}`}
               sx={{
                 width: "4.5rem",
                 height: "1.5rem"
               }}
             >
-              <Typography sx={{
-                whiteSpace: "nowrap",
-                fontSize: "0.75rem"
-              }}>
+              <Typography
+                color="primary.contrastText"
+                whiteSpace="nowrap"
+                fontSize="0.75rem"
+              >
                 그룹 이동
               </Typography>
             </Button>
@@ -297,7 +299,11 @@ export default function TimerOverlay() {
     return <div>정보 불러오는 중</div>;
   } else {
     return (
-      <Item>
+      <Item sx={{
+        "& > .MuiBox-root ": {
+          p: 1
+        }
+      }}>
         <Box sx={{
           display: "flex",
           justifyContent: "center",
