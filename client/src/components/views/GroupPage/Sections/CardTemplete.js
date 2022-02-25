@@ -1,17 +1,24 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { loadBoard, profileGroup } from "../../../../_actions/user_actions";
-import { Box, Button, IconButton, Paper, Popper, Tab, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Popper,
+  Tab,
+  Typography,
+} from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Summary from "./Summary/Summary";
 import Ranking from "./Ranking/Ranking";
 import Achievement from "./Achievement/Achievement";
 import CreateIcon from "@mui/icons-material/Create";
-import PanToolIcon from "@mui/icons-material/PanTool";
 import PersonIcon from "@mui/icons-material/Person";
-import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 
 export default function CardTemplete({
   groupInfo,
@@ -29,7 +36,7 @@ export default function CardTemplete({
   const changeBgImage = (e, group_id) => {
     history.push(`/groups/${group_id}/background`);
   };
-  
+
   //popper code
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -57,17 +64,16 @@ export default function CardTemplete({
       }
     });
   };
-  
+
   const updateGroup = (group_id) => {
-    dispatch(profileGroup({ groupId: group_id }))
-    .then((response) => {
+    dispatch(profileGroup({ groupId: group_id })).then((response) => {
       if (response.payload.success) {
         //console.log(response.payload);
       } else {
         alert("Fail to dispatch group data.");
       }
     });
-  }
+  };
 
   const join = () => {
     Axios.post("/api/groups/join", { groupId: groupInfo._id }).then(
@@ -95,26 +101,27 @@ export default function CardTemplete({
       }
     });
   };
-  
+
   const getUser = (user_id) => {
-    return Axios.post("/api/users/profile", { userId: user_id })
+    return Axios.post("/api/users/profile", { userId: user_id });
   };
 
   const getUserName = (userIdArray) => {
-    const userArray = userIdArray.map((userId, index) =>
-      new Promise((resolve, reject) => {
-        const userData = getUser(userId);
-        resolve(userData);
-      })
+    const userArray = userIdArray.map(
+      (userId, index) =>
+        new Promise((resolve, reject) => {
+          const userData = getUser(userId);
+          resolve(userData);
+        })
     );
     Promise.all(userArray).then((users) => {
       const userNameArray = users.map((user) => {
         return { name: user.data.user.name, id: user.data.user._id };
       });
       setWaitingUsers(userNameArray);
-    })
-  }
-  
+    });
+  };
+
   useEffect(() => {
     const fetchedList = groupInfo.waiting.slice();
     getUserName(fetchedList);
@@ -130,71 +137,87 @@ export default function CardTemplete({
     return (
       <>
         {/*기능 버튼*/}
-        <Box sx={{
-          position: "absolute",
-          top: 10,
-          right: 20
-        }}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: 10,
+            right: 20,
+          }}
+        >
           {/*admins에 본인이 포함되면 배경수정 아이콘을 생성*/}
           {groupInfo.admins.indexOf(loginData._id) !== -1 && (
             <IconButton
               type="button"
               variant="contained"
-              onClick={(e) => { changeBgImage(e, groupInfo._id) }}
+              onClick={(e) => {
+                changeBgImage(e, groupInfo._id);
+              }}
               sx={{ mr: 2 }}
             >
-              <AddPhotoAlternateOutlinedIcon sx={{
-                fontSize: "2rem",
-                color: "#5E5E5E",
-                my: "auto"
-              }} />
+              <AddPhotoAlternateOutlinedIcon
+                sx={{
+                  fontSize: "2rem",
+                  color: "#5E5E5E",
+                  my: "auto",
+                }}
+              />
             </IconButton>
           )}
-          <IconButton onClick={onFormOverlayToggle}>
-            <CreateIcon sx={{
-              fontSize: "2rem",
-              color: "#5E5E5E",
-              my: "auto"
-            }} />
-          </IconButton>  
+          {/* members또는 admins에 본인이 포함되면 글쓰기 아이콘을 생성*/}
+          {groupInfo.members.indexOf(loginData._id) !== -1 &&
+            groupInfo.admins.indexOf(loginData._id) !== -1 && (
+              <IconButton onClick={onFormOverlayToggle}>
+                <CreateIcon
+                  sx={{
+                    fontSize: "2rem",
+                    color: "#5E5E5E",
+                    my: "auto",
+                  }}
+                />
+              </IconButton>
+            )}
           {/*admins에 본인이 포함되지않으면 가입신청 버튼을 생성*/}
           {groupInfo.admins.indexOf(loginData._id) === -1 && (
-            <IconButton onClick={join}>
-              <PanToolIcon sx={{
-                fontSize: "2rem",
-                color: "#5E5E5E",
-                my: "auto"
-              }}/>
-            </IconButton>
+            <Button variant="contained" onClick={join}>
+              가입신청
+            </Button>
           )}
         </Box>
-  
+
         {/*그룹 이름과 멤버인원수, 대기인원*/}
-        <Box sx={{ ml: "20%", mr: "30%", }}>
-          <Typography sx={{
-            fontSize: "2rem",
-            fontWeight: "bold",
-          }}>
+        <Box sx={{ ml: "20%", mr: "30%" }}>
+          <Typography
+            sx={{
+              fontSize: "2rem",
+              fontWeight: "bold",
+            }}
+          >
             {groupInfo.groupName}
           </Typography>
 
-          <Box sx={{
-            color: "#5E5E5E",
-            display: "flex",
-          }}>
+          <Box
+            sx={{
+              color: "#5E5E5E",
+              display: "flex",
+            }}
+          >
             <PersonIcon sx={{ mr: 0.5 }} />
-            <Typography sx={{
-              fontWeight: "bold",
-              py: "2px",
-            }}>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                py: "2px",
+              }}
+            >
               {groupInfo.members.length}
               /30
             </Typography>
 
-            <Typography sx={{
-              ml: 2,
-              py: "2px",
-            }}>
+            <Typography
+              sx={{
+                ml: 2,
+                py: "2px",
+              }}
+            >
               대기인원: <strong>{groupInfo.waiting.length}</strong>명
             </Typography>
             {/* waitingList가 없거나 admins에 자신이 없으면 승인영역을 생성하지 않음*/}
@@ -212,12 +235,14 @@ export default function CardTemplete({
                     대기목록
                   </Button>
                   <Popper id={id} open={open} anchorEl={anchorEl} disablePortal>
-                    <Paper sx={{
-                      width: 150,
-                      p: 2,
-                      textAlign: "center",
-                      color: "text.secondary",
-                    }}>
+                    <Paper
+                      sx={{
+                        width: 150,
+                        p: 2,
+                        textAlign: "center",
+                        color: "text.secondary",
+                      }}
+                    >
                       {waitingUsers.map((item) => (
                         <Box
                           key={item.id}
@@ -244,7 +269,7 @@ export default function CardTemplete({
               )}
           </Box>
         </Box>
-        
+
         {/*탭 페이지*/}
         <Box sx={{ mx: 6, p: 2 }}>
           <TabContext value={tabValue}>
@@ -267,7 +292,7 @@ export default function CardTemplete({
               />
             </TabPanel>
             <TabPanel value="2">
-              <Ranking groupInfo={groupInfo}/>
+              <Ranking groupInfo={groupInfo} />
             </TabPanel>
             <TabPanel value="3">
               <Achievement />
