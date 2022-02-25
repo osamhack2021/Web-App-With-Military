@@ -341,11 +341,14 @@ export default function TimerOverlay() {
             top: "50%",
             transform: "translate(-50%, -50%)",
           }}>
-            <Typography sx={{
-              fontSize: "1rem",
-              fontWeight: "500",
-            }}>
-              {elapsedTime}초
+            <Typography 
+              variant="h4"
+              color="secondary"
+              fontWeight="bold"
+            >
+              {parseInt(elapsedTime / 3600) ? (parseInt(elapsedTime / 3600)+":") : null}
+              {parseInt((elapsedTime % 3600) / 60) ? (parseInt((elapsedTime % 3600) / 60)+":") : null}
+              {elapsedTime % 60}
             </Typography>
           </Box>
           <Dial style={{
