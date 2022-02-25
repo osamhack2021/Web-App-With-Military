@@ -6,10 +6,10 @@ import {
   Box,
   Button,
   Grid,
+  IconButton,
   ListItem,
   ListItemAvatar,
   Paper,
-  Stack,
   Typography,
 } from "@mui/material";
 import {
@@ -23,6 +23,9 @@ import {
 } from "../../../../_actions/user_actions";
 import { ReactComponent as Dial } from "../../../../static/imgs/dial.svg";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import StopCircleIcon from '@mui/icons-material/StopCircle';
 import defaultGroupProfile from "../../../../static/imgs/group_profile.png";
 
 function useInterval(callback, delay) {
@@ -47,68 +50,92 @@ function useInterval(callback, delay) {
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  width: 400,
+  width: 320,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.background.paper
 }));
 
 export default function TimerOverlay() {
   const dispatch = useDispatch();
 
-  const [ElapsedTime, setElapsedTime] = useState(0);
   const [Pause, setPause] = useState(false);
   const [Studying, setStudying] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [groupList, setGroupList] = useState([]);
+  const [activeGroup, setActiveGroup] = useState(null);
+  const [activeGroupIndex, setActiveGroupIndex] = useState(0);
 
   const groupRef = useRef([]);
 
-  const user_id = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
   const userData = useSelector((state) => state.profile.userProfile);
 
-  const findGroup = (groupArray, group_id) => {
-    const selectedGroup = groupArray.find((group) => {
+  const findGroup = (group_id) => {
+    const activeGroup = groupList.find((group) => {
       return group._id === group_id;
     });
-    return selectedGroup;
+    return activeGroup;
   };
-  const handleGroup = (event, groupArray, index) => {
-    const myGroup = findGroup(groupArray, groupRef.current[index].id);
-    setSelectedGroup(myGroup);
+
+  const handleGroup = (event, index) => {
+    const myGroup = findGroup(groupRef.current[index].id);
+    setActiveGroup(myGroup);
+    setActiveGroupIndex(index);
   };
 
   const updateGroup = (group_id) => {
     dispatch(profileGroup({ groupId: group_id }))
     .then((response) => {
-      if (response.payload.success) {
-        //console.log(response.payload);
-      } else {
+      if (!response.payload.success)
         alert("Fail to dispatch group data.");
-      }
+    });
+  }
+
+  const updateUser = (user_id) => {
+    dispatch(profileUser({ userId: user_id }))
+    .then((response) => {
+      if (!response.payload.success)
+        alert("Fail to dispatch user data.");
     });
   }
   
   useEffect(() => {
-    dispatch(profileUser({ userId: user_id })).then((response) => {
-      if (response.payload.success) {
-        //console.log(response.payload);
-      }
-    });
-  }, [Studying]);
+    async function resolveData() {
+      const userGroups = await new Promise((resolve, reject) => {
+        dispatch(profileUser({ userId: userId })).then((response) => {
+          if (response.payload.success) {
+            const userGroups = response.payload.user.groupList;
+            resolve(userGroups)
+          } else {
+            alert("Failed to dispatch user data.");
+          }
+        });
+      });
+      setGroupList(userGroups);
+      dispatch(timerStatus()).then((response) => {
+        if (response.payload.success) {
+          if (response.payload.isStudyingNow) {
+            const activeGroup = response.payload.activeGroup
+            const groupIndex = userGroups.findIndex((group) => group._id === activeGroup._id);
+            setElapsedTime(response.payload.elapsedTime);
+            setActiveGroup(response.payload.activeGroup);
+            setActiveGroupIndex(groupIndex);
+            setPause(response.payload.isPaused);
+          } 
+          setStudying(response.payload.isStudyingNow);
+        } else {
+          alert("공부상태 가져오기 실패");
+        }
+      });
+    } 
+    resolveData();
+  }, []);
 
   useEffect(() => {
-    dispatch(timerStatus()).then((response) => {
-      if (response.payload.success) {
-        if (response.payload.isStudyingNow) {
-          setElapsedTime(response.payload.elapsedTime);
-          setPause(response.payload.isPaused);
-          setSelectedGroup(response.payload.activeGroup);
-        }
-        setStudying(response.payload.isStudyingNow);
-      } else {
-        alert("공부상태 가져오기를 실패했습니다.");
-      }
-    });
+    
+    
   }, []);
 
   // 타이머 시간 누적
@@ -119,7 +146,7 @@ export default function TimerOverlay() {
     Studying && !Pause ? 1000 : null
   );
 
-  const makeListItem = (groupArray, groupData, index) => {
+  const makeListItem = (groupData, index) => {
     return (
       <ListItem key={index} disablePadding>
         <ListItemAvatar>
@@ -133,17 +160,16 @@ export default function TimerOverlay() {
             <Typography>{groupData.groupName}</Typography>
           </Grid>
           <Grid xs={6}>
-            <Typography
-              align="right"
-              sx={{
-                pr: 1,
-                fontWeight: "medium",
-              }}
-            >
-              {parseInt(groupData.totalTime / 3600)}:
-              {parseInt((groupData.totalTime % 3600) / 60)}:
-              {groupData.totalTime % 60}
-            </Typography>
+              { activeGroupIndex === index
+              ? <Typography align="right"> 
+                  {parseInt(elapsedTime / 3600)}:
+                  {parseInt((elapsedTime % 3600) / 60)}:
+                  {elapsedTime % 60}
+                </Typography>
+              : <Typography align="right">
+                  0:0:0
+                </Typography>
+              }
           </Grid>
           <Grid xs={6} sx={{ display: "flex" }}>
             <MenuBookIcon sx={{ mr: 1 }} />
@@ -161,20 +187,23 @@ export default function TimerOverlay() {
             ) : (
               <Button
                 variant="contained"
-                color="secondary"
-                size="small"
+                color="gray"
                 id={groupData._id}
                 ref={(el) => (groupRef.current[index] = el)}
                 onClick={(e) => {
                   //groupRef.current[index].focus();
-                  handleGroup(e, groupArray, index);
+                  handleGroup(e, index);
                 }}
-                sx={{ mr: 1 }}
+                sx={{
+                  mr: 1,
+                  width: "4.5rem",
+                  height: "1.5rem"
+                }}
               >
                 <Typography
-                  sx={{
-                    whiteSpace: "nowrap",
-                  }}
+                  color="primary.contrastText"
+                  whiteSpace="nowrap"
+                  fontSize="0.75rem"
                 >
                   그룹 선택
                 </Typography>
@@ -183,14 +212,17 @@ export default function TimerOverlay() {
 
             <Button
               variant="contained"
-              color="secondary"
-              size="small"
+              color="gray"
               href={`/groups/${groupData._id}`}
+              sx={{
+                width: "4.5rem",
+                height: "1.5rem"
+              }}
             >
               <Typography
-                sx={{
-                  whiteSpace: "nowrap",
-                }}
+                color="primary.contrastText"
+                whiteSpace="nowrap"
+                fontSize="0.75rem"
               >
                 그룹 이동
               </Typography>
@@ -201,22 +233,21 @@ export default function TimerOverlay() {
     );
   };
 
-  const makeGroupList = (groupArray) =>
-    groupArray.map((groupData, index) =>
-      makeListItem(groupArray, groupData, index)
+  const makeGroupList = () =>
+    groupList.map((groupData, index) =>
+      makeListItem(groupData, index)
     );
 
   const onStart = (event, group_id) => {
     event.preventDefault();
     dispatch(timerStart({ groupId: group_id })).then((response) => {
       if (response.payload.success) {
-        //console.log(response.payload);
         setElapsedTime(response.payload.elapsedTime);
         setStudying(response.payload.isStudyingNow);
-        updateGroup(group_id);
       }
     });
-    
+    updateUser(userId);
+    updateGroup(group_id);
   };
 
   const onStop = (event, group_id) => {
@@ -234,18 +265,18 @@ export default function TimerOverlay() {
             elapsedTime: response.payload.elapsedTime,
           })
         );
-        updateGroup(group_id);
       } else {
         alert(response.payload.message);
       }
     });
+    updateUser(userId);
+    updateGroup(group_id);
   };
 
   const onPause = (event) => {
     event.preventDefault();
     dispatch(timerPause()).then((response) => {
       if (response.payload.success) {
-        setElapsedTime(response.payload.elapsedTime);
         setPause(true);
       } else {
         alert(response.payload.message);
@@ -257,7 +288,6 @@ export default function TimerOverlay() {
     event.preventDefault();
     dispatch(timerResume()).then((response) => {
       if (response.payload.success) {
-        setElapsedTime(response.payload.elapsedTime);
         setPause(false);
       } else {
         alert(response.payload.message);
@@ -268,34 +298,28 @@ export default function TimerOverlay() {
   if (userData === undefined) {
     return <div>정보 불러오는 중</div>;
   } else {
-    const { groupList } = userData.user;
     return (
-      <Stack
-        sx={{
-          color: "#e6e1e0",
-          margin: "auto",
-        }}
-      >
-        <Item
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          {selectedGroup === null ? (
-            <Typography
-              sx={{
-                fontWeight: "bold",
-                fontSize: "1.5rem",
-              }}
-            >
+      <Item sx={{
+        "& > .MuiBox-root ": {
+          p: 1
+        }
+      }}>
+        <Box sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}>
+          {activeGroup === null ? (
+            <Typography sx={{
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+            }}>
               그룹을 선택해주세요
             </Typography>
           ) : (
             <>
               <Avatar
                 alt="Group Profile Image"
-                src={selectedGroup.image}
+                src={activeGroup.image ? activeGroup.image : defaultGroupProfile}
                 sx={{
                   width: "2.5rem",
                   height: "2.5rem",
@@ -303,97 +327,77 @@ export default function TimerOverlay() {
                   mr: "0.5rem",
                 }}
               />
-              <Typography
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: "1.5rem",
-                }}
-              >
-                {selectedGroup.groupName}
+              <Typography sx={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+              }}>
+                {activeGroup.groupName}
               </Typography>
             </>
           )}
-        </Item>
+        </Box>
 
-        <Item
-          sx={{
-            textAlign: "center",
-            position: "relative",
-          }}
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "1rem",
-                fontWeight: "500",
-              }}
+        <Box sx={{
+          textAlign: "center",
+          position: "relative",
+        }}>
+          <Box sx={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+          }}>
+            <Typography 
+              variant="h4"
+              color="secondary"
+              fontWeight="bold"
             >
-              {ElapsedTime}초
+              {parseInt(elapsedTime / 3600) ? (parseInt(elapsedTime / 3600)+":") : null}
+              {parseInt((elapsedTime % 3600) / 60) ? (parseInt((elapsedTime % 3600) / 60)+":") : null}
+              {elapsedTime % 60}
             </Typography>
           </Box>
-          <Dial
-            style={{
-              borderRadius: '1.5rem'
-            }}
-          />
-        </Item>
+          <Dial style={{
+            borderRadius: '1.5rem'
+          }} />
+        </Box>
 
-        {selectedGroup && (
-          <Item
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              variant="contained"
-              size="small"
-              style={{
-                backgroundColor: "#FF4545",
-                width: "156px",
-                height: "42px",
-                margin: "auto",
-                borderRadius: "8px",
-              }}
+        {activeGroup && (
+          <Box sx={{
+            display: "flex",
+            justifyContent: "space-evenly",
+          }}>
+            <IconButton
               onClick={
                 !Studying
                   ? (e) => {
-                      onStart(e, selectedGroup._id);
+                      onStart(e, activeGroup._id);
                     }
                   : Pause
                   ? onResume
                   : onPause
               }
+              sx={{p: 0}}
             >
-              <Typography>
-                {!Studying ? "시작하기" : Pause ? "계속하기" : "일시정지"}
-              </Typography>
-            </Button>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{
-                backgroundColor: "#5ED0A7",
-                width: "156px",
-                height: "42px",
-                margin: "auto",
-                borderRadius: "8px",
-              }}
-              onClick={(e) => {onStop(e, selectedGroup._id)}}
+              {!Studying 
+                ? <PlayCircleFilledWhiteIcon sx={{fontSize: "3rem"}}/>
+                : Pause
+                ? <PlayCircleFilledWhiteIcon sx={{fontSize: "3rem"}}/>
+                : <PauseCircleIcon sx={{fontSize: "3rem"}}/>}
+            </IconButton>
+            <IconButton
+              onClick={(e) => {onStop(e, activeGroup._id)}}
+              sx={{p: 0}}
             >
-              <Typography>기록하기</Typography>
-            </Button>
-          </Item>
+              <StopCircleIcon sx={{fontSize: "3rem"}}/>
+            </IconButton>
+          </Box>
         )}
-        <Item>{makeGroupList(groupList)}</Item>
-      </Stack>
+        
+        <Box>
+          {makeGroupList(groupList)}
+        </Box>
+      </Item>
     );
   }
 }
