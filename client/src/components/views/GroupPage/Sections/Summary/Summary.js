@@ -105,6 +105,8 @@ export default function Summary({
   useEffect(() => {
     getGroupRank();
     getActiveUserList(groupInfo.activeUsers);
+    
+    
   }, [groupInfo]);
   
   const myGroupRank = findGroupIndex(groupRankList, groupInfo._id) + 1;
