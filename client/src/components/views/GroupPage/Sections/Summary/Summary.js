@@ -63,6 +63,7 @@ export default function Summary({
   return (
     <Grid container spacing={4}>
       <Grid item xs={5} sx={{ "& > .MuiBox-root": { mb: 4 } }}>
+        
         {/*그룹 랭킹*/}
         <GrayBox>
           <Box sx={{ display: "flex" }}>
@@ -135,6 +136,7 @@ export default function Summary({
             <strong> {myGroupRank}위</strong>입니다.
           </Typography>
         </GrayBox>
+        
         {/*그룹 정보*/}
         <GrayBox>
           <Box sx={{ display: "flex" }}>

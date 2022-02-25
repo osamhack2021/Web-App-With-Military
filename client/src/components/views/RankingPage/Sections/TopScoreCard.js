@@ -17,15 +17,17 @@ const RankNumberBox = styled(Box)({
   alignItems: 'center'
 })
 
+const StyledCard = styled(Card)(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  display: 'flex',
+  position: 'relative',
+  width: '70%',
+  height: 150,
+}));
+
 export default function TopScoreCard({data}) {
   return (
-    <Card
-      sx={{
-        display: 'flex',
-        position: 'relative',
-        width: '70%',
-        height: 150,
-      }}
+    <StyledCard
       component={Link}
       to={data.link}
     >
@@ -69,7 +71,7 @@ export default function TopScoreCard({data}) {
         </Button>
         */}
       </CardContent>
-    </Card>
+    </StyledCard>
   );
   
 }

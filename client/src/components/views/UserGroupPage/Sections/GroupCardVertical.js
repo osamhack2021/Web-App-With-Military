@@ -1,12 +1,19 @@
 import * as React from 'react';
 import {Box, Button, Card, CardContent, CardHeader, CardMedia, IconButton, Typography} from '@mui/material';
+import { styled } from "@mui/material/styles";
 import PersonIcon from '@mui/icons-material/Person';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import defaultGroupBackground from "../../../../static/imgs/group_background.png";
 
+const StyledCard = styled(Card)(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  minHeight: 400,
+  borderRadius: '1rem'
+}));
+
 export default function GroupCardVertical({ group }) {
   return (
-    <Card sx={{ minHeight: 400, borderRadius: '1rem' }}>
+    <StyledCard>
       <CardMedia
         component="img"
         height={140}
@@ -64,6 +71,6 @@ export default function GroupCardVertical({ group }) {
           </Button>
         </Box>
       </CardContent>
-    </Card>
+    </StyledCard>
   );
 }

@@ -1,10 +1,21 @@
 import React, { useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Box, Button, Card, Container, Grid, Link, Typography } from '@mui/material';
+import { styled } from "@mui/material/styles";
 import { profileUser } from "../../../_actions/user_actions";
 import GroupCardVertical from './Sections/GroupCardVertical';
 import PeopleIcon from '@mui/icons-material/People';
 import defaultUserProfile from "../../../static/imgs/user_profile.png";
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  minHeight: 400, 
+  borderRadius: '1rem',
+  display: 'flex',
+  justifyContent: 'center',
+  position: 'relative',
+  padding: 0,
+}));
 
 export default function UserGroupPage(props) {
   const dispatch = useDispatch();
@@ -73,14 +84,7 @@ export default function UserGroupPage(props) {
           </Box>
           <Grid container spacing={4}>
             <Grid item xs={3}>
-              <Card sx={{ 
-                  minHeight: 400, 
-                  borderRadius: '1rem',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  padding: 0,
-              }}>
+              <StyledCard>
                 <Button
                   component="a"
                   href="/group/create"
@@ -106,7 +110,7 @@ export default function UserGroupPage(props) {
                 }}>
                   스터디 그룹 추가
                 </Typography>
-              </Card>
+              </StyledCard>
             </Grid>
             { user.groupList.map((group, index) => (
               <Grid item xs={3}key={index}>
