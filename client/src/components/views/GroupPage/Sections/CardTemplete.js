@@ -163,25 +163,28 @@ export default function CardTemplete({
               />
             </IconButton>
           )}
-          {/* members또는 admins에 본인이 포함되면 글쓰기 아이콘을 생성*/}
-          {groupInfo.members.indexOf(loginData._id) !== -1 &&
-            groupInfo.admins.indexOf(loginData._id) !== -1 && (
-              <IconButton onClick={onFormOverlayToggle}>
-                <CreateIcon
-                  sx={{
-                    fontSize: "2rem",
-                    color: "#5E5E5E",
-                    my: "auto",
-                  }}
-                />
-              </IconButton>
-            )}
-          {/*admins에 본인이 포함되지않으면 가입신청 버튼을 생성*/}
-          {groupInfo.admins.indexOf(loginData._id) === -1 && (
-            <Button variant="contained" onClick={join}>
-              가입신청
-            </Button>
+
+          {/*members또는 admins에 본인이 포함되면 글쓰기 아이콘을 생성*/}
+          {(groupInfo.members.indexOf(loginData._id) !== -1 ||
+            groupInfo.admins.indexOf(loginData._id) !== -1) && (
+            <IconButton onClick={onFormOverlayToggle}>
+              <CreateIcon
+                sx={{
+                  fontSize: "2rem",
+                  color: "#5E5E5E",
+                  my: "auto",
+                }}
+              />
+            </IconButton>
           )}
+
+          {/*admins에 본인이 포함되지않으면 가입신청 버튼을 생성*/}
+          {groupInfo.members.indexOf(loginData._id) == -1 &&
+            groupInfo.admins.indexOf(loginData._id) == -1 && (
+              <Button variant="contained" onClick={join}>
+                가입신청
+              </Button>
+            )}
         </Box>
 
         {/*그룹 이름과 멤버인원수, 대기인원*/}
