@@ -63,20 +63,24 @@ const get = {
     if (!req.user.startTime)
       return res.status(200).json({ success: true, isStudyingNow: false });
     if (req.user.pauseTime) {
+      let elapsedTime = Math.floor(
+        (req.user.pauseTime - req.user.startTime) / 1000,
+      );
+      if (elapsedTime > 7200) elapsedTime = 7200;
       return res.status(200).json({
         success: true,
-        elapsedTime: Math.floor(
-          (req.user.pauseTime - req.user.startTime) / 1000,
-        ),
+        elapsedTime,
         isStudyingNow: true,
         isPaused: true,
         activeGroup: req.user.activeGroup,
         activeCategory: req.user.activeCategory,
       });
     }
+    let elapsedTime = Math.floor((now - req.user.startTime) / 1000);
+    if (elapsedTime > 7200) elapsedTime = 7200;
     return res.status(200).json({
       success: true,
-      elapsedTime: Math.floor((now - req.user.startTime) / 1000),
+      elapsedTime,
       isStudyingNow: true,
       isPaused: false,
       activeGroup: req.user.activeGroup,
@@ -165,6 +169,8 @@ const get = {
 
         let { maxStreak } = USER;
         if (maxStreak < streak) maxStreak = streak;
+        // 2시간 제한
+        if (now > 7200) now = 7200;
 
         User.findOneAndUpdate(
           { _id: req.user._id },
