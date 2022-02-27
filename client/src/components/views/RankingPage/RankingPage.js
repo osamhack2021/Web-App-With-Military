@@ -58,22 +58,10 @@ export default function RankingPage(props) {
         break;
       default:
     }
-  }, []);
-
-  useEffect(() => {
-    switch (target) {
-      case "user":
-        getUserRankData();
-        break;
-      case "group":
-        getGroupRankData();
-        break;
-      default:
-    }
   }, [target]);
 
   if (rankData.length === 0) {
-    console.log(rankData);
+    // console.log(rankData);
     return <></>;
   } else {
     return (
