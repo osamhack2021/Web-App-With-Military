@@ -1,106 +1,121 @@
-import Axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Container, Tab, Tabs } from '@mui/material';
-import { Link } from 'react-router-dom';
-import RankingBoard from './Sections/RankingBoard'
+import Axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Container, Tab, Tabs } from "@mui/material";
+import { Link } from "react-router-dom";
+import RankingBoard from "./Sections/RankingBoard";
 
 export default function RankingPage(props) {
-	const target = props.match.params.target;
-	const [rankData, setRankData] = useState([]);
-	
-	const [tabIndex, setTabIndex] = useState(0);
+  const target = props.match.params.target;
+  const [rankData, setRankData] = useState([]);
+  const [tabValue, setTabValue] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
   const handleChange = (event, newIndex) => {
+    setTabValue(!tabValue);
     setTabIndex(newIndex);
   };
-  
+
   const getUserRank = () => {
-    return Axios.get('/api/ranking/user')
-  }
-  
+    return Axios.get("/api/ranking/user");
+  };
+
   const getGroupRank = () => {
-    return Axios.get('/api/ranking/group')
-  }
-  
+    return Axios.get("/api/ranking/group");
+  };
+
   const getUserRankData = () => {
-    const userRankArray = 
-      new Promise((resolve, reject) => {
-        const userRankData = getUserRank();
-        resolve(userRankData);
-      })
+    const userRankArray = new Promise((resolve, reject) => {
+      const userRankData = getUserRank();
+      resolve(userRankData);
+    });
     userRankArray.then((response) => {
       const userRankData = response.data.result;
       //console.log(userRankData);
       setRankData(userRankData);
-    })
-  }
-  
+    });
+  };
+
   const getGroupRankData = () => {
-    const groupRankArray = 
-      new Promise((resolve, reject) => {
-        const groupRankData = getGroupRank();
-        resolve(groupRankData);
-      })
+    const groupRankArray = new Promise((resolve, reject) => {
+      const groupRankData = getGroupRank();
+      resolve(groupRankData);
+    });
     groupRankArray.then((response) => {
       const groupRankData = response.data.result;
-      console.log(groupRankData);
+      // console.log(groupRankData);
       setRankData(groupRankData);
-    })
-  }
-	
-	useEffect(() => {
+    });
+  };
+
+  useEffect(() => {
     switch (target) {
       case "user":
-         getUserRankData();
+        getUserRankData();
+        setTabValue(false);
+        break;
+      case "group":
+        getGroupRankData();
+        setTabValue(true);
+        break;
+      default:
+    }
+  }, []);
+
+  useEffect(() => {
+    switch (target) {
+      case "user":
+        getUserRankData();
         break;
       case "group":
         getGroupRankData();
         break;
       default:
-        //
     }
-	}, [target]);
+  }, [target]);
 
-  if(rankData.length === 0){
+  if (rankData.length === 0) {
     console.log(rankData);
-    return <></>
+    return <></>;
   } else {
     return (
       <Container
         component="main"
         maxWidth="lg"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          minHeight: 'calc(100vh - 9rem - 1px)',
-          overflow: 'hidden'
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          minHeight: "calc(100vh - 9rem - 1px)",
+          overflow: "hidden",
         }}
       >
-        <br/>
+        <br />
         <Tabs
-          value={tabIndex}
+          value={tabValue}
           onChange={handleChange}
           aria-label="basic tabs example"
           textColor="secondary"
           indicatorColor="secondary"
         >
           <Tab
+            value={false}
             label="유저 랭킹"
-            sx={{ fontSize: '2rem', fontWeight: 'bold' }}
+            sx={{ fontSize: "2rem", fontWeight: "bold" }}
             component={Link}
-            to={'/ranking/user'}
+            to={"/ranking/user"}
           />
           <Tab
+            value={true}
             label="그룹 랭킹"
-            sx={{ fontSize: '2rem', fontWeight: 'bold' }}
+            sx={{ fontSize: "2rem", fontWeight: "bold" }}
             component={Link}
-            to={'/ranking/group'}
+            to={"/ranking/group"}
           />
         </Tabs>
 
         <RankingBoard
           rankData={rankData}
           tabIndex={tabIndex}
+          tabValue={tabValue}
         />
       </Container>
     );
