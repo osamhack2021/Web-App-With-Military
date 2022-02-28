@@ -1,21 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import {Avatar, Box,
-      Paper, Table, TableBody, TableCell, TableContainer, TableHead,
-       TablePagination, TableRow} from '@mui/material';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import {
+  Avatar,
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from "@mui/material";
+import { Link } from "react-router-dom";
 
 const columns = [
-  { id: 'rank', label: '랭킹', minWidth: 50 },
-  { id: 'name', label: '이름', minWidth: 100, imageRequired: true},
-  { id: 'tier', label: '티어', minWidth: 50 },
-  { id: 'score',label: '총점', minWidth: 200, align: 'right' },
+  { id: "rank", label: "랭킹", minWidth: 50 },
+  { id: "name", label: "이름", minWidth: 100, imageRequired: true },
+  { id: "tier", label: "티어", minWidth: 50 },
+  { id: "score", label: "총점", minWidth: 200, align: "right" },
 ];
 
 export default function ScoreTable({ rows }) {
-  console.log(rows.length);
+  // console.log(rows.length);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -26,7 +35,7 @@ export default function ScoreTable({ rows }) {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -60,16 +69,14 @@ export default function ScoreTable({ rows }) {
                           {/*{column.format && typeof value === 'number'
                             ? column.format(value)
                             : value}*/}
-                          {column.imageRequired
-                            ? <Box sx={{display: 'flex'}}>
-                                <Avatar
-                                  alt="profile"
-                                  src={row.image}
-                                />
-                                {value}
-                              </Box>
-                            : value
-                          }
+                          {column.imageRequired ? (
+                            <Box sx={{ display: "flex" }}>
+                              <Avatar alt="profile" src={row.image} />
+                              {value}
+                            </Box>
+                          ) : (
+                            value
+                          )}
                         </TableCell>
                       );
                     })}
@@ -91,4 +98,3 @@ export default function ScoreTable({ rows }) {
     </Paper>
   );
 }
-  
