@@ -87,47 +87,52 @@ export default function TimerOverlay() {
 
   const updateGroup = (group_id) => {
     dispatch(profileGroup({ groupId: group_id })).then((response) => {
-      if (!response.payload.success) alert("Fail to dispatch group data.");
+      if (!response.payload.success)
+        alert("Fail to dispatch group data.");
     });
   };
 
   const updateUser = (user_id) => {
     dispatch(profileUser({ userId: user_id })).then((response) => {
-      if (!response.payload.success) alert("Fail to dispatch user data.");
+      if (!response.payload.success)
+        alert("Fail to dispatch user data.");
     });
   };
 
-  useEffect(() => {
-    async function resolveData() {
-      const userGroups = await new Promise((resolve, reject) => {
-        dispatch(profileUser({ userId: userId })).then((response) => {
-          if (response.payload.success) {
-            const userGroups = response.payload.user.groupList;
-            resolve(userGroups);
-          } else {
-            alert("Failed to dispatch user data.");
-          }
-        });
-      });
-      setGroupList(userGroups);
-      dispatch(timerStatus()).then((response) => {
+  const resolveData = async () => {
+    const userGroups = await new Promise((resolve, reject) => {
+      dispatch(profileUser({ userId: userId })).then((response) => {
         if (response.payload.success) {
-          if (response.payload.isStudyingNow) {
-            const activeGroup = response.payload.activeGroup;
-            const groupIndex = userGroups.findIndex(
-              (group) => group._id === activeGroup._id
-            );
-            setElapsedTime(response.payload.elapsedTime);
-            setActiveGroup(response.payload.activeGroup);
-            setActiveGroupIndex(groupIndex);
-            setPause(response.payload.isPaused);
-          }
-          setStudying(response.payload.isStudyingNow);
+          const userGroups = response.payload.user.groupList;
+          resolve(userGroups);
         } else {
-          alert("공부상태 가져오기 실패");
+          alert("Failed to dispatch user data.");
         }
       });
-    }
+    });
+    setGroupList(userGroups);
+    
+    //initialize timer status
+    dispatch(timerStatus()).then((response) => {
+      if (response.payload.success) {
+        if (response.payload.isStudyingNow) {
+          const activeGroup = response.payload.activeGroup;
+          const groupIndex = userGroups.findIndex(
+            (group) => group._id === activeGroup._id
+          );
+          setElapsedTime(response.payload.elapsedTime);
+          setActiveGroup(response.payload.activeGroup);
+          setActiveGroupIndex(groupIndex);
+          setPause(response.payload.isPaused);
+        }
+        setStudying(response.payload.isStudyingNow);
+      } else {
+        alert("공부상태 가져오기 실패");
+      }
+    });
+  }
+  
+  useEffect(() => {
     resolveData();
   }, []);
 
@@ -233,10 +238,10 @@ export default function TimerOverlay() {
       if (response.payload.success) {
         setElapsedTime(response.payload.elapsedTime);
         setStudying(response.payload.isStudyingNow);
+        //updateUser(userId);
+        updateGroup(group_id);
       }
     });
-    updateUser(userId);
-    updateGroup(group_id);
   };
 
   const onStop = (event, group_id) => {
@@ -254,30 +259,32 @@ export default function TimerOverlay() {
             elapsedTime: response.payload.elapsedTime,
           })
         );
+        //updateUser(userId);
+        updateGroup(group_id);
       } else {
         alert(response.payload.message);
       }
     });
-    updateUser(userId);
-    updateGroup(group_id);
   };
 
-  const onPause = (event) => {
+  const onPause = (event, group_id) => {
     event.preventDefault();
     dispatch(timerPause()).then((response) => {
       if (response.payload.success) {
         setPause(true);
+        updateGroup(group_id);
       } else {
         alert(response.payload.message);
       }
     });
   };
 
-  const onResume = (event) => {
+  const onResume = (event, group_id) => {
     event.preventDefault();
     dispatch(timerResume()).then((response) => {
       if (response.payload.success) {
         setPause(false);
+        updateGroup(group_id);
       } else {
         alert(response.payload.message);
       }
@@ -392,8 +399,12 @@ export default function TimerOverlay() {
                       onStart(e, activeGroup._id);
                     }
                   : Pause
-                  ? onResume
-                  : onPause
+                  ? (e) => {
+                      onResume(e, activeGroup._id)
+                    }
+                  : (e) => {
+                      onPause(e, activeGroup._id)
+                    }
               }
               sx={{ p: 0 }}
             >
