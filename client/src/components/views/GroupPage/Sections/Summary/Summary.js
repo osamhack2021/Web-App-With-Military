@@ -64,6 +64,18 @@ export default function Summary({
       const userDataArray = users.map((user) => user.data.user);
       setActiveUserList(userDataArray);
       
+      //타이머 onStop시 해당 userData가 사라지므로 찾아서
+      //activeTimeObj 시간 재 설정
+      const stoppedUserData = activeUserList.find((userData) => 
+        userDataArray.indexOf(userData) !== 1
+      )
+      if(stoppedUserData) {
+        setActiveTimeObj((prev) => {
+          return {...prev, [stoppedUserData._id]: 0 }
+        });
+      }
+      
+      
       userDataArray.map((userData) => {  
         if(userData.pauseTime === null) {
           console.log(timerList.current[userData._id]);
@@ -83,6 +95,7 @@ export default function Summary({
             return {...prev, [userData._id]: measuringTime }
           });
         }
+        console.log(userData);
       })
       
     })
@@ -92,8 +105,6 @@ export default function Summary({
   useEffect(() => {
     getGroupRank();
     getActiveUserList(groupInfo.activeUsers);
-    
-    
   }, [groupInfo]);
   
   const myGroupRank = findGroupIndex(groupRankList, groupInfo._id) + 1;
@@ -212,7 +223,7 @@ export default function Summary({
                 color: "#4DBA58",
                 fontWeight: "bold"
               }}>
-                { activeTimeObj[userData._id] }
+                { activeTimeObj[userData._id] ? activeTimeObj[userData._id] : "측정중 입니다..."}
               </Typography>
             </Box>
           )}
