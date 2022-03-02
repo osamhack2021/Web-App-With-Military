@@ -85,6 +85,7 @@ export default function Summary({
         setActiveTimeObj((prev) => {
           return {...prev, [userDataStopped._id]: 0 }
         });
+        updateGroup(groupId)
       }
 
       userDataArray.map((userData) => {  
@@ -229,6 +230,14 @@ export default function Summary({
             <Box key={userData._id} sx={{display: "flex"}}>
               <Typography>{userData.name}</Typography>
               <Box sx={{flexGrow: 1}}/>
+              <Box sx={{
+                my: 'auto',
+                mx: "4px",
+                width: "12px",
+                height: "12px",
+                borderRadius: "100%",
+                backgroundColor: "#4DBA58",
+              }} />
               <Typography sx={{
                 color: "#4DBA58",
                 fontWeight: "bold"
