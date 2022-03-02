@@ -1,7 +1,9 @@
 import Axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { styled } from "@mui/material/styles";
 import { Box, Divider, Link, Grid, Typography } from "@mui/material";
+import { profileGroup } from "../../../../../_actions/user_actions";
 import Board from "./Board";
 import PersonIcon from "@mui/icons-material/Person";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
@@ -20,6 +22,8 @@ export default function Summary({
   refreshComment,
   updateBoard,
 }) {
+  const groupId = groupInfo._id;
+  const dispatch = useDispatch();
   const [groupRankList, setGroupRankList] = useState([]);
   const [activeUserList, setActiveUserList] = useState([]);
   const [activeTimeObj, setActiveTimeObj] = useState({});
@@ -46,8 +50,15 @@ export default function Summary({
   const getUser = (user_id) => {
     return Axios.post("/api/users/profile", {userId: user_id});
   }
+
+  const updateGroup = (group_id) => {
+    dispatch(profileGroup({ groupId: group_id })).then((response) => {
+      if (!response.payload.success)
+        alert("Fail to dispatch group data.");
+    });
+  };
   
-  const getActiveUserList = (userArray) => {
+  const visaulizeActiveUsers = (userArray) => {
     const activeUsers = userArray.map((user, index) =>
       new Promise((resolve, reject) => {
         const userData = getUser(user._id);
@@ -60,6 +71,7 @@ export default function Summary({
           const previousTime = prev[user_data._id];
           return {...prev, [user_data._id]: previousTime + 1 }
         });
+        updateGroup(groupId)
       }
       const userDataArray = users.map((user) => user.data.user);
       setActiveUserList(userDataArray);
@@ -100,13 +112,9 @@ export default function Summary({
       
     })
   }
-  
-
   useEffect(() => {
     getGroupRank();
-    getActiveUserList(groupInfo.activeUsers);
-    
-    
+    visaulizeActiveUsers(groupInfo.activeUsers);
   }, [groupInfo]);
   
   const myGroupRank = findGroupIndex(groupRankList, groupInfo._id) + 1;
@@ -225,7 +233,17 @@ export default function Summary({
                 color: "#4DBA58",
                 fontWeight: "bold"
               }}>
-                { activeTimeObj[userData._id] ? activeTimeObj[userData._id] : 0}
+                { activeTimeObj[userData._id]
+                ? <>
+                    {parseInt(activeTimeObj[userData._id]/3600)
+                      ? parseInt(activeTimeObj[userData._id]/3600) + ":"
+                      : null}
+                    {parseInt(activeTimeObj[userData._id]%3600/60)
+                      ? parseInt(activeTimeObj[userData._id]%3600/60) + ":"
+                      : null}
+                    {activeTimeObj[userData._id]%60}
+                  </>
+                : 0}
               </Typography>
             </Box>
           )}

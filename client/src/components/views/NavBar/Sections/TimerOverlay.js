@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  profileUser,
   profileGroup,
   timerStatus,
   timerStart,
@@ -89,13 +88,6 @@ export default function TimerOverlay() {
     dispatch(profileGroup({ groupId: group_id })).then((response) => {
       if (!response.payload.success)
         alert("Fail to dispatch group data.");
-    });
-  };
-
-  const updateUser = (user_id) => {
-    dispatch(profileUser({ userId: user_id })).then((response) => {
-      if (!response.payload.success)
-        alert("Fail to dispatch user data.");
     });
   };
 
@@ -238,7 +230,6 @@ export default function TimerOverlay() {
       if (response.payload.success) {
         setElapsedTime(response.payload.elapsedTime);
         setStudying(response.payload.isStudyingNow);
-        //updateUser(userId);
         updateGroup(group_id);
       }
     });
@@ -259,7 +250,6 @@ export default function TimerOverlay() {
             elapsedTime: response.payload.elapsedTime,
           })
         );
-        //updateUser(userId);
         updateGroup(group_id);
       } else {
         alert(response.payload.message);
