@@ -40,7 +40,7 @@ export default function CardTemplete({
   //popper code
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popper" : undefined;
+  const id = open ? "waiting-list-popper" : undefined;
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
@@ -238,17 +238,14 @@ export default function CardTemplete({
                     대기목록
                   </Button>
                   <Popper id={id} open={open} anchorEl={anchorEl} disablePortal>
-                    <Paper
-                      sx={{
-                        width: 150,
-                        p: 2,
-                        textAlign: "center",
-                        color: "text.secondary",
-                      }}
-                    >
-                      {waitingUsers.map((item) => (
+                    <Paper sx={{
+                      width: 150,
+                      p: 2,
+                      textAlign: "center",
+                    }}>
+                      {waitingUsers.map((item, index) => (
                         <Box
-                          key={item.id}
+                          key={index}
                           sx={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -280,6 +277,7 @@ export default function CardTemplete({
               <TabList
                 onChange={handleTabChange}
                 aria-label="lab API tabs example"
+                sx={{width: "30%"}}
               >
                 <Tab label="개요" value="1" />
                 <Tab label="랭킹" value="2" />

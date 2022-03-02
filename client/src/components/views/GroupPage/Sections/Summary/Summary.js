@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import { Box, Divider, Link, Grid, Typography } from "@mui/material";
 import Board from "./Board";
@@ -22,13 +22,22 @@ export default function Summary({
 }) {
   const [groupRankList, setGroupRankList] = useState([]);
   const [activeUserList, setActiveUserList] = useState([]);
+  const [activeTimeObj, setActiveTimeObj] = useState({});
+  const timerList = useRef({});
+  
+  const getElapsedTime = (start_time, pause_time) => {
+    const startTime = new Date(start_time);
+    const pauseTime = new Date(pause_time);
+    const timeDiff = Math.floor((pauseTime.getTime() - startTime.getTime())/1000);
+    return timeDiff
+  }
   
   const findGroupIndex = (groupArray, group_id) => {
     return groupArray.findIndex((group) => group._id === group_id);
 	}
   
-  const getGroupRank = () => {
-    Axios.get("/api/ranking/group").then((response) => {
+  const getGroupRank = async () => {
+    await Axios.get("/api/ranking/group").then((response) => {
       if (response.data.success)
         setGroupRankList(response.data.result);
     });
@@ -38,23 +47,63 @@ export default function Summary({
     return Axios.post("/api/users/profile", {userId: user_id});
   }
   
-  const getActiveUserList = (userIdArray) => {
-    const activeUsers = userIdArray.map((userId, index) =>
+  const getActiveUserList = (userArray) => {
+    const activeUsers = userArray.map((user, index) =>
       new Promise((resolve, reject) => {
-        const userData = getUser(userId);
+        const userData = getUser(user._id);
         resolve(userData);
       })
     );
     Promise.all(activeUsers).then((users) => {
+      function addTick(user_data) {
+        setActiveTimeObj((prev) => {
+          const previousTime = prev[user_data._id];
+          return {...prev, [user_data._id]: previousTime + 1 }
+        });
+      }
       const userDataArray = users.map((user) => user.data.user);
-      //console.log(userDataArray);
       setActiveUserList(userDataArray);
+      
+      //타이머 onStop시 해당 userData가 사라지므로 찾아서
+      //activeTimeObj 시간 재 설정
+      const stoppedUserData = activeUserList.find((userData) => 
+        userDataArray.indexOf(userData) !== 1
+      )
+      if(stoppedUserData) {
+        setActiveTimeObj((prev) => {
+          return {...prev, [stoppedUserData._id]: 0 }
+        });
+      }
+      
+      
+      userDataArray.map((userData) => {  
+        if(userData.pauseTime === null) {
+          console.log(timerList.current[userData._id]);
+          if (!timerList.current[userData._id]) {
+            timerList.current[userData._id] = setInterval(() =>
+              addTick(userData)
+            , 1000);
+          }
+        } else {
+          if (timerList.current[userData._id]) {
+            console.log("장비를 정지합니다")
+            clearInterval(timerList.current[userData._id]);
+            timerList.current[userData._id] = null;
+          }
+          const measuringTime = getElapsedTime(userData.startTime, userData.pauseTime);
+          setActiveTimeObj((prev) => {
+            return {...prev, [userData._id]: measuringTime }
+          });
+        }
+        console.log(userData);
+      })
+      
     })
   }
+  
 
   useEffect(() => {
     getGroupRank();
-    //const fetchedList = groupInfo.activeUsers.slice();
     getActiveUserList(groupInfo.activeUsers);
   }, [groupInfo]);
   
@@ -152,6 +201,7 @@ export default function Summary({
           <Divider />
           <Typography>{groupInfo.info}</Typography>
         </GrayBox>
+        
         {/*집중중인 멤버*/}
         <GrayBox>
           <Box sx={{ display: "flex" }}>
@@ -165,15 +215,15 @@ export default function Summary({
             <TimerOutlinedIcon sx={{ color: "#5E5E5E" }} />
           </Box>
           <Divider />
-          {activeUserList.map((userData, index) => 
-            <Box key={index} sx={{display: "flex"}}>
+          {activeUserList.map((userData) => 
+            <Box key={userData._id} sx={{display: "flex"}}>
               <Typography>{userData.name}</Typography>
               <Box sx={{flexGrow: 1}}/>
               <Typography sx={{
                 color: "#4DBA58",
                 fontWeight: "bold"
               }}>
-                {/*{userData}: : :*/}
+                { activeTimeObj[userData._id] ? activeTimeObj[userData._id] : "측정중 입니다..."}
               </Typography>
             </Box>
           )}
