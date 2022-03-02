@@ -66,36 +66,36 @@ export default function Summary({
       
       //타이머 onStop시 해당 userData가 사라지므로 찾아서
       //activeTimeObj 시간 재 설정
-      const stoppedUserData = activeUserList.find((userData) => 
-        userDataArray.indexOf(userData) !== 1
-      )
-      if(stoppedUserData) {
+      const userDataStopped = activeUserList.find((userData) => {
+        return userDataArray.findIndex((user_data) => user_data._id === userData._id) === -1
+      })
+      if(userDataStopped) {
         setActiveTimeObj((prev) => {
-          return {...prev, [stoppedUserData._id]: 0 }
+          return {...prev, [userDataStopped._id]: 0 }
         });
       }
-      
-      
+
       userDataArray.map((userData) => {  
+        //if user start or resume
         if(userData.pauseTime === null) {
-          console.log(timerList.current[userData._id]);
           if (!timerList.current[userData._id]) {
             timerList.current[userData._id] = setInterval(() =>
               addTick(userData)
             , 1000);
           }
         } else {
+        //if user paused
+          //remove timer intervel
           if (timerList.current[userData._id]) {
-            console.log("장비를 정지합니다")
             clearInterval(timerList.current[userData._id]);
             timerList.current[userData._id] = null;
           }
+          //set measuring time
           const measuringTime = getElapsedTime(userData.startTime, userData.pauseTime);
           setActiveTimeObj((prev) => {
             return {...prev, [userData._id]: measuringTime }
           });
         }
-        console.log(userData);
       })
       
     })
@@ -225,7 +225,7 @@ export default function Summary({
                 color: "#4DBA58",
                 fontWeight: "bold"
               }}>
-                { activeTimeObj[userData._id] ? activeTimeObj[userData._id] : "측정중 입니다..."}
+                { activeTimeObj[userData._id] ? activeTimeObj[userData._id] : 0}
               </Typography>
             </Box>
           )}
