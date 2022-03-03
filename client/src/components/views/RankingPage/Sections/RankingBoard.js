@@ -12,7 +12,7 @@ function processUserRankData(userRankArray) {
       rank: index + 1,
       image: user.image ? user.image : defaultUserProfile,
       name: user.name,
-      tier: "플레티넘",
+      tier: user.tier,
       score: user.totalTime,
       link: `/users/${user._id}`,
     };
@@ -26,7 +26,7 @@ function processGroupRankData(groupRankArray) {
       rank: index + 1,
       image: group.image ? group.image : defaultGroupProfile,
       name: group.groupName,
-      tier: "플레티넘",
+      tier: group.tier,
       score: group.totalTime,
       link: `/groups/${group._id}`,
     };
