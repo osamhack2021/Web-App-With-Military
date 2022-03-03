@@ -51,6 +51,7 @@ const groupSchema = mongoose.Schema({
   },
   tier: {
     type: String,
+    default: '언랭크',
   },
   created: {
     type: Date,
