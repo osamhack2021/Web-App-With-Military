@@ -64,7 +64,7 @@ export default function Summary({ userInfo }) {
               color: "#ECD351",
             }}
           >
-            {userInfo.totalTime} / Gold
+            {userInfo.totalTime} / {userInfo.tier}
           </Typography>
         </Box>
         {/* Tier-Bar*/}
