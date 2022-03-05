@@ -82,6 +82,7 @@ const userSchema = mongoose.Schema({
   },
   tier: {
     type: String,
+    default: '언랭크',
   },
   // 전역일
   dischargeDate: {
