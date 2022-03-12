@@ -248,10 +248,10 @@ export default function Summary({
                 width: "12px",
                 height: "12px",
                 borderRadius: "100%",
-                backgroundColor: "#4DBA58",
+                backgroundColor: userData.pauseTime ? "#FDA95B" : "#4DBA58",
               }} />
               <Typography sx={{
-                color: "#4DBA58",
+                color: userData.pauseTime ? "#FDA95B" : "#4DBA58",
                 fontWeight: "bold"
               }}>
                 { activeTimeObj[userData._id]
