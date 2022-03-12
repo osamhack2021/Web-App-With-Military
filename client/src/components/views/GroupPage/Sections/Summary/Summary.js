@@ -2,13 +2,14 @@ import Axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { styled } from "@mui/material/styles";
-import { Box, Divider, Link, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Divider, Link, Grid, Typography } from "@mui/material";
 import { profileGroup } from "../../../../../_actions/user_actions";
 import Board from "./Board";
 import PersonIcon from "@mui/icons-material/Person";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
+import defaultUserProfile from "../../../../../static/imgs/user_profile.png";
 
 const GrayBox = styled(Box)({
   backgroundColor: "#E8E8E8",
@@ -239,7 +240,19 @@ export default function Summary({
           </Box>
           <Divider />
           {activeUserList.map((userData) => 
-            <Box key={userData._id} sx={{display: "flex"}}>
+            <Box key={userData._id} sx={{
+              display: "flex",
+              my: 2,
+              alignItems: "center"
+            }}>
+              <Avatar
+                src={userData.image ? userData.image : defaultUserProfile}
+                sx={{
+                  width: "2rem",
+                  height: "2rem",
+                  mr: 2,
+                }}
+              />
               <Typography>{userData.name}</Typography>
               <Box sx={{flexGrow: 1}}/>
               <Box sx={{
