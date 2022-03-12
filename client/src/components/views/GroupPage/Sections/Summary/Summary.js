@@ -57,8 +57,16 @@ export default function Summary({
         alert("Fail to dispatch group data.");
     });
   };
+
+  const addTick = (user_data) => {
+    setActiveTimeObj((prev) => {
+      const previousTime = prev[user_data._id];
+      return {...prev, [user_data._id]: previousTime + 1 }
+    });
+  }
   
-  const visaulizeActiveUsers = (userArray) => {
+  const visualizeActiveUsers = (userArray) => {
+    
     const activeUsers = userArray.map((user, index) =>
       new Promise((resolve, reject) => {
         const userData = getUser(user._id);
@@ -66,30 +74,22 @@ export default function Summary({
       })
     );
     Promise.all(activeUsers).then((users) => {
-      function addTick(user_data) {
-        setActiveTimeObj((prev) => {
-          const previousTime = prev[user_data._id];
-          return {...prev, [user_data._id]: previousTime + 1 }
-        });
-        updateGroup(groupId)
-      }
-      const userDataArray = users.map((user) => user.data.user);
-      setActiveUserList(userDataArray);
+      const activeUserArray = users.map((user) => user.data.user);
+      setActiveUserList(activeUserArray);
       
       //타이머 onStop시 해당 userData가 사라지므로 찾아서
       //activeTimeObj 시간 재 설정
-      const userDataStopped = activeUserList.find((userData) => {
-        return userDataArray.findIndex((user_data) => user_data._id === userData._id) === -1
+      const userDataStopped = activeUserList.find((aciveUserData) => {
+        return activeUserArray.findIndex((user_data) => user_data._id === aciveUserData._id) === -1
       })
       if(userDataStopped) {
         setActiveTimeObj((prev) => {
           return {...prev, [userDataStopped._id]: 0 }
         });
-        updateGroup(groupId)
       }
 
-      userDataArray.map((userData) => {  
-        //if user start or resume
+      activeUserArray.map((userData) => {  
+        //if user start or resume or stop timer
         if(userData.pauseTime === null) {
           if (!timerList.current[userData._id]) {
             timerList.current[userData._id] = setInterval(() =>
@@ -97,7 +97,7 @@ export default function Summary({
             , 1000);
           }
         } else {
-        //if user paused
+        //if user pause timer
           //remove timer intervel
           if (timerList.current[userData._id]) {
             clearInterval(timerList.current[userData._id]);
@@ -108,15 +108,27 @@ export default function Summary({
           setActiveTimeObj((prev) => {
             return {...prev, [userData._id]: measuringTime }
           });
+          
         }
       })
-      
     })
   }
   useEffect(() => {
     getGroupRank();
-    visaulizeActiveUsers(groupInfo.activeUsers);
+  }, []);
+
+  //group정보가 업데이트되면 실행함
+  useEffect(()=> {
+    visualizeActiveUsers(groupInfo.activeUsers);
   }, [groupInfo]);
+
+  //1초마다 업데이트하는 코드
+  useEffect(() => {
+    const id = setInterval(() => {
+      updateGroup(groupId);
+      return () => clearInterval(id);
+    }, 1000)
+  }, []);
   
   const myGroupRank = findGroupIndex(groupRankList, groupInfo._id) + 1;
       
@@ -252,7 +264,7 @@ export default function Summary({
                       : null}
                     {activeTimeObj[userData._id]%60}
                   </>
-                : 0}
+                : "측정중 입니다..."}
               </Typography>
             </Box>
           )}
