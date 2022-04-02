@@ -288,7 +288,7 @@ export default function Summary({
                 : "측정중 입니다..."}
               </Typography>
             </Box>
-          )}
+          ))}
         </GrayBox>
       </Grid>
 
