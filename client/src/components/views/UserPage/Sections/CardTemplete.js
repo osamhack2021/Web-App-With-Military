@@ -1,21 +1,61 @@
-import React, { useState } from "react";
-import { Box, Tab, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Box, IconButton, Tab, Typography } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Summary from "./Summary/Summary";
 import Ranking from "./Ranking/Ranking";
 import Post from "./Post/Post";
 import Group from "./Group/Group";
 import Achievement from "./Achievement/Achievement";
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 
 export default function CardTemplete({ userInfo }) {
+  const dispatch = useDispatch();
+  const loginData = useSelector((state) => state.auth.loginUserData);
   const [tabValue, setTabValue] = useState("1");
+
+  let history = useHistory();
+  const changeBgImage = (e, user_id) => {
+    history.push(`/users/${user_id}/background`);
+  };
 
   const handleTabChange = (event, newTabValue) => {
     setTabValue(newTabValue);
   };
+  console.log(userInfo)
 
   return (
     <>
+      {/*기능 버튼*/}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 10,
+          right: 20,
+        }}
+      >
+        {/*user 본인이 맞으면 배경수정 아이콘을 생성*/}
+        {userInfo._id === loginData._id && (
+          <IconButton
+            type="button"
+            variant="contained"
+            onClick={(e) => {
+              changeBgImage(e, userInfo._id);
+            }}
+            sx={{ mr: 2 }}
+          >
+            <AddPhotoAlternateOutlinedIcon
+              sx={{
+                fontSize: "2rem",
+                color: "#5E5E5E",
+                my: "auto",
+              }}
+            />
+          </IconButton>
+        )}
+      </Box>
+      
       <Box sx={{ ml: "22%", mr: "30%" }}>
         <Typography
           sx={{

@@ -54,13 +54,16 @@ export default function UserPage(props) {
               ? `url(/api/users/download/background/${bgImageId})`
               : `url(${defaultUserBackground})`
             }`,
+            backgroundRepeat : "no-repeat",
+            backgroundSize : "cover",
+            backgroundPosition: "center"
           }}
         />
         <Box
           sx={{
             width: '100%',
             position: 'relative',
-            mt: '10rem',
+            mt: "13rem",
             zIndex: 2,
             backgroundColor: '#f1f8ff',
             borderRadius: '40px 40px 0px 0px',

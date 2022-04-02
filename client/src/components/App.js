@@ -17,6 +17,7 @@ import RankingPage from "./views/RankingPage/RankingPage";
 import CreateGroupPage from "./views/CreateGroupPage/CreateGroupPage";
 import UserGroupPage from "./views/UserGroupPage/UserGroupPage";
 import EditGroupBackgroundPage from "./views/EditGroupBackgroundPage/EditGroupBackgroundPage";
+import EditUserBackgroundPage from "./views/EditUserBackgroundPage/EditUserBackgroundPage";
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -30,6 +31,7 @@ function App() {
         <Route exact path="/login" component={NavBar} />
         <Route exact path="/register" component={NavBar} />
         <Route exact path="/users/:userId" component={NavBar} />
+        <Route exact path="/users/:userId/background" component={NavBar} />
         <Route exact path="/users/:userId/mygroups" component={NavBar} />
         <Route exact path="/groups/:groupId" component={NavBar} />
         <Route exact path="/groups/:groupId/background" component={NavBar} />
@@ -45,6 +47,11 @@ function App() {
         <Route exact path="/login" component={Auth(LoginPage, false)} />
         <Route exact path="/register" component={Auth(RegisterPage, false)} />
         <Route exact path="/users/:userId" component={Auth(UserPage, null)} />
+        <Route
+          exact
+          path="/users/:userId/background"
+          component={Auth(EditUserBackgroundPage, true)}
+        />
         <Route
           exact
           path="/users/:userId/mygroups"
