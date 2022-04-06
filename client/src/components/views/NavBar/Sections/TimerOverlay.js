@@ -92,13 +92,6 @@ export default function TimerOverlay() {
     });
   };
 
-  const updateUser = (user_id) => {
-    dispatch(profileUser({ userId: user_id })).then((response) => {
-      if (!response.payload.success)
-        alert("Fail to dispatch user data.");
-    });
-  };
-
   const resolveData = async () => {
     const userGroups = await new Promise((resolve, reject) => {
       dispatch(profileUser({ userId: userId })).then((response) => {
@@ -238,7 +231,6 @@ export default function TimerOverlay() {
       if (response.payload.success) {
         setElapsedTime(response.payload.elapsedTime);
         setStudying(response.payload.isStudyingNow);
-        //updateUser(userId);
         updateGroup(group_id);
       }
     });
@@ -259,7 +251,6 @@ export default function TimerOverlay() {
             elapsedTime: response.payload.elapsedTime,
           })
         );
-        //updateUser(userId);
         updateGroup(group_id);
       } else {
         alert(response.payload.message);
