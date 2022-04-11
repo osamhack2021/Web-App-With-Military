@@ -38,7 +38,7 @@ export default function UserPage(props) {
         sx={{
           position: 'relative',
           minHeight: 'calc(100vh - 9rem - 1px)',
-           overflow: 'hidden',
+          overflow: 'hidden',
         }}
         disableGutters
       >
@@ -82,7 +82,7 @@ export default function UserPage(props) {
             height: '9rem',
             position: 'absolute',
             zIndex: 3,
-            top: '10rem',
+            top: '13rem',
             left: '15%',
             transform: 'translate(-50%, -50%)',
           }}
