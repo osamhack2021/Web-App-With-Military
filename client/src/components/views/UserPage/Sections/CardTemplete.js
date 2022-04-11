@@ -25,94 +25,98 @@ export default function CardTemplete({ userInfo }) {
   };
   console.log(userInfo)
 
-  return (
-    <>
-      {/*기능 버튼*/}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 10,
-          right: 20,
-        }}
-      >
-        {/*user 본인이 맞으면 배경수정 아이콘을 생성*/}
-        {userInfo._id === loginData._id && (
-          <IconButton
-            type="button"
-            variant="contained"
-            onClick={(e) => {
-              changeBgImage(e, userInfo._id);
-            }}
-            sx={{ mr: 2 }}
-          >
-            <AddPhotoAlternateOutlinedIcon
-              sx={{
-                fontSize: "2rem",
-                color: "#5E5E5E",
-                my: "auto",
+  if (loginData === undefined) {
+    return <div>데이터 불러오는 중</div>;
+  } else {
+    return (
+      <>
+        {/*기능 버튼*/}
+        <Box
+          sx={{
+            position: "absolute",
+            top: 10,
+            right: 20,
+          }}
+        >
+          {/*user 본인이 맞으면 배경수정 아이콘을 생성*/}
+          {userInfo._id === loginData._id && (
+            <IconButton
+              type="button"
+              variant="contained"
+              onClick={(e) => {
+                changeBgImage(e, userInfo._id);
               }}
-            />
-          </IconButton>
-        )}
-      </Box>
-      
-      <Box sx={{ ml: "22%", mr: "30%" }}>
-        <Typography
-          sx={{
-            fontSize: "2rem",
-            fontWeight: "bold",
-          }}
-        >
-          {userInfo.name}
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            color: "#ECD351",
-          }}
-        >
-          {userInfo.tier} {userInfo.totalTime}
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            color: "#073113",
-          }}
-        >
-          육군 병장
-        </Typography>
-      </Box>
-
-      <TabContext value={tabValue}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleTabChange} aria-label="lab API tabs example">
-            <Tab label="개요" value="1" />
-            <Tab label="랭킹" value="2" />
-            <Tab label="게시글" value="3" />
-            <Tab label="그룹" value="4" />
-            <Tab label="업적" value="5" />
-          </TabList>
+              sx={{ mr: 2 }}
+            >
+              <AddPhotoAlternateOutlinedIcon
+                sx={{
+                  fontSize: "2rem",
+                  color: "#5E5E5E",
+                  my: "auto",
+                }}
+              />
+            </IconButton>
+          )}
         </Box>
-
-        <TabPanel value="1">
-          <Summary userInfo={userInfo} />
-        </TabPanel>
-
-        <TabPanel value="2">
-          <Ranking />
-        </TabPanel>
-        <TabPanel value="3">
-          <Post />
-        </TabPanel>
-
-        <TabPanel value="4">
-          <Group />
-        </TabPanel>
-
-        <TabPanel value="5">
-          <Achievement />
-        </TabPanel>
-      </TabContext>
-    </>
-  );
+        
+        <Box sx={{ ml: "22%", mr: "30%" }}>
+          <Typography
+            sx={{
+              fontSize: "2rem",
+              fontWeight: "bold",
+            }}
+          >
+            {userInfo.name}
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              color: "#ECD351",
+            }}
+          >
+            {userInfo.tier} {userInfo.totalTime}
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              color: "#073113",
+            }}
+          >
+            [Default Class]
+          </Typography>
+        </Box>
+  
+        <TabContext value={tabValue}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+              <Tab label="개요" value="1" />
+              <Tab label="랭킹" value="2" />
+              <Tab label="게시글" value="3" />
+              <Tab label="그룹" value="4" />
+              <Tab label="업적" value="5" />
+            </TabList>
+          </Box>
+  
+          <TabPanel value="1">
+            <Summary userInfo={userInfo} />
+          </TabPanel>
+  
+          <TabPanel value="2">
+            <Ranking />
+          </TabPanel>
+          <TabPanel value="3">
+            <Post />
+          </TabPanel>
+  
+          <TabPanel value="4">
+            <Group />
+          </TabPanel>
+  
+          <TabPanel value="5">
+            <Achievement />
+          </TabPanel>
+        </TabContext>
+      </>
+    );
+  }
 }

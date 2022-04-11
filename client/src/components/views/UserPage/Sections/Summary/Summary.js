@@ -80,6 +80,7 @@ export default function Summary({ userInfo }) {
           <Box
             sx={{
               backgroundColor: "#ECD351",
+              height: "2rem",
               width: `${
                 userInfo.totalTime < 10000 ? userInfo.totalTime / 100 : 100
               }%`,
