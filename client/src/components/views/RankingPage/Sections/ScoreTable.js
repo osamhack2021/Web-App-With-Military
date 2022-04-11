@@ -35,7 +35,10 @@ export default function ScoreTable({ rows }) {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Paper sx={{
+      width: "100%",
+      overflow: "hidden",
+    }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -65,6 +68,7 @@ export default function ScoreTable({ rows }) {
                           align={column.align}
                           component={Link}
                           to={row.link}
+                          sx={{textDecoration: 'none'}}
                         >
                           {/*{column.format && typeof value === 'number'
                             ? column.format(value)
