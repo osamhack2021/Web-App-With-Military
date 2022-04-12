@@ -50,49 +50,52 @@ export default function Summary({
   };
 
   const getUser = (user_id) => {
-    return Axios.post("/api/users/profile", {userId: user_id});
-  }
+    return Axios.post("/api/users/profile", { userId: user_id });
+  };
 
   const updateGroup = (group_id) => {
     dispatch(profileGroup({ groupId: group_id })).then((response) => {
-      if (!response.payload.success)
-        alert("Fail to dispatch group data.");
+      if (!response.payload.success) alert("Fail to dispatch group data.");
     });
   };
 
   const addTick = (user_data) => {
     setActiveTimeObj((prev) => {
       const previousTime = prev[user_data._id];
-      return {...prev, [user_data._id]: previousTime + 1 }
+      return { ...prev, [user_data._id]: previousTime + 1 };
     });
-  }
-  
+  };
+
   const visualizeActiveUsers = (userArray) => {
-    
-    const activeUsers = userArray.map((user, index) =>
-      new Promise((resolve, reject) => {
-        const userData = getUser(user._id);
-        resolve(userData);
-      })
+    const activeUsers = userArray.map(
+      (user, index) =>
+        new Promise((resolve, reject) => {
+          const userData = getUser(user._id);
+          resolve(userData);
+        })
     );
     Promise.all(activeUsers).then((users) => {
       const activeUserArray = users.map((user) => user.data.user);
       setActiveUserList(activeUserArray);
-      
+
       //타이머 onStop시 해당 userData가 사라지므로 찾아서
       //activeTimeObj 시간 재 설정
       const userDataStopped = activeUserList.find((aciveUserData) => {
-        return activeUserArray.findIndex((user_data) => user_data._id === aciveUserData._id) === -1
-      })
-      if(userDataStopped) {
+        return (
+          activeUserArray.findIndex(
+            (user_data) => user_data._id === aciveUserData._id
+          ) === -1
+        );
+      });
+      if (userDataStopped) {
         setActiveTimeObj((prev) => {
-          return {...prev, [userDataStopped._id]: 0 }
+          return { ...prev, [userDataStopped._id]: 0 };
         });
       }
 
-      activeUserArray.map((userData) => {  
+      activeUserArray.map((userData) => {
         //if user start or resume or stop timer
-        if(userData.pauseTime === null) {
+        if (userData.pauseTime === null) {
           if (!timerList.current[userData._id]) {
             timerList.current[userData._id] = setInterval(
               () => addTick(userData),
@@ -100,28 +103,30 @@ export default function Summary({
             );
           }
         } else {
-        //if user pause timer
+          //if user pause timer
           //remove timer intervel
           if (timerList.current[userData._id]) {
             clearInterval(timerList.current[userData._id]);
             timerList.current[userData._id] = null;
           }
           //set measuring time
-          const measuringTime = getElapsedTime(userData.startTime, userData.pauseTime);
+          const measuringTime = getElapsedTime(
+            userData.startTime,
+            userData.pauseTime
+          );
           setActiveTimeObj((prev) => {
             return { ...prev, [userData._id]: measuringTime };
           });
-          
         }
-      })
-    })
-  }
+      });
+    });
+  };
   useEffect(() => {
     getGroupRank();
   }, []);
 
   //group정보가 업데이트되면 실행함
-  useEffect(()=> {
+  useEffect(() => {
     visualizeActiveUsers(groupInfo.activeUsers);
   }, [groupInfo]);
 
@@ -130,9 +135,9 @@ export default function Summary({
     const id = setInterval(() => {
       updateGroup(groupId);
       return () => clearInterval(id);
-    }, 1000)
+    }, 1000);
   }, []);
-  
+
   const myGroupRank = findGroupIndex(groupRankList, groupInfo._id) + 1;
 
   return (
@@ -247,12 +252,15 @@ export default function Summary({
             <TimerOutlinedIcon sx={{ color: "#5E5E5E" }} />
           </Box>
           <Divider />
-          {activeUserList.map((userData) => 
-            <Box key={userData._id} sx={{
-              display: "flex",
-              my: 2,
-              alignItems: "center"
-            }}>
+          {activeUserList.map((userData) => (
+            <Box
+              key={userData._id}
+              sx={{
+                display: "flex",
+                my: 2,
+                alignItems: "center",
+              }}
+            >
               <Avatar
                 src={userData.image ? userData.image : defaultUserProfile}
                 sx={{
@@ -262,30 +270,37 @@ export default function Summary({
                 }}
               />
               <Typography>{userData.name}</Typography>
-              <Box sx={{flexGrow: 1}}/>
-              <Box sx={{
-                my: 'auto',
-                mx: "4px",
-                width: "12px",
-                height: "12px",
-                borderRadius: "100%",
-                backgroundColor: userData.pauseTime ? "#FDA95B" : "#4DBA58",
-              }} />
-              <Typography sx={{
-                color: userData.pauseTime ? "#FDA95B" : "#4DBA58",
-                fontWeight: "bold"
-              }}>
-                { activeTimeObj[userData._id]
-                ? <>
-                    {parseInt(activeTimeObj[userData._id]/3600)
-                      ? parseInt(activeTimeObj[userData._id]/3600) + ":"
+              <Box sx={{ flexGrow: 1 }} />
+              <Box
+                sx={{
+                  my: "auto",
+                  mx: "4px",
+                  width: "12px",
+                  height: "12px",
+                  borderRadius: "100%",
+                  backgroundColor: userData.pauseTime ? "#FDA95B" : "#4DBA58",
+                }}
+              />
+              <Typography
+                sx={{
+                  color: userData.pauseTime ? "#FDA95B" : "#4DBA58",
+                  fontWeight: "bold",
+                }}
+              >
+                {activeTimeObj[userData._id] ? (
+                  <>
+                    {parseInt(activeTimeObj[userData._id] / 3600)
+                      ? parseInt(activeTimeObj[userData._id] / 3600) + ":"
                       : null}
-                    {parseInt(activeTimeObj[userData._id]%3600/60)
-                      ? parseInt(activeTimeObj[userData._id]%3600/60) + ":"
+                    {parseInt((activeTimeObj[userData._id] % 3600) / 60)
+                      ? parseInt((activeTimeObj[userData._id] % 3600) / 60) +
+                        ":"
                       : null}
-                    {activeTimeObj[userData._id]%60}
+                    {activeTimeObj[userData._id] % 60}
                   </>
-                : "측정중 입니다..."}
+                ) : (
+                  "측정중 입니다..."
+                )}
               </Typography>
             </Box>
           ))}
