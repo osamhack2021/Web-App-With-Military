@@ -17,8 +17,9 @@ import {
 } from "../../../_actions/user_actions";
 import HomeIcon from "@mui/icons-material/Home";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
-import Tier from "./Sections/Tier";
 import defaultUserProfile from "../../../static/imgs/user_profile.png";
+import TierText from "../../commons/TierText";
+import TierBar from "../../commons/TierBar";
 
 const GrayBox = styled(Box)({
   backgroundColor: "#E8E8E8",
@@ -122,7 +123,14 @@ export default function MainPage() {
                 <Typography sx={{ mr: 1 }}>내 랭킹</Typography>
                 <EqualizerIcon sx={{ color: "#5E5E5E" }} />
               </Box>
-              <Tier score={myData.totalTime} tier={myData.tier} />
+              {/* Tier-Text */}
+              <TierText
+                point={userInfo.totalTime}
+                tier={userInfo.tier}
+                variant={"h6"}
+              />
+              {/* Tier-Bar*/}
+              <TierBar point={userInfo.totalTime} />
               <Stack
                 direction="row"
                 spacing={2}

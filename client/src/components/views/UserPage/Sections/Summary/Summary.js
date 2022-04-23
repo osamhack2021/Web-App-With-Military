@@ -8,6 +8,8 @@ import WeekBarChart from "./WeekBarChart";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
+import TierBar from "../../../../commons/TierBar"
+import TierText from "../../../../commons/TierText"
 
 const GrayBox = styled(Box)({
   backgroundColor: "#E8E8E8",
@@ -47,54 +49,14 @@ export default function Summary({ userInfo }) {
           <EqualizerIcon sx={{ color: "#5E5E5E" }} />
         </Box>
 
-        <Box sx={{ display: "flex" }}>
-          <Box
-            sx={{
-              backgroundColor: "#ECD351",
-              width: "1rem",
-              height: "1rem",
-              margin: "auto 0.5rem auto 0",
-            }}
-          />
-
-          <Typography
-            sx={{
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              color: "#ECD351",
-            }}
-          >
-            {userInfo.totalTime} / {userInfo.tier}
-          </Typography>
-        </Box>
+        {/* Tier-Text */}
+        <TierText
+          point={userInfo.totalTime}
+          tier={userInfo.tier}
+          variant={"h5"}
+        />
         {/* Tier-Bar*/}
-        <Box
-          sx={{
-            backgroundColor: "#C4C4C4",
-            width: "100%",
-            height: "2rem",
-            borderRadius: "0.4rem",
-            mt: 2,
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: "#ECD351",
-              height: "2rem",
-              width: `${
-                userInfo.totalTime < 10000 ? userInfo.totalTime / 100 : 100
-              }%`,
-              textAlign: "center",
-              color: "white",
-              fontSize: "1.2rem",
-              fontWeight: "bold",
-              borderRadius: "0.4rem",
-              padding: "0.1rem 0",
-            }}
-          >
-            {userInfo.totalTime}
-          </Box>
-        </Box>
+        <TierBar point={userInfo.totalTime} />
 
         <Stack
           direction="row"

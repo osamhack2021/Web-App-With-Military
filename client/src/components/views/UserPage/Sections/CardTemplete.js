@@ -9,6 +9,7 @@ import Post from "./Post/Post";
 import Group from "./Group/Group";
 import Achievement from "./Achievement/Achievement";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import TierText from "../../../commons/TierText";
 
 export default function CardTemplete({ userInfo }) {
   const dispatch = useDispatch();
@@ -30,7 +31,6 @@ export default function CardTemplete({ userInfo }) {
   } else {
     return (
       <>
-        {/*기능 버튼*/}
         <Box
           sx={{
             position: "absolute",
@@ -68,14 +68,13 @@ export default function CardTemplete({ userInfo }) {
           >
             {userInfo.name}
           </Typography>
-          <Typography
-            sx={{
-              fontWeight: "bold",
-              color: "#ECD351",
-            }}
-          >
-            {userInfo.tier} {userInfo.totalTime}
-          </Typography>
+
+          <TierText
+            point={userInfo.totalTime}
+            tier={userInfo.tier}
+            variant={"h6"}
+          />
+
           <Typography
             sx={{
               fontWeight: "bold",
