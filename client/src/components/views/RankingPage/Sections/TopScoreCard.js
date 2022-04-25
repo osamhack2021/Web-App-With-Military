@@ -14,7 +14,7 @@ const RankNumberBox = styled(Box)({
   fontWeight: 'bold',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
 })
 
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -23,6 +23,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   position: 'relative',
   width: '70%',
   height: 150,
+  textDecoration: 'none',
 }));
 
 export default function TopScoreCard({data}) {
@@ -60,16 +61,6 @@ export default function TopScoreCard({data}) {
         >
           {data.score}
         </Typography>
-        {/*
-        <Button
-          variant="contained"
-          size="small"
-          color="secondary"
-          sx={{borderRadius: '1rem'}}
-        >
-          {group.category}
-        </Button>
-        */}
       </CardContent>
     </StyledCard>
   );

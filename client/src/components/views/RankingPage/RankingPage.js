@@ -8,10 +8,8 @@ export default function RankingPage(props) {
   const target = props.match.params.target;
   const [rankData, setRankData] = useState([]);
   const [tabValue, setTabValue] = useState(false);
-  const [tabIndex, setTabIndex] = useState(0);
-  const handleChange = (event, newIndex) => {
+  const handleChange = (event) => {
     setTabValue(!tabValue);
-    setTabIndex(newIndex);
   };
 
   const getUserRank = () => {
@@ -102,7 +100,6 @@ export default function RankingPage(props) {
 
         <RankingBoard
           rankData={rankData}
-          tabIndex={tabIndex}
           tabValue={tabValue}
         />
       </Container>

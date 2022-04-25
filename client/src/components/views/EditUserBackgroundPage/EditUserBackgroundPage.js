@@ -6,7 +6,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Dropzone from "react-dropzone";
 import AddIcon from "@mui/icons-material/Add";
-import { profileGroup } from "../../../_actions/user_actions";
+import { profileUser } from "../../../_actions/user_actions";
 
 import {
   Box,
@@ -15,21 +15,21 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function EditGroupBackgroundPage(props) {
-  const { groupId } = props.match.params;
+export default function EditUserBackgroundPage(props) {
+  const { userId } = props.match.params;
   const dispatch = useDispatch();
   const [bgImageId, setBgImageId] = useState(null);
 
-  const groupData = useSelector((state) => state.profile.groupProfile);
+  const userData = useSelector((state) => state.profile.userProfile);
   
-  const getBgImageId = (group_id) => {
-    dispatch(profileGroup({ groupId: group_id })).then((response) => {
+  const getBgImageId = (user_id) => {
+    dispatch(profileUser({ userId: user_id })).then((response) => {
       if (response.payload.success) {
-        console.log(response.payload.group.background);
-        const bgImageId = response.payload.group.background;
+        console.log(response.payload.user.background);
+        const bgImageId = response.payload.user.background;
         setBgImageId(bgImageId);
       } else {
-        alert("그룹정보 가져오기 실패");
+        alert("유저정보 가져오기 실패");
       }
     });
   }
@@ -37,7 +37,7 @@ export default function EditGroupBackgroundPage(props) {
   const onDrop = (files) => {
     let formData = new FormData();
     formData.append("image", files[0]);
-    Axios.post("/api/groups/upload/background", formData, {
+    Axios.post("/api/users/upload/background", formData, {
       withCredentials: true,
     }).then((response) => {
       if (response.data.success) {
@@ -49,16 +49,16 @@ export default function EditGroupBackgroundPage(props) {
   };
   
   useEffect(() => {
-    getBgImageId(groupId);
+    getBgImageId(userId);
   }, []);
 
-  if (groupData === undefined) {
-    return <div>그룹정보 불러오는 중</div>;
+  if (userData === undefined) {
+    return <div>유저정보 불러오는 중</div>;
   } else {
-    const { group } = groupData;
+    const { user } = userData;
 
     const onExit = (e) => {
-      props.history.push(`/groups/${groupId}`);
+      props.history.push(`/users/${userId}`);
     };
 
     return (
@@ -73,7 +73,7 @@ export default function EditGroupBackgroundPage(props) {
           minHeight: "calc(100vh - 9rem - 1px)",
         }}
       >
-        <Typography variant="h5">그룹 배경사진 변경</Typography>
+        <Typography variant="h5">유저 배경사진 변경</Typography>
         <form style={{ width: 500 }}>
           <Dropzone onDrop={onDrop} multiple={false} maxSize={800000000}>
             {({ getRootProps, getInputProps }) => (
@@ -100,7 +100,7 @@ export default function EditGroupBackgroundPage(props) {
               width: "100%",
               height: "15rem",
               backgroundImage:
-                `url(/api/groups/download/background/${bgImageId})`,
+                `url(/api/users/download/background/${bgImageId})`,
               backgroundRepeat : "no-repeat",
               backgroundSize : "cover",
               backgroundPosition: "center"

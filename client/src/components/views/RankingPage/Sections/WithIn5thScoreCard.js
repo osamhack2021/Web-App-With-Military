@@ -25,6 +25,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   position: 'relative',
   flexDirection: 'column',
   alignItems: 'center',
+  textDecoration: 'none',
 }));
 
 

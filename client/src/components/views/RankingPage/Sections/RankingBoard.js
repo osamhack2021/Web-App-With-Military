@@ -34,7 +34,7 @@ function processGroupRankData(groupRankArray) {
   return processedArray;
 }
 
-export default function RankingBoard({ rankData, tabIndex, tabValue }) {
+export default function RankingBoard({ rankData, tabValue }) {
   const rankList =
     tabValue === false
       ? processUserRankData(rankData)

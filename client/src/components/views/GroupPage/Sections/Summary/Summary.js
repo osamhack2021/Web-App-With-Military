@@ -10,6 +10,8 @@ import EqualizerIcon from "@mui/icons-material/Equalizer";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import defaultUserProfile from "../../../../../static/imgs/user_profile.png";
+import TierBar from "../../../../commons/TierBar";
+import TierText from "../../../../commons/TierText";
 
 const GrayBox = styled(Box)({
   backgroundColor: "#E8E8E8",
@@ -170,41 +172,16 @@ export default function Summary({
               <ChevronRightIcon />
             </Link>
           </Box>
-          <Divider />
+          <Divider sx={{my : 0.5}}/>
 
-          {/* Tier-bar */}
-          <Box
-            sx={{
-              backgroundColor: "#C4C4C4",
-              width: "100%",
-              height: "2rem",
-              borderRadius: "0.4rem",
-              mt: 2,
-            }}
-          >
-            <Box
-              sx={{
-                backgroundColor: "#ECD351",
-                height: "2rem",
-                width: `${
-                  groupInfo.totalTime < 100 ? groupInfo.totalTime : 100
-                }%`,
-                textAlign: "center",
-                color: "white",
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-                borderRadius: "0.4rem",
-                padding: "0.1rem 0",
-              }}
-            >
-              {groupInfo.totalTime}
-            </Box>
-          </Box>
+          <TierBar point={groupInfo.totalTime} />
 
           <Box sx={{ display: "flex" }}>
-            <Typography sx={{ color: "#ECD351", fontWeight: "bold" }}>
-              {groupInfo.totalTime}점 {groupInfo.tier}
-            </Typography>
+            <TierText
+              point={groupInfo.totalTime}
+              tier={groupInfo.tier}
+              variant={"h7"}
+            />
             <Box sx={{ flexGrow: 1 }} />
             <Typography>
               <strong>
@@ -303,7 +280,7 @@ export default function Summary({
                 )}
               </Typography>
             </Box>
-          ))}
+          )}
         </GrayBox>
       </Grid>
 
