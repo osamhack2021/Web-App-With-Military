@@ -172,7 +172,7 @@ export default function Summary({
               <ChevronRightIcon />
             </Link>
           </Box>
-          <Divider sx={{my : 0.5}}/>
+          <Divider sx={{ my: 0.5 }} />
 
           <TierBar point={groupInfo.totalTime} />
 
@@ -280,7 +280,7 @@ export default function Summary({
                 )}
               </Typography>
             </Box>
-          )}
+          ))}
         </GrayBox>
       </Grid>
 
