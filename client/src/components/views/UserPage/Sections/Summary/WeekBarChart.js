@@ -15,7 +15,7 @@ function WeekBarChart(props) {
     const month = `0${refDay.getMonth() + 1}`.slice(-2);
     const day = `0${refDay.getDate() - 1}`.slice(-2);
     const dateString = `${year}-${month}-${day}`;
-    const exist = data.findIndex((i) => i.day == dateString);
+    const exist = data.findIndex((i) => i.day === dateString);
     if (exist === -1) {
       data.push({
         day: dateString,
