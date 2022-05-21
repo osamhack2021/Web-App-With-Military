@@ -179,8 +179,8 @@ export default function CardTemplete({
           )}
 
           {/*admins에 본인이 포함되지않으면 가입신청 버튼을 생성*/}
-          {groupInfo.members.indexOf(loginData._id) == -1 &&
-            groupInfo.admins.indexOf(loginData._id) == -1 && (
+          {groupInfo.members.indexOf(loginData._id) === -1 &&
+            groupInfo.admins.indexOf(loginData._id) === -1 && (
               <Button variant="contained" onClick={join}>
                 가입신청
               </Button>
@@ -238,11 +238,13 @@ export default function CardTemplete({
                     대기목록
                   </Button>
                   <Popper id={id} open={open} anchorEl={anchorEl} disablePortal>
-                    <Paper sx={{
-                      width: 150,
-                      p: 2,
-                      textAlign: "center",
-                    }}>
+                    <Paper
+                      sx={{
+                        width: 150,
+                        p: 2,
+                        textAlign: "center",
+                      }}
+                    >
                       {waitingUsers.map((item, index) => (
                         <Box
                           key={index}
@@ -277,7 +279,7 @@ export default function CardTemplete({
               <TabList
                 onChange={handleTabChange}
                 aria-label="lab API tabs example"
-                sx={{width: "30%"}}
+                sx={{ width: "30%" }}
               >
                 <Tab label="개요" value="1" />
                 <Tab label="랭킹" value="2" />
