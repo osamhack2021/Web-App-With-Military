@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ant-design/icons": "^4.7.0",
     "bcrypt": "^5.0.1",
     "concurrently": "^6.2.1",
     "cookie-parser": "^1.4.5",
