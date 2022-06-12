@@ -6,12 +6,12 @@
   "scripts": {
     "backend": "nodemon bin/www.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run start --prefix ./../client\""
+    "dev": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run start --prefix ./../client\"",
+    "app": "concurrently --kill-others-on-fail \"pm2 start bin/www.js\" \"npm run start --prefix ./../client\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ant-design/icons": "^4.7.0",
     "bcrypt": "^5.0.1",
     "concurrently": "^6.2.1",
     "cookie-parser": "^1.4.5",
@@ -19,7 +19,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.9",
-    "multer": "^1.4.4"
+    "multer": "^1.4.4",
+    "pm2": "^5.2.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
