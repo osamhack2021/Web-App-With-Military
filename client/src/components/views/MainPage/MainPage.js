@@ -74,6 +74,9 @@ export default function MainPage() {
     const myData = findUser(userRankArray, userId);
 
     const userInfo = userProfile.user;
+    if (userInfo === undefined) {
+      return <div></div>;
+    }
     console.log(userInfo);
     const myElapsedDays = Math.floor(
       (new Date().getTime() - new Date(userInfo.created).getTime()) /
