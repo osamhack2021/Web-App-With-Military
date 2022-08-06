@@ -48,7 +48,7 @@ export default function MainPage() {
       if (response.payload.success) {
         //console.log(response.payload);
       } else {
-        alert("유저정보 불러오기를 실패했습니다.");
+        alert("로그인이 필요한 서비스 입니다.");
       }
     });
     dispatch(rankingUser()).then((response) => {
@@ -74,6 +74,9 @@ export default function MainPage() {
     const myData = findUser(userRankArray, userId);
 
     const userInfo = userProfile.user;
+    if (userInfo === undefined) {
+      return <div></div>;
+    }
     console.log(userInfo);
     const myElapsedDays = Math.floor(
       (new Date().getTime() - new Date(userInfo.created).getTime()) /

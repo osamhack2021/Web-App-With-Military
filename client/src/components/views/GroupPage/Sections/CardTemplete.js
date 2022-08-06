@@ -179,7 +179,8 @@ export default function CardTemplete({
           )}
 
           {/*admins에 본인이 포함되지않으면 가입신청 버튼을 생성*/}
-          {groupInfo.members.indexOf(loginData._id) === -1 &&
+          {loginData._id !== undefined &&
+            groupInfo.members.indexOf(loginData._id) === -1 &&
             groupInfo.admins.indexOf(loginData._id) === -1 && (
               <Button variant="contained" onClick={join}>
                 가입신청
