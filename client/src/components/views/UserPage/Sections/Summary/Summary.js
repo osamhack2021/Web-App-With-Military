@@ -8,8 +8,8 @@ import WeekBarChart from "./WeekBarChart";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
-import TierBar from "../../../../commons/TierBar"
-import TierText from "../../../../commons/TierText"
+import TierBar from "../../../../commons/TierBar";
+import TierText from "../../../../commons/TierText";
 
 const GrayBox = styled(Box)({
   backgroundColor: "#E8E8E8",
@@ -70,8 +70,9 @@ export default function Summary({ userInfo }) {
           }}
         >
           <Box>
-            <Typography sx={{ fontWeight: "bold" }}>{userInfo.rank}</Typography>
-            <Typography>위</Typography>
+            <Typography>
+              유저랭킹 <strong>{userInfo.rank}</strong>위{" "}
+            </Typography>
           </Box>
           <Box>
             <Typography>상위</Typography>
@@ -81,8 +82,8 @@ export default function Summary({ userInfo }) {
             <Typography>%</Typography>
           </Box>
           <Box>
-            <Typography sx={{ fontWeight: "bold" }}>
-              {parseInt(userInfo.totalTime / 3600)}
+            <Typography>
+              활동시간 : <strong>{parseInt(userInfo.totalTime / 3600)}</strong>
             </Typography>
             <Typography sx={{ mr: 1 }}>시간</Typography>
             <Typography sx={{ fontWeight: "bold" }}>
@@ -111,7 +112,8 @@ export default function Summary({ userInfo }) {
           <DoneAllIcon sx={{ color: "#5E5E5E" }} />
         </Box>
         <Typography>
-          <strong>{userInfo.curStreak}</strong>일 연속 자기개발 중! / 최고{" "}
+          현재
+          <strong> {userInfo.curStreak}</strong>일 연속 자기개발 중! / 최고기록{" "}
           <strong>{userInfo.maxStreak}</strong>일
         </Typography>
         <GrassChart data={userInfo.history} />
