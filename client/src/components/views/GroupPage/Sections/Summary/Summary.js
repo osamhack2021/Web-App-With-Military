@@ -209,6 +209,8 @@ export default function Summary({
               정보
             </Typography>
             <PersonIcon sx={{ color: "#5E5E5E" }} />
+            <Box sx={{ flexGrow: 1 }} />
+            <Typography>생성일 : {groupInfo.created.substr(0, 10)} </Typography>
           </Box>
           <Divider />
           <Typography>{groupInfo.info}</Typography>

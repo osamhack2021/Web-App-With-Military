@@ -24,7 +24,7 @@ export default function CardTemplete({ userInfo }) {
   const handleTabChange = (event, newTabValue) => {
     setTabValue(newTabValue);
   };
-  console.log(userInfo)
+  console.log(userInfo);
 
   if (loginData === undefined) {
     return <div>데이터 불러오는 중</div>;
@@ -58,7 +58,7 @@ export default function CardTemplete({ userInfo }) {
             </IconButton>
           )}
         </Box>
-        
+
         <Box sx={{ ml: "22%", mr: "30%" }}>
           <Typography
             sx={{
@@ -75,19 +75,15 @@ export default function CardTemplete({ userInfo }) {
             variant={"h6"}
           />
 
-          <Typography
-            sx={{
-              fontWeight: "bold",
-              color: "#073113",
-            }}
-          >
-            [Default Class]
-          </Typography>
+          <Typography>가입일 : {userInfo.created.substr(0, 10)}</Typography>
         </Box>
-  
+
         <TabContext value={tabValue}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+            <TabList
+              onChange={handleTabChange}
+              aria-label="lab API tabs example"
+            >
               <Tab label="개요" value="1" />
               <Tab label="랭킹" value="2" />
               <Tab label="게시글" value="3" />
@@ -95,22 +91,22 @@ export default function CardTemplete({ userInfo }) {
               <Tab label="업적" value="5" />
             </TabList>
           </Box>
-  
+
           <TabPanel value="1">
             <Summary userInfo={userInfo} />
           </TabPanel>
-  
+
           <TabPanel value="2">
             <Ranking />
           </TabPanel>
           <TabPanel value="3">
             <Post />
           </TabPanel>
-  
+
           <TabPanel value="4">
             <Group />
           </TabPanel>
-  
+
           <TabPanel value="5">
             <Achievement />
           </TabPanel>
