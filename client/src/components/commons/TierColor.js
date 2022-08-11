@@ -8,10 +8,10 @@ export default function TierColor(point, rank) {
   } else if (rank <= 10) {
     // 마스터
     return "#FF4B7A";
-  } else if (rank <= 100) {
+  } else if (rank <= 50) {
     // 다이아
     return "#35D1C8";
-  } else if (rank <= 50) {
+  } else if (rank <= 100) {
     // 플레티넘
     return "#70D9AD";
   } else if (rank <= 500) {
