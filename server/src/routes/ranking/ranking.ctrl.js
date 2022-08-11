@@ -22,19 +22,21 @@ const get = {
         totalTime: { $gt: users[i].totalTime },
       }).count();
       let tier = '언랭크';
-      if (users[i].totalTime > 1800) {
+      if (users[i].totalTime > 600) {
         if (rank < 1) {
           tier = '그랜드마스터';
-        } else if (rank < 4) {
-          tier = '마스터';
         } else if (rank < 10) {
+          tier = '마스터';
+        } else if (rank < 50) {
           tier = '다이아몬드';
-        } else if (rank < 30) {
+        } else if (rank < 100) {
           tier = '플래티넘';
-        } else if (rank < 70) {
+        } else if (rank < 500) {
           tier = '골드';
-        } else {
+        } else if (rank < 1000) {
           tier = '실버';
+        } else {
+          tier = '브론즈';
         }
       }
       await User.findOneAndUpdate(
@@ -58,19 +60,21 @@ const get = {
         totalTime: { $gt: groups[i].totalTime },
       }).count();
       let tier = '언랭크';
-      if (groups[i].totalTime > 1800) {
+      if (groups[i].totalTime > 600) {
         if (rank < 1) {
           tier = '그랜드마스터';
-        } else if (rank < 4) {
-          tier = '마스터';
         } else if (rank < 10) {
+          tier = '마스터';
+        } else if (rank < 50) {
           tier = '다이아몬드';
-        } else if (rank < 30) {
+        } else if (rank < 100) {
           tier = '플래티넘';
-        } else if (rank < 70) {
+        } else if (rank < 500) {
           tier = '골드';
-        } else {
+        } else if (rank < 1000) {
           tier = '실버';
+        } else {
+          tier = '브론즈';
         }
       }
       await Group.findOneAndUpdate(

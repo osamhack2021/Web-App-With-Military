@@ -42,14 +42,17 @@ export default function RankingBoard({ rankData, tabValue }) {
 
   return (
     <>
+      <br />
       <TopScoreCard data={rankList[0]} />
-      <Grid container sx={{ backgroundColor: "#f1f8ff" }}>
+      <br />
+      <Grid container sx={{ backgroundColor: "#ffffff" }}>
         {rankList.slice(1, 5).map((item, index) => (
           <Grid item xs={3} key={index} sx={{ px: 2 }}>
             <WithIn5thScoreCard data={item} />
           </Grid>
         ))}
       </Grid>
+      <br />
       <ScoreTable rows={rankList.slice(5)} />
     </>
   );

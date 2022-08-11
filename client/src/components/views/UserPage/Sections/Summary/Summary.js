@@ -9,7 +9,7 @@ import EqualizerIcon from "@mui/icons-material/Equalizer";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import TierBar from "../../../../commons/TierBar";
-import TierText from "../../../../commons/TierText";
+import TierScoreAndText from "../../../../commons/TierScoreAndText";
 
 const GrayBox = styled(Box)({
   backgroundColor: "#E8E8E8",
@@ -50,9 +50,10 @@ export default function Summary({ userInfo }) {
         </Box>
 
         {/* Tier-Text */}
-        <TierText
+        <TierScoreAndText
           point={userInfo.totalTime}
           tier={userInfo.tier}
+          rank={userInfo.rank}
           variant={"h5"}
         />
         {/* Tier-Bar*/}

@@ -18,7 +18,7 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import defaultUserProfile from "../../../static/imgs/user_profile.png";
-import TierText from "../../commons/TierText";
+import TierScoreAndText from "../../commons/TierScoreAndText";
 import TierBar from "../../commons/TierBar";
 
 const GrayBox = styled(Box)({
@@ -127,9 +127,10 @@ export default function MainPage() {
                 <EqualizerIcon sx={{ color: "#5E5E5E" }} />
               </Box>
               {/* Tier-Text */}
-              <TierText
+              <TierScoreAndText
                 point={userInfo.totalTime}
                 tier={userInfo.tier}
+                rank={userInfo.rank}
                 variant={"h6"}
               />
               {/* Tier-Bar*/}
