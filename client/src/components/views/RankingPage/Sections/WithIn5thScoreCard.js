@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, Box, Paper, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import TierText from "../../../commons/TierText";
 
 const RankNumberBox = styled(Box)({
   width: 35,
@@ -30,14 +31,21 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 export default function TopScoreCard({ data }) {
   return (
-    <StyledPaper component={Link} to={data.link} elevation={12}>
+    <StyledPaper component={Link} to={data.link} elevation={8}>
       <RankNumberBox>{data.rank}</RankNumberBox>
       <br />
       <Avatar src={data.image} />
       <Typography>
         <b>{data.name}</b>
       </Typography>
-      <Typography>{data.tier}</Typography>
+      <Typography>
+        <TierText
+          point={data.score}
+          tier={data.tier}
+          rank={data.rank}
+          variant={"h6"}
+        />
+      </Typography>
       <Typography>{data.score}</Typography>
     </StyledPaper>
   );

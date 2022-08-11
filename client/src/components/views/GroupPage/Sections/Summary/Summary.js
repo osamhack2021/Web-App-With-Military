@@ -11,7 +11,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import defaultUserProfile from "../../../../../static/imgs/user_profile.png";
 import TierBar from "../../../../commons/TierBar";
-import TierText from "../../../../commons/TierText";
+import TierScoreAndText from "../../../../commons/TierScoreAndText";
 
 const GrayBox = styled(Box)({
   backgroundColor: "#E8E8E8",
@@ -177,9 +177,10 @@ export default function Summary({
           <TierBar point={groupInfo.totalTime} />
 
           <Box sx={{ display: "flex" }}>
-            <TierText
+            <TierScoreAndText
               point={groupInfo.totalTime}
               tier={groupInfo.tier}
+              rank={groupInfo.rank}
               variant={"h7"}
             />
             <Box sx={{ flexGrow: 1 }} />

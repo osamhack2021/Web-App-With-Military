@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import TierColor from "./TierColor";
 
-export default function TierText({ point, tier, rank, variant }) {
+export default function TierScoreAndText({ point, tier, rank, variant }) {
   return (
     <Typography
       component={Box}
@@ -13,7 +13,7 @@ export default function TierText({ point, tier, rank, variant }) {
         color: TierColor(point, rank),
       }}
     >
-      {tier}
+      {point} / {tier}
     </Typography>
   );
 }

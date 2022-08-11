@@ -41,18 +41,13 @@ export default function TopScoreCard({ data }) {
         <Typography component={Box} variant="h4">
           {data.name}
         </Typography>
-        <Typography
-          component={Box}
-          style={{
-            background:
-              "-webkit-linear-gradient(180deg, #66CFA3 0%, rgba(123, 235, 188, 0.8) 100%)",
-            webkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            fontWeight: "bold",
-            fontSize: "1.5rem",
-          }}
-        >
-          {data.tier}
+        <Typography>
+          <TierText
+            point={data.score}
+            tier={data.tier}
+            rank={data.rank}
+            variant={"h6"}
+          />
         </Typography>
         <Typography component={Box}>{data.score}</Typography>
       </CardContent>

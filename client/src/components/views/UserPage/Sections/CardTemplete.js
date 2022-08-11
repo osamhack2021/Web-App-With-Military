@@ -9,7 +9,7 @@ import Post from "./Post/Post";
 import Group from "./Group/Group";
 import Achievement from "./Achievement/Achievement";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import TierText from "../../../commons/TierText";
+import TierScoreAndText from "../../../commons/TierScoreAndText";
 
 export default function CardTemplete({ userInfo }) {
   const dispatch = useDispatch();
@@ -69,9 +69,10 @@ export default function CardTemplete({ userInfo }) {
             {userInfo.name}
           </Typography>
 
-          <TierText
+          <TierScoreAndText
             point={userInfo.totalTime}
             tier={userInfo.tier}
+            rank={userInfo.rank}
             variant={"h6"}
           />
 
