@@ -46,7 +46,7 @@ export default function TopScoreCard({ data }) {
             point={data.score}
             tier={data.tier}
             rank={data.rank}
-            variant={"h6"}
+            variant={"h5"}
           />
         </Typography>
         <Typography component={Box}>{data.score}</Typography>

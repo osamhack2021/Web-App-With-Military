@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import TierText from "../../../commons/TierText";
 
 const columns = [
   { id: "rank", label: "랭킹", minWidth: 50 },
@@ -35,10 +36,12 @@ export default function ScoreTable({ rows }) {
   };
 
   return (
-    <Paper sx={{
-      width: "100%",
-      overflow: "hidden",
-    }}>
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+      }}
+    >
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -62,13 +65,32 @@ export default function ScoreTable({ rows }) {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {columns.map((column) => {
                       const value = row[column.id];
+                      console.log(column.id);
+                      if (column.id === "tier") {
+                        return (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            component={Link}
+                            to={row.link}
+                            sx={{ textDecoration: "none" }}
+                          >
+                            <TierText
+                              point={row["score"]}
+                              tier={row["tier"]}
+                              rank={row["rank"]}
+                              variant={"h7"}
+                            />
+                          </TableCell>
+                        );
+                      }
                       return (
                         <TableCell
                           key={column.id}
                           align={column.align}
                           component={Link}
                           to={row.link}
-                          sx={{textDecoration: 'none'}}
+                          sx={{ textDecoration: "none" }}
                         >
                           {/*{column.format && typeof value === 'number'
                             ? column.format(value)
@@ -76,7 +98,8 @@ export default function ScoreTable({ rows }) {
                           {column.imageRequired ? (
                             <Box sx={{ display: "flex" }}>
                               <Avatar alt="profile" src={row.image} />
-                              {value}
+                              &nbsp;&nbsp;&nbsp;
+                              <b>{value}</b>
                             </Box>
                           ) : (
                             value
