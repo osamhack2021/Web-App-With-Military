@@ -23,6 +23,7 @@ import EditUserBackgroundPage from "./views/EditUserBackgroundPage/EditUserBackg
 //false  logged in user can't go inside
 
 function App() {
+  console.log();
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <CssBaseline />
@@ -40,7 +41,6 @@ function App() {
         <Route exact path="/search/:searchData" component={NavBar} />
         <Route exact path="/ranking/:target" component={NavBar} />
       </Switch>
-
       <Switch>
         <Route exact path="/" component={Auth(LandingPage, null)} />
         <Route exact path="/main" component={Auth(MainPage, true)} />

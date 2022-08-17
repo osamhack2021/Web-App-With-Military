@@ -7,18 +7,22 @@ function seoul() {
 }
 
 const commentSchema = mongoose.Schema({
+  // 작성자 ID
   writerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  // 게시글 ID
   boardId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Board',
   },
+  // 내용
   content: {
     type: String,
     require: true,
   },
+  // 작성 날짜
   posted: {
     type: Date,
     default: seoul(),

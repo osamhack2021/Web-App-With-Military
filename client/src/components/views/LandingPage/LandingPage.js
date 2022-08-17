@@ -23,8 +23,8 @@ export default function LandingPage() {
             mb: "25vh",
           }}
         >
-          <WhiteLogo width="3rem" height="3rem" />
-          <Box sx={{ pt: 1.3, ml: 2 }}>
+          <WhiteLogo width="3rem" height="2rem" />
+          <Box sx={{ pt: 0.2, ml: 2 }}>
             <Typography
               variant="h5"
               style={{
@@ -39,21 +39,21 @@ export default function LandingPage() {
         <Container component="main">
           <Box>
             <Typography
-              variant="h3"
+              variant="h2"
               style={{
                 whiteSpace: "nowrap",
                 fontWeight: "bold",
                 color: "white",
               }}
             >
-              전 장병이 함께 만드는 스터디 그룹,
+              모든 장병이 함께 하는 자기개발,
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex" }}>
             <Box sx={{ mr: 2 }}>
               <Typography
-                variant="h2"
+                variant="h1"
                 style={{
                   whiteSpace: "nowrap",
                   fontWeight: "bold",
@@ -63,9 +63,9 @@ export default function LandingPage() {
                 위드 밀리터리
               </Typography>
             </Box>
-            <WhiteLogo width="5rem" height="5rem" />
+            <WhiteLogo width="19rem" height="7rem" />
           </Box>
-
+          <br />
           <Link href="/login" underline="none" sx={{ py: 1 }}>
             <Button
               variant="contained"

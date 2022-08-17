@@ -5,15 +5,18 @@ const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
+  // 이메일
   email: {
     type: String,
     unique: true,
     required: true,
   },
+  // 비밀번호
   password: {
     type: String,
     minlength: 4,
   },
+  // 이름
   name: {
     type: String,
     minlength: 2,
@@ -22,25 +25,28 @@ const userSchema = mongoose.Schema({
     index: true,
     required: true,
   },
-  // 유저 소개
+  // 소개
   info: {
     type: String,
     default: null,
   },
+  // 생성일
   created: {
     type: Date,
   },
+  // 가입한 그룹 리스트
   groupList: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Group',
     },
   ],
+  // 전체 활동 시간
   totalTime: {
     type: Number,
     default: 0,
   },
-  // 유저 기록
+  // 활동 기록
   history: [
     {
       type: Object,
@@ -56,9 +62,11 @@ const userSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  // 타이머 : 활동 시작 시간
   startTime: {
     type: Date,
   },
+  // 타이머 : 타이머 정지한 시간
   pauseTime: {
     type: Number,
   },
@@ -71,15 +79,11 @@ const userSchema = mongoose.Schema({
   activeCategory: {
     type: String,
   },
-  token: {
-    type: String,
-  },
-  tokenExp: {
-    type: String,
-  },
+  // 유저 랭킹
   rank: {
     type: Number,
   },
+  // 티어
   tier: {
     type: String,
     default: '언랭크',
@@ -88,13 +92,21 @@ const userSchema = mongoose.Schema({
   dischargeDate: {
     type: Date,
   },
+  // 프로필 사진
   image: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserImage',
   },
+  // 배경 사진
   background: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserBackground',
+  },
+  token: {
+    type: String,
+  },
+  tokenExp: {
+    type: String,
   },
 });
 
