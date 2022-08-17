@@ -23,8 +23,8 @@ export default function LandingPage() {
             mb: "25vh",
           }}
         >
-          <WhiteLogo width="3rem" height="3rem" />
-          <Box sx={{ pt: 1.3, ml: 2 }}>
+          <WhiteLogo width="3rem" height="2rem" />
+          <Box sx={{ pt: 0.2, ml: 2 }}>
             <Typography
               variant="h5"
               style={{

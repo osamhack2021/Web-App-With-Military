@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MuiAppBar from '@mui/material/AppBar';
+import MuiAppBar from "@mui/material/AppBar";
 import {
   Box,
   Toolbar,
@@ -21,24 +21,24 @@ import SearchIcon from "@mui/icons-material/Search";
 const drawerWidth = 240;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: "flex-start",
-  }));
-  
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-start",
+}));
+
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
+  transition: theme.transitions.create(["margin", "width"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['margin', 'width'], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -49,7 +49,7 @@ const AppBar = styled(MuiAppBar, {
 export default function NavBar(props) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -57,7 +57,7 @@ export default function NavBar(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  
+
   return (
     <AppBar
       color="secondary"
@@ -69,15 +69,17 @@ export default function NavBar(props) {
     >
       <Toolbar sx={{ my: "auto" }}>
         <Link to="/main">
-          <WhiteLogo
-            width="2rem"
-            height="2rem"
-            style={{ color: "#e6e1e0" }}
-          />
+          <WhiteLogo width="3rem" height="2rem" style={{ color: "#e6e1e0" }} />
         </Link>
-        <Box sx={{ mt: "4px", ml: "12px" }}>
-          <Typography sx={{ fontSize: "1.2rem" }}>
-            위드밀리터리
+        <Box sx={{ mt: "-1px", ml: "12px" }}>
+          <Typography
+            variant="h5"
+            style={{
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            위드 밀리터리
           </Typography>
         </Box>
         <Box sx={{ flexGrow: 1 }} />
@@ -102,7 +104,7 @@ export default function NavBar(props) {
         >
           <MenuIcon />
         </IconButton>
-        
+
         <Drawer
           sx={{
             flexShrink: 0,
@@ -124,7 +126,7 @@ export default function NavBar(props) {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          <DrawerList handleDrawerClose={handleDrawerClose}/>
+          <DrawerList handleDrawerClose={handleDrawerClose} />
         </Drawer>
       </Toolbar>
     </AppBar>
