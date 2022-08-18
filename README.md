@@ -1,6 +1,6 @@
 # 위드 밀리터리
 
-![Logo](./Docs/image/Logo.png)
+![Logo](./image/Logo.png)
 
 ## 프로젝트 소개
 
@@ -43,13 +43,13 @@
 
 ## 프로젝트 설명
 
-| ![group](./Docs/image/group.png) | ![ui](./Docs/image/ui.png) |
-| -------------------------------- | -------------------------- |
-| 그룹 생성 및 가입                | 활동 UI 제공               |
+| ![group](./image/group.png) | ![ui](./image/ui.png) |
+| --------------------------- | --------------------- |
+| 그룹 생성 및 가입           | 활동 UI 제공          |
 
-| ![rank](./Docs/image/rank.png) | ![board](./Docs/image/board.png) |
-| ------------------------------ | -------------------------------- |
-| 랭킹 시스템                    | 게시판 작성                      |
+| ![rank](./image/rank.png) | ![board](./image/board.png) |
+| ------------------------- | --------------------------- |
+| 랭킹 시스템               | 게시판 작성                 |
 
 ## 기대효과
 
@@ -59,7 +59,7 @@
 
 ## 데이터베이스 ERD
 
-![ERD](./Docs/image/ERD.png)
+![ERD](./image/ERD.png)
 
 ## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
 
