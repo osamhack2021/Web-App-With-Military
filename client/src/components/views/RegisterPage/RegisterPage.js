@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik } from "formik";
+import moment from "moment";
 import * as Yup from "yup";
 import { registerUser } from "../../../_actions/user_actions";
 import { useDispatch } from "react-redux";
@@ -33,6 +34,8 @@ export default function RegisterPage(props) {
           email: values.email,
           password: values.password,
           name: values.name,
+          // 임시 자동 프로필 사진
+          image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
         };
         try {
           dispatch(registerUser(dataToSubmit)).then((response) => {

@@ -93,9 +93,14 @@ const userSchema = mongoose.Schema({
     type: Date,
   },
   // 프로필 사진
+  /*
   image: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserImage',
+  },
+  */
+  image: {
+    type: String,
   },
   // 배경 사진
   background: {

@@ -1,5 +1,6 @@
 import Axios from "axios";
 import React, { useState } from "react";
+import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import {
@@ -36,6 +37,8 @@ export default function CreateGroup(props) {
             groupName: values.groupName,
             category: category,
             info: values.info,
+            // 임시 자동 프로필 사진
+            image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
           };
 
           Axios.post("/api/groups/create", dataToSubmit).then((response) => {

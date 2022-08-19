@@ -66,9 +66,14 @@ const groupSchema = mongoose.Schema({
     type: Date,
   },
   // 그룹 프로필 사진
+  /*
   image: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'GroupImage',
+  },
+  */
+  image: {
+    type: String,
   },
   // 그룹 배경 사진
   background: {
