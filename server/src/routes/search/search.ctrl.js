@@ -9,12 +9,12 @@ const post = {
         return res.status(200).json({ success: true, group: [], users: [] });
       const Groups = await Group.find({
         // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-        groupName: new RegExp(req.body.search),
+        groupName: new RegExp(req.body.search, 'gi'),
       });
       let Users = await User.find(
         {
           // 일치하는 패턴 중 최초 등장하는 패턴 한 번만 찾음
-          name: new RegExp(req.body.search),
+          name: new RegExp(req.body.search, 'gi'),
         },
         { name: 1, totalTime: 1 },
       ).limit(20);
