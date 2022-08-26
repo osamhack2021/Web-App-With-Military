@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../../_actions/user_actions";
-import { Formik } from "formik";
-import * as Yup from "yup";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../../_actions/user_actions';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import {
   Box,
   Button,
@@ -10,64 +10,70 @@ import {
   FormControlLabel,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 export default function LoginPage(props) {
   const dispatch = useDispatch();
-  const rememberMeChecked = localStorage.getItem("rememberMe") ? true : false;
-
-  const [formErrorMessage, setFormErrorMessage] = useState("");
+  const rememberMeChecked = localStorage.getItem('rememberMe') ? true : false;
+  const [formErrorMessage, setFormErrorMessage] = useState('');
   const [rememberMe, setRememberMe] = useState(rememberMeChecked);
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
   };
 
-  const initialEmail = localStorage.getItem("rememberMe")
-    ? localStorage.getItem("rememberMe")
-    : "";
+  const initialEmail = localStorage.getItem('rememberMe')
+    ? localStorage.getItem('rememberMe')
+    : '';
 
   return (
     <Formik
       initialValues={{
         email: initialEmail,
-        password: "",
+        password: '',
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string()
-          .email("Email is invalid")
-          .required("Email is required"),
+          .email('Email is invalid')
+          .required('Email is required'),
         password: Yup.string()
-          .min(6, "Password must be at least 6 characters")
-          .required("Password is required"),
+          .min(6, 'Password must be at least 6 characters')
+          .required('Password is required'),
       })}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting }) => {
         let dataToSubmit = {
           email: values.email,
           password: values.password,
         };
         setSubmitting(true);
-        dispatch(loginUser(dataToSubmit))
-        .then((response) => {
-          if (response.payload.loginSuccess) {
-            localStorage.setItem("userId", response.payload.userId);
-            if (rememberMe) {
-              localStorage.setItem("rememberMe", values.email);
+        await dispatch(loginUser(dataToSubmit))
+          .then(response => {
+            if (response.payload.loginSuccess) {
+              localStorage.setItem('userId', response.payload.userId);
+              if (rememberMe) {
+                localStorage.setItem('rememberMe', values.email);
+              } else {
+                localStorage.removeItem('rememberMe');
+              }
+              props.history.push('/main');
             } else {
-              localStorage.removeItem("rememberMe");
+              setFormErrorMessage(
+                'Check out your Email Account or Password again',
+              );
             }
-            props.history.push("/main");
-          } else {
-            setFormErrorMessage("Check out your Account or Password again");
-          }
-        })
-        .catch((err) => {
-          setFormErrorMessage("Check out your Account or Password again");
-        });
+          })
+          .catch(err => {
+            setFormErrorMessage(
+              'Check out your Email Account or Password again',
+            );
+          });
         setSubmitting(false);
+        setInterval(() => {
+          setFormErrorMessage('');
+        }, 2000);
       }}
     >
-      {(props) => {
+      {props => {
         const {
           values,
           touched,
@@ -77,13 +83,15 @@ export default function LoginPage(props) {
           handleSubmit,
         } = props;
         return (
-          <Box sx={{
-            flexDirection: 'column',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: 'calc(100vh - 9rem - 1px)',
-          }}>
+          <Box
+            sx={{
+              flexDirection: 'column',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: 'calc(100vh - 9rem - 1px)',
+            }}
+          >
             <Typography variant="h5">로그인</Typography>
             <form onSubmit={handleSubmit} style={{ width: 500 }}>
               <TextField
@@ -95,7 +103,9 @@ export default function LoginPage(props) {
                 sx={{ my: 1 }}
                 value={values.email}
                 onChange={handleChange}
-                error={!!errors.email && !!touched.email}
+                error={
+                  (!!errors.email || !!formErrorMessage) && !!touched.email
+                }
                 helperText={
                   !!errors.email && !!touched.email ? errors.email : false
                 }
@@ -110,12 +120,15 @@ export default function LoginPage(props) {
                 sx={{ my: 1 }}
                 value={values.password}
                 onChange={handleChange}
-                error={!!errors.password && !!touched.password}
+                error={
+                  (!!errors.password || !!formErrorMessage) &&
+                  !!touched.password
+                }
                 helperText={
-                  !!formErrorMessage
-                    ? formErrorMessage
-                    : !!errors.password && !!touched.password
+                  !!errors.password && !!touched.password
                     ? errors.password
+                    : !!formErrorMessage
+                    ? formErrorMessage
                     : false
                 }
                 //autoFocus={!!errors.password || !!formErrorMessage}
@@ -132,7 +145,7 @@ export default function LoginPage(props) {
                 }
                 sx={{ my: 1 }}
               />
-              <a href="/reset_user" style={{ float: "right" }}>
+              <a href="/reset_user" style={{ float: 'right' }}>
                 비밀번호를 잊으셨나요?
               </a>
               <Button
