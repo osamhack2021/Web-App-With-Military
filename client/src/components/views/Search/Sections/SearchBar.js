@@ -30,7 +30,6 @@ function SearchBar(props) {
       target: { value },
     } = e;
     setSearchWord(value);
-    
   };
 
   const onKeyPress = e => {

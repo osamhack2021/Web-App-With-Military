@@ -4,13 +4,29 @@ import SearchIcon from '@mui/icons-material/Search';
 
 export default function CompletionBox({ content, searchWord, setSearchWord }) {
   console.log(content);
-  const [leftWord, setLeftWord] = useState('');
   const onComplete = () => {
     setSearchWord(content.groupName);
   };
-  useEffect(() => {
-    setLeftWord(content.groupName.substring(searchWord.length));
-  }, [searchWord]);
+  const highlightedText = (text, query) => {
+    if (query !== '' && text.includes(query)) {
+      const parts = text.split(new RegExp(`(${query})`, 'gi'));
+
+      return (
+        <>
+          {parts.map((part, index) =>
+            part.toLowerCase() === query.toLowerCase() ? (
+              <mark key={index}>{part}</mark>
+            ) : (
+              part
+            ),
+          )}
+        </>
+      );
+    }
+
+    return text;
+  };
+  useEffect(() => {}, []);
   return (
     <Box
       sx={{
@@ -24,8 +40,7 @@ export default function CompletionBox({ content, searchWord, setSearchWord }) {
       onClick={onComplete}
     >
       <SearchIcon />
-      <Typography sx={{ color: '#3EA5E2' }}>{searchWord}</Typography>
-      <Typography>{leftWord}</Typography>
+      <Typography>{highlightedText(content.groupName, searchWord)}</Typography>
     </Box>
   );
 }
